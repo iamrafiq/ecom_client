@@ -26,7 +26,7 @@ const Signup = () => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
       } else {
-        setValues({ ...values, name: "", email: "", error: "", success: true });
+        setValues({ ...values, name: "", email: "", password:"", error: "", success: true });
       }
     });
   };
