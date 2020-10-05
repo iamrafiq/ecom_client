@@ -3,6 +3,7 @@ import Layout from "./Layout";
 import { getProducts } from "./apiCore";
 import { useEffect, useState } from "react";
 import Card from "./Card";
+import Search from "./Search";
 const Home = () => {
   const [productBySell, setProductBySell] = useState([]);
   const [productByArrival, setProductByArrival] = useState([]);
@@ -33,6 +34,7 @@ const Home = () => {
   }, []);
   return (
     <Layout title="Home page" description="Node React" className="container-fluid">
+      <Search></Search>
       <h2 className="mb-4">New Arrivals</h2>
       <div className="row">
         {productByArrival.map((product, index) => (
