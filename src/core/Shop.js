@@ -6,7 +6,8 @@ import Checkbox from "./Checkbox";
 import { prices } from "./FixedPrices";
 import RadioBox from "./RadioBox";
 
-const Shop = () => {
+const Shop = (props) => {
+  console.log("Props", props);
   const [shopFilters, setShopFilters] = useState({
     filters: {
       category: [],
@@ -19,7 +20,7 @@ const Shop = () => {
   const [skip, setSkip] = useState(0);
   const [size, setSize] = useState(0);
   const [filteredResults, setFilteredResults] = useState([]);
- 
+
   const init = () => {
     getCategories().then((data) => {
       if (data.error) {
@@ -35,7 +36,7 @@ const Shop = () => {
       if (data.error) {
         setError(data.error);
       } else {
-       // console.log("rs", data);
+        // console.log("rs", data);
         setFilteredResults(data.data);
         setSize(data.size);
         setSkip(0);
@@ -44,24 +45,26 @@ const Shop = () => {
   };
 
   const loadMore = () => {
-    let toSkip = skip +limit;
+    let toSkip = skip + limit;
     getFilteredProducts(toSkip, limit, shopFilters.filters).then((data) => {
       if (data.error) {
         setError(data.error);
       } else {
-       // console.log("rs", data);
-        setFilteredResults( [...filteredResults, ...data.data]);
+        // console.log("rs", data);
+        setFilteredResults([...filteredResults, ...data.data]);
         setSize(data.size);
         setSkip(toSkip);
       }
     });
   };
 
-  const loadMoreButton = () =>(
-    size > 0 && size >= limit && (
-      <buttton onClick = {loadMore} className="btn btn-warning mb-5">Load More</buttton>
-    )
-  )
+  const loadMoreButton = () =>
+    size > 0 &&
+    size >= limit && (
+      <button onClick={loadMore} className="btn btn-warning mb-5">
+        Load More
+      </button>
+    );
   useEffect(() => {
     init();
     loadFilteredResults(skip, limit, shopFilters.filters);
@@ -119,10 +122,12 @@ const Shop = () => {
           <h2 className="mb-4">Products</h2>
           <div className="row">
             {filteredResults.map((product, index) => (
-              <Card key={index} product={product} />
+              <div key={index} className="col-4 mb-3">
+                <Card product={product} />
+              </div>
             ))}
           </div>
-          <hr/>
+          <hr />
           {loadMoreButton()}
         </div>
       </div>
