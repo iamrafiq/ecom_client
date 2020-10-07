@@ -4,17 +4,17 @@ import { Link } from "react-router-dom";
 import { getCart } from "./cartHelper";
 import { useEffect, useState } from "react";
 import Card from "./Card";
-
+import Checkout from "./Checkout";
 const Cart = () => {
   const [items, setItems] = useState([]);
-  const [deleteEffect, setDeleteEffect] = useState(0);
+  const [changeEffect, setChangeEffect] = useState(0);
 
   const init = ()=>{
     setItems(getCart());
   }
   useEffect(() => {
     init()
-  }, [deleteEffect]);
+  }, [changeEffect]);
 
   const showItems = (items) => {
     return (
@@ -28,8 +28,8 @@ const Cart = () => {
             showAddToCartButton={false}
             cartUpdate={true}
             showRemoveProductButton={true}
-            itemDeleteCallBack = {()=>{
-                setDeleteEffect(deleteEffect+1);
+            changeEffectCallBack = {()=>{
+              setChangeEffect(changeEffect+1);
             }}
           />
         ))}
@@ -53,7 +53,11 @@ const Cart = () => {
           {items.length > 0 ? showItems(items) : noItemsMessage()}
         </div>
         <div className="col-6">
-          <p>Show check out and shipping </p>
+          <h2 className="mb-4">Your cart summary</h2>
+          <hr/>
+          <Checkout products={items} changeEffectCallBack = {()=>{
+              setChangeEffect(changeEffect+1);
+            }}/>
         </div>
       </div>
     </Layout>

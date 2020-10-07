@@ -46,3 +46,17 @@ export const createCategory = (userId, token, category) => {
       })
       .catch(err => console.log(err))
   }
+
+  export const listOrders = (userId, token) => {
+    return fetch(`${API}/order/list/${userId}`, {
+        method:"GET",
+        headers: {
+          Accept: "application/json",
+          Authorization:`Bearer ${token}`
+        },
+    })
+    .then(responce => {
+        return responce.json()
+    })
+    .catch(err => console.log(err))
+}

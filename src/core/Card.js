@@ -9,7 +9,7 @@ const Card = ({
   showAddToCartButton = true,
   cartUpdate = false,
   showRemoveProductButton = false,
-  itemDeleteCallBack
+  changeEffectCallBack
 }) => {
   const [redirect, setRedirect] = useState(false);
   const [count, setCount] = useState(product.count);
@@ -48,7 +48,7 @@ const Card = ({
   const showRemoveButton = (showRemoveProductButton) =>
     showRemoveProductButton && (
       <button
-          onClick={() => {removeItem(product._id); itemDeleteCallBack()}}
+          onClick={() => {removeItem(product._id); changeEffectCallBack()}}
           className="btn btn-outline-danger mt-2 mb-2"
         >
           Remove Product
@@ -65,6 +65,7 @@ const Card = ({
     setCount(event.target.value < 1 ? 1 : event.target.value);
     if (event.target.value >= 1) {
       updateItem(productId, event.target.value);
+      changeEffectCallBack();
     }
   };
   const showCardUpdateOptions = (cartUpdate) => {
