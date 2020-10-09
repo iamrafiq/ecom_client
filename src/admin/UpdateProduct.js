@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../core/Layout";
 import { isAuthenticated } from "../auth";
-import { Link } from "react-router-dom";
-import { createProduct, getCategories } from "./apiAdmin";
+import { Link, Redirect } from "react-router-dom";
+import { getProduct, getCategories, updateProduct } from "./apiAdmin";
 
-const AddProduct = () => {
+const UpdateProduct = ({ match }) => {
   const { user, token } = isAuthenticated();
   const [values, setValues] = useState({
     name: "",
@@ -21,12 +21,12 @@ const AddProduct = () => {
     redirectToProfile: false,
     formData: "",
   });
-
+  const [categories, setCategories] = useState([]);
   const {
     name,
     description,
     price,
-    categories,
+    //categories,
     category,
     shipping,
     quantity,
@@ -37,19 +37,42 @@ const AddProduct = () => {
     formData,
   } = values;
 
+  const init = (productId) => {
+    getProduct(productId).then((data) => {
+      //const d = JSON.parse(data);
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        console.log(data[0])
+        //populate states and load category
+        setValues({
+          ...values,
+          name: data.name,
+          description: data.description,
+          price: data.price,
+          category: data.category._id,
+          shipping: data.shipping,
+          quantity: data.quantity,
+          formData: new FormData(),
+        });
+        initCategory();
+      }
+    });
+  };
   // load categories and set form data
-  const init = () => {
+  const initCategory = () => {
     getCategories().then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
-        setValues({ ...values, categories: data, formData: new FormData() });
+        setCategories(data)
       }
     });
   };
+
   useEffect(() => {
     console.log("use effect");
-    init();
+    init(match.params.productId);
   }, []);
   const handleChange = (name) => (event) => {
     const value = name === "photo" ? event.target.files[0] : event.target.value;
@@ -59,8 +82,8 @@ const AddProduct = () => {
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: "", loading: true });
-    console.log("from data:", formData)
-    createProduct(user._id, token, formData).then((data) => {
+    console.log(formData)
+    updateProduct(match.params.productId, user._id, token, formData).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -72,6 +95,7 @@ const AddProduct = () => {
           price: "",
           quantity: "",
           loading: false,
+          redirectToProfile:true,
           createdProduct: data.name,
         });
       }
@@ -138,7 +162,7 @@ const AddProduct = () => {
         </select>
       </div>
       <div className="form-group">
-        <label htmlFor="" className="text-muted">
+        <label htmlFor="" AddProductclassName="text-muted">
           Quantity
         </label>
         <input
@@ -159,7 +183,7 @@ const AddProduct = () => {
         </select>
       </div>
 
-      <button className="btn btn-outline-primary">Create a new product</button>
+      <button className="btn btn-outline-primary">Update product</button>
     </form>
   );
 
@@ -176,9 +200,17 @@ const AddProduct = () => {
       className="alert alert-info"
       style={{ display: createdProduct ? "" : "none" }}
     >
-      <h2>{`${createdProduct}`} is created</h2>
+      <h2>{`${createdProduct}`} is updated</h2>
     </div>
   );
+
+  const redirectUser = ()=>{
+    if (redirectToProfile){
+      if (!error){
+        return <Redirect to="/"></Redirect>
+      }
+    }
+  }
 
   const showLoading = () =>
     loading && (
@@ -197,10 +229,11 @@ const AddProduct = () => {
           {showSuccess()}
           {showError()}
           {newPostFrom()}
+          {redirectUser()}
         </div>
       </div>
     </Layout>
   );
 };
 
-export default AddProduct;
+export default UpdateProduct;
