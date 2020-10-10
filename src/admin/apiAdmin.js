@@ -1,14 +1,31 @@
 import { API } from "../config";
 
+// export const createCategory = (userId, token, category) => {
+//   return fetch(`${API}/category/create/${userId}`, {
+//     method: "POST",
+//     headers: {
+//       Accept: "application/json",
+//       "Content-Type": "application/json",
+//       Authorization: `Bearer ${token}`,
+//     },
+//     body: JSON.stringify(category),
+//   })
+//     .then((responce) => {
+//       return responce.json();
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// };
+
 export const createCategory = (userId, token, category) => {
   return fetch(`${API}/category/create/${userId}`, {
     method: "POST",
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(category),
+    body: category,
   })
     .then((responce) => {
       return responce.json();
@@ -18,25 +35,48 @@ export const createCategory = (userId, token, category) => {
     });
 };
 
-export const createProduct = (userId, token, product) => {
-  return fetch(`${API}/product/create/${userId}`, {
-    method: "POST",
+export const updateCategory = (categoryId, userId, token, category) => {
+  return fetch(`${API}/category/${categoryId}/${userId}`, {
+    method: "PUT",
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: product,
+    body: category, // we are not sending json stringify because in boady we are sending form data (chosed to send from data becaue of image)
   })
     .then((responce) => {
       return responce.json();
     })
-    .catch((err) => {
-      console.log(err);
-    });
+    .catch((err) => console.log(err));
+};
+
+export const deleteCategory = (categoryId, userId, token) => {
+  return fetch(`${API}/category/${categoryId}/${userId}`, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((responce) => {
+      return responce.json();
+    })
+    .catch((err) => console.log(err));
 };
 
 export const getCategories = () => {
   return fetch(`${API}/categories`, {
+    method: "GET",
+  })
+    .then((responce) => {
+      return responce.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+export const getCategory = (categoryId) => {
+  return fetch(`${API}/category/${categoryId}`, {
     method: "GET",
   })
     .then((responce) => {
@@ -95,6 +135,22 @@ export const updateOrderStatus = (userId, token, orderId, status) => {
  * update single product
  * delete single product
  */
+export const createProduct = (userId, token, product) => {
+  return fetch(`${API}/product/create/${userId}`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: product,
+  })
+    .then((responce) => {
+      return responce.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
 export const getProducts = () => {
   return fetch(`${API}/products?limit=undefined`, {

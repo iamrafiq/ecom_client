@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../core/Layout";
 import { isAuthenticated } from "../auth";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { createCategory, getCategories } from "./apiAdmin";
 import MultiSelect from "react-multi-select-component";
 
-const AddCategory = () => {
+const AddCategorytemp = () => {
   const { user, token } = isAuthenticated();
   const [values, setValues] = useState({
     name: "",
     order: "",
-    parents: [],
+    childs: [],
     parent: "",
     trash: false,
     icon: "",
@@ -25,7 +25,7 @@ const AddCategory = () => {
   const {
     name,
     order,
-    parents,
+    childs,
     parent,
     category,
     shipping,
@@ -39,51 +39,55 @@ const AddCategory = () => {
     formData,
   } = values;
 
+
+  const [selected, setSelected] = useState([]);
+
+  //setSelected(pre);
+  // load childs and set form data
   const init = () => {
     //setSelected(pre);
     getCategories().then((data) => {
-      if (data && data.error) {
+      if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
-        setValues({
-          ...values,
-          name: "",
-          order: "",
-          icon: "",
-          thumbnail: "",
-          trash: false,
-          loading: false,
-          parents: data,
-          formData: new FormData(),
-        });
+        setValues({ ...values, childs: data.map((c, i)=>({ label: c.name, value: c._id})), formData: new FormData() });
       }
     });
   };
   useEffect(() => {
     console.log("use effect");
     init();
-  }, [createdProduct]);
+  }, []);
   const handleChange = (name) => (event) => {
     const value =
       name === "icon" || name === "thumbnail"
         ? event.target.files[0]
         : event.target.value;
+        console.log(name)
+
+        if (name == "child"){
+          event.target.val([]).multiselect('refresh')
+          console.log(event.target)
+        }
     formData.set(name, value);
-    setValues({ ...values, [name]: value, error: false, createdProduct:false });
+    setValues({ ...values, [name]: value });
   };
-  // const handleChange = (field) => {
-  //   return (event) => {
-  //     setValues({ ...values, error: false, [field]: event.target.value });
-  //   };
-  // };
   const clickSubmit = (event) => {
     event.preventDefault();
+    const c = selected.map(item => item.value).join(',');
+    console.log("ssssss",c);
+    // formData.append(
+    //   "childs",
+    //   "5f81acdad2a3209965a5b987,5f81acded2a3209965a5b988"
+    // );
+
+    formData.append(
+      "childs",
+      c
+    );
     formData.append("trash", false);
-    if (parents.length !== 0 && parent==''){
-      setValues({ ...values, error: "Select a parent" });
-      return;
-    }
     setValues({ ...values, error: "", loading: true });
+    console.log("from data:", formData);
     createCategory(user._id, token, formData).then((data) => {
       console.log("err...", data.error);
       if (data.error) {
@@ -93,22 +97,39 @@ const AddCategory = () => {
           ...values,
           name: "",
           order: "",
-          parents: [],
+          childs: [],
           icon: "",
           thumbnail: "",
           trash: false,
           loading: false,
           createdProduct: data.name,
         });
-
-        //init();
       }
     });
   };
 
+  const selectChilds=(childs)=>{
+    console.log(childs)
+    return (<div>
+      <h1>Select Fruits</h1>
+      <pre>{JSON.stringify(selected)}</pre>
+      <MultiSelect
+        options={childs}
+        value={selected}
+        onChange={setSelected}
+        labelledBy={"Select"}
+      />
+    </div>)
+  //   return(<select onChange={handleChange("child")} class="custom-select" multiple>
+  //   <option selected>Select child</option>
+  //   {
+  //     childs.map((c, i)=>(<option key={i}  value={c._id}>{c.name}</option>))
+  //   }
+  // </select>)
+  };
   const newPostFrom = () => (
-    <form className="mb-3" onSubmit={clickSubmit} id="form1">
-      <h4>Upload Icon</h4>
+    <form className="mb-3" onSubmit={clickSubmit}>
+      <h4>Post Icon</h4>
       <div className="form-group">
         <label htmlFor="" className="btn btn-secondary">
           <input
@@ -119,7 +140,7 @@ const AddCategory = () => {
           />
         </label>
       </div>
-      <h4>Upload Thumbnail</h4>
+      <h4>Post Thumbnail</h4>
       <div className="form-group">
         <label htmlFor="" className="btn btn-secondary">
           <input
@@ -152,33 +173,45 @@ const AddCategory = () => {
           value={order}
         />
       </div>
-      <div className="form-group">
+       {selectChilds(childs)}
+      {/* <div className="form-group">
         <label htmlFor="" className="text-muted">
           Parent
         </label>
-        <select onChange={handleChange("parent")} className="form-control">
+        <select onChange={handleChange("category")} className="form-control">
           <option>Select a parent</option>
-          {parents &&
-            parents.map((cat, index) => (
+          <option value="0">Parentless</option>
+          {categories &&
+            categories.map((cat, index) => (
               <option key={index} value={cat._id}>
                 {cat.name}
               </option>
             ))}
         </select>
+      </div> */}
+      {/* <div className="form-group">
+        <label htmlFor="" className="text-muted">
+          Quantity
+        </label>
+        <input
+          onChange={handleChange("quantity")}
+          type="number"
+          className="form-control"
+          value={quantity}
+        />
       </div>
+      <div className="form-group">
+        <label htmlFor="" className="text-muted">
+          Shiping
+        </label>
+        <select onChange={handleChange("shipping")} className="form-control">
+          <option>Please select a Shiping</option>
+          <option value="0">No</option>
+          <option value="1">yes</option>
+        </select>
+      </div> */}
 
-      <button
-        type="submit"
-        form="form1"
-        value="Submit"
-        className="btn btn-outline-primary mr-5"
-      >
-        Create a new Category
-      </button>
-      {/* <button type="button" className="btn btn-outline-primary">
-        Back to dashboard
-      </button> */}
-      {goBack()}
+      <button className="btn btn-outline-primary">Create a new product</button>
     </form>
   );
 
@@ -205,12 +238,6 @@ const AddCategory = () => {
         <h2>Loading...</h2>
       </div>
     );
- 
-  const goBack = () => (
-    <Link to="/admin/dashboard" className="text-warning btn btn-outline-primary">
-        Back to Dashboard
-      </Link>
-  );
   return (
     <Layout
       title=" Add a new product"
@@ -306,4 +333,4 @@ const AddCategory = () => {
 //   );
 // };
 
-export default AddCategory;
+export default AddCategorytemp;
