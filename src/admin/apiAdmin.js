@@ -74,7 +74,15 @@ export const getCategories = () => {
     })
     .catch((err) => console.log(err));
 };
-
+export const getTree = () => {
+  return fetch(`${API}/categories/tree`, {
+    method: "GET",
+  })
+    .then((responce) => {
+      return responce.json();
+    })
+    .catch((err) => console.log(err));
+};
 export const getCategory = (categoryId) => {
   return fetch(`${API}/category/${categoryId}`, {
     method: "GET",
@@ -84,6 +92,7 @@ export const getCategory = (categoryId) => {
     })
     .catch((err) => console.log(err));
 };
+
 
 export const listOrders = (userId, token) => {
   return fetch(`${API}/order/list/${userId}`, {

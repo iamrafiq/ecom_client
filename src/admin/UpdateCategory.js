@@ -74,10 +74,16 @@ const UpdateCategory = ({ match }) => {
     init(match.params.categoryId);
   }, []);
   const handleChange = (name) => (event) => {
-    const value =
+    let value =
       name === "icon" || name === "thumbnail"
         ? event.target.files[0]
         : event.target.value;
+
+    if (name === "trash"){
+      value = !trash;
+      console.log(value);
+    }
+
     formData.set(name, value);
     setValues({ ...values, [name]: value });
   };
@@ -158,7 +164,7 @@ const UpdateCategory = ({ match }) => {
           {/* {setSpinner(categories)} */}
            {categories &&
             categories.map((cat, index) => (
-             cat._id !== match.params.categoryId ? parent === cat._id? <option key={index} value={cat._id} selected="true">
+             cat._id !== match.params.categoryId ? parent === cat._id? <option key={index} value={cat._id} selected={true}>
                 {cat.name}
               </option>:<option key={index} value={cat._id}>
                 {cat.name}
@@ -167,6 +173,10 @@ const UpdateCategory = ({ match }) => {
         </select>
       </div>
 
+      <div className="form-group">
+      <input onChange={handleChange('trash')}  type="checkbox" className="form-check-input" />
+      <label className="form-check-label text-danger">Trash</label>
+      </div>
       <button
         type="submit"
         form="form1"
@@ -184,91 +194,6 @@ const UpdateCategory = ({ match }) => {
         Back to manage category
       </Link>
   );
-  /*const newPostFrom = () => (
-    <form className="mb-3" onSubmit={clickSubmit}>
-      <h4>Post Photo</h4>
-      <div className="form-group">
-        <label htmlFor="" className="btn btn-secondary">
-          <input
-            onChange={handleChange("photo")}
-            type="file"
-            name="photo"
-            accept="image/*"
-          />
-        </label>
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Name
-        </label>
-        <input
-          onChange={handleChange("name")}
-          type="text"
-          className="form-control"
-          value={name}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Description
-        </label>
-        <textarea
-          onChange={handleChange("description")}
-          className="form-control"
-          value={description}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Price
-        </label>
-        <input
-          onChange={handleChange("price")}
-          type="number"
-          className="form-control"
-          value={price}
-        />
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Category
-        </label>
-        <select onChange={handleChange("category")} className="form-control">
-          <option>Select a category</option>
-          {categories &&
-            categories.map((cat, index) => (
-              <option key={index} value={cat._id}>
-                {cat.name}
-              </option>
-            ))}
-        </select>
-      </div>
-      <div className="form-group">
-        <label htmlFor="" AddProductclassName="text-muted">
-          Quantity
-        </label>
-        <input
-          onChange={handleChange("quantity")}
-          type="number"
-          className="form-control"
-          value={quantity}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Shiping
-        </label>
-        <select onChange={handleChange("shipping")} className="form-control">
-          <option>Please select a Shiping</option>
-          <option value="0">No</option>
-          <option value="1">yes</option>
-        </select>
-      </div>
-
-      <button className="btn btn-outline-primary">Update product</button>
-    </form>
-  );*/
 
   const showError = () => (
     <div
