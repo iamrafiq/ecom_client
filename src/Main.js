@@ -3,43 +3,66 @@ import ReactDOM from "react-dom";
 import Sidebar from "./sidebar/sidebar";
 import MaterialTitlePanel from "./sidebar/material_title_panel";
 import SidebarContent from "./sidebar/sidebar_content";
-import Routes from "./Routes";
-import {  getTree } from "./admin/apiAdmin";
+import Routes from "./RoutesBrowser";
+import { getTree } from "./admin/apiAdmin";
+
+import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+
+import PrimarySearchAppBar from "./ui/AppBar";
+import PersistentDrawerLeft from "./ui/AppDrawer";
+import TemporaryDrawer from "./ui/ TemporaryDrawer";
+import "./App.css";
 const styles = {
   contentHeaderMenuLink: {
     textDecoration: "none",
     color: "black",
-    padding: 8
+    padding: 8,
   },
   content: {
-    padding: "160px"
+    padding: "160px",
   },
-  header:{
-    // position:"fixed",
-    width: "100%",
+  header: {
+    position: "fixed",
     zIndex: 5, // same z index for sidebar
-  }
+    width: "100%",
+  },
 };
 
+// for muliple screen https://stackoverflow.com/questions/49989723/how-can-i-force-a-matching-window-matchmedia-to-execute-on-page-load
 const mql = window.matchMedia(`(min-width: 800px)`);
-
+const mqlSmall = window.matchMedia("(max-width: 600px)");
+const mqlMeduim = window.matchMedia(
+  "(min-width: 601px) and (max-width: 900px)"
+);
+const mqlLarge = window.matchMedia(
+  "(min-width: 901px) and (max-width: 1200px)"
+);
+const mqlFull = window.matchMedia("(min-width: 1201px)");
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       docked: mql.matches,
+      smallScreen: mqlSmall.matches,
+      mediumScreen: mqlMeduim.matches,
+      largeScreen: mqlLarge.matches,
+      fullScreen: mqlFull.matches,
       open: false,
-      loading:false,
-      tree:[]
+      loading: false,
+      language: localStorage.getItem("language") || "0",
+      tree: [],
     };
 
     this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
     this.toggleOpen = this.toggleOpen.bind(this);
     this.onSetOpen = this.onSetOpen.bind(this);
+    this.handleLanguageChange = this.handleLanguageChange.bind(this);
   }
   // getCategories().then((data) => {
-    
+
   //   if (data && data.error) {
   //     setValues({ ...values, error: data.error });
   //   } else {
@@ -56,29 +79,44 @@ class App extends React.Component {
   //     });
   //   }
   // });
-  downloadCategories = ()=>{
+  downloadCategories = () => {
     this.setState({
       loading: true,
     });
-    getTree().then(data=>{
-      if (data && data.error){
+    getTree().then((data) => {
+      if (data && data.error) {
         console.log(data.error);
-      }else{
+      } else {
         this.setState({
           tree: [...this.state.tree, ...data.children],
           loading: false,
         });
       }
-    })
-  }
+    });
+  };
 
   componentWillMount() {
+    console.log("language previously selected", this.state.language);
+    // this.setState((prevState)=>{
+    //   return{
+    //      language: localStorage.getItem("language") || 0
+    //   }
+    // })
     this.downloadCategories();
     mql.addListener(this.mediaQueryChanged);
+    mqlSmall.addListener(this.mediaQueryChanged);
+    mqlMeduim.addListener(this.mediaQueryChanged);
+    mqlLarge.addListener(this.mediaQueryChanged);
+    mqlFull.addListener(this.mediaQueryChanged);
   }
 
   componentWillUnmount() {
     mql.removeListener(this.mediaQueryChanged);
+
+    mqlSmall.removeListener(this.mediaQueryChanged);
+    mqlMeduim.removeListener(this.mediaQueryChanged);
+    mqlLarge.removeListener(this.mediaQueryChanged);
+    mqlFull.removeListener(this.mediaQueryChanged);
   }
 
   onSetOpen(open) {
@@ -88,7 +126,11 @@ class App extends React.Component {
   mediaQueryChanged() {
     this.setState({
       docked: mql.matches,
-      open: false
+      smallScreen: mqlSmall.matches,
+      mediumScreen: mqlMeduim.matches,
+      largeScreen: mqlLarge.matches,
+      fullScreen: mqlFull.matches,
+      open: false,
     });
   }
 
@@ -99,59 +141,70 @@ class App extends React.Component {
       ev.preventDefault();
     }
   }
+  handleLanguageChange(event, currentLang) {
+    this.setState(
+      (prevState) => {
+        return {
+          language: currentLang,
+        };
+      },
+      () => {
+        localStorage.setItem("language", currentLang);
+      }
+    );
+  }
+
 
   render() {
     const { loading, tree } = this.state;
-    const sidebar = <SidebarContent tree={tree}/>;
-      const contentHeader = (
-      <span>
-        {!this.state.docked && (
-          <a
-            onClick={this.toggleOpen}
-            href="#"
-            style={styles.contentHeaderMenuLink}
-          >
-            =
-          </a>
-        )}
-        <span> Responsive React Sidebar</span>
-      </span>
-    );
+    let contentHeader = null;
+    if (this.state.smallScreen) {
+    } else if (this.state.mediumScreen) {
+      console.log("CALLBACK (max-width: 600px)");
+    } else if (this.state.largeScreen) {
+      console.log("CALLBACK (max-width: 800px)");
+    } else if (this.state.fullScreen) {
+      // console.log("CALLBACK (min-width: 801px)");
+      // contentHeader = this.renderFullScreen();
+    }
+    // console.log("window.innerWidth: " + window.innerWidth);
+    // const sidebar = <SidebarContent tree={tree} />;
 
-    const sidebarProps = {
-      sidebar,
-      docked: this.state.docked,
-      open: this.state.open,
-      onSetOpen: this.onSetOpen
-    };
+    // const sidebarProps = {
+    //   sidebar,
+    //   docked: this.state.docked,
+    //   open: this.state.open,
+    //   onSetOpen: this.onSetOpen,
+    // };
 
-    return (
-       <Sidebar {...sidebarProps}>
-         
-        <MaterialTitlePanel style={styles.header} title={contentHeader}>
-                            
+    return this.state.smallScreen || this.state.mediumScreen ? (
+      <TemporaryDrawer tree={this.state.tree} >
         
-           {/* <div style={styles.content}>
-            <p>
-              This example will automatically dock the sidebar if the page width
-              is above 800px (which is currently {this.state.docked.toString()}
-              ).
-            </p>
-            <p>
-              This functionality should live in the component that renders the
-              sidebar. This way you&#39;re able to modify the sidebar and main
-              content based on the responsiveness data. For example, the menu
-              button in the header of the content is now{" "}
-              {this.state.docked ? "hidden" : "shown"} because the sidebar is{" "}
-              {!this.state.docked && "not"} visible.
-            </p>
-            
-          </div>  */}
-        </MaterialTitlePanel>
-        <Routes></Routes>
-      </Sidebar>
-     
+      </TemporaryDrawer>
+    ) : (
+      <PersistentDrawerLeft tree={this.state.tree}></PersistentDrawerLeft>
     );
+
+    // <Sidebar {...sidebarProps}>
+    //   <MaterialTitlePanel style={styles.header} title={contentHeader}>
+    //   </MaterialTitlePanel>
+    //   <Routes></Routes>
+    // </Sidebar>
+
+    // <Grid container spacing={0}>
+    //   <Grid container item xs={12} spacing={0}>
+    //     <MaterialTitlePanel
+    //       renderTitle={true}
+    //       style={styles.header}
+    //       title={contentHeader}
+    //     />
+    //   </Grid>
+    //   <Grid container item xs={12} spacing={0}>
+    //     <Sidebar {...sidebarProps}>
+    //       <Routes></Routes>
+    //     </Sidebar>
+    //   </Grid>
+    // </Grid>
   }
 }
 

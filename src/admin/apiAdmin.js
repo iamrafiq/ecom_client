@@ -92,6 +92,15 @@ export const getCategory = (categoryId) => {
     })
     .catch((err) => console.log(err));
 };
+export const getChildren = (categoryId) => {
+  return fetch(`${API}/category/children/${categoryId}`, {
+    method: "GET",
+  })
+    .then((responce) => {
+      return responce.json();
+    })
+    .catch((err) => console.log(err));
+};
 
 
 export const listOrders = (userId, token) => {

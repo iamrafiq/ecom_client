@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import Signup from "./user/Signup";
 import Signin from "./user/Signin";
 import Home from "./core/Home";
@@ -19,32 +19,38 @@ import ManageCategory from "./admin/ManageCategory";
 
 import UpdateProduct from "./admin/UpdateProduct";
 import UpdateCategory from "./admin/UpdateCategory";
+import CategoryChildren from "./core/CategoryChildren";
+import CategoryProducts from "./core/CategoryProducts";
 
-const Routes = () => {
-  return (
-    <BrowserRouter>
-      <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/shop" exact component={Shop} />
-        <Route path="/signin" exact component={Signin} />
-        <Route path="/signup" exact component={Signup} />
-        <PrivateRoute path="/user/dashboard" exact component={UserDashboard} />
-        <AdminRoute path="/admin/dashboard" exact component={AdminDashboard} />
-        <AdminRoute path="/create/category" exact component={AddCategory} />
-        <AdminRoute path="/create/product" exact component={AddProduct} />
-        <Route path="/product/:productId" exact component={Product} />
-        <Route path="/cart" exact component={Cart} />
-        <AdminRoute path="/admin/orders" exact component={Orders} />
-        <PrivateRoute path="/profile/:userId" exact component={Profile} />
-        <PrivateRoute path="/admin/products" exact component={ManageProducts} />
-        <PrivateRoute path="/admin/categories" exact component={ManageCategory} />
-
-        <AdminRoute path="/admin/product/update/:productId" exact component={UpdateProduct} />
-        <AdminRoute path="/admin/category/update/:categoryId" exact component={UpdateCategory} />
-
-      </Switch>
-    </BrowserRouter>
-  );
-};
+const Routes = () => (
+  <Switch>
+    <Route path="/" exact component={Home} />
+    <Route path="/shop" exact component={Shop} />
+    <Route path="/category/children" exact component={CategoryChildren} />
+    <Route path="/category/products" exact component={CategoryProducts} />
+    <Route path="/signin" exact component={Signin} />
+    <Route path="/signup" exact component={Signup} />
+    <PrivateRoute path="/user/dashboard" exact component={UserDashboard} />
+    <AdminRoute path="/admin/dashboard" exact component={AdminDashboard} />
+    <AdminRoute path="/create/category" exact component={AddCategory} />
+    <AdminRoute path="/create/product" exact component={AddProduct} />
+    <Route path="/product/:productId" exact component={Product} />
+    <Route path="/cart" exact component={Cart} />
+    <AdminRoute path="/admin/orders" exact component={Orders} />
+    <PrivateRoute path="/profile/:userId" exact component={Profile} />
+    <PrivateRoute path="/admin/products" exact component={ManageProducts} />
+    <PrivateRoute path="/admin/categories" exact component={ManageCategory} />
+    <AdminRoute
+      path="/admin/product/update/:productId"
+      exact
+      component={UpdateProduct}
+    />
+    <AdminRoute
+      path="/admin/category/update/:categoryId"
+      exact
+      component={UpdateCategory}
+    />
+  </Switch>
+)
 
 export default Routes;

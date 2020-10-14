@@ -1,3 +1,20 @@
 .Menu{
     height: 80px;
 }
+
+.nav-bar{
+
+}
+
+.nav-bar-drawer{
+    width: 256px;
+    background-color: indigo;
+    
+}
+
+.nav-bar-drawer-rest{
+    width: 700px;
+    background-color:blue;
+    float: left;
+    
+}

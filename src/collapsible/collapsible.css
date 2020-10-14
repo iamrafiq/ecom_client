@@ -37,11 +37,13 @@
   right: 10px;
   top: 3px;
   display: block;
+  transform: rotateZ(-90deg);
+
   transition: transform 300ms;
 }
 
 .Collapsible__trigger.is-open:after {
-  transform: rotateZ(180deg);
+  transform: rotateZ(0deg);
 }
 
 /* .Collapsible__trigger.is-disabled {

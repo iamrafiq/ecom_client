@@ -135,7 +135,7 @@ const SidebarContent = (props) => {
     });
   };
   return (
-    <MaterialTitlePanel title="Menu" style={style}>
+    <MaterialTitlePanel renderTitle={false} title="" style={style}>
       <div style={styles.content}>
         <a href="index.html" style={styles.sidebarLink}>
           Home

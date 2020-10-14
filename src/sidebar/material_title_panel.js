@@ -9,9 +9,10 @@ const styles = {
     
   },
   header: {
-    backgroundColor: "green",
+    backgroundColor: "red",
     color: "white",
-    padding: "16px",
+    paddingTop: "0px",
+    paddingBottom: "0px",
     fontSize: "1.5em",
   }
 };
@@ -23,7 +24,7 @@ const MaterialTitlePanel = props => {
 
   return (
     <div style={rootStyle}>
-      <div style={styles.header}>{props.title}</div>
+      {props.renderTitle&&<div style={styles.header}>{props.title}</div>}
       {props.children}
     </div>
    
