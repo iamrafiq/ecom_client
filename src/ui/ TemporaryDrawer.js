@@ -14,6 +14,8 @@ import PrimarySearchAppBar from "./AppBar";
 import NestedList from './NestedList';
 import Typography from '@material-ui/core/Typography';
 import Routes from "../Routes";
+import BottomAppBar from "./BottomAppBar";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles({
   list: {
@@ -78,8 +80,10 @@ export default function SwipeableTemporaryDrawer({tree}) {
 
   return (
     <div>
-      {<React.Fragment key="left">
+      {<React.Fragment key="left" style={{margin:"50px"}}>
           <PrimarySearchAppBar drawerOpen={toggleDrawer("left", true)} ></PrimarySearchAppBar>
+          <BottomAppBar ></BottomAppBar>
+
           {/* <Button onClick={toggleDrawer("left", true)}>"Left</Button> */}
           <SwipeableDrawer
             anchor="left"
@@ -90,8 +94,11 @@ export default function SwipeableTemporaryDrawer({tree}) {
             {list("left")}
           
           </SwipeableDrawer>
-
-         <Routes></Routes>
+        
+         <Routes ></Routes>
+         <div style={{height:"70px"}}>
+           {/* do not remove this div, this give a margin boot to all routes */}
+           </div>
         </React.Fragment>}
     </div>
   );

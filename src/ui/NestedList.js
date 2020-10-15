@@ -50,7 +50,7 @@ export default function NestedList(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [state, setState] = useState({});
-  const { onClick, onKeyDown, tree, selectedItemName = "none" } = props;
+  const { tree, selectedItemName = "none" } = props;
 
   const handleOnClick = (name) => (event) => {
     console.log("handle click....", state[name]);
@@ -60,10 +60,7 @@ export default function NestedList(props) {
     }));
   };
 
-  const closeDrawer = () => {
-    onClick();
-    onKeyDown();
-  };
+
 
   useEffect(() => {
     console.log("USe effect.........");

@@ -167,29 +167,41 @@ class App extends React.Component {
       // console.log("CALLBACK (min-width: 801px)");
       // contentHeader = this.renderFullScreen();
     }
-    // console.log("window.innerWidth: " + window.innerWidth);
-    // const sidebar = <SidebarContent tree={tree} />;
 
-    // const sidebarProps = {
-    //   sidebar,
-    //   docked: this.state.docked,
-    //   open: this.state.open,
-    //   onSetOpen: this.onSetOpen,
-    // };
-
-    return this.state.smallScreen || this.state.mediumScreen ? (
-      <TemporaryDrawer tree={this.state.tree} >
-        
-      </TemporaryDrawer>
-    ) : (
-      <PersistentDrawerLeft tree={this.state.tree}></PersistentDrawerLeft>
+    return (
+      <Sidebar
+        sidebar={<b>Sidebar content</b>}
+        open={this.state.sidebarOpen}
+        docked={this.state.sidebarDocked}
+        onSetOpen={this.onSetSidebarOpen}
+      >
+        <b>Main content</b>
+      </Sidebar>
     );
+    
+    // console.log("window.innerWidth: " + window.innerWidth);
+     const sidebar = <SidebarContent tree={tree} />;
 
-    // <Sidebar {...sidebarProps}>
-    //   <MaterialTitlePanel style={styles.header} title={contentHeader}>
-    //   </MaterialTitlePanel>
-    //   <Routes></Routes>
-    // </Sidebar>
+    const sidebarProps = {
+      sidebar,
+      docked: this.state.docked,
+      open: this.state.open,
+      onSetOpen: this.onSetOpen,
+    };
+
+    // return this.state.smallScreen || this.state.mediumScreen ? (
+    //   <TemporaryDrawer tree={this.state.tree} >
+        
+    //   </TemporaryDrawer>
+    // ) : (
+    //   <PersistentDrawerLeft tree={this.state.tree}></PersistentDrawerLeft>
+    // );
+
+    return (<Sidebar {...sidebarProps}>
+      <MaterialTitlePanel style={styles.header} title={contentHeader}>
+      </MaterialTitlePanel>
+      <Routes></Routes>
+    </Sidebar>)
 
     // <Grid container spacing={0}>
     //   <Grid container item xs={12} spacing={0}>

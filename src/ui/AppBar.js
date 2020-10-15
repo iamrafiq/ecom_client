@@ -172,7 +172,7 @@ export default function PrimarySearchAppBar(props) {
   return (
     <div className={classes.grow}>
       <AppBar className={classes.appropBar, classes.appBarBG} >
-        <Toolbar>
+        <Toolbar style={{ minHeight: "55px", width: "100%" }}>
           <IconButton
             edge="start"
             className={classes.menuButton}
