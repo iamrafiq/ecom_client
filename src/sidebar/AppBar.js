@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 const styles = {
   root: {
-    fontFamily:
-      '"HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif',
-    fontWeight: 300,
+    // fontFamily:
+    //   '"HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif',
+    // fontWeight: 300,
     
   },
   header: {
@@ -13,8 +14,7 @@ const styles = {
     paddingTop: "0px",
     paddingBottom: "0px",
     fontSize: "1.5em",
-    height:60
-    
+    height:70
   }
 };
 
@@ -24,7 +24,7 @@ const MaterialTitlePanel = props => {
     : styles.root;
 
   return (
-    <div className="hh" style={rootStyle}>
+    <div style={rootStyle}>
       {props.renderTitle&&<div style={styles.header}>{props.title}</div>}
       {props.children}
     </div>

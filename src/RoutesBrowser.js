@@ -19,7 +19,7 @@ import ManageCategory from "./admin/ManageCategory";
 
 import UpdateProduct from "./admin/UpdateProduct";
 import UpdateCategory from "./admin/UpdateCategory";
-import App from "./Main";
+import App from "./MainSideBar";
 
 
 const RoutesBrowser = () => {

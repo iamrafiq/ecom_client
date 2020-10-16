@@ -10,9 +10,9 @@ import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 
-import PrimarySearchAppBar from "./ui/AppBar";
-import PersistentDrawerLeft from "./ui/AppDrawer";
-import TemporaryDrawer from "./ui/ TemporaryDrawer";
+import PrimarySearchAppBar from "./component_ui/AppBar";
+import PersistentDrawerLeft from "./component_ui/AppDrawer";
+import TemporaryDrawer from "./component_ui/ TemporaryDrawer";
 import "./App.css";
 const styles = {
   contentHeaderMenuLink: {
@@ -168,40 +168,31 @@ class App extends React.Component {
       // contentHeader = this.renderFullScreen();
     }
 
-    return (
-      <Sidebar
-        sidebar={<b>Sidebar content</b>}
-        open={this.state.sidebarOpen}
-        docked={this.state.sidebarDocked}
-        onSetOpen={this.onSetSidebarOpen}
-      >
-        <b>Main content</b>
-      </Sidebar>
-    );
+ 
     
     // console.log("window.innerWidth: " + window.innerWidth);
-     const sidebar = <SidebarContent tree={tree} />;
+    //  const sidebar = <SidebarContent tree={tree} />;
 
-    const sidebarProps = {
-      sidebar,
-      docked: this.state.docked,
-      open: this.state.open,
-      onSetOpen: this.onSetOpen,
-    };
+    // const sidebarProps = {
+    //   sidebar,
+    //   docked: this.state.docked,
+    //   open: this.state.open,
+    //   onSetOpen: this.onSetOpen,
+    // };
 
-    // return this.state.smallScreen || this.state.mediumScreen ? (
-    //   <TemporaryDrawer tree={this.state.tree} >
+    return this.state.smallScreen || this.state.mediumScreen ? (
+      <TemporaryDrawer tree={this.state.tree} >
         
-    //   </TemporaryDrawer>
-    // ) : (
-    //   <PersistentDrawerLeft tree={this.state.tree}></PersistentDrawerLeft>
-    // );
+      </TemporaryDrawer>
+    ) : (
+      <PersistentDrawerLeft tree={this.state.tree}></PersistentDrawerLeft>
+    );
 
-    return (<Sidebar {...sidebarProps}>
-      <MaterialTitlePanel style={styles.header} title={contentHeader}>
-      </MaterialTitlePanel>
-      <Routes></Routes>
-    </Sidebar>)
+    // return (<Sidebar {...sidebarProps}>
+    //   <MaterialTitlePanel style={styles.header} title={contentHeader}>
+    //   </MaterialTitlePanel>
+    //   <Routes></Routes>
+    // </Sidebar>)
 
     // <Grid container spacing={0}>
     //   <Grid container item xs={12} spacing={0}>

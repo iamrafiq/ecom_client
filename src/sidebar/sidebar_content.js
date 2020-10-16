@@ -3,9 +3,11 @@ import PropTypes from "prop-types";
 import MaterialTitlePanel from "./material_title_panel";
 import Collapsible from "../collapsible/Collapsible";
 import "../collapsible/collapsible.css";
+import { Link, withRouter } from "react-router-dom";
+import {SIDE_BAR_WIDTH} from "../config"
 const styles = {
   sidebar: {
-    width: 256,
+    width: `${SIDE_BAR_WIDTH}rem`,
     height: "100%",
     overflow: "hidden" /* Hide scrollbars */,
   },
@@ -47,18 +49,20 @@ const SidebarContent = (props) => {
     );
   }
 
-  const createTopElement = (title, url, alt) => {
+  const createTopElement = (subOption, title, url, alt) => {
     return (
       <div className="">
-        {url && (
+        {/* {url && (
           <img
             class="pull-left"
             src={url}
             alt={alt}
             style={{ marginRight: "8px", width: "20px", height: "20px" }}
           />
-        )}
-        <span>{title}</span>
+        )} */}
+         <Link to={{ pathname: `/category/children`, _id: subOption._id }}>
+                  {subOption.name}
+                </Link>
       </div>
     );
   };
@@ -84,9 +88,9 @@ const SidebarContent = (props) => {
           <Collapsible
             transitionTime={400}
             trigger="Iteam 1"
-            iconUrl="https://alupiaj.com/images/flower-24px.png"
+            // iconUrl="https://alupiaj.com/images/flower-24px.png"
             iconAlt="Icon alt"
-            item={createTopElement(
+            item={createTopElement(subOption,
               subOption.name,
               "https://alupiaj.com/images/flower-24px.png",
               "Alt"
@@ -123,6 +127,7 @@ const SidebarContent = (props) => {
             iconUrl="https://alupiaj.com/images/flower-24px.png"
             iconAlt="Icon alt"
             item={createTopElement(
+              subOption,
               subOption.name,
               "https://alupiaj.com/images/flower-24px.png",
               "Alt"
@@ -138,13 +143,10 @@ const SidebarContent = (props) => {
     <MaterialTitlePanel renderTitle={false} title="" style={style}>
       <div style={styles.content}>
         <a href="index.html" style={styles.sidebarLink}>
-          Home
-        </a>
-        <a href="responsive_example.html" style={styles.sidebarLink}>
-          Responsive Example
+          Offer
         </a>
         <div style={styles.divider} />
-        {<div dangerouslySetInnerHTML={{ __html: "<h2>ABC</h2>" }} />}
+        
         {/* {links} */}
         {
           <div>

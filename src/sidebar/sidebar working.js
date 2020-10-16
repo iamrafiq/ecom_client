@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { APP_BAR_HEIGHT_MOBILE_SCREEN, APP_BAR_HEIGHT_FULL_SCREEN } from "../config";
+
 const CANCEL_DISTANCE_ON_SCROLL = 20;
 
 const defaultStyles = {
@@ -14,18 +14,8 @@ const defaultStyles = {
   },
   sidebar: {
     zIndex: 5,
-    position: "fixed",
-    top: APP_BAR_HEIGHT_MOBILE_SCREEN * parseFloat(getComputedStyle(document.documentElement).fontSize),
-    bottom: 0,
-    transition: "transform .3s ease-out",
-    WebkitTransition: "-webkit-transform .3s ease-out",
-    willChange: "transform",
-    overflowY: "auto"
-  },
-  sidebar_full_screen: {
-    zIndex: 5,
-    position: "fixed",
-    top:  APP_BAR_HEIGHT_FULL_SCREEN * parseFloat(getComputedStyle(document.documentElement).fontSize),
+    position: "absolute",
+    top: 0,
     bottom: 0,
     transition: "transform .3s ease-out",
     WebkitTransition: "-webkit-transform .3s ease-out",
@@ -33,7 +23,7 @@ const defaultStyles = {
     overflowY: "auto"
   },
   content: {
-    position: "fixed",
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
@@ -241,19 +231,10 @@ class Sidebar extends Component {
   }
 
   render() {
-
-    let sidebarStyle =""
-    if (this.props.docked){
-      sidebarStyle = {
-        ...defaultStyles.sidebar_full_screen,
-        ...this.props.styles.sidebar
-      };
-    }else{
-      sidebarStyle = {
-        ...defaultStyles.sidebar,
-        ...this.props.styles.sidebar
-      };
-    }
+    const sidebarStyle = {
+      ...defaultStyles.sidebar,
+      ...this.props.styles.sidebar
+    };
     const contentStyle = {
       ...defaultStyles.content,
       ...this.props.styles.content

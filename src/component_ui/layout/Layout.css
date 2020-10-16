@@ -1,0 +1,27 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+}
+.app-bar{
+
+}
+.layout-body {
+  position: absolute;
+  width: 100%;
+  padding-top: 4rem; /*top bar height*/
+  padding-left: 18rem; /*side bar width*/
+  background-color: darkblue;
+}
+
+.layout-body-full {
+    position: absolute;
+    width: 100%;
+  
+  }
+@media only screen and (max-width: 700px) {
+  .layout-body {
+    position: absolute;
+    padding-top: 5rem;
+    padding-left: 0rem;
+  }
+}
