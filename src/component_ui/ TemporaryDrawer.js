@@ -13,7 +13,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import PrimarySearchAppBar from "./AppBar";
 import NestedList from './NestedList';
 import Typography from '@material-ui/core/Typography';
-import Routes from "../Routes";
+import Routes from "../garbage/Routes";
 import BottomAppBar from "./BottomAppBar";
 import Box from "@material-ui/core/Box";
 

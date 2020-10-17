@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import MaterialTitlePanel from "./material_title_panel";
+import MaterialTitlePanel from "../../component_ui/side_bar/core/material_title_panel";
 import Collapsible from "../collapsible/Collapsible";
 import "../collapsible/collapsible.css";
 import { Link, withRouter } from "react-router-dom";
-import {SIDE_BAR_WIDTH} from "../config"
+import {SIDE_BAR_WIDTH} from "../../config"
 const styles = {
   sidebar: {
     width: `${SIDE_BAR_WIDTH}rem`,

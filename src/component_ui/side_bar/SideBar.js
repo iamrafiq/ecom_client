@@ -1,9 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Sidebar from "../../sidebar/sidebar";
-import MaterialTitlePanel from "../../sidebar/material_title_panel";
-import SidebarContent from "../../sidebar/sidebar_content";
-import Routes from "../../Routes";
+import Sidebar from "./core/sidebar";
+import MaterialTitlePanel from "./core/material_title_panel";
+import SidebarContent from "./core/sidebar_content";
 import { getTree } from "../../admin/apiAdmin";
 import { MOBIEL_DEVICE_RESOLUTION } from "../../config";
 import { useSelector } from "react-redux";

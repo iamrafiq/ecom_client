@@ -1,15 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route } from 'react-router-dom';
-import RoutesBrowser from './RoutesBrowser';
-import App from "./Main";
+import App from "./garbage/Main";
 import * as serviceWorker from './serviceWorker';
 import Layout from "./component_ui/layout/Layout";
 import store from "./redux/store";
 import { Provider } from "react-redux";
 ReactDOM.render(
   <React.StrictMode>
-    {/* <RoutesBrowser /> */}
     <Provider store={store}>
     <Layout></Layout>
     </Provider>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { APP_BAR_HEIGHT_MOBILE_SCREEN, APP_BAR_HEIGHT_FULL_SCREEN } from "../../config";
+import { APP_BAR_HEIGHT_MOBILE_SCREEN, APP_BAR_HEIGHT_FULL_SCREEN } from "../../../config";
 const CANCEL_DISTANCE_ON_SCROLL = 20;
 
 const defaultStyles = {
