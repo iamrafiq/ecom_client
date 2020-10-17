@@ -1,6 +1,6 @@
 import React from "react";
 import Sidebar from "../side_bar/SideBar";
-import Routes from "../../RoutesMod";
+import Routes from "../../Routes";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import AppBarTop from "../app_bar/AppBarTop";
 import "./Layout.css";

@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route } from 'react-router-dom';
-import App from "./garbage/Main";
 import * as serviceWorker from './serviceWorker';
 import Layout from "./component_ui/layout/Layout";
 import store from "./redux/store";
