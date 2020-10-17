@@ -1,13 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Sidebar from "./sidebar/sidebar";
-import MaterialTitlePanel from "./sidebar/material_title_panel";
-import SidebarContent from "./sidebar/sidebar_content";
-import Routes from "./Routes";
-import { getTree } from "./admin/apiAdmin";
-import { MOBIEL_DEVICE_RESOLUTION } from "./config";
+import Sidebar from "../../sidebar/sidebar";
+import MaterialTitlePanel from "../../sidebar/material_title_panel";
+import SidebarContent from "../../sidebar/sidebar_content";
+import Routes from "../../Routes";
+import { getTree } from "../../admin/apiAdmin";
+import { MOBIEL_DEVICE_RESOLUTION } from "../../config";
 import { useSelector } from "react-redux";
-import { selectSideBarMood } from "./redux/sideBarSlice";
+import { selectSideBarMood } from "../../redux/sideBarSlice";
 const styles = {
   contentHeaderMenuLink: {
     textDecoration: "none",

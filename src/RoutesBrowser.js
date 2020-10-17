@@ -19,13 +19,13 @@ import ManageCategory from "./admin/ManageCategory";
 
 import UpdateProduct from "./admin/UpdateProduct";
 import UpdateCategory from "./admin/UpdateCategory";
-import App from "./MainSideBar";
+// import App from "./component_ui/side_bar/MainSideBar";
 
 
 const RoutesBrowser = () => {
   return (
     <BrowserRouter>
-    <App></App>
+    {/* <App></App> */}
     </BrowserRouter>
   );
 };

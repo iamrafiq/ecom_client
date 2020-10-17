@@ -1,5 +1,5 @@
 import React from "react";
-import Sidebar from "../../MainSideBar";
+import Sidebar from "../side_bar/SideBar";
 import Routes from "../../RoutesMod";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import AppBarTop from "../app_bar/AppBarTop";
