@@ -4,8 +4,8 @@ import MaterialTitlePanel from "./material_title_panel";
 import Collapsible from "./collapsible/Collapsible";
 import "./collapsible/collapsible.css";
 import { Link, withRouter } from "react-router-dom";
-import {SIDE_BAR_WIDTH} from "../../../config"
-import triggerStyle  from"./sidebar_content.css";
+import { SIDE_BAR_WIDTH } from "../../../config";
+import triggerStyle from "./sidebar_content.css";
 import TreeExample from "../../treebeard/tree";
 const styles = {
   sidebar: {
@@ -27,7 +27,7 @@ const styles = {
   content: {
     padding: "16px",
     height: "100%",
-    backgroundColor: "white",
+    backgroundImage: "linear-gradient(to bottom, #fff,#fff,#fff,#fff,#fff,#fff , #7CCD7C)",
   },
 };
 const style = {
@@ -62,9 +62,9 @@ const SidebarContent = (props) => {
             style={{ marginRight: "8px", width: "20px", height: "20px" }}
           />
         )} */}
-         <Link  to={{ pathname: `/category/children`, _id: subOption._id }}>
-                  {subOption.name}
-                </Link>
+        <Link to={{ pathname: `/category/children`, _id: subOption._id }}>
+          {subOption.name}
+        </Link>
       </div>
     );
   };
@@ -92,7 +92,8 @@ const SidebarContent = (props) => {
             trigger="Iteam 1"
             // iconUrl="https://alupiaj.com/images/flower-24px.png"
             iconAlt="Icon alt"
-            item={createTopElement(subOption,
+            item={createTopElement(
+              subOption,
               subOption.name,
               "https://alupiaj.com/images/flower-24px.png",
               "Alt"
@@ -142,22 +143,19 @@ const SidebarContent = (props) => {
     });
   };
   return (
-    // <MaterialTitlePanel renderTitle={false} title="" style={style}>
-    //   <div style={styles.content}>
-    //     <a href="index.html" style={styles.sidebarLink}>
-    //       Offer
-    //     </a>
-    //     <div style={styles.divider} />
-    //     {
-    //       <div>
-          
-    //         {handler(props.tree)}
-
-    //       </div>
-    //     }
-    //   </div>
-    // </MaterialTitlePanel>
-    <TreeExample></TreeExample>
+    <MaterialTitlePanel renderTitle={false} title="" style={style}>
+      <div style={styles.content}>
+        <a href="index.html" style={styles.sidebarLink}>
+          Offer
+        </a>
+        <div style={styles.divider} />
+        {
+          <div>
+            <TreeExample></TreeExample>
+          </div>
+        }
+      </div>
+    </MaterialTitlePanel>
   );
 };
 

@@ -16,11 +16,12 @@ export default {
             link: {
                 cursor: 'pointer',
                 position: 'relative',
-                padding: '0px 5px',
+                padding: '3px -2px',
                 display: 'block'
             },
             activeLink: {
-                background: '#31363F'
+                background: '#31363F',
+                
             },
             toggle: {
                 base: {
@@ -29,7 +30,8 @@ export default {
                     verticalAlign: 'top',
                     marginLeft: '-5px',
                     height: '24px',
-                    width: '24px'
+                    width: '24px',
+                    float:"right"
                 },
                 wrapper: {
                     position: 'absolute',
@@ -41,7 +43,7 @@ export default {
                 height: 14,
                 width: 14,
                 arrow: {
-                    fill: '#9DA5AB',
+                    fill: 'black',
                     strokeWidth: 0
                 }
             },
@@ -49,7 +51,7 @@ export default {
                 base: {
                     display: 'inline-block',
                     verticalAlign: 'top',
-                    color: '#9DA5AB'
+                    color: 'black'
                 },
                 connector: {
                     width: '2px',

@@ -8,7 +8,7 @@
     top: 0;
     left: 0;
     z-index: 7;
-    background-image: linear-gradient(to right, #B3EE3A , #7CCD7C);;
+    background-image: linear-gradient(to right, #B3EE3A , #7CCD7C);
     height: 4rem; /*config.APP_BAR_HEIGHT_FULL_SCREEN*/
   }
   .nav-bar-left{
