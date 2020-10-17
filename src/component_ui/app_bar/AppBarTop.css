@@ -8,7 +8,7 @@
     top: 0;
     left: 0;
     z-index: 7;
-    background-color:#03A89E;
+    background-image: linear-gradient(to right, #B3EE3A , #7CCD7C);;
     height: 4rem; /*config.APP_BAR_HEIGHT_FULL_SCREEN*/
   }
   .nav-bar-left{
@@ -88,7 +88,7 @@
       flex-direction: column;
       margin: auto ;
       gap:.5rem 2rem;
-      background-color: #03A89E;
+      background-image: linear-gradient(to right, #B3EE3A , #7CCD7C);;
       height: 5rem; /*config.APP_BAR_HEIGHT_MOBILE_SCREEN*/
     }
     .button{

@@ -220,6 +220,7 @@ class Collapsible extends Component {
 
     return (
       <ContentContainerElement
+      class=""
         className={parentClassString.trim()}
         {...this.props.containerElementProps}
       >
@@ -240,16 +241,16 @@ class Collapsible extends Component {
           tabIndex={this.props.tabIndex && this.props.tabIndex}
           {...this.props.triggerElementProps}
         >
-          {/* <div className="">
+          <div >
             {this.props.iconUrl && (<img
               class="pull-left"
               src={this.props.iconUrl}
               alt={this.props.iconAlt}
               style={{ marginRight: "8px", width: "20px", height: "20px" }}
             />)}
-            <span>{trigger}</span>
-          </div> */}
-          {this.props.item}
+            <span>{this.props.item}</span>
+          </div>
+          {/* {this.props.item} */}
         </TriggerElement>
 
         {this.renderNonClickableTriggerElement()}

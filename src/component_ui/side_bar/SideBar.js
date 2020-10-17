@@ -1,7 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import Sidebar from "./core/sidebar";
-import MaterialTitlePanel from "./core/material_title_panel";
 import SidebarContent from "./core/sidebar_content";
 import { getTree } from "../../admin/apiAdmin";
 import { MOBIEL_DEVICE_RESOLUTION } from "../../config";
@@ -119,14 +117,6 @@ class App extends React.Component {
       <div>
         {console.log(this.state.open)}
         <Sidebar {...sidebarProps}>
-          {/* <MaterialTitlePanel
-            renderTitle={true}
-            style={styles.header}
-            title={contentHeader}
-          >
-           
-          </MaterialTitlePanel> */}
-          {/* <Routes></Routes> */}
         </Sidebar>
       </div>
     );
@@ -134,4 +124,3 @@ class App extends React.Component {
 }
 
 export default App;
-//ReactDOM.render(<App />, document.getElementById("example"));

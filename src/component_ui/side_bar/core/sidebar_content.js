@@ -5,6 +5,8 @@ import Collapsible from "./collapsible/Collapsible";
 import "./collapsible/collapsible.css";
 import { Link, withRouter } from "react-router-dom";
 import {SIDE_BAR_WIDTH} from "../../../config"
+import triggerStyle  from"./sidebar_content.css";
+import TreeExample from "../../treebeard/tree";
 const styles = {
   sidebar: {
     width: `${SIDE_BAR_WIDTH}rem`,
@@ -60,7 +62,7 @@ const SidebarContent = (props) => {
             style={{ marginRight: "8px", width: "20px", height: "20px" }}
           />
         )} */}
-         <Link to={{ pathname: `/category/children`, _id: subOption._id }}>
+         <Link  to={{ pathname: `/category/children`, _id: subOption._id }}>
                   {subOption.name}
                 </Link>
       </div>
@@ -140,42 +142,22 @@ const SidebarContent = (props) => {
     });
   };
   return (
-    <MaterialTitlePanel renderTitle={false} title="" style={style}>
-      <div style={styles.content}>
-        <a href="index.html" style={styles.sidebarLink}>
-          Offer
-        </a>
-        <div style={styles.divider} />
-        
-        {/* {links} */}
-        {
-          <div>
-            {/* <a href='index.html' style={styles.sidebarLink}> */}
-            {/* <Collapsible
-                transitionTime={400}
-                trigger='Iteam 1'
-                iconUrl='https://alupiaj.com/images/flower-24px.png'
-                iconAlt='Icon alt'
-                item={createTopElement('Item 1',
-                  'https://alupiaj.com/images/flower-24px.png',
-                  'Alt'
-                )}
-              >
-                <Collapsible trigger='Mmmmm,  all'
-                item={createTopElement('Item 2',
-                  'https://alupiaj.com/images/flower-24px.png',
-                  'Alt'
-                )}>
-                  BCD
-                </Collapsible>
-              </Collapsible> */}
-            {handler(props.tree)}
+    // <MaterialTitlePanel renderTitle={false} title="" style={style}>
+    //   <div style={styles.content}>
+    //     <a href="index.html" style={styles.sidebarLink}>
+    //       Offer
+    //     </a>
+    //     <div style={styles.divider} />
+    //     {
+    //       <div>
+          
+    //         {handler(props.tree)}
 
-            {/* </a> */}
-          </div>
-        }
-      </div>
-    </MaterialTitlePanel>
+    //       </div>
+    //     }
+    //   </div>
+    // </MaterialTitlePanel>
+    <TreeExample></TreeExample>
   );
 };
 

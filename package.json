@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/core": "^10.0.35",
+    "@emotion/styled": "^10.0.27",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
@@ -12,6 +14,7 @@
     "@testing-library/user-event": "^7.2.1",
     "braintree-web": "^3.67.0",
     "braintree-web-drop-in-react": "^1.2.1",
+    "deep-equal": "^2.0.4",
     "material-ui": "^0.20.2",
     "material-ui-icons": "^1.0.0-beta.36",
     "moment": "^2.29.1",
@@ -22,8 +25,12 @@
     "react-dom": "^16.13.1",
     "react-multi-select-component": "^3.0.4",
     "react-redux": "^7.2.1",
+    "react-ripples": "^2.2.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "react-simple-tree-menu": "^1.1.18",
+    "shallowequal": "^1.1.0",
+    "velocity-react": "^1.4.3"
   },
   "scripts": {
     "start": "react-scripts start",

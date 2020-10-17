@@ -24,7 +24,7 @@ const MaterialTitlePanel = props => {
     : styles.root;
 
   return (
-    <div className="hh" style={rootStyle}>
+    <div style={rootStyle}>
       {props.renderTitle&&<div style={styles.header}>{props.title}</div>}
       {props.children}
     </div>
