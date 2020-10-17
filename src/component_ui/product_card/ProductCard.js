@@ -9,7 +9,7 @@ export default function ProductCard(props) {
         <span class="title-discount">I</span>
       </div>
       <span class="image">
-        <img src="http://alupiaj.com/images/mp4.png" />
+        <img src="http://alupiaj.com/images/mp2.png" />
       </span>
 
       <div class="content">

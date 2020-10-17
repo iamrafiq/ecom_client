@@ -1,8 +1,8 @@
 import React from "react";
-import Sidebar from "../.././MainSideBar";
+import Sidebar from "../../MainSideBar";
 import Routes from "../../RoutesMod";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import AppBarTop from "../AppBarTop";
+import AppBarTop from "../app_bar/AppBarTop";
 import "./Layout.css";
 import { useDispatch } from "react-redux";
 import { initSideBarState } from "../../redux/sideBarSlice";
