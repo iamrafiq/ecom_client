@@ -48,6 +48,10 @@ class TreeExample extends React.Component {
     node.active = true;
     if (node.children) {
       node.toggled = toggled;
+      console.log("children")
+
+    }else{
+      console.log("product")
     }
 
     this.setState({ cursor: node });

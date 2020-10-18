@@ -11,7 +11,7 @@ const AppBarTop = (props) => {
     <div className="nav-bar">
       <div className="nav-bar-left">
         <div class="logo">
-          <img class="" src="http://alupiaj.com/images/logo5.png" alt="" />
+          <img  src="http://alupiaj.com/images/logo5.png" alt="" />
         </div>
       </div>
       <div class="nav-bar-right">
