@@ -6,14 +6,14 @@ import { getCategory, getCategories, updateCategory } from "./apiAdmin";
 
 const UpdateCategory = ({ match }) => {
   const { user, token } = isAuthenticated();
+  const [icon, setIcon] = useState(null);
+  const [thumbnail, setThumbnail] = useState(null);
   const [values, setValues] = useState({
     name: "",
     order: "",
     //parents: [],
     parent: "",
     trash: false,
-    icon: "",
-    thumbnail: "",
     loading: false,
     error: "",
     createdCategory: "",
@@ -24,13 +24,11 @@ const UpdateCategory = ({ match }) => {
   const {
     name,
     order,
-   // parents,
+    // parents,
     parent,
     category,
     shipping,
     trash,
-    icon,
-    thumbnail,
     loading,
     error,
     createdProduct,
@@ -40,7 +38,7 @@ const UpdateCategory = ({ match }) => {
 
   const init = (categoryId) => {
     getCategory(categoryId).then((data) => {
-      console.log(JSON.stringify(data))
+      console.log(JSON.stringify(data));
       //const d = JSON.parse(data);
       if (data.error) {
         setValues({ ...values, error: data.error });
@@ -73,13 +71,17 @@ const UpdateCategory = ({ match }) => {
     console.log("use effect");
     init(match.params.categoryId);
   }, []);
-  const handleChange = (name) => (event) => {
-    let value =
-      name === "icon" || name === "thumbnail"
-        ? event.target.files[0]
-        : event.target.value;
 
-    if (name === "trash"){
+  const handleImageChange = (name) => (event) => {
+    if (name == "icon") {
+      setIcon(event.target.files[0]);
+    } else if (name == "thumbnail") {
+      setThumbnail(event.target.files[0]);
+    }
+  };
+  const handleChange = (name) => (event) => {
+    let value = event.target.value;
+    if (name === "trash") {
       value = !trash;
       console.log(value);
     }
@@ -89,6 +91,12 @@ const UpdateCategory = ({ match }) => {
   };
   const clickSubmit = (event) => {
     event.preventDefault();
+    if (thumbnail !== null){
+      formData.append("thumbnail", thumbnail);
+    }
+    if (icon !== null){
+      formData.append("icon", icon);
+    }
     setValues({ ...values, error: "", loading: true });
     console.log(formData);
     updateCategory(match.params.categoryId, user._id, token, formData).then(
@@ -101,7 +109,7 @@ const UpdateCategory = ({ match }) => {
             name: data.name,
             order: data.order,
             loading: false,
-            parent:data.parent,
+            parent: data.parent,
             redirectToProfile: true,
             createdProduct: data.name,
           });
@@ -115,9 +123,9 @@ const UpdateCategory = ({ match }) => {
       <div className="form-group">
         <label htmlFor="" className="btn btn-secondary">
           <input
-            onChange={handleChange("photo")}
+            onChange={handleImageChange("icon")}
             type="file"
-            name="photo"
+            name="icon"
             accept="image/*"
           />
         </label>
@@ -126,7 +134,7 @@ const UpdateCategory = ({ match }) => {
       <div className="form-group">
         <label htmlFor="" className="btn btn-secondary">
           <input
-            onChange={handleChange("thumbnail")}
+            onChange={handleImageChange("thumbnail")}
             type="file"
             name="thumbnail"
             accept="image/*"
@@ -162,20 +170,32 @@ const UpdateCategory = ({ match }) => {
         <select onChange={handleChange("parent")} className="form-control">
           <option>Select a parent</option>
           {/* {setSpinner(categories)} */}
-           {categories &&
-            categories.map((cat, index) => (
-             cat._id !== match.params.categoryId ? parent === cat._id? <option key={index} value={cat._id} selected={true}>
-                {cat.name}
-              </option>:<option key={index} value={cat._id}>
-                {cat.name}
-              </option>:''
-            ))} 
+          {categories &&
+            categories.map((cat, index) =>
+              cat._id !== match.params.categoryId ? (
+                parent === cat._id ? (
+                  <option key={index} value={cat._id} selected={true}>
+                    {cat.name}
+                  </option>
+                ) : (
+                  <option key={index} value={cat._id}>
+                    {cat.name}
+                  </option>
+                )
+              ) : (
+                ""
+              )
+            )}
         </select>
       </div>
 
       <div className="form-group">
-      <input onChange={handleChange('trash')}  type="checkbox" className="form-check-input" />
-      <label className="form-check-label text-danger">Trash</label>
+        <input
+          onChange={handleChange("trash")}
+          type="checkbox"
+          className="form-check-input"
+        />
+        <label className="form-check-label text-danger">Trash</label>
       </div>
       <button
         type="submit"
@@ -190,9 +210,12 @@ const UpdateCategory = ({ match }) => {
   );
 
   const goBack = () => (
-    <Link to="/admin/categories" className="text-warning btn btn-outline-primary">
-        Back to manage category
-      </Link>
+    <Link
+      to="/admin/categories"
+      className="text-warning btn btn-outline-primary"
+    >
+      Back to manage category
+    </Link>
   );
 
   const showError = () => (

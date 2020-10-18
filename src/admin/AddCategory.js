@@ -7,14 +7,14 @@ import MultiSelect from "react-multi-select-component";
 
 const AddCategory = () => {
   const { user, token } = isAuthenticated();
+  const [icon, setIcon] = useState(null);
+  const [thumbnail, setThumbnail] = useState(null);
   const [values, setValues] = useState({
     name: "",
     order: "",
     parents: [],
     parent: "",
     trash: false,
-    icon: "",
-    thumbnail: "",
     loading: false,
     error: "",
     createdCategory: "",
@@ -30,8 +30,6 @@ const AddCategory = () => {
     category,
     shipping,
     trash,
-    icon,
-    thumbnail,
     loading,
     error,
     createdProduct,
@@ -49,8 +47,6 @@ const AddCategory = () => {
           ...values,
           name: "",
           order: "",
-          icon: "",
-          thumbnail: "",
           trash: false,
           loading: false,
           parents: data,
@@ -63,22 +59,30 @@ const AddCategory = () => {
     console.log("use effect");
     init();
   }, [createdProduct]);
-  const handleChange = (name) => (event) => {
-    const value =
-      name === "icon" || name === "thumbnail"
-        ? event.target.files[0]
-        : event.target.value;
-    formData.set(name, value);
-    setValues({ ...values, [name]: value, error: false, createdProduct:false });
+  const handleImageChange = (name) => (event) => {
+     if (name == "icon"){
+       setIcon(event.target.files[0])
+     }
+     else if (name == "thumbnail"){
+       setThumbnail(event.target.files[0])
+     }
+      
   };
-  // const handleChange = (field) => {
-  //   return (event) => {
-  //     setValues({ ...values, error: false, [field]: event.target.value });
-  //   };
-  // };
+  const handleChange = (name) => (event) => {
+    formData.set(name, event.target.value);
+    setValues({ ...values, [name]: event.target.value, error: false, createdProduct:false });
+  };
+
   const clickSubmit = (event) => {
     event.preventDefault();
     formData.append("trash", false);
+    if (thumbnail !== null){
+      formData.append("thumbnail", thumbnail);
+    }
+    if (icon !== null){
+      formData.append("icon", icon);
+    }
+
     if (parents.length !== 0 && parent==''){
       setValues({ ...values, error: "Select a parent" });
       return;
@@ -94,8 +98,6 @@ const AddCategory = () => {
           name: "",
           order: "",
           parents: [],
-          icon: "",
-          thumbnail: "",
           trash: false,
           loading: false,
           createdProduct: data.name,
@@ -112,9 +114,9 @@ const AddCategory = () => {
       <div className="form-group">
         <label htmlFor="" className="btn btn-secondary">
           <input
-            onChange={handleChange("photo")}
+            onChange={handleImageChange("icon")}
             type="file"
-            name="photo"
+            name="icon"
             accept="image/*"
           />
         </label>
@@ -123,7 +125,7 @@ const AddCategory = () => {
       <div className="form-group">
         <label htmlFor="" className="btn btn-secondary">
           <input
-            onChange={handleChange("thumbnail")}
+            onChange={handleImageChange("thumbnail")}
             type="file"
             name="thumbnail"
             accept="image/*"

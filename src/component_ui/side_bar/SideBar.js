@@ -3,8 +3,6 @@ import Sidebar from "./core/sidebar";
 import SidebarContent from "./core/sidebar_content";
 import { getTree } from "../../admin/apiAdmin";
 import { MOBIEL_DEVICE_RESOLUTION } from "../../config";
-import { useSelector } from "react-redux";
-import { selectSideBarMood } from "../../redux/sideBarSlice";
 const styles = {
   contentHeaderMenuLink: {
     textDecoration: "none",
@@ -38,20 +36,18 @@ class App extends React.Component {
     this.toggleOpen = this.toggleOpen.bind(this);
     this.onSetOpen = this.onSetOpen.bind(this);
     props.onClickMenu(this.toggleOpen)
-    console.log("pppp", props.onClickMenu)
   }
-  // const mood = ;
 
   downloadCategories = () => {
     this.setState({
       loading: true,
     });
     getTree().then((data) => {
-      if (data && data.error) {
-        console.log(data.error);
+      console.log("data..", data)
+      if (data ===undefined || data.error) {
       } else {
         this.setState({
-          tree: [...this.state.tree, ...data.children],
+          tree: [...this.state.tree, ...data],
           loading: false,
         });
       }
@@ -80,8 +76,6 @@ class App extends React.Component {
 
   toggleOpen(ev) {
     this.setState({ open: !this.state.open });
-    console.log("pppp", "chenging toggle", this.state.open)
-
     if (ev) {
       ev.preventDefault();
     }
@@ -91,20 +85,20 @@ class App extends React.Component {
 
     const { loading, tree } = this.state;
     const sidebar = <SidebarContent tree={tree} />;
-    const contentHeader = (
-      <span>
-        {!this.state.docked && (
-          <a
-            onClick={this.toggleOpen}
-            href="#"
-            style={styles.contentHeaderMenuLink}
-          >
-            =
-          </a>
-        )}
-        <span> Responsive React Sidebar</span>
-      </span>
-    );
+    // const contentHeader = (
+    //   <span>
+    //     {!this.state.docked && (
+    //       <a
+    //         onClick={this.toggleOpen}
+    //         href="#"
+    //         style={styles.contentHeaderMenuLink}
+    //       >
+    //         =
+    //       </a>
+    //     )}
+    //     <span> Responsive React Sidebar</span>
+    //   </span>
+    // );
 
     const sidebarProps = {
       sidebar,

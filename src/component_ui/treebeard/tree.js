@@ -2,63 +2,33 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Treebeard, animations, decorators, theme } from "./index";
 import { includes } from "lodash";
-
-const data = [
-  {
-    id: "sdf33sd",
-    name: "parent",
-    children: [
-      { id: "sd232fsd", name: "child1" },
-      { id: "sdf55sd", name: "child2" },
-    ],
-  },
-  {
-    id: "sdf4343sd",
-    name: "loading parent",
-    loading: true,
-    children: [],
-  },
-  {
-    id: "sdf322sdasd4343sd",
-    name: "parent",
-    children: [
-      {
-        id: "sdf3eesd",
-        name: "nested parent",
-        children: [
-          { id: "sdfff43sd", name: "nested child 1" },
-          { id: "sd4344fsd", name: "nested child 2" },
-        ],
-      },
-    ],
-  },
-];
-
+import { API } from "../../config";
 const CustomHeader = ({ node, style, prefix }) => (
   <div style={style.base}>
     <div style={{ ...style.title, display: "flex" }}>
-      {`<3 ${node.name.toUpperCase()}`}
+      <span>{node.icon?(<img style={{width:"30px", height:"30px", padding:"5px"}} src={`${API}/category/icon/${node._id}`}></img>):""}</span>{" "}
+      {`${node.name.toUpperCase()}`}
     </div>
   </div>
 );
 
-class CutomContainer extends decorators.Container {
-  render() {
-    const { style, decorators, terminal, onClick, node } = this.props;
-    return (
-      <div
-        onClick={onClick}
-        ref={(ref) => (this.clickableRef = ref)}
-        // style={style.container[0]}
-      >
-        <decorators.Header node={node} style={style.header} />
-        <span style={{ float: "right" }}>
-          {!terminal ? this.renderToggle() : null}
-        </span>
-      </div>
-    );
-  }
-}
+// class CutomContainer extends decorators.Container {
+//   render() {
+//     const { style, decorators, terminal, onClick, node } = this.props;
+//     return (
+//       <div
+//         onClick={onClick}
+//         ref={(ref) => (this.clickableRef = ref)}
+//         // style={style.container[0]}
+//       >
+//         <decorators.Header node={node} style={style.header} />
+//         <span style={{ float: "right" }}>
+//           {!terminal ? this.renderToggle() : null}
+//         </span>
+//       </div>
+//     );
+//   }
+// }
 
 class TreeExample extends React.Component {
   constructor(props) {
@@ -95,7 +65,7 @@ class TreeExample extends React.Component {
       <React.Fragment>
         <div>
           <Treebeard
-            data={data}
+            data={this.props.tree}
             decorators={decorators}
             onToggle={this.onToggle}
             animations={animations}

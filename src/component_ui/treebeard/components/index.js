@@ -14,7 +14,7 @@ const TreeBeard = ({animations, decorators, data, onToggle, style}) => (
         {castArray(data).map(node => (
             <TreeNode
                 {...{decorators, node, onToggle, animations}}
-                key={node.id || randomString()}
+                key={node._id || randomString()}
                 style={{...defaultTheme.tree.node, ...style.tree.node}}
             />
         ))}

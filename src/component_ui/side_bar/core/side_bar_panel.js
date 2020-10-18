@@ -18,7 +18,7 @@ const styles = {
   }
 };
 
-const MaterialTitlePanel = props => {
+const SideBarPanel = props => {
   const rootStyle = props.style
     ? { ...styles.root, ...props.style }
     : styles.root;
@@ -32,10 +32,10 @@ const MaterialTitlePanel = props => {
   );
 };
 
-MaterialTitlePanel.propTypes = {
+SideBarPanel.propTypes = {
   style: PropTypes.object,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   children: PropTypes.object
 };
 
-export default MaterialTitlePanel;
+export default SideBarPanel;

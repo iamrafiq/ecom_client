@@ -64,7 +64,7 @@ class TreeNode extends PureComponent {
                     <TreeNode
                         {...{onToggle, animations, style}}
                         decorators={propDecorators}
-                        key={child.id || randomString()}
+                        key={child._id || randomString()}
                         node={child}
                     />
                 ))}
