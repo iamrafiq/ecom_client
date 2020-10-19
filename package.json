@@ -30,6 +30,7 @@
     "react-scripts": "3.4.3",
     "react-simple-tree-menu": "^1.1.18",
     "shallowequal": "^1.1.0",
+    "slugify": "^1.4.5",
     "velocity-react": "^1.4.3"
   },
   "scripts": {

@@ -3,6 +3,7 @@ import Layout from "../core/Layout";
 import { isAuthenticated } from "../auth";
 import { Link, Redirect } from "react-router-dom";
 import { getCategory, getCategories, updateCategory } from "./apiAdmin";
+var slugify = require('slugify')
 
 const UpdateCategory = ({ match }) => {
   const { user, token } = isAuthenticated();
@@ -10,6 +11,7 @@ const UpdateCategory = ({ match }) => {
   const [thumbnail, setThumbnail] = useState(null);
   const [values, setValues] = useState({
     name: "",
+    slug:"",
     order: "",
     //parents: [],
     parent: "",
@@ -23,6 +25,7 @@ const UpdateCategory = ({ match }) => {
   const [categories, setCategories] = useState([]);
   const {
     name,
+    slug,
     order,
     // parents,
     parent,
@@ -47,6 +50,7 @@ const UpdateCategory = ({ match }) => {
         //populate states and load category
         setValues({
           ...values,
+          slug:data.slug,
           name: data.name,
           order: data.order,
           parent: data.parent,
@@ -79,15 +83,28 @@ const UpdateCategory = ({ match }) => {
       setThumbnail(event.target.files[0]);
     }
   };
-  const handleChange = (name) => (event) => {
+  const handleChange = (field) => (event) => {
     let value = event.target.value;
-    if (name === "trash") {
+    if (field === "trash") {
       value = !trash;
       console.log(value);
     }
+    formData.set(field, value);
+    if (field==="name"){
+      const slugStr = slugify(value, {
+         replacement: '-',  // replace spaces with replacement character, defaults to `-`
+         remove: undefined, // remove characters that match regex, defaults to `undefined`
+         lower: false,      // convert to lower case, defaults to `false`
+         strict: false,     // strip special characters except replacement, defaults to `false`
+         locale: 'vi'       // language code of the locale to use
+       });
+       setValues({ ...values, slug: slugStr, error: false, createdProduct:false });
+       formData.set("slug", slugStr);
+       console.log("slugify:", slugStr)
+       
+     }
 
-    formData.set(name, value);
-    setValues({ ...values, [name]: value });
+    setValues({ ...values, [field]: value });
   };
   const clickSubmit = (event) => {
     event.preventDefault();
@@ -107,6 +124,7 @@ const UpdateCategory = ({ match }) => {
           setValues({
             ...values,
             name: data.name,
+            slug:data.slug,
             order: data.order,
             loading: false,
             parent: data.parent,
@@ -150,6 +168,17 @@ const UpdateCategory = ({ match }) => {
           type="text"
           className="form-control"
           value={name}
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="" className="text-muted">
+          Slug
+        </label>
+        <input
+          onChange={handleChange("slug")}
+          type="text"
+          className="form-control"
+           value={slug}
         />
       </div>
       <div className="form-group">

@@ -26,6 +26,20 @@ const Routes = () => (
   // <BrowserRouter>
     <Switch>
       <Route path="/" exact component={Home} />
+      {/* <Route
+      path="/:slug"
+      render={({ match }) => {
+        // Do whatever you want with the match...
+        if (match==="aa"){
+          // <Route path="/category/children" exact component={CategoryChildren} />
+
+        }
+        if (match==="bbb"){
+          return <div>uuuu</div>
+        }
+      }}
+    /> */}
+
       <Route path="/shop" exact component={Shop} />
       <Route path="/category/children" exact component={CategoryChildren} />
       <Route path="/category/products" exact component={CategoryProducts} />

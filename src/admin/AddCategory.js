@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
+import ReactDOM from 'react-dom';
 import Layout from "../core/Layout";
 import { isAuthenticated } from "../auth";
 import { Link, Redirect } from "react-router-dom";
 import { createCategory, getCategories } from "./apiAdmin";
-import MultiSelect from "react-multi-select-component";
+var slugify = require('slugify')
 
 const AddCategory = () => {
+  const [value, setValue] = useState();
   const { user, token } = isAuthenticated();
   const [icon, setIcon] = useState(null);
   const [thumbnail, setThumbnail] = useState(null);
   const [values, setValues] = useState({
     name: "",
+    slug:"",
     order: "",
     parents: [],
     parent: "",
@@ -24,6 +27,7 @@ const AddCategory = () => {
 
   const {
     name,
+    slug,
     order,
     parents,
     parent,
@@ -46,6 +50,7 @@ const AddCategory = () => {
         setValues({
           ...values,
           name: "",
+          slug:"",
           order: "",
           trash: false,
           loading: false,
@@ -55,6 +60,7 @@ const AddCategory = () => {
       }
     });
   };
+
   useEffect(() => {
     console.log("use effect");
     init();
@@ -68,9 +74,29 @@ const AddCategory = () => {
      }
       
   };
-  const handleChange = (name) => (event) => {
-    formData.set(name, event.target.value);
-    setValues({ ...values, [name]: event.target.value, error: false, createdProduct:false });
+  const handleChange = (field) => (event) => {
+    let value = event.target.value;
+    formData.set(field, value);
+    if (field==="name"){
+     const slugStr = slugify(value, {
+        replacement: '-',  // replace spaces with replacement character, defaults to `-`
+        remove: undefined, // remove characters that match regex, defaults to `undefined`
+        lower: false,      // convert to lower case, defaults to `false`
+        strict: false,     // strip special characters except replacement, defaults to `false`
+        locale: 'vi'       // language code of the locale to use
+      });
+      // if (field === 'slug'){
+      //   value = slugStr;
+      // }else{
+      //   setValues({ ...values, slug: slugStr, error: false, createdProduct:false });
+      // }
+      setValues({ ...values, slug: slugStr, error: false, createdProduct:false });
+
+      formData.set("slug", slugStr);
+      console.log("slugify:", slugStr)
+      
+    }
+    setValues({ ...values, [field]: value, error: false, createdProduct:false });
   };
 
   const clickSubmit = (event) => {
@@ -96,6 +122,7 @@ const AddCategory = () => {
         setValues({
           ...values,
           name: "",
+          slug:"",
           order: "",
           parents: [],
           trash: false,
@@ -141,6 +168,17 @@ const AddCategory = () => {
           type="text"
           className="form-control"
           value={name}
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="" className="text-muted">
+          Slug
+        </label>
+        <input
+          onChange={handleChange("slug")}
+          type="text"
+          className="form-control"
+           value={slug}
         />
       </div>
       <div className="form-group">

@@ -1,15 +1,35 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { Link } from "react-router-dom";
+
 import { Treebeard, animations, decorators, theme } from "./index";
 import { includes } from "lodash";
 import { API } from "../../config";
 const CustomHeader = ({ node, style, prefix }) => (
-  <div style={style.base}>
-    <div style={{ ...style.title, display: "flex" }}>
-      <span>{node.icon?(<img style={{width:"30px", height:"30px", padding:"5px"}} src={`${API}/category/icon/${node._id}`}></img>):""}</span>{" "}
-      {`${node.name.toUpperCase()}`}
+  <Link
+    className="nav-link"
+    to={{
+      pathname: `${
+        node.children ? "/category/children/": "/category/products/"
+      }`,
+      _id: node._id,
+    }}
+  >
+    <div style={style.base}>
+      <div style={{ ...style.title, display: "flex", margin: "auto" }}>
+        <span>
+          {node.icon ? (
+            <img
+              style={{ width: "20px", height: "20px", marginRight: "5px" }}
+              src={`${API}/category/icon/${node._id}`}
+            ></img>
+          ) : (
+            ""
+          )}
+        </span>{" "}
+        {`${node.name.toUpperCase()}`}
+      </div>
     </div>
-  </div>
+  </Link>
 );
 
 // class CutomContainer extends decorators.Container {
@@ -48,10 +68,9 @@ class TreeExample extends React.Component {
     node.active = true;
     if (node.children) {
       node.toggled = toggled;
-      console.log("children")
-
-    }else{
-      console.log("product")
+      console.log("children", node._id);
+    } else {
+      console.log("product", node._id);
     }
 
     this.setState({ cursor: node });
