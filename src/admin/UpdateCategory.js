@@ -15,6 +15,7 @@ const UpdateCategory = ({ match }) => {
     order: "",
     //parents: [],
     parent: "",
+    oldParent:"",
     trash: false,
     loading: false,
     error: "",
@@ -29,6 +30,7 @@ const UpdateCategory = ({ match }) => {
     order,
     // parents,
     parent,
+    oldParent,
     category,
     shipping,
     trash,
@@ -54,6 +56,7 @@ const UpdateCategory = ({ match }) => {
           name: data.name,
           order: data.order,
           parent: data.parent,
+          oldParent:data.parent,
           formData: new FormData(),
         });
         initCategory();
@@ -114,6 +117,7 @@ const UpdateCategory = ({ match }) => {
     if (icon !== null){
       formData.append("icon", icon);
     }
+    formData.append('old_parent', oldParent);
     setValues({ ...values, error: "", loading: true });
     console.log(formData);
     updateCategory(match.params.categoryId, user._id, token, formData).then(
@@ -128,6 +132,7 @@ const UpdateCategory = ({ match }) => {
             order: data.order,
             loading: false,
             parent: data.parent,
+            oldParent:data.parent,
             redirectToProfile: true,
             createdProduct: data.name,
           });
