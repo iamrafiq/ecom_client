@@ -19,13 +19,35 @@ import ManageCategory from "./admin/ManageCategory";
 
 import UpdateProduct from "./admin/UpdateProduct";
 import UpdateCategory from "./admin/UpdateCategory";
-import CategoryChildren from "./core/CategoryChildren";
+import CategoryItems from "./core/CategoryItems";
 import CategoryProducts from "./core/CategoryProducts";
 
+const AnyComponent = props => {
+  return <CategoryItems id={props.match.params.any_slug} />;
+
+  // if (slugIsProject(props.match.params.any_slug)) {
+  //     return <CategoryChildren id={props.match.params.any_slug} />;
+  // } else {
+  //     return <PostComponent id={props.match.params.any_slug} />;
+  // }
+}
+const ProductComponent = props => {
+  console.log("path",props.path)
+  return <UserDashboard id={props.match.params.slug} />;
+
+  // if (slugIsProject(props.match.params.any_slug)) {
+  //     return <CategoryChildren id={props.match.params.any_slug} />;
+  // } else {
+  //     return <PostComponent id={props.match.params.any_slug} />;
+  // }
+}
 const Routes = () => (
   // <BrowserRouter>
     <Switch>
       <Route path="/" exact component={Home} />
+      <Route exact path="/:slug" component={CategoryItems} />
+      <Route exact path="/products/:slug" component={CategoryProducts} />
+
       {/* <Route
       path="/:slug"
       render={({ match }) => {
@@ -41,8 +63,8 @@ const Routes = () => (
     /> */}
 
       <Route path="/shop" exact component={Shop} />
-      <Route path="/category/children" exact component={CategoryChildren} />
-      <Route path="/category/products" exact component={CategoryProducts} />
+      {/* <Route path="/category/children" exact component={CategoryChildren} />
+      <Route path="/category/products" exact component={CategoryProducts} /> */}
       <Route path="/signin" exact component={Signin} />
       <Route path="/signup" exact component={Signup} />
       <PrivateRoute path="/user/dashboard" exact component={UserDashboard} />

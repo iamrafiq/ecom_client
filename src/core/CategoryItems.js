@@ -1,23 +1,23 @@
 import React from "react";
 import Layout from "./Layout";
 import { useEffect, useState } from "react";
-import { getChildren } from "../admin/apiAdmin";
+import { getCategoryItems } from "../admin/apiAdmin";
 
 import ProductCard from "../component_ui/product_card/ProductCard";
 import "../common/common.css";
 
-const CategoryChildren = (props) => {
+const CategoryItems = (props) => {
   console.log("propps", props)
   const [values, setValues] = useState({
     children: "",
   });
 
   const { children } = values;
-  const _id = props.location._id;
-
+  const _id = "yyuyuyu"; //props.location._id;
+  console.log("slug...",props.match.params.slug)
   const init = () => {
     console.log("init..", _id)
-    getChildren(_id).then((data) => {
+    getCategoryItems(_id).then((data) => {
       console.log(data);
       if (data && data.error) {
         setValues({ ...values, error: data.error });
@@ -120,4 +120,4 @@ const CategoryChildren = (props) => {
   );
 };
 
-export default CategoryChildren;
+export default CategoryItems;

@@ -7,12 +7,14 @@ import { API } from "../../config";
 const CustomHeader = ({ node, style, prefix }) => (
   <Link
     className="nav-link"
-    to={{
-      pathname: `${
-        node.children ? "/category/children/": "/category/products/"
-      }`,
-      _id: node._id,
-    }}
+    to={node.slug}
+    
+    // {{
+    //   pathname: `${
+    //     node.children ? "/category/children/": "/category/products/"
+    //   }`,
+    //   _id: node._id,
+    // }}
   >
     <div style={style.base}>
       <div style={{ ...style.title, display: "flex", margin: "auto" }}>
@@ -68,7 +70,7 @@ class TreeExample extends React.Component {
     node.active = true;
     if (node.children) {
       node.toggled = toggled;
-      console.log("children", node._id);
+      console.log("branch", node._id);
     } else {
       console.log("product", node._id);
     }
