@@ -56,6 +56,7 @@ class TreeExample extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.setBar = props.setBar;
     this.onToggle = this.onToggle.bind(this);
   }
   onToggle(node, toggled) {
@@ -70,11 +71,10 @@ class TreeExample extends React.Component {
     node.active = true;
     if (node.children) {
       node.toggled = toggled;
-      console.log("branch", node._id);
     } else {
-      console.log("product", node._id);
+      
     }
-
+    this.setBar(node.slug)
     this.setState({ cursor: node });
   }
   render() {
@@ -104,7 +104,6 @@ class TreeExample extends React.Component {
             }}
           />
         </div>
-        {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       </React.Fragment>
     );
   }

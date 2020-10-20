@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import SideBarPanel from "./side_bar_panel";
 import { SIDE_BAR_WIDTH } from "../../../config";
 import TreeExample from "../../treebeard/tree";
+import { useDispatch } from "react-redux";
+import { setBar } from "../../../redux/sideBarSlice";
+
 const styles = {
   sidebar: {
     width: `${SIDE_BAR_WIDTH}rem`,
@@ -34,10 +37,13 @@ const style = {
 };
 
 const SidebarContent = (props) => {
+  const dispatch = useDispatch();
   const style = props.style
     ? { ...styles.sidebar, ...props.style }
     : styles.sidebar;
-
+ const selectedBar =(bar)=>{
+   dispatch(setBar({bar}));
+ }
   return (
     <SideBarPanel renderTitle={false} title="" style={style}>
       <div style={styles.content}>
@@ -47,7 +53,11 @@ const SidebarContent = (props) => {
         <div style={styles.divider} />
         {
           <div>
-            <TreeExample tree={props.tree}></TreeExample>
+            <TreeExample
+             setBar ={(bar)=>{
+               selectedBar(bar)
+             }}
+             tree={props.tree}></TreeExample>
           </div>
         }
       </div>

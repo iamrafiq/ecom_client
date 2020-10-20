@@ -3,6 +3,10 @@ import Sidebar from "./core/sidebar";
 import SidebarContent from "./core/sidebar_content";
 import { getTree } from "../../admin/apiAdmin";
 import { MOBIEL_DEVICE_RESOLUTION } from "../../config";
+
+
+
+
 const styles = {
   contentHeaderMenuLink: {
     textDecoration: "none",
@@ -29,13 +33,15 @@ class App extends React.Component {
       docked: mql.matches,
       open:false,
       loading: false,
-      tree: [],
+      tree: JSON.parse(JSON.stringify(props.tree)),
     };
 
     this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
     this.toggleOpen = this.toggleOpen.bind(this);
     this.onSetOpen = this.onSetOpen.bind(this);
     props.onClickMenu(this.toggleOpen)
+
+   
   }
 
   downloadCategories = () => {
@@ -43,7 +49,6 @@ class App extends React.Component {
       loading: true,
     });
     getTree().then((data) => {
-      console.log("data..", data)
       if (data ===undefined || data.error) {
       } else {
         this.setState({
@@ -55,7 +60,9 @@ class App extends React.Component {
   };
 
   componentWillMount() {
-    this.downloadCategories();
+   // this.downloadCategories();
+
+
     mql.addListener(this.mediaQueryChanged);
   }
 
@@ -75,14 +82,15 @@ class App extends React.Component {
   }
 
   toggleOpen(ev) {
-    this.setState({ open: !this.state.open });
     if (ev) {
       ev.preventDefault();
     }
+    this.setState({ open: !this.state.open });    
   }
 
   render() {
 
+ 
     const { loading, tree } = this.state;
     const sidebar = <SidebarContent tree={tree} />;
     // const contentHeader = (
@@ -109,7 +117,6 @@ class App extends React.Component {
 
     return (
       <div>
-        {console.log(this.state.open)}
         <Sidebar {...sidebarProps}>
         </Sidebar>
       </div>

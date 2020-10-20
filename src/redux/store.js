@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { sideBarSlice } from "./sideBarSlice";
+import categoryReducer from "./categorySlice";
+import sideBarReducer  from "./sideBarSlice";
 
 export default configureStore({
     reducer:{
-        sideBar: sideBarSlice
+        categories: categoryReducer,
+        sideBar:sideBarReducer,
     }
 })

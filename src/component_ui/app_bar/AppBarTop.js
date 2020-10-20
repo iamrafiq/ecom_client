@@ -10,15 +10,15 @@ const AppBarTop = (props) => {
   return (
     <div className="nav-bar">
       <div className="nav-bar-left">
-        <div class="logo">
+        <div className="logo">
           <img  src="http://alupiaj.com/images/logo5.png" alt="" />
         </div>
       </div>
-      <div class="nav-bar-right">
-        <div class="search-box">
+      <div className="nav-bar-right">
+        <div className="search-box">
           <input type="text" placeholder="Search.." name="search" />
         </div>
-        <div class="buttons">
+        <div className="buttons">
           <button
             className="button menu"
             style={{ background: "transparent" }}
@@ -70,16 +70,16 @@ const AppBarTop = (props) => {
           <button className="button cart" style={{ background: "transparent" }}>
             <span>
               <span
-                class="button text-button"
+                className="button text-button"
                 onClick={(e) => {
                   e.preventDefault();
                 }}
               >
                 EN
               </span>{" "}
-              <span class="text-button">|</span>{" "}
+              <span className="text-button">|</span>{" "}
               <span
-                class="button text-button"
+                className="button text-button"
                 onClick={(e) => {
                   e.preventDefault();
                 }}

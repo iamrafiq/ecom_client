@@ -1,27 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const sideBarSlice = createSlice({
-    name:"sideBar",
-    initialState:{
-        mood:false
+  name: "sideBar",
+  initialState: {
+    bar: "home",
+    barCallback:""
+  },
+  reducers: {
+    setBar: (state, action) => {
+      state.bar = action.payload.bar;
+      if (state.barCallback){
+       state.barCallback(state.bar)
+      }
     },
-    reducers:{
-        setSideBar:(state, action)=>{
-            state.mood = action.payload.mood;
-        }
+    setBarCallback: (state, action) => {
+      state.barCallback = action.payload.barCallback;
     }
-    
+  },
 });
 
-const {setSideBar}=sideBarSlice.actions;
 
-export const initSideBarState=()=>(dispatch)=>{
- dispatch(setSideBar({mood:false}));
-}
-export const toggleSideBar=()=>(dispatch)=>{
-    dispatch(setSideBar({mood:true}));
-   }
-
-export const selectSideBarMood = state =>state.sideBar.mood;
-
+export const changeBar = (barCallback) => (dispatch) => {
+  dispatch(setBarCallback({ barCallback:barCallback }));
+};
+export const { setBar, setBarCallback } = sideBarSlice.actions;
+export const selectSideBarSelection = (state) => state.sideBar.bar;
 export default sideBarSlice.reducer;
