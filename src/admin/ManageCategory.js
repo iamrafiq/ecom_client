@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { getCategories, deleteCategory } from "./apiAdmin";
 const ManageCategory = () => {
   const [cagegories, setCategories] = useState([]);
+  const [error, setError] = useState("");
   const { user, token } = isAuthenticated();
   const loadCategories = () => {
     getCategories().then((data) => {
@@ -17,15 +18,24 @@ const ManageCategory = () => {
   };
 
   const destroy = (categoryId) => {
+    setError("")
     deleteCategory(categoryId, user._id, token).then((data) => {
       if (data.error) {
-        console.log(data.error);
+        setError(data.error)
       } else {
         loadCategories();
       }
     });
   };
 
+  const showError = () => (
+    <div
+      className="alert alert-danger"
+      style={{ display: error ? "" : "none" }}
+    >
+      {error}
+    </div>
+  );
   useEffect(() => {
     loadCategories();
   }, []);
@@ -39,6 +49,7 @@ const ManageCategory = () => {
         <div className="col-12">
           <h2 className="text-center">Totla {cagegories.length} products</h2>
           <hr />
+          {showError()}
           <ul className="list-group">
             {cagegories.map((c, i) => (
               <li

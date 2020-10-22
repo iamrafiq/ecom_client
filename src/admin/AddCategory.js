@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
 import Layout from "../core/Layout";
 import { isAuthenticated } from "../auth";
 import { Link, Redirect } from "react-router-dom";
 import { createCategory, getCategories } from "./apiAdmin";
-var slugify = require('slugify')
+var slugify = require("slugify");
 
 const AddCategory = () => {
   const [value, setValue] = useState();
@@ -13,7 +13,7 @@ const AddCategory = () => {
   const [thumbnail, setThumbnail] = useState(null);
   const [values, setValues] = useState({
     name: "",
-    slug:"",
+    slug: "",
     order: "",
     parents: [],
     parent: "",
@@ -50,7 +50,7 @@ const AddCategory = () => {
         setValues({
           ...values,
           name: "",
-          slug:"",
+          slug: "",
           order: "",
           trash: false,
           loading: false,
@@ -66,53 +66,76 @@ const AddCategory = () => {
     init();
   }, [createdProduct]);
   const handleImageChange = (name) => (event) => {
-     if (name == "icon"){
-       setIcon(event.target.files[0])
-     }
-     else if (name == "thumbnail"){
-       setThumbnail(event.target.files[0])
-     }
-      
+    if (name == "icon") {
+      setIcon(event.target.files[0]);
+    } else if (name == "thumbnail") {
+      setThumbnail(event.target.files[0]);
+    }
   };
   const handleChange = (field) => (event) => {
     let value = event.target.value;
     formData.set(field, value);
-    if (field==="name"){
-     const slugStr = slugify(value, {
-        replacement: '-',  // replace spaces with replacement character, defaults to `-`
+    if (field === "name") {
+      const slugStr = slugify(value, {
+        replacement: "-", // replace spaces with replacement character, defaults to `-`
         remove: undefined, // remove characters that match regex, defaults to `undefined`
-        lower: false,      // convert to lower case, defaults to `false`
-        strict: false,     // strip special characters except replacement, defaults to `false`
-        locale: 'vi'       // language code of the locale to use
+        lower: false, // convert to lower case, defaults to `false`
+        strict: false, // strip special characters except replacement, defaults to `false`
+        locale: "vi", // language code of the locale to use
       });
       // if (field === 'slug'){
       //   value = slugStr;
       // }else{
       //   setValues({ ...values, slug: slugStr, error: false, createdProduct:false });
       // }
-      setValues({ ...values, slug: slugStr, error: false, createdProduct:false });
+      setValues({
+        ...values,
+        slug: slugStr,
+        error: false,
+        createdProduct: false,
+      });
 
       formData.set("slug", slugStr);
-      console.log("slugify:", slugStr)
-      
+      console.log("slugify:", slugStr);
     }
-    setValues({ ...values, [field]: value, error: false, createdProduct:false });
+
+    if (field === "parent") {
+
+      const parentCat = JSON.parse( event.target.value);
+      formData.set(field, parentCat._id);
+      let rc = [];
+      rc.push(parentCat._id);
+      if (parentCat.recursiveCategories) {
+
+        console.log("rc..",parentCat.name, parentCat.recursiveCategories)
+        rc = rc.concat(parentCat.recursiveCategories);
+      }
+      console.log("rc", rc)
+      formData.append("recursiveCats", rc);
+    }
+    setValues({
+      ...values,
+      [field]: value,
+      error: false,
+      createdProduct: false,
+    });
   };
 
   const clickSubmit = (event) => {
     event.preventDefault();
     formData.append("trash", false);
-    if (thumbnail !== null){
+    if (thumbnail !== null) {
       formData.append("thumbnail", thumbnail);
     }
-    if (icon !== null){
+    if (icon !== null) {
       formData.append("icon", icon);
     }
 
-    if (parents.length !== 0 && parent==''){
+    if (parents.length !== 0 && parent == "") {
       setValues({ ...values, error: "Select a parent" });
       return;
     }
+
     setValues({ ...values, error: "", loading: true });
     createCategory(user._id, token, formData).then((data) => {
       console.log("err...", data.error);
@@ -122,7 +145,7 @@ const AddCategory = () => {
         setValues({
           ...values,
           name: "",
-          slug:"",
+          slug: "",
           order: "",
           parents: [],
           trash: false,
@@ -178,7 +201,7 @@ const AddCategory = () => {
           onChange={handleChange("slug")}
           type="text"
           className="form-control"
-           value={slug}
+          value={slug}
         />
       </div>
       <div className="form-group">
@@ -200,7 +223,7 @@ const AddCategory = () => {
           <option>Select a parent</option>
           {parents &&
             parents.map((cat, index) => (
-              <option key={index} value={cat._id}>
+              <option key={index} value={JSON.stringify(cat)}>
                 {cat.name}
               </option>
             ))}
@@ -245,11 +268,14 @@ const AddCategory = () => {
         <h2>Loading...</h2>
       </div>
     );
- 
+
   const goBack = () => (
-    <Link to="/admin/dashboard" className="text-warning btn btn-outline-primary">
-        Back to Dashboard
-      </Link>
+    <Link
+      to="/admin/dashboard"
+      className="text-warning btn btn-outline-primary"
+    >
+      Back to Dashboard
+    </Link>
   );
   return (
     <Layout

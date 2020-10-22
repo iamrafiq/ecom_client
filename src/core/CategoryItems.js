@@ -9,7 +9,7 @@ import "../common/common.css";
 import { useSelector, useDispatch } from "react-redux";
 
 import { selectSideBarSelection } from "../redux/sideBarSlice";
-import { changeBar } from "../redux/sideBarSlice";
+import { changeBar, setBar } from "../redux/sideBarSlice";
 
 const CategoryItems = (props) => {
   const bar = useSelector(selectSideBarSelection);
@@ -21,13 +21,18 @@ const CategoryItems = (props) => {
     init: true,
   });
 
+  if (bar !== props.match.params.slug) {
+    // if user reloading the page by using browser not using side bar menu then ditchpatch the slug to sidebar slice
+    // first checking the bar is not same as the props
+    dispatch(setBar({ bar: props.match.params.slug }));
+  }
+  console.log("slug...", props.match.params.slug);
   const { subcats } = values;
-  const _id = "yyuyuyu"; //props.location._id;
   let init = (barName) => {
     console.log("init.. slug", barName);
     getCategoryItems(barName).then((data) => {
       if (data && data.error) {
-        setValues({ ...values,  subcats: "", error: data.error });
+        setValues({ ...values, subcats: "", error: data.error });
       } else {
         setValues({
           ...values,
@@ -37,9 +42,10 @@ const CategoryItems = (props) => {
     });
   };
   useEffect(() => {
-    dispatch(changeBar((barName)=>init(barName)));
-  }, []);
-  
+    //dispatch(changeBar((barName)=>init(barName)));
+    init(bar);
+  }, [bar]);
+
   return (
     <Layout title="Category Children page" description="Node React">
       <h2>{bar}</h2>

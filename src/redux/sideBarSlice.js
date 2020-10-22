@@ -10,7 +10,7 @@ export const sideBarSlice = createSlice({
     setBar: (state, action) => {
       state.bar = action.payload.bar;
       if (state.barCallback){
-       state.barCallback(state.bar)
+       //state.barCallback(state.bar)
       }
     },
     setBarCallback: (state, action) => {

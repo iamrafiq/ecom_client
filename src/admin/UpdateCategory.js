@@ -3,7 +3,7 @@ import Layout from "../core/Layout";
 import { isAuthenticated } from "../auth";
 import { Link, Redirect } from "react-router-dom";
 import { getCategory, getCategories, updateCategory } from "./apiAdmin";
-var slugify = require('slugify')
+var slugify = require("slugify");
 
 const UpdateCategory = ({ match }) => {
   const { user, token } = isAuthenticated();
@@ -11,11 +11,11 @@ const UpdateCategory = ({ match }) => {
   const [thumbnail, setThumbnail] = useState(null);
   const [values, setValues] = useState({
     name: "",
-    slug:"",
+    slug: "",
     order: "",
     //parents: [],
     parent: "",
-    oldParent:"",
+    oldParent: "",
     trash: false,
     loading: false,
     error: "",
@@ -52,11 +52,11 @@ const UpdateCategory = ({ match }) => {
         //populate states and load category
         setValues({
           ...values,
-          slug:data.slug,
+          slug: data.slug,
           name: data.name,
           order: data.order,
           parent: data.parent,
-          oldParent:data.parent,
+          oldParent: data.parent,
           formData: new FormData(),
         });
         initCategory();
@@ -93,33 +93,57 @@ const UpdateCategory = ({ match }) => {
       console.log(value);
     }
     formData.set(field, value);
-    if (field==="name"){
+    if (field === "name") {
       const slugStr = slugify(value, {
-         replacement: '-',  // replace spaces with replacement character, defaults to `-`
-         remove: undefined, // remove characters that match regex, defaults to `undefined`
-         lower: false,      // convert to lower case, defaults to `false`
-         strict: false,     // strip special characters except replacement, defaults to `false`
-         locale: 'vi'       // language code of the locale to use
-       });
-       setValues({ ...values, slug: slugStr, error: false, createdProduct:false });
-       formData.set("slug", slugStr);
-       console.log("slugify:", slugStr)
-       
-     }
+        replacement: "-", // replace spaces with replacement character, defaults to `-`
+        remove: undefined, // remove characters that match regex, defaults to `undefined`
+        lower: false, // convert to lower case, defaults to `false`
+        strict: false, // strip special characters except replacement, defaults to `false`
+        locale: "vi", // language code of the locale to use
+      });
+      setValues({
+        ...values,
+        slug: slugStr,
+        error: false,
+        createdProduct: false,
+      });
+      formData.set("slug", slugStr);
+      console.log("slugify:", slugStr);
+    }
+
+    if (field === "parent") {
+      const parentCat = JSON.parse(event.target.value);
+      formData.set(field, parentCat._id);
+      let rc = [];
+      rc.push(parentCat._id);
+      if (parentCat.recursiveCategories) {
+        console.log("rc..", parentCat.name, parentCat.recursiveCategories);
+        rc = rc.concat(parentCat.recursiveCategories);
+      }
+      console.log("rc", rc);
+      formData.append("recursiveCats", rc);
+    }
 
     setValues({ ...values, [field]: value });
   };
   const clickSubmit = (event) => {
     event.preventDefault();
-    if (thumbnail !== null){
+    if (thumbnail !== null) {
       formData.append("thumbnail", thumbnail);
     }
-    if (icon !== null){
+    if (icon !== null) {
       formData.append("icon", icon);
     }
-    formData.append('old_parent', oldParent);
+    formData.append("old_parent", oldParent._id);
+
+    // let rc= [];
+    // rc.push(parent._id);
+    // if (parent.recursiveCategories){
+    //   rc = rc.concat(parent.recursiveCategories)
+    // }
+    // formData.append("recursiveCats", rc);
+
     setValues({ ...values, error: "", loading: true });
-    console.log(formData);
     updateCategory(match.params.categoryId, user._id, token, formData).then(
       (data) => {
         if (data.error) {
@@ -128,11 +152,11 @@ const UpdateCategory = ({ match }) => {
           setValues({
             ...values,
             name: data.name,
-            slug:data.slug,
+            slug: data.slug,
             order: data.order,
             loading: false,
             parent: data.parent,
-            oldParent:data.parent,
+            oldParent: data.parent,
             redirectToProfile: true,
             createdProduct: data.name,
           });
@@ -183,7 +207,7 @@ const UpdateCategory = ({ match }) => {
           onChange={handleChange("slug")}
           type="text"
           className="form-control"
-           value={slug}
+          value={slug}
         />
       </div>
       <div className="form-group">
@@ -207,12 +231,16 @@ const UpdateCategory = ({ match }) => {
           {categories &&
             categories.map((cat, index) =>
               cat._id !== match.params.categoryId ? (
-                parent === cat._id ? (
-                  <option key={index} value={cat._id} selected={true}>
+                parent._id === cat._id ? (
+                  <option
+                    key={index}
+                    value={JSON.stringify(cat)}
+                    selected={true}
+                  >
                     {cat.name}
                   </option>
                 ) : (
-                  <option key={index} value={cat._id}>
+                  <option key={index} value={JSON.stringify(cat)}>
                     {cat.name}
                   </option>
                 )
