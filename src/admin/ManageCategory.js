@@ -18,7 +18,7 @@ const ManageCategory = () => {
   };
 
   const destroy = (categoryId) => {
-    setError("")
+    setError("");
     deleteCategory(categoryId, user._id, token).then((data) => {
       if (data.error) {
         setError(data.error)

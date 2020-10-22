@@ -13,6 +13,7 @@ const AddCategory = () => {
   const [thumbnail, setThumbnail] = useState(null);
   const [values, setValues] = useState({
     name: "",
+    bengaliName:"",
     slug: "",
     order: "",
     parents: [],
@@ -27,6 +28,7 @@ const AddCategory = () => {
 
   const {
     name,
+    bengaliName,
     slug,
     order,
     parents,
@@ -50,6 +52,7 @@ const AddCategory = () => {
         setValues({
           ...values,
           name: "",
+          bengaliName:"",
           slug: "",
           order: "",
           trash: false,
@@ -113,6 +116,7 @@ const AddCategory = () => {
       console.log("rc", rc)
       formData.append("recursiveCats", rc);
     }
+    //console.log(field, value)
     setValues({
       ...values,
       [field]: value,
@@ -138,7 +142,6 @@ const AddCategory = () => {
 
     setValues({ ...values, error: "", loading: true });
     createCategory(user._id, token, formData).then((data) => {
-      console.log("err...", data.error);
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -202,6 +205,17 @@ const AddCategory = () => {
           type="text"
           className="form-control"
           value={slug}
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="" className="text-muted">
+        Bengali Name
+        </label>
+        <input
+          onChange={handleChange("bengaliName")}
+          type="text"
+          className="form-control"
+          value={bengaliName}
         />
       </div>
       <div className="form-group">

@@ -11,6 +11,7 @@ const UpdateCategory = ({ match }) => {
   const [thumbnail, setThumbnail] = useState(null);
   const [values, setValues] = useState({
     name: "",
+    bengaliName:"",
     slug: "",
     order: "",
     //parents: [],
@@ -26,6 +27,7 @@ const UpdateCategory = ({ match }) => {
   const [categories, setCategories] = useState([]);
   const {
     name,
+    bengaliName,
     slug,
     order,
     // parents,
@@ -54,6 +56,7 @@ const UpdateCategory = ({ match }) => {
           ...values,
           slug: data.slug,
           name: data.name,
+          bengaliName: data.bengaliName,
           order: data.order,
           parent: data.parent,
           oldParent: data.parent,
@@ -88,11 +91,12 @@ const UpdateCategory = ({ match }) => {
   };
   const handleChange = (field) => (event) => {
     let value = event.target.value;
+    formData.set(field, value);
+
     if (field === "trash") {
       value = !trash;
-      console.log(value);
+      formData.set(field, value);
     }
-    formData.set(field, value);
     if (field === "name") {
       const slugStr = slugify(value, {
         replacement: "-", // replace spaces with replacement character, defaults to `-`
@@ -108,7 +112,6 @@ const UpdateCategory = ({ match }) => {
         createdProduct: false,
       });
       formData.set("slug", slugStr);
-      console.log("slugify:", slugStr);
     }
 
     if (field === "parent") {
@@ -117,10 +120,8 @@ const UpdateCategory = ({ match }) => {
       let rc = [];
       rc.push(parentCat._id);
       if (parentCat.recursiveCategories) {
-        console.log("rc..", parentCat.name, parentCat.recursiveCategories);
         rc = rc.concat(parentCat.recursiveCategories);
       }
-      console.log("rc", rc);
       formData.append("recursiveCats", rc);
     }
 
@@ -208,6 +209,17 @@ const UpdateCategory = ({ match }) => {
           type="text"
           className="form-control"
           value={slug}
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="" className="text-muted">
+        Bengali Name
+        </label>
+        <input
+          onChange={handleChange("bengaliName")}
+          type="text"
+          className="form-control"
+          value={bengaliName}
         />
       </div>
       <div className="form-group">
