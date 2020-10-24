@@ -144,12 +144,10 @@ const UpdateProduct = ({ match }) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
-        setCategories(data);
-        console.log("new categories", data);
+        const rootless = data.filter(e => e.name !== 'root')
+        setCategories(rootless);
 
-        console.log("new selectedCategories", selectedCategories);
-
-        const newArray = data.filter((cat) =>
+        const newArray = rootless.filter((cat) =>
           selectedCategories.includes(cat._id)
         );
 
@@ -159,7 +157,6 @@ const UpdateProduct = ({ match }) => {
             label: cat.name,
           };
         });
-        console.log("new array", mapedArray);
         setDefaultCategoriesForSpinner(mapedArray);
         //setValues({ ...values, defaultCategoriesForSpinner: mapedArray });
       }
@@ -595,13 +592,25 @@ const UpdateProduct = ({ match }) => {
         <label htmlFor="" className="text-muted">
           Categories:
         </label>
-        {defaultCategoriesForSpinner.length > 0 && (
+        {defaultCategoriesForSpinner.length > 0 ? (
           <Select
             onChange={handleChangeCategoris}
             closeMenuOnSelect={false}
             defaultValue={defaultCategoriesForSpinner.map((cat, index) => {
               return cat;
             })}
+            isMulti
+            options={categories.map((cat, index) => {
+              return {
+                value: cat,
+                label: cat.name,
+              };
+            })}
+          />
+        ):(
+          <Select
+            onChange={handleChangeCategoris}
+            closeMenuOnSelect={false}
             isMulti
             options={categories.map((cat, index) => {
               return {

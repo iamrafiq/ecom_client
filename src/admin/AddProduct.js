@@ -17,22 +17,22 @@ const AddProduct = () => {
 
   const { user, token } = isAuthenticated();
   const [values, setValues] = useState({
-    productCode: "",
-    name: "",
-    slug: "",
-    bengaliName: "",
-    nameWithOutSubText: "",
-    subText: "",
-    mrp: "",
-    price: "",
-    cropPrice: "",
+    productCode: "4342",
+    name: "czcz",
+    slug: "zxczxc",
+    bengaliName: "zczxc",
+    nameWithOutSubText: "zxczx",
+    subText: "zxczxc",
+    mrp: "34",
+    price: "34",
+    cropPrice: "34",
     applyDiscounts: "",
     blockSale: "",
     shortDesc: "",
     longDesc: "",
     isAlwaysAvailable: "",
-    commonStock: "",
-    preferredStock: "",
+    commonStock: "4324",
+    preferredStock: "34234",
     earliestAvailabilityTime: "",
     availabilityCutOffTime: "",
     blockAtWarehouse: "",
@@ -98,7 +98,8 @@ const AddProduct = () => {
       } else {
         console.log("cats...", data);
 
-        setValues({ ...values, categories: data, formData: new FormData() });
+        const rootless = data.filter(e => e.name !== 'root')
+        setValues({ ...values, categories: rootless, formData: new FormData() });
       }
     });
   };

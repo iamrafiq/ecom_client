@@ -17,7 +17,7 @@ const { setCategories } = categoriesSlice.actions;
 
 export const loadCategories = () => (dispatch) => {
   getTree().then((data) => {
-    if (data && data.error) {
+    if (data===undefined && data.error) {
     } else {
       dispatch(setCategories({ cats:data }));
     }

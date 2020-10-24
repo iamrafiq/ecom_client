@@ -49,6 +49,7 @@ const AddCategory = () => {
       if (data && data.error) {
         setValues({ ...values, error: data.error });
       } else {
+        console.log("ad cat", data)
         setValues({
           ...values,
           name: "",

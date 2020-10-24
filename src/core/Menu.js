@@ -79,8 +79,8 @@ const Menu = (props) => (
             <li className="nav-item">
               <Link
                 className="nav-link"
-                style={isActive(props.history, "/signin")}
-                to="/signin"
+                style={isActive(props.history, "/user/signin")}
+                to="/user/signin"
               >
                 Sign in
               </Link>
@@ -88,8 +88,8 @@ const Menu = (props) => (
             <li className="nav-item">
               <Link
                 className="nav-link"
-                style={isActive(props.history, "/signup")}
-                to="/signup"
+                style={isActive(props.history, "/user/signup")}
+                to="/user/signup"
               >
                 Sign up
               </Link>
