@@ -592,7 +592,7 @@ const UpdateProduct = ({ match }) => {
         <label htmlFor="" className="text-muted">
           Categories:
         </label>
-        {defaultCategoriesForSpinner.length > 0 ? (
+        {defaultCategoriesForSpinner.length > 0 && (
           <Select
             onChange={handleChangeCategoris}
             closeMenuOnSelect={false}
@@ -607,19 +607,19 @@ const UpdateProduct = ({ match }) => {
               };
             })}
           />
-        ):(
-          <Select
-            onChange={handleChangeCategoris}
-            closeMenuOnSelect={false}
-            isMulti
-            options={categories.map((cat, index) => {
-              return {
-                value: cat,
-                label: cat.name,
-              };
-            })}
-          />
-        )}
+        // ):(
+        //   <Select
+        //     onChange={handleChangeCategoris}
+        //     closeMenuOnSelect={false}
+        //     isMulti
+        //     options={categories.map((cat, index) => {
+        //       return {
+        //         value: cat,
+        //         label: cat.name,
+        //       };
+        //     })}
+        //   />
+         )}
       </div>
       <div className="form-group">
         <label htmlFor="" className="text-muted">

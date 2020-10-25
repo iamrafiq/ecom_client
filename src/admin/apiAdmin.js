@@ -74,6 +74,15 @@ export const getCategories = () => {
     })
     .catch((err) => console.log(err));
 };
+export const getCategoriesWithProducts = () => {
+  return fetch(`${API}/categories-with-products`, {
+    method: "GET",
+  })
+    .then((responce) => {
+      return responce.json();
+    })
+    .catch((err) => console.log(err));
+};
 export const getTree = () => {
   return fetch(`${API}/categories/tree`, {
     method: "GET",
@@ -181,6 +190,16 @@ export const createProduct = (userId, token, product) => {
 
 export const getProducts = () => {
   return fetch(`${API}/products?limit=undefined`, {
+    method: "GET",
+  })
+    .then((responce) => {
+      return responce.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+export const getAllProducts = () => {
+  return fetch(`${API}/allproducts`, {
     method: "GET",
   })
     .then((responce) => {

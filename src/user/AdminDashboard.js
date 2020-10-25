@@ -23,6 +23,11 @@ const AdminDashboard = () => {
             </Link>
           </li>
           <li className="list-group-item">
+            <Link className="nav-link" to="/create/advertisement">
+              Create Advertisement
+            </Link>
+          </li>
+          <li className="list-group-item">
             <Link className="nav-link" to="/admin/orders">
               View Orders
             </Link>
@@ -35,6 +40,11 @@ const AdminDashboard = () => {
           <li className="list-group-item">
             <Link className="nav-link" to="/admin/products">
               Manage Product
+            </Link>
+          </li>
+          <li className="list-group-item">
+            <Link className="nav-link" to="/admin/advertisements">
+              Manage Advertisement
             </Link>
           </li>
         </ul>
