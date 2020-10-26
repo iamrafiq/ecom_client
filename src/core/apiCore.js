@@ -122,3 +122,24 @@ export const createOrder = (userId, token, createOrderData) => {
     })
     .catch(err => console.log(err))
 }
+
+
+export const getAdvertisementsBySlug = (slug) => {
+    return fetch(`${API}/advertisements/${slug}`, {
+      method: "GET",
+    })
+      .then((responce) => {
+        return responce.json();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  export const getCategoryWithProducts = (slug) => {
+    return fetch(`${API}/category/items/${slug}`, {
+      method: "GET",
+    })
+      .then((responce) => {
+        return responce.json();
+      })
+      .catch((err) => console.log(err));
+  };

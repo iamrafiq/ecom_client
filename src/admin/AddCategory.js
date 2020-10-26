@@ -13,7 +13,7 @@ const AddCategory = () => {
   const [thumbnail, setThumbnail] = useState(null);
   const [values, setValues] = useState({
     name: "",
-    bengaliName:"",
+    bengaliName: "",
     slug: "",
     order: "",
     parents: [],
@@ -49,11 +49,11 @@ const AddCategory = () => {
       if (data && data.error) {
         setValues({ ...values, error: data.error });
       } else {
-        console.log("ad cat", data)
+        console.log("ad cat", data);
         setValues({
           ...values,
           name: "",
-          bengaliName:"",
+          bengaliName: "",
           slug: "",
           order: "",
           trash: false,
@@ -104,17 +104,17 @@ const AddCategory = () => {
     }
 
     if (field === "parent") {
-
-      const parentCat = JSON.parse( event.target.value);
+      const parentCat = JSON.parse(event.target.value);
       formData.set(field, parentCat._id);
       let rc = [];
-      rc.push(parentCat._id);
+      if (parent.name !== 'root'){
+        rc.push(parentCat._id);
+      }
       if (parentCat.recursiveCategories) {
-
-        console.log("rc..",parentCat.name, parentCat.recursiveCategories)
+        console.log("rc..", parentCat.name, parentCat.recursiveCategories);
         rc = rc.concat(parentCat.recursiveCategories);
       }
-      console.log("rc", rc)
+      console.log("rc", rc);
       formData.append("recursiveCats", rc);
     }
     //console.log(field, value)
@@ -210,7 +210,7 @@ const AddCategory = () => {
       </div>
       <div className="form-group">
         <label htmlFor="" className="text-muted">
-        Bengali Name
+          Bengali Name
         </label>
         <input
           onChange={handleChange("bengaliName")}

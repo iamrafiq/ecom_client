@@ -9,9 +9,6 @@ export const sideBarSlice = createSlice({
   reducers: {
     setBar: (state, action) => {
       state.bar = action.payload.bar;
-      if (state.barCallback){
-       //state.barCallback(state.bar)
-      }
     },
     setBarCallback: (state, action) => {
       state.barCallback = action.payload.barCallback;

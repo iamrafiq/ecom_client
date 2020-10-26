@@ -5,6 +5,7 @@ import { SIDE_BAR_WIDTH } from "../../../config";
 import TreeExample from "../../treebeard/tree";
 import { useDispatch } from "react-redux";
 import { setBar } from "../../../redux/sideBarSlice";
+import { loadCategoryWithProduct } from "../../../redux/categoryWithProductSlice";
 
 const styles = {
   sidebar: {
@@ -42,6 +43,7 @@ const SidebarContent = (props) => {
     ? { ...styles.sidebar, ...props.style }
     : styles.sidebar;
  const selectedBar =(bar)=>{
+  dispatch(loadCategoryWithProduct(bar));
    dispatch(setBar({bar}));
  }
   return (

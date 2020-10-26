@@ -22,7 +22,7 @@ function Layout(props) {
 
   const cats =  useSelector(selectCategories)
  
-  
+  console.log("Layout..................")
   return (
     <BrowserRouter>
       <div className="layout">

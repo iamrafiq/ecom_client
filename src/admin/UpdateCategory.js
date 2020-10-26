@@ -118,7 +118,9 @@ const UpdateCategory = ({ match }) => {
       const parentCat = JSON.parse(event.target.value);
       formData.set(field, parentCat._id);
       let rc = [];
-      rc.push(parentCat._id);
+      if (parent.name !== 'root'){
+        rc.push(parentCat._id);
+      }
       if (parentCat.recursiveCategories) {
         rc = rc.concat(parentCat.recursiveCategories);
       }

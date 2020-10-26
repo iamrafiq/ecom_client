@@ -405,6 +405,8 @@ Sidebar.propTypes = {
   // main content to render
   children: PropTypes.node.isRequired,
 
+  //children: PropTypes.node,
+
   // styles
   styles: PropTypes.shape({
     root: PropTypes.object,

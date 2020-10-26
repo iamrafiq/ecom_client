@@ -118,6 +118,7 @@ class App extends React.Component {
     return (
       <div>
         <Sidebar {...sidebarProps}>
+        <div /> 
         </Sidebar>
       </div>
     );

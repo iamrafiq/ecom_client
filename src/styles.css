@@ -39,7 +39,7 @@ product image on card
 jumbotron animation
 */
 
-.jumbotron{
+/* .jumbotron{
     width: 30wh;
     height: 30vh;
     color:#fff;
@@ -48,4 +48,4 @@ jumbotron animation
     -webkit-animation: Gradient 15s ease infinite;
     -moz-animation: Gradient 15s ease infinit;
     animation: Gradient 15s ease infinit;
-}
+} */

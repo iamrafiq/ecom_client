@@ -44,7 +44,8 @@ const ProductComponent = (props) => {
   //     return <PostComponent id={props.match.params.any_slug} />;
   // }
 };
-const Routes = () => (
+const Routes = () =>{
+  return (
   // <BrowserRouter>
   <Switch>
     <Route path="/" exact component={Home} />
@@ -108,6 +109,6 @@ const Routes = () => (
     />
   </Switch>
   // </BrowserRouter>
-);
+)};
 
 export default Routes;
