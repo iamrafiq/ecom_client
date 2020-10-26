@@ -67,3 +67,13 @@ export const createAdvertisement = (userId, token, advertisement) => {
       })
       .catch((err) => console.log(err));
   };
+
+  export const getAdvertisementsById = (id) => {
+    return fetch(`${API}/advertisement/${id}`, {
+      method: "GET",
+    })
+      .then((responce) => {
+        return responce.json();
+      })
+      .catch((err) => console.log(err));
+  };

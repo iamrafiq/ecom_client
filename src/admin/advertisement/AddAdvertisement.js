@@ -108,6 +108,27 @@ const AddAvertisement = () => {
     //   return;
     // }
 
+    let slug="";
+    if (categorySlugs.length > 0 ){
+      slug = categorySlugs;
+    }
+    if (productSlugs.length > 0){
+      if (slug.length>0){
+        slug+=","+productSlugs;
+      }else{
+        slug=productSlugs;
+      }
+    }
+    if (customSlug.length>0){
+      if (slug.length>0){
+        slug+=","+customSlug;
+      }else{
+        slug=customSlug;
+      }
+    }
+    if (slug.length>0){
+      formData.set("slugPages", slug);
+    }
     setValues({ ...values, error: "", loading: true });
     createAdvertisement(user._id, token, formData).then((data) => {
       if (data.error) {
@@ -135,7 +156,7 @@ const AddAvertisement = () => {
 
     if (selectedOption != null) {
       const catsSlug = selectedOption.map((cat, index) => {
-        return cat.value.slug;
+        return cat.obj.slug;
       });
 
 
@@ -152,7 +173,7 @@ const AddAvertisement = () => {
 
     if (selectedOption != null) {
       const productsSlug = selectedOption.map((product, index) => {
-        return product.value.slug;
+        return product.obj.slug;
       });
 
       setValues({
@@ -211,8 +232,9 @@ const AddAvertisement = () => {
           isMulti
           options={categories.map((cat, index) => {
             return {
-              value: cat,
+              value: cat.name,
               label: cat.name,
+              obj:cat,
             };
           })}
         />)}
@@ -228,8 +250,9 @@ const AddAvertisement = () => {
           isMulti
           options={products.map((p, index) => {
             return {
-              value: p,
+              value: p.name,
               label: p.name,
+              obj:p
             };
           })}
         />)}

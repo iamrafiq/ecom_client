@@ -153,8 +153,9 @@ const UpdateProduct = ({ match }) => {
 
         const mapedArray = newArray.map((cat, index) => {
           return {
-            value: cat,
+            value: cat.name,
             label: cat.name,
+            obj:cat
           };
         });
         setDefaultCategoriesForSpinner(mapedArray);
@@ -191,8 +192,8 @@ const UpdateProduct = ({ match }) => {
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: "", loading: true });
-    console.log("from data:", selectedCategories);
-    console.log("from data:", recursiveCategories);
+    // console.log("from data:", selectedCategories);
+    // console.log("from data:", recursiveCategories);
 
     formData.set("cats", selectedCategories);
     formData.set("rc", recursiveCategories);
@@ -233,12 +234,12 @@ const UpdateProduct = ({ match }) => {
 
     if (selectedOption != null) {
       const catsId = selectedOption.map((cat, index) => {
-        return cat.value._id;
+        return cat.obj._id;
       });
 
       const catsRecursive = selectedOption
         .map((cat, index) => {
-          return cat.value.recursiveCategories.map((rc, index) => {
+          return cat.obj.recursiveCategories.map((rc, index) => {
             return rc;
           });
         })
@@ -602,8 +603,9 @@ const UpdateProduct = ({ match }) => {
             isMulti
             options={categories.map((cat, index) => {
               return {
-                value: cat,
+                value: cat.name,
                 label: cat.name,
+                obj:cat,
               };
             })}
           />

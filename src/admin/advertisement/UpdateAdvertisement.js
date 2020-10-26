@@ -3,22 +3,35 @@ import ReactDOM from "react-dom";
 import Layout from "../../core/Layout";
 import { isAuthenticated } from "../../auth";
 import { Link, Redirect } from "react-router-dom";
-import {getCategories } from "../apiAdmin";
-import { createAdvertisement } from "./apiAdvertisement";
+import { getCategories } from "../apiAdmin";
+import { getAllProducts } from "../apiAdmin";
+
+import {
+  getAdvertisementsById,
+  getAdvertisementsBySlug,
+  updateAdvertisement,
+} from "./apiAdvertisement";
 import Select from "react-select";
 
-const UpdateAvertisement = () => {
+const UpdateAvertisement = ({ match }) => {
   const { user, token } = isAuthenticated();
   const [values, setValues] = useState({
     name: "",
     slugPages: "",
     photoUrl: "",
-    categories:"",
-    products:"",
-    customSlug:"",
-    categorySlugs:"",
-    productSlugs:"",
-    loading: false,
+    advertisement: null,
+    categories: [],
+    products: [],
+    customSlug: "",
+    categorySlugs: "",
+    productSlugs: "",
+    slugsCategoryDefault: [],
+    slugsProductDefault: [],
+    slugsCustomDefault: [],
+    productAPICalled: false,
+    categoryAPICalled: false,
+    advertisementAPICalled: false,
+    loading: true,
     error: "",
     createdProduct: "",
     redirectToProfile: false,
@@ -29,11 +42,18 @@ const UpdateAvertisement = () => {
     name,
     slugPages,
     photoUrl,
+    advertisement,
     categories,
     products,
     customSlug,
     categorySlugs,
     productSlugs,
+    slugsCategoryDefault,
+    slugsProductDefault,
+    slugsCustomDefault,
+    productAPICalled,
+    categoryAPICalled,
+    advertisementAPICalled,
     loading,
     error,
     createdProduct,
@@ -41,36 +61,99 @@ const UpdateAvertisement = () => {
     formData,
   } = values;
 
+  const downloadAdvertisementsById = (id) => {
+    getAdvertisementsById(id).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        console.log("products...", data);
 
-  const init = () => {
+        setValues({
+          ...values,
+          name:data.name,
+          photoUrl:data.photoUrl,
+          advertisement: data,
+          advertisementAPICalled: true,
+          formData: new FormData(),
+        });
+      }
+    });
+  };
+
+  const downloadAllProducts = () => {
+    getAllProducts().then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({
+          ...values,
+          products: data,
+          productAPICalled: true,
+          formData: new FormData(),
+        });
+      }
+    });
+  };
+  const downloadAllCategories = () => {
     getCategories().then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
-        console.log("cats...", data);
-
-        const rootless = data.filter(e => e.name !== 'root')
+        const rootless = data.filter((e) => e.name !== "root");
         setValues({
           ...values,
-          name: "",
-          slugPages:"",
-          photoUrl: "",
-          categories:rootless,
-          products: "",
-          customSlug: "",
-          categorySlugs:"",
-          productSlugs:"",
-          loading: false,
+          categories: rootless,
+          categoryAPICalled: true,
           formData: new FormData(),
         });
       }
     });
   };
   useEffect(() => {
-    console.log("use effect");
-    init();
-  }, []);
+    if (advertisement === null) {
+      downloadAdvertisementsById(match.params.advertisementId);
+    }
+    if (products.length <= 0) {
+      downloadAllProducts();
+    }
+    if (categories.length <= 0) {
+      downloadAllCategories();
+    }
+    if (productAPICalled && categoryAPICalled && advertisementAPICalled) {
+      const catsSlug = categories.filter((value) => {
+        if (advertisement.slugPages.includes(value.slug)) {
+          var index = advertisement.slugPages.indexOf(value.slug);
+          advertisement.slugPages.splice(index, 1);
+          return true;
+        }
+      });
+      const prodSlug = products.filter((value) => {
+        if (advertisement.slugPages.includes(value.slug)) {
+          var index = advertisement.slugPages.indexOf(value.slug);
+          advertisement.slugPages.splice(index, 1);
+          return true;
+        }
+      });
+      const otherSlugs = advertisement.slugPages;
+      // console.log("cats slug", catsSlug);
+      // console.log("prod slug", prodSlug);
+      // console.log("other slug",  advertisement.slugPages);
 
+      setValues({
+        ...values,
+        slugsCategoryDefault: catsSlug,
+        categorySlugs:catsSlug.map((cat, index) =>  cat.slug),
+        slugsProductDefault: prodSlug,
+        productSlugs:prodSlug.map((prod, index) =>  prod.slug),
+        customSlugDefault: otherSlugs,
+        customSlug:otherSlugs,
+        productAPICalled: false,
+        categoryAPICalled: false,
+        advertisementAPICalled: false,
+        loading:false
+      });
+    }
+  }, [products, categories, advertisement]);
 
   const handleChange = (field) => (event) => {
     let value = event.target.value;
@@ -91,20 +174,57 @@ const UpdateAvertisement = () => {
     //   return;
     // }
 
-    setValues({ ...values, error: "", loading: true });
-    createAdvertisement(user._id, token, formData).then((data) => {
+    let slug = "";
+    if (categorySlugs.length > 0) {
+      slug = categorySlugs;
+    }
+    if (productSlugs.length > 0) {
+      if (slug.length > 0) {
+        slug += "," + productSlugs;
+      } else {
+        slug = productSlugs;
+      }
+    }
+    if (customSlug.length > 0) {
+      if (slug.length > 0) {
+        slug += "," + customSlug;
+      } else {
+        slug = customSlug;
+      }
+    }
+    if (slug.length > 0) {
+      formData.set("slugPages", slug);
+    }
+    formData.set("name", name);
+    formData.set("photoUrl", photoUrl);
+
+    setValues({ ...values, error: "" });
+    updateAdvertisement(match.params.advertisementId, user._id, token, formData).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
         setValues({
           ...values,
           name: "",
-          slugPages:"",
+          slugPages: "",
           photoUrl: "",
-          products: "",
+          advertisement: null,
+          categories: [],
+          products: [],
           customSlug: "",
-          trash: false,
-          loading: false,
+          categorySlugs: "",
+          productSlugs: "",
+          slugsCategory: [],
+          slugsProduct: [],
+          slugsCustom: [],
+          productAPICalled: false,
+          categoryAPICalled: false,
+          advertisementAPICalled: false,
+          loading: true,
+          error: "",
+          createdProduct: "",
+          redirectToProfile: false,
+          formData: "",
           createdProduct: data.name,
         });
 
@@ -117,22 +237,32 @@ const UpdateAvertisement = () => {
     console.log(`Option selected:`, selectedOption);
 
     if (selectedOption != null) {
-      const catsSlug = selectedOption.map((cat, index) => {
-        return cat.value.slug;
-      });
-
+      const catsSlug = selectedOption.map((cat, index) =>  cat.obj.slug);
 
       setValues({
         ...values,
         categorySlugs: catsSlug.toString(),
       });
     } else {
-      setValues({ ...values, categorySlugs: ""});
+      setValues({ ...values, categorySlugs: "" });
+    }
+  };
+  const handleChangeProducts = (selectedOption) => {
+    console.log(`Option selected:`, selectedOption);
+
+    if (selectedOption != null) {
+      const productsSlug = selectedOption.map((product, index) => product.obj.slug);
+
+      setValues({
+        ...values,
+        productSlugs: productsSlug.toString(),
+      });
+    } else {
+      setValues({ ...values, productSlugs: "" });
     }
   };
   const newPostFrom = () => (
     <form className="mb-3" onSubmit={clickSubmit} id="form1">
-
       <div className="form-group">
         <label htmlFor="" className="text-muted">
           Name
@@ -146,7 +276,7 @@ const UpdateAvertisement = () => {
       </div>
       <div className="form-group">
         <label htmlFor="" className="text-muted">
-        Photo Url
+          Photo Url
         </label>
         <input
           onChange={handleChange("photoUrl")}
@@ -155,27 +285,73 @@ const UpdateAvertisement = () => {
           value={photoUrl}
         />
       </div>
-  
       <div className="form-group">
         <label htmlFor="" className="text-muted">
-          Categories
+          Cust Page Slug: (Coma separeted value)
         </label>
-        <Select
-          onChange={handleChangeCategoris}
-          closeMenuOnSelect={false}
-          // defaultValue={[colourOptions[0], colourOptions[1]]}
-          isMulti
-          options={categories.map((cat, index) => {
-            return {
-              value: cat,
-              label: cat.name,
-            };
-          })}
+        <input
+          onChange={handleChange("customSlug")}
+          type="text"
+          className="form-control"
+          value={customSlug}
         />
       </div>
 
+      <div className="form-group">
+        <label htmlFor="" className="text-muted">
+          Select Categori Pages:
+        </label>
+        {
+          <Select
+            key="cat"
+            onChange={handleChangeCategoris}
+            closeMenuOnSelect={false}
+            defaultValue={slugsCategoryDefault.map((cat, index) => {
+              return {
+                value: cat.name,
+                label: cat.name,
+                obj:cat,
+              };
+            })}
+            isMulti
+            options={categories.map((cat, index) => {
+              return {
+                value: cat.name,
+                label: cat.name,
+                obj:cat,
+              };
+            })}
+          />
+        }
+      </div>
+      <div className="form-group">
+        <label htmlFor="" className="text-muted">
+          Select Product Pages:
+        </label>
+        { 
+          <Select
+            onChange={handleChangeProducts}
+            closeMenuOnSelect={false}
+            defaultValue={slugsProductDefault.map((prod, index) => {
+              return {
+                value: prod.name,
+                label: prod.name,
+                obj:prod
+              };
+            })}
+            isMulti
+            options={products.map((prod, index) => {
+              return {
+                value: prod.name,
+                label: prod.name,
+                obj:prod
+              };
+            })}
+          />
+        }
+      </div>
       <button
-        type="submit"getCategories
+        type="submit"
         form="form1"
         value="Submit"
         className="btn btn-outline-primary mr-5"
@@ -222,19 +398,19 @@ const UpdateAvertisement = () => {
     </Link>
   );
   return (
-    <Layout
+    loading?(showLoading()) : (<Layout
       title=" Add a new product"
       description={`G'day ${user.name}, ready to add a new product?`}
     >
       <div className="row">
         <div className="col-md-8 offset-md-2">
-          {showLoading()}
+          
           {showSuccess()}
           {showError()}
-          {newPostFrom()}
+          { newPostFrom()}
         </div>
       </div>
-    </Layout>
+    </Layout>)
   );
 };
 

@@ -208,14 +208,14 @@ const AddProduct = () => {
 
     if (selectedOption != null) {
       const catsId = selectedOption.map((cat, index) => {
-        return cat.value._id;
+        return cat.obj._id;
       });
 
       // console.log(`cates Id:`, catsId.toString());
 
       const catsRecursive = selectedOption
         .map((cat, index) => {
-          return cat.value.recursiveCategories.map((rc, index) => {
+          return cat.obj.recursiveCategories.map((rc, index) => {
             return rc;
           });
         })
@@ -546,8 +546,9 @@ const AddProduct = () => {
           isMulti
           options={categories.map((cat, index) => {
             return {
-              value: cat,
+              value: cat.name,
               label: cat.name,
+              obj:cat,
             };
           })}
         />
