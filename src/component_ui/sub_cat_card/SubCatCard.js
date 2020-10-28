@@ -22,7 +22,7 @@ export function ProductCard(props) {
 export function SubCatCard(props) {
   const {cat, onClick} = props;
   return (
-    <div className="card" style={{width: "14rem"}} onClick = {()=>{onClick(cat.slug)}}>
+    <div className="card" style={{width: "14rem"}} /*onClick = {()=>{onClick(cat.slug)}}*/>
       <img src={`${API}/category/thumbnail/${cat._id}`} className="card-img-top" alt={cat.name} />
       <div className="card-body mx-auto">
         <p className="card-text ">{cat.name}</p>

@@ -143,7 +143,7 @@ const CategoryItems = (props) => {
                       <div key={el._id} className=" m-1 ">
                         <Link to={el.slug}>
                           <SubCatCard
-                            onClick={onItemSelect}
+                            // onClick={onItemSelect}
                             cat={el}
                             key={el._id}
                           ></SubCatCard>
@@ -155,7 +155,7 @@ const CategoryItems = (props) => {
                       <div key={el._id} className=" m-1 ">
                         <Link to={el.slug}>
                           <ProductCard
-                            onClick={onItemSelect}
+                            // onClick={onItemSelect}
                             key={el._id}
                           ></ProductCard>
                         </Link>

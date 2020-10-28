@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { Treebeard, animations, decorators, theme } from "./index";
 import { includes } from "lodash";
 import { API } from "../../config";
-import * as filters from "./filter";
 const CustomHeader = ({ node, style, prefix }) => (
   <Link
     className="nav-link"
@@ -56,11 +55,8 @@ const CustomHeader = ({ node, style, prefix }) => (
 class TreeExample extends React.Component {
   constructor(props) {
     super(props);
-    console.log("type of ", typeof props.tree);
     this.state = {
-      data: Array.from(props.tree),
-      tree: Array.from(props.tree),
-      slug: undefined,
+      data: props.tree,
       selected: undefined,
     };
     this.slug = undefined;
@@ -68,7 +64,6 @@ class TreeExample extends React.Component {
     this.onToggle = this.onToggle.bind(this);
     this.onSelect = this.onSelect.bind(this);
     this.onViewToBar = this.onViewToBar.bind(this);
-    this.crateRootedTree = this.crateRootedTree.bind(this);
     this.checkSlug = this.checkSlug.bind(this);
     // this.viewToBar = props.viewToBar;
     props.setViewToBarChange(this.onViewToBar);
@@ -92,7 +87,6 @@ class TreeExample extends React.Component {
     this.setBar(node.slug);
     this.setState({ cursor: node });
 
-    //this.onFilterMouseUp({slug:"Home-and-Cleaning"})
   }
   onSelect(node) {
     const { cursor, data } = this.state;
@@ -110,14 +104,7 @@ class TreeExample extends React.Component {
     this.setState(() => ({ cursor: node, data: Object.assign({}, data) }));
   }
 
-  crateRootedTree(tree) {
-    return {
-      name: "react-treebeard",
-      id: 1,
-      toggled: true,
-      children: Array.from(tree),
-    };
-  }
+
   checkSlug = (slug, parent) => {
     for (let i = 0; i < parent.length; i++) {
       if (parent[i].children && parent[i].slug !== slug) {
@@ -133,7 +120,6 @@ class TreeExample extends React.Component {
     }
   };
   onViewToBar({ slug }) {
-    console.log("ditpatched onViewBar", slug)
     this.setState({ slug: slug });
     const { cursor, data } = this.state;
 
@@ -141,7 +127,7 @@ class TreeExample extends React.Component {
     if (cursor) {
       cursor.active = false;
       if (!includes(cursor.children, node)) {
-        //cursor.toggled = false;
+        cursor.toggled = false;
       }
     }
 

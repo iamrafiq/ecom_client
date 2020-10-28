@@ -79,7 +79,6 @@ class TreeNode extends PureComponent {
         const decorators = this.decorators();
         const animations = this.animations();
         const {...restAnimationInfo} = animations.drawer;
-        //console.log("clicking.......deep", slug)
         return (
             <Li style={style.base}>
                 <NodeHeader  {...{decorators, animations, node, style}} onClick={() => this.onClick()}/>

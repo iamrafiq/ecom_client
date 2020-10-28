@@ -55,10 +55,7 @@ const SidebarContent = (props) => {
     dispatch(setBarToView({ barToView: bar }));
   };
   useEffect(() => {
-    console.log("use effect..sidebar content..", state.viewToBarChange);
     if (state.viewToBarChange) {
-      // console.log("use effect..sidebar content", viewToBarChange)
-
       state.viewToBarChange({ slug: viewToBar.value });
     }
   }, [viewToBar]);
