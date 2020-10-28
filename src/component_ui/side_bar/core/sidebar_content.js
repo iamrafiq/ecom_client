@@ -76,7 +76,7 @@ const SidebarContent = (props) => {
               }}
               setBar={(bar) => {
                 selectedBar(bar);
-                props.toggleSideBar();
+               props.toggleSideBar();
               }}
               tree={props.tree}
               viewToBar={viewToBar}

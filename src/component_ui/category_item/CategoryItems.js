@@ -22,7 +22,7 @@ import { selectCategoryWithProduct } from "../../redux/categoryWithProductSlice"
 import { loadCategoryWithProduct } from "../../redux/categoryWithProductSlice";
 import { loadActiveCategories } from "../../redux/categorySlice";
 
-const CategoryItems = (props) => {
+const CategoryItems = ({ match }) => {
   const bar = useSelector(selectSideBarBarToViewSelection);
   const category = useSelector(selectCategoryWithProduct);
   const dispatch = useDispatch();
@@ -39,23 +39,29 @@ const CategoryItems = (props) => {
     loadingComplete: false,
   });
 
-  console.log("bar and props out", bar, props.match.params.slug)
-
-  if (bar && bar !== props.match.params.slug) {
-    // if user reloading the page by using browser not using side bar menu then ditchpatch the slug to sidebar slice
-    // first checking the bar is not same as the props
-    dispatch(loadCategoryWithProduct(props.match.params.slug));
-    console.log("bar and props in", bar, props.match.params.slug)
-
+  console.log("bar and props out", bar, match.params.slug);
+  // if user reloading the page by using browser not using side bar menu then ditchpatch the slug to sidebar slice
+  // first checking the bar is not same as the props
+  if (!bar && !category) {
+    dispatch(loadCategoryWithProduct(match.params.slug));
   }
+   else if (bar && bar !== match.params.slug) {
+    dispatch(loadCategoryWithProduct(match.params.slug));
+  } else if (category && category.slug !== match.params.slug) {
+    dispatch(loadCategoryWithProduct(match.params.slug));
+  }  
 
   useEffect(() => {
-    if (bar && bar !== props.match.params.slug) {
-      // if user reloading the page by using browser not using side bar menu then ditchpatch the slug to sidebar slice
-      // first checking the bar is not same as the props  
-      dispatch(setBarToView({ barToView: props.match.params.slug }));
-      dispatch(setViewToBar({ viewToBar: {key:Math.random().toString(10).slice(2), value: props.match.params.slug} }));
-  
+    if (bar && bar !== match.params.slug) {
+      dispatch(setBarToView({ barToView: match.params.slug }));
+      dispatch(
+        setViewToBar({
+          viewToBar: {
+            key: Math.random().toString(10).slice(2),
+            value: match.params.slug,
+          },
+        })
+      );
     }
   }, [category]);
 
@@ -63,7 +69,6 @@ const CategoryItems = (props) => {
     dispatch(setBarToView({ barToView: slug }));
     dispatch(loadCategoryWithProduct(slug));
     dispatch(setViewToBar({ viewToBar: slug }));
-
   };
   return (
     <div>
@@ -94,8 +99,8 @@ const CategoryItems = (props) => {
           >
             {category.recursiveCategories
               ? category.recursiveCategories.map((item, index) => (
-                  <div key = {Math.random().toString(10).slice(2)}>
-                    <Link  to={item.slug}>
+                  <div key={Math.random().toString(10).slice(2)}>
+                    <Link to={item.slug}>
                       <span>{`${item.name}`}</span>
                     </Link>
                     &nbsp; {">"} &nbsp;

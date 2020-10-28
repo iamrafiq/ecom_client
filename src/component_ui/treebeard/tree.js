@@ -136,7 +136,7 @@ class TreeExample extends React.Component {
       node.toggled =  !node.toggled;
     }
 
-    this.setBar(node.slug);
+    //this.setBar(node.slug);
     this.setState({ cursor: node });
   }
   render() {
