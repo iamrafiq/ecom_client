@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
 import PropTypes from "prop-types";
 import SideBarPanel from "./side_bar_panel";
 import { SIDE_BAR_WIDTH } from "../../../config";
 import TreeExample from "../../treebeard/tree";
-import { useDispatch } from "react-redux";
-import { setBar } from "../../../redux/sideBarSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setBarToView,
+  selectSideBarViewToBarSelection,
+} from "../../../redux/sideBarSlice";
 import { loadCategoryWithProduct } from "../../../redux/categoryWithProductSlice";
 
 const styles = {
@@ -38,14 +42,40 @@ const style = {
 };
 
 const SidebarContent = (props) => {
+  const viewToBar = useSelector(selectSideBarViewToBarSelection);
+  const [state, setState] = useState({
+    viewToBarChange: "",
+  });
   const dispatch = useDispatch();
   const style = props.style
     ? { ...styles.sidebar, ...props.style }
     : styles.sidebar;
- const selectedBar =(bar)=>{
-  dispatch(loadCategoryWithProduct(bar));
-   dispatch(setBar({bar}));
- }
+  const selectedBar = (bar) => {
+    dispatch(loadCategoryWithProduct(bar));
+    dispatch(setBarToView({ barToView: bar }));
+  };
+  useEffect(() => {
+    console.log("use effect..sidebar content..", state.viewToBarChange);
+    if (state.viewToBarChange) {
+      // console.log("use effect..sidebar content", viewToBarChange)
+
+      state.viewToBarChange({ slug: viewToBar });
+    }
+  }, [viewToBar]);
+
+  const getRefinedTree = () => {
+    const arrayTree = Array.from(props.tree);
+    arrayTree.map((ele, index) => {
+      if (ele.slug === viewToBar || ele.slug === "Fruits-and-Vegetables") {
+        ele.active = true;
+      } else {
+        ele.active = false;
+        return ele;
+      }
+    });
+    console.log("ma....ped", arrayTree);
+    return arrayTree;
+  };
   return (
     <SideBarPanel renderTitle={false} title="" style={style}>
       <div style={styles.content}>
@@ -56,10 +86,16 @@ const SidebarContent = (props) => {
         {
           <div>
             <TreeExample
-             setBar ={(bar)=>{
-               selectedBar(bar)
-             }}
-             tree={props.tree}></TreeExample>
+              setViewToBarChange={(callBack) => {
+                setState({ ...state, viewToBarChange: callBack });
+              }}
+              setBar={(bar) => {
+                selectedBar(bar);
+                props.toggleSideBar();
+              }}
+              tree={props.tree}
+              viewToBar={viewToBar}
+            ></TreeExample>
           </div>
         }
       </div>

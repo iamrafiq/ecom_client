@@ -1,7 +1,6 @@
 import React from "react";
 import Sidebar from "./core/sidebar";
 import SidebarContent from "./core/sidebar_content";
-import { getTree } from "../../admin/apiAdmin";
 import { MOBIEL_DEVICE_RESOLUTION } from "../../config";
 
 
@@ -44,20 +43,7 @@ class App extends React.Component {
    
   }
 
-  downloadCategories = () => {
-    this.setState({
-      loading: true,
-    });
-    getTree().then((data) => {
-      if (data ===undefined || data.error) {
-      } else {
-        this.setState({
-          tree: [...this.state.tree, ...data],
-          loading: false,
-        });
-      }
-    });
-  };
+ 
 
   componentWillMount() {
    // this.downloadCategories();
@@ -92,21 +78,7 @@ class App extends React.Component {
 
  
     const { loading, tree } = this.state;
-    const sidebar = <SidebarContent tree={tree} />;
-    // const contentHeader = (
-    //   <span>
-    //     {!this.state.docked && (
-    //       <a
-    //         onClick={this.toggleOpen}
-    //         href="#"
-    //         style={styles.contentHeaderMenuLink}
-    //       >
-    //         =
-    //       </a>
-    //     )}
-    //     <span> Responsive React Sidebar</span>
-    //   </span>
-    // );
+    const sidebar = <SidebarContent toggleSideBar={this.toggleOpen} tree={tree} />;
 
     const sidebarProps = {
       sidebar,

@@ -29,6 +29,7 @@ export default {
                     display: 'inline-block',
                     verticalAlign: 'top',
                     marginLeft: '-5px',
+                    marginTop:"8px",
                     height: '24px',
                     width: '24px',
                     float:"right"

@@ -9,8 +9,8 @@ import {Ul} from './common';
 import defaultDecorators from './Decorators';
 import TreeNode from './TreeNode';
 
-const TreeBeard = ({animations, decorators, data, onToggle, style}) => (
-    <Ul style={{...defaultTheme.tree.base, ...style.tree.base}}>
+const TreeBeard = ({animations, decorators, data, onToggle, style}) => {
+    return (<Ul style={{...defaultTheme.tree.base, ...style.tree.base}}>
         {castArray(data).map(node => (
             <TreeNode
                 {...{decorators, node, onToggle, animations}}
@@ -19,7 +19,7 @@ const TreeBeard = ({animations, decorators, data, onToggle, style}) => (
             />
         ))}
     </Ul>
-);
+)};
 
 TreeBeard.propTypes = {
     style: PropTypes.object,

@@ -19,6 +19,7 @@ class TreeNode extends PureComponent {
         const {node, onToggle} = this.props;
         const {toggled} = node;
         if (onToggle) {
+            
             onToggle(node, !toggled);
         }
     }
@@ -62,6 +63,7 @@ class TreeNode extends PureComponent {
             <Ul style={style.subtree}>
                 {children.map(child => (
                     <TreeNode
+                        
                         {...{onToggle, animations, style}}
                         decorators={propDecorators}
                         key={child._id || randomString()}
@@ -77,9 +79,10 @@ class TreeNode extends PureComponent {
         const decorators = this.decorators();
         const animations = this.animations();
         const {...restAnimationInfo} = animations.drawer;
+        //console.log("clicking.......deep", slug)
         return (
             <Li style={style.base}>
-                <NodeHeader {...{decorators, animations, node, style}} onClick={() => this.onClick()}/>
+                <NodeHeader  {...{decorators, animations, node, style}} onClick={() => this.onClick()}/>
                 <Drawer restAnimationInfo={{...restAnimationInfo}}>
                     {node.toggled ? this.renderChildren(decorators, animations) : null}
                 </Drawer>

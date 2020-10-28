@@ -9,6 +9,7 @@ export const categoriesSlice = createSlice({
   reducers: {
     setCategories: (state, action) => {
       state.cats = action.payload.cats;
+      console.log("ssssssssssssssss", state.cats)
     },
   },
 });
@@ -23,6 +24,7 @@ export const loadCategories = () => (dispatch) => {
     }
   });
 };
+
 
 export const selectCategories = (state) => {
   return state.categories.cats;

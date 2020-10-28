@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 import { Treebeard, animations, decorators, theme } from "./index";
 import { includes } from "lodash";
 import { API } from "../../config";
+import * as filters from "./filter";
 const CustomHeader = ({ node, style, prefix }) => (
   <Link
     className="nav-link"
     to={node.slug}
-    
+
     // {{
     //   pathname: `${
     //     node.children ? "/category/children/": "/category/products/"
@@ -55,12 +56,26 @@ const CustomHeader = ({ node, style, prefix }) => (
 class TreeExample extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    console.log("type of ", typeof props.tree);
+    this.state = {
+      data: Array.from(props.tree),
+      tree: Array.from(props.tree),
+      slug: undefined,
+      selected: undefined,
+    };
+    this.slug = undefined;
     this.setBar = props.setBar;
     this.onToggle = this.onToggle.bind(this);
+    this.onSelect = this.onSelect.bind(this);
+    this.onViewToBar = this.onViewToBar.bind(this);
+    this.crateRootedTree = this.crateRootedTree.bind(this);
+    this.checkSlug = this.checkSlug.bind(this);
+    // this.viewToBar = props.viewToBar;
+    props.setViewToBarChange(this.onViewToBar);
   }
   onToggle(node, toggled) {
     const { cursor } = this.state;
+    console.log("cursor....", cursor);
     if (cursor) {
       cursor.active = false;
       if (!includes(cursor.children, node)) {
@@ -72,12 +87,76 @@ class TreeExample extends React.Component {
     if (node.children) {
       node.toggled = toggled;
     } else {
-      
     }
-    this.setBar(node.slug)
+
+    this.setBar(node.slug);
+    this.setState({ cursor: node });
+
+    //this.onFilterMouseUp({slug:"Home-and-Cleaning"})
+  }
+  onSelect(node) {
+    console.log("on select", node);
+    const { cursor, data } = this.state;
+
+    if (cursor) {
+      this.setState(() => ({ cursor, active: false }));
+      if (!includes(cursor.children, node)) {
+        cursor.toggled = false;
+        cursor.selected = false;
+      }
+    }
+
+    node.selected = true;
+
+    this.setState(() => ({ cursor: node, data: Object.assign({}, data) }));
+  }
+
+  crateRootedTree(tree) {
+    return {
+      name: "react-treebeard",
+      id: 1,
+      toggled: true,
+      children: Array.from(tree),
+    };
+  }
+   checkSlug = (slug, parent) => {
+    for (let i = 0; i < parent.length; i++) {
+      if (parent[i].children && parent[i].slug !== slug) {
+        const value = this.checkSlug(slug, parent[i].children);
+        if (value){
+          return value;
+        }
+      } else {
+        if (parent[i].slug === slug) {
+          return parent[i];
+        }
+      }
+    }
+  }
+  onViewToBar({ slug }) {
+    this.setState({ slug: slug });
+    const { cursor, data } = this.state;
+
+    let node =this.checkSlug(slug, data);
+
+    if (cursor) {
+      cursor.active = false;
+      if (!includes(cursor.children, node)) {
+        cursor.toggled = false;
+      }
+    }
+
+    node.active = true;
+    if (node.children) {
+      node.toggled = true;
+    } else {
+    }
+
+    this.setBar(node.slug);
     this.setState({ cursor: node });
   }
   render() {
+    const { data, slug, cursor } = this.state;
     decorators.Header = CustomHeader;
     //  decorators.Container = CutomContainer;
 
@@ -90,9 +169,10 @@ class TreeExample extends React.Component {
       <React.Fragment>
         <div>
           <Treebeard
-            data={this.props.tree}
+            data={data}
             decorators={decorators}
             onToggle={this.onToggle}
+            onSelect={this.onSelect}
             animations={animations}
             style={{
               tree: {

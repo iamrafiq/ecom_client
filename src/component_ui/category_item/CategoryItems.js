@@ -10,13 +10,20 @@ import "../../common/common.css";
 import "./category_item.css";
 import { useSelector, useDispatch } from "react-redux";
 
-import { selectSideBarSelection } from "../../redux/sideBarSlice";
-import { changeBar, setBar } from "../../redux/sideBarSlice";
+import { selectSideBarBarToViewSelection } from "../../redux/sideBarSlice";
+import {
+  changeBar,
+  setBarToView,
+  setViewToBar,
+} from "../../redux/sideBarSlice";
 import { getAdvertisementsBySlug } from "../../core/apiCore";
 import { API } from "../../config";
 import { selectCategoryWithProduct } from "../../redux/categoryWithProductSlice";
+import { loadCategoryWithProduct } from "../../redux/categoryWithProductSlice";
+import { loadActiveCategories } from "../../redux/categorySlice";
+
 const CategoryItems = (props) => {
-  //const bar = useSelector(selectSideBarSelection);
+  const bar = useSelector(selectSideBarBarToViewSelection);
   const category = useSelector(selectCategoryWithProduct);
   const dispatch = useDispatch();
 
@@ -34,111 +41,93 @@ const CategoryItems = (props) => {
     loadingComplete: false,
   });
 
-  // if (bar !== props.match.params.slug) {
-  //   // if user reloading the page by using browser not using side bar menu then ditchpatch the slug to sidebar slice
-  //   // first checking the bar is not same as the props
-  //   dispatch(setBar({ bar: props.match.params.slug }));
-  // }
+  if (bar && bar !== props.match.params.slug) {
+    // if user reloading the page by using browser not using side bar menu then ditchpatch the slug to sidebar slice
+    // first checking the bar is not same as the props
+    dispatch(setBarToView({ barToView: props.match.params.slug }));
+    dispatch(loadCategoryWithProduct(props.match.params.slug));
+    dispatch(setViewToBar({ viewToBar: props.match.params.slug }));
+
+  }
   console.log("slug...", props.match.params.slug);
-  const {
-    selectedCategory,
-    subcats,
-    recursiveCategories,
-    products,
-    advertisements,
-    loading,
-    loadingComplete,
-  } = values;
-  const { renderKey } = rerendar;
-  let init = (barName) => {
-    //console.log("init.. slug", barName);
 
-    // getCategoryItems(barName).then((data) => {
-    //   if (data && data.error) {
-    //     setValues({
-    //       ...values,
-    //       selectedCategory: null,
-    //       subcats: [],
-    //       recursiveCategories: [],
-    //       products: [],
-    //       error: data.error,
-    //       loading: false,
-    //     });
-    //   } else {
-    //     console.log("c.........", data);
-    //     setValues({
-    //       ...values,
-    //       selectedCategory: data,
-    //       subcats: data.subcats,
-    //       recursiveCategories: data.recursiveCategories,
-    //       products: data.products,
-    //       loading: false,
-    //       loadingComplete: true,
-    //     });
-    //     setRerendar(Math.random());
-    //   }
-    // });
-
-    getAdvertisementsBySlug(barName).then((data) => {
-      if (data && data.error) {
-        //setValues({ ...values,  error: data.error });
-      } else {
-        setValues({
-          ...values,
-          advertisements: data,
-        });
-      }
-    });
-  };
   useEffect(() => {}, [category]);
 
+  const onItemSelect = (slug) => {
+    console.log("on item select");
+    dispatch(setBarToView({ barToView: slug }));
+    dispatch(loadCategoryWithProduct(slug));
+    dispatch(setViewToBar({ viewToBar: slug }));
+
+  };
   return (
     <div>
       {false ? (
         <h2>Loading....</h2>
       ) : (
         <div>
-          {/* {advertisements.length > 0 && (
+          {category.advertisements && (
             <div
-              className="jumbotron text-center mx-auto d-block img-fluid unlock-icon"
+              className="jumbotron text-center mx-auto d-block img-fluid unlock-icon mb-3 p-0"
               style={{ padding: 0, maxWidth: "700px" }}
             >
               <img
                 className="card-img"
-                src={advertisements[0].photoUrl}
-                alt={advertisements[0].name}
+                src={category.advertisements[0].photoUrl}
+                alt={category.advertisements[0].name}
               />
             </div>
-          )} */}
+          )}
 
-          <div className="row" style={{}}>
+          <div
+            style={{
+              margin: "0px",
+              padding: "0px",
+              display: "flex",
+              flexDirection: "row",
+            }}
+          >
             {category.recursiveCategories
               ? category.recursiveCategories.map((item, index) => (
-                  <Link className="nav-link" to={item.slug}>
-                    <div>
-                      <div>{`${item.name}`}</div>
-                    </div>
-                  </Link>
+                  <div>
+                    <Link to={item.slug}>
+                      <span>{`${item.name}`}</span>
+                    </Link>
+                    &nbsp; {">"} &nbsp;
+                  </div>
                 ))
               : ""}
             {category ? (
-              <Link className="nav-link" to={category.slug}>
+              <div>
                 <div>
                   <div>{`${category.name}`}</div>
                 </div>
-              </Link>
+              </div>
             ) : (
               ""
             )}
           </div>
-          <div className="row" style={{}}>
-            <div className="col-sm-5">
-              <hr />
+
+          <div
+            className="row"
+            style={{
+              margin: "0px",
+              padding: "0px",
+              display: "flex",
+              flexDirection: "row",
+            }}
+          >
+            <hr style={{ flex: "1" }} />
+            <div
+              style={{
+                margin: "auto",
+                paddingLeft: "50px",
+                paddingRight: "50px",
+              }}
+            >
+              {category && category.name}
             </div>
-            <div className="col-sm-2">Fresh Vegitalble</div>
-            <div className="col-sm-5">
-              <hr />
-            </div>
+            <hr style={{ flex: "1" }} />
           </div>
           <div className="container" style={{ marginTop: "30px" }}>
             <div className="mx-2">
@@ -147,13 +136,24 @@ const CategoryItems = (props) => {
                   {category.subcats && category.subcats.length > 0 ? (
                     category.subcats.map((el, index) => (
                       <div key={index} className=" m-1 ">
-                        <SubCatCard cat={el} key={index}></SubCatCard>
+                        <Link to={el.slug}>
+                          <SubCatCard
+                            onClick={onItemSelect}
+                            cat={el}
+                            key={index}
+                          ></SubCatCard>
+                        </Link>
                       </div>
                     ))
                   ) : category.products && category.products.length > 0 ? (
                     category.products.map((el, index) => (
                       <div key={index} className=" m-1 ">
-                        <ProductCard key={index}></ProductCard>
+                        <Link to={el.slug}>
+                          <ProductCard
+                            onClick={onItemSelect}
+                            key={index}
+                          ></ProductCard>
+                        </Link>
                       </div>
                     ))
                   ) : (
