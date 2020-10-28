@@ -75,19 +75,19 @@ class TreeExample extends React.Component {
   }
   onToggle(node, toggled) {
     const { cursor } = this.state;
-    console.log("cursor....", cursor);
     if (cursor) {
       cursor.active = false;
       if (!includes(cursor.children, node)) {
-        cursor.toggled = false;
+        //cursor.toggled = false;
       }
     }
 
     node.active = true;
     if (node.children) {
-      node.toggled = toggled;
-    } else {
+      node.toggled = !node.toggled;
     }
+
+    this.setState(() => ({ cursor: node }));
 
     this.setBar(node.slug);
     this.setState({ cursor: node });
@@ -95,7 +95,6 @@ class TreeExample extends React.Component {
     //this.onFilterMouseUp({slug:"Home-and-Cleaning"})
   }
   onSelect(node) {
-    console.log("on select", node);
     const { cursor, data } = this.state;
 
     if (cursor) {
@@ -119,11 +118,11 @@ class TreeExample extends React.Component {
       children: Array.from(tree),
     };
   }
-   checkSlug = (slug, parent) => {
+  checkSlug = (slug, parent) => {
     for (let i = 0; i < parent.length; i++) {
       if (parent[i].children && parent[i].slug !== slug) {
         const value = this.checkSlug(slug, parent[i].children);
-        if (value){
+        if (value) {
           return value;
         }
       } else {
@@ -132,24 +131,23 @@ class TreeExample extends React.Component {
         }
       }
     }
-  }
+  };
   onViewToBar({ slug }) {
+    console.log("ditpatched onViewBar", slug)
     this.setState({ slug: slug });
     const { cursor, data } = this.state;
 
-    let node =this.checkSlug(slug, data);
-
+    let node = this.checkSlug(slug, data);
     if (cursor) {
       cursor.active = false;
       if (!includes(cursor.children, node)) {
-        cursor.toggled = false;
+        //cursor.toggled = false;
       }
     }
 
     node.active = true;
     if (node.children) {
-      node.toggled = true;
-    } else {
+      node.toggled =  !node.toggled;
     }
 
     this.setBar(node.slug);

@@ -4,7 +4,7 @@ export const sideBarSlice = createSlice({
   name: "sideBar",
   initialState: {
     barToView: "",
-    viewToBar: "",
+    viewToBar: {key:"", value:""},
     barCallback:""
   },
   reducers: {

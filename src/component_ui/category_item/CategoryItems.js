@@ -27,8 +27,6 @@ const CategoryItems = (props) => {
   const category = useSelector(selectCategoryWithProduct);
   const dispatch = useDispatch();
 
-  console.log("category", category);
-  console.log("propps", props);
   const [rerendar, setRerendar] = useState(0);
   const [values, setValues] = useState({
     selectedCategory: null,
@@ -41,20 +39,27 @@ const CategoryItems = (props) => {
     loadingComplete: false,
   });
 
+  console.log("bar and props out", bar, props.match.params.slug)
+
   if (bar && bar !== props.match.params.slug) {
     // if user reloading the page by using browser not using side bar menu then ditchpatch the slug to sidebar slice
     // first checking the bar is not same as the props
-    dispatch(setBarToView({ barToView: props.match.params.slug }));
     dispatch(loadCategoryWithProduct(props.match.params.slug));
-    dispatch(setViewToBar({ viewToBar: props.match.params.slug }));
+    console.log("bar and props in", bar, props.match.params.slug)
 
   }
-  console.log("slug...", props.match.params.slug);
 
-  useEffect(() => {}, [category]);
+  useEffect(() => {
+    if (bar && bar !== props.match.params.slug) {
+      // if user reloading the page by using browser not using side bar menu then ditchpatch the slug to sidebar slice
+      // first checking the bar is not same as the props  
+      dispatch(setBarToView({ barToView: props.match.params.slug }));
+      dispatch(setViewToBar({ viewToBar: {key:Math.random().toString(10).slice(2), value: props.match.params.slug} }));
+  
+    }
+  }, [category]);
 
   const onItemSelect = (slug) => {
-    console.log("on item select");
     dispatch(setBarToView({ barToView: slug }));
     dispatch(loadCategoryWithProduct(slug));
     dispatch(setViewToBar({ viewToBar: slug }));
@@ -89,8 +94,8 @@ const CategoryItems = (props) => {
           >
             {category.recursiveCategories
               ? category.recursiveCategories.map((item, index) => (
-                  <div>
-                    <Link to={item.slug}>
+                  <div key = {Math.random().toString(10).slice(2)}>
+                    <Link  to={item.slug}>
                       <span>{`${item.name}`}</span>
                     </Link>
                     &nbsp; {">"} &nbsp;
@@ -135,23 +140,23 @@ const CategoryItems = (props) => {
                 <div className="row">
                   {category.subcats && category.subcats.length > 0 ? (
                     category.subcats.map((el, index) => (
-                      <div key={index} className=" m-1 ">
+                      <div key={el._id} className=" m-1 ">
                         <Link to={el.slug}>
                           <SubCatCard
                             onClick={onItemSelect}
                             cat={el}
-                            key={index}
+                            key={el._id}
                           ></SubCatCard>
                         </Link>
                       </div>
                     ))
                   ) : category.products && category.products.length > 0 ? (
                     category.products.map((el, index) => (
-                      <div key={index} className=" m-1 ">
+                      <div key={el._id} className=" m-1 ">
                         <Link to={el.slug}>
                           <ProductCard
                             onClick={onItemSelect}
-                            key={index}
+                            key={el._id}
                           ></ProductCard>
                         </Link>
                       </div>

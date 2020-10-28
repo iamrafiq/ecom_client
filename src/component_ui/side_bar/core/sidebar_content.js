@@ -59,23 +59,11 @@ const SidebarContent = (props) => {
     if (state.viewToBarChange) {
       // console.log("use effect..sidebar content", viewToBarChange)
 
-      state.viewToBarChange({ slug: viewToBar });
+      state.viewToBarChange({ slug: viewToBar.value });
     }
   }, [viewToBar]);
 
-  const getRefinedTree = () => {
-    const arrayTree = Array.from(props.tree);
-    arrayTree.map((ele, index) => {
-      if (ele.slug === viewToBar || ele.slug === "Fruits-and-Vegetables") {
-        ele.active = true;
-      } else {
-        ele.active = false;
-        return ele;
-      }
-    });
-    console.log("ma....ped", arrayTree);
-    return arrayTree;
-  };
+
   return (
     <SideBarPanel renderTitle={false} title="" style={style}>
       <div style={styles.content}>
