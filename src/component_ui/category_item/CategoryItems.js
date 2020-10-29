@@ -16,7 +16,7 @@ import {
   setBarToView,
   setViewToBar,
 } from "../../redux/sideBarSlice";
-import { getAdvertisementsBySlug } from "../../core/apiCore";
+import { getAdvertisementsBySlug, getProducts } from "../../core/apiCore";
 import { API } from "../../config";
 import { selectCategoryWithProduct } from "../../redux/categoryWithProductSlice";
 import { loadCategoryWithProduct } from "../../redux/categoryWithProductSlice";
@@ -44,12 +44,11 @@ const CategoryItems = ({ match }) => {
   // first checking the bar is not same as the props
   if (!bar && !category) {
     dispatch(loadCategoryWithProduct(match.params.slug));
-  }
-   else if (bar && bar !== match.params.slug) {
+  } else if (bar && bar !== match.params.slug) {
     dispatch(loadCategoryWithProduct(match.params.slug));
   } else if (category && category.slug !== match.params.slug) {
     dispatch(loadCategoryWithProduct(match.params.slug));
-  }  
+  }
 
   useEffect(() => {
     if (bar && bar !== match.params.slug) {
@@ -139,7 +138,15 @@ const CategoryItems = ({ match }) => {
             </div>
             <hr style={{ flex: "1" }} />
           </div>
-          <div className="container" style={{ marginTop: "30px" }}>
+          <div >
+            {category.subcats && category.subcats.length > 0
+              ? getSubcates(category.subcats)
+              : category.products && category.products.length > 0
+              ? getSubcatsProduct(category.products.length)
+              : getNothingFound()}
+          </div>
+
+          {/* <div className="container" style={{ marginTop: "30px" }}>
             <div className="mx-2">
               <div className="col-12">
                 <div className="row">
@@ -173,11 +180,49 @@ const CategoryItems = ({ match }) => {
                 <hr />
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       )}
     </div>
   );
 };
+
+const getSubcates = (items) => {
+  var test = [];
+
+  for (var j = 0; j < 25; j++) {
+    test[j] = { i: 89, j: i };
+  }
+  var chunkSize = 6;
+  var R = [];
+  for (var i = 0; i < test.length; i += chunkSize) {
+    R.push(test.slice(i, i + chunkSize));
+  }
+
+  // return (
+  //   <div class="container">
+  //     <div class="row">
+  //       {test.map((item, index) => (
+  //         <ProductCard></ProductCard>
+  //       ))}
+  //     </div>
+  //   </div>
+  // );
+  return R.map((row, index) => {
+    return (
+      <div class="row" style={{display:"flex", flexDirection:"row", alignItems: "center", justifyContent: "center"}} >
+        {row.map((ele, index) => {
+          return (
+            <div class="col-6 col-sm-6 col-md-5 col-xl-2">
+              <ProductCard></ProductCard>
+            </div>
+          );
+        })}
+      </div>
+    );
+  });
+};
+const getSubcatsProduct = (items) => {};
+const getNothingFound = (items) => {};
 
 export default CategoryItems;

@@ -1,37 +1,120 @@
 import React from "react";
-import  "./ProductCard.css";
+import "./ProductCard.css";
 
 export default function ProductCard(props) {
   return (
-    <div className="card">
-      <div className="header">
-        <span className="title-discount">GET 1% OFF</span>
-        <span className="title-discount">I</span>
-      </div>
-      <span className="image">
-        <img src="http://alupiaj.com/images/mp2.png" />
-      </span>
-
-      <div className="content">
-        <span className="title-discount">I</span>
-        <span className="company-name">Philips</span>
-        <span>Philips 100W engergy saving light bulb</span>
-        <span className="rattings">
-          <span>4.5 *</span>345 Rattings<span></span>
-        </span>
-        <span className="mrp">
-          <span>&#2547;</span>
-          <span className="original-price">
-            <del> 560</del>
-          </span>
-          <span className="discounted-price"> 403</span>
-        </span>
-      </div>
-      <div className="form">
-        <input className="input-qty" type="number" placeholder="Qty" name="qty" />
-        <button className="button-add" type="button">
-          Add To Cart
-        </button>
+    <div class="container">
+      <div class="row">
+        <div className="col-md-4 mb-3">
+          <div className="card h-100">
+            <div className="d-flex justify-content-between position-absolute w-100">
+              <div className="label-new">
+                <span className="text-white bg-success small d-flex align-items-center px-2 py-1">
+                  <i className="fa fa-star" aria-hidden="true"></i>
+                  <span className="ml-1">New</span>
+                </span>
+              </div>
+              <div className="label-sale">
+                <span className="text-white bg-primary small d-flex align-items-center px-2 py-1">
+                  <i className="fa fa-tag" aria-hidden="true"></i>
+                  <span className="ml-1">Sale</span>
+                </span>
+              </div>
+            </div>
+            <a href="#">
+              <img
+                src="https://picsum.photos/700/550"
+                class="card-img-top"
+                alt="Product"
+              />
+            </a>
+            <div className="card-body px-2 pb-2 pt-1">
+              <div className="d-flex justify-content-between">
+                <div>
+                  <p className="h4 text-primary">$129,99</p>
+                </div>
+                <div>
+                  <a
+                    href="#"
+                    class="text-secondary lead"
+                    data-toggle="tooltip"
+                    data-placement="left"
+                    title="Compare"
+                  >
+                    <i className="fa fa-line-chart" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </div>
+              <p className="text-warning d-flex align-items-center mb-2">
+                <i className="fa fa-star" aria-hidden="true"></i>
+                <i className="fa fa-star" aria-hidden="true"></i>
+                <i className="fa fa-star" aria-hidden="true"></i>
+                <i className="fa fa-star" aria-hidden="true"></i>
+                <i className="fa fa-star" aria-hidden="true"></i>
+              </p>
+              <p className="mb-0">
+                <strong>
+                  <a href="#" class="text-secondary">
+                    Product Title
+                  </a>
+                </strong>
+              </p>
+              <p className="mb-1">
+                <small>
+                  <a href="#" className="text-secondary">
+                    Brands
+                  </a>
+                </small>
+              </p>
+              <div className="d-flex mb-3 justify-content-between">
+                <div>
+                  <p className="mb-0 small">
+                    <b>UPC: </b> 2310010
+                  </p>
+                  <p clclassNameass="mb-0 small">
+                    <b>PART#: </b> 2121
+                  </p>
+                  <p className="mb-0 small">
+                    <b>MPN#: </b> mpn22651
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="mb-0 small">
+                    <b>Free Shipping</b>
+                  </p>
+                  <p className="mb-0 small">
+                    <b>MSRP: </b> $119.99
+                  </p>
+                  <p className="mb-0 small">
+                    <b>REG: </b> $19.99
+                  </p>
+                  <p className="mb-0 small text-primary">
+                    <span className="font-weight-bold">Save</span> $20.00 (16%)
+                  </p>
+                </div>
+              </div>
+              <div className="d-flex justify-content-between">
+                <div className="col px-0">
+                  <button className="btn btn-outline-primary btn-block">
+                    Add To Cart
+                    <i className="fa fa-shopping-basket" aria-hidden="true"></i>
+                  </button>
+                </div>
+                <div className="ml-2">
+                  <a
+                    href="#"
+                    className="btn btn-outline-success"
+                    data-toggle="tooltip"
+                    data-placement="left"
+                    title="Add to Wishlist"
+                  >
+                    <i className="fa fa-heart" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

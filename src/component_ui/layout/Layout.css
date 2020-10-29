@@ -10,8 +10,8 @@
   width: 100%;
   padding-top: 4rem; /*top bar height*/
   padding-left: 20rem; /*side bar width + padding*/
+  background-color:white;
   padding-right: 2rem;
-  background-color:whitesmoke;
 }
 
 .layout-body-full {
@@ -23,8 +23,8 @@
   .layout-body {
     position: absolute;
     padding-top: 5rem;
-    padding-left: 0rem;
-    padding-right: 0rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
 
   }
 }
