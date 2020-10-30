@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 // import { getCategoryItems } from "../../admin/apiAdmin";
 
 // import ProductCard from "../product_card/ProductCard";
-import { ProductCard, SubCatCard } from "../sub_cat_card/SubCatCard";
+import { ProductCard, SubCatCard } from "../content_card/Card";
 import "../../common/common.css";
 import "./category_item.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -138,7 +138,7 @@ const CategoryItems = ({ match }) => {
             </div>
             <hr style={{ flex: "1" }} />
           </div>
-          <div >
+          <div className="grid">
             {category.subcats && category.subcats.length > 0
               ? getSubcates(category.subcats)
               : category.products && category.products.length > 0
@@ -191,36 +191,35 @@ const getSubcates = (items) => {
   var test = [];
 
   for (var j = 0; j < 25; j++) {
-    test[j] = { i: 89, j: i };
+    test[j] = { i: 89, j: j };
   }
-  var chunkSize = 6;
-  var R = [];
-  for (var i = 0; i < test.length; i += chunkSize) {
-    R.push(test.slice(i, i + chunkSize));
-  }
+  // var chunkSize = 6;
+  // var R = [];
+  // for (var i = 0; i < test.length; i += chunkSize) {
+  //   R.push(test.slice(i, i + chunkSize));
+  // }
 
-  // return (
-  //   <div class="container">
-  //     <div class="row">
-  //       {test.map((item, index) => (
-  //         <ProductCard></ProductCard>
-  //       ))}
+  return test.map((item, index) => (
+    <div>
+      <ProductCard index={index}></ProductCard>
+    </div>
+  ));
+
+  // return R.map((row, index) => {
+  //   return (
+  //     <div
+  //       style={{
+  //         display: "flex",
+  //         justifyContent: "space-arround",
+  //         flexWrap: "wrap",
+  //       }}
+  //     >
+  //       {row.map((ele, index) => {
+  //         return <ProductCard></ProductCard>;
+  //       })}
   //     </div>
-  //   </div>
-  // );
-  return R.map((row, index) => {
-    return (
-      <div class="row" style={{display:"flex", flexDirection:"row", alignItems: "center", justifyContent: "center"}} >
-        {row.map((ele, index) => {
-          return (
-            <div class="col-6 col-sm-6 col-md-5 col-xl-2">
-              <ProductCard></ProductCard>
-            </div>
-          );
-        })}
-      </div>
-    );
-  });
+  //   );
+  // });
 };
 const getSubcatsProduct = (items) => {};
 const getNothingFound = (items) => {};

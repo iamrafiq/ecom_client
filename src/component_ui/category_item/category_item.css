@@ -1,12 +1,10 @@
-.box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #aaa;
-    margin: 2px 0;
-    padding: 0px;
-    width: 100%;
-    height: 200px;
-    border: 2px #ccc solid;
-    color: #fff;
-  }
+.grid {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.grid>* {
+  height: 19rem;
+  background-color: white;
+}
