@@ -41,14 +41,7 @@ function Product({ product }) {
 
   const dispatch = useDispatch();
   //dispatch(setSlug({ slug: product.slug }));
-  useEffect(() => {
-    if (selectedHoverSlug !== product.slug) {
-      // remove overlay
-    }
-    if (language) {
-      // refresh screen
-    }
-  }, [productFromCart]);
+  useEffect(() => {}, [productFromCart, language]);
 
   const onClickAddToCart = () => {
     dispatch(addItem({ product: product }));
@@ -59,13 +52,16 @@ function Product({ product }) {
   const onHoverProduct = () => {
     dispatch(setSlug({ slug: product.slug }));
   };
+  const onClickDetails = () => {
+    console.log("on click details");
+  };
   const totalPrice = () => {
-    if (applyDiscounts){
+    if (applyDiscounts) {
       return productFromCart.qtyCart * cropPrice;
-    }else{
+    } else {
       return productFromCart.qtyCart * mrp;
     }
-  }
+  };
   return (
     <div className="product-card">
       <div
@@ -92,12 +88,12 @@ function Product({ product }) {
           <div className="price">
             {applyDiscounts ? (
               cropPrice ? (
-                <div>
+                <div className="crop">
                   <span className="mrp product-card__price-text-color-red">
-                    &#2547; 100
+                    &#2547; {cropPrice}
                   </span>
                   <span className="discounted-mrp">
-                    <del>&#2547; 95</del>
+                    <del>&#2547; {mrp}</del>
                   </span>
                 </div>
               ) : (
@@ -113,15 +109,12 @@ function Product({ product }) {
         <div className="content-overly">
           {productFromCart ? (
             <div className="add-to-cart">
-              <div className="amount">
-          &#2547;{" "}{totalPrice()}
-               
-              </div>
+              <div className="amount">&#2547; {totalPrice()}</div>
               <div className="actions-text">
                 <div className="actions">
                   <span
                     className="action-sub"
-                    onClick={()=>onClickRemoveFromCart()}
+                    onClick={() => onClickRemoveFromCart()}
                   >
                     -
                   </span>
@@ -129,7 +122,10 @@ function Product({ product }) {
                     {" "}
                     {productFromCart.qtyCart}{" "}
                   </span>
-                  <span className="action-add" onClick={()=>onClickAddToCart()}>
+                  <span
+                    className="action-add"
+                    onClick={() => onClickAddToCart()}
+                  >
                     +
                   </span>
                 </div>
@@ -137,7 +133,7 @@ function Product({ product }) {
               </div>
             </div>
           ) : (
-            <div className="add-text" onClick={()=>onClickAddToCart()}>
+            <div className="add-text" onClick={() => onClickAddToCart()}>
               <div className="text">Add to shopping bag</div>
             </div>
           )}
@@ -146,22 +142,29 @@ function Product({ product }) {
         ""
       )}
 
-      <div className="icon-overly">
+      <div className="icon-overly" onClick={() => onClickDetails()}>
         <FontAwesome className="details-icon" name="info-circle" />
       </div>
 
-      {productFromCart && }
-      {/* <div class="btn btn-full">
+      {productFromCart ? (
+        <div className="btn-bag">
+          <div className="btn-bag__m" onClick={() => onClickRemoveFromCart()}>
+            -
+          </div>
+          <span className="btn-bag__text">
+            {productFromCart.qtyCart} {"in bag"}
+          </span>
+          <div className="btn-bag__p" onClick={() => onClickAddToCart()}>
+            +
+          </div>
+        </div>
+      ) : (
+        <div class="btn btn-full" onClick={() => onClickAddToCart()}>
           <div className="btn-add-to-cart">
             <span>Add to cart</span>
           </div>
-        </div> */}
-
-      <div className="btn-bag">
-        <div className="btn-bag__m">-</div>
-        <span className="btn-bag__text">5 in bag</span>
-        <div className="btn-bag__p">+</div>
-      </div>
+        </div>
+      )}
     </div>
   );
 }
