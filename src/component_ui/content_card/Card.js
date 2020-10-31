@@ -34,7 +34,7 @@ export function ProductCard(props) {
         {/* <div className="add-text">
           <div className="text">Add to shopping bag</div>
         </div> */}
-        <div className="add-to-cart">
+        {/* <div className="add-to-cart">
           <div className="amount">&#2547; 95</div>
           <div className="actions-text">
             <div className="actions">
@@ -44,7 +44,7 @@ export function ProductCard(props) {
             </div>
             <div className="text">in bag</div>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="icon-overly">
         <FontAwesome className="details-icon" name="info-circle" />
@@ -66,19 +66,19 @@ export function ProductCard(props) {
 }
 
 export function SubCatCard(props) {
-  const { cat, onClick } = props;
+  const { category, onClick } = props;
   return (
     <div
       className="card"
-      style={{ width: "14rem" }} /*onClick = {()=>{onClick(cat.slug)}}*/
+      style={{ width: "14rem" }} onClick = {()=>{onClick(category.slug)}}
     >
       <img
-        src={`${API}/category/thumbnail/${cat._id}`}
+        src={`${API}/category/thumbnail/${category._id}`}
         className="card-img-top"
-        alt={cat.name}
+        alt={category.name}
       />
       <div className="card-body mx-auto">
-        <p className="card-text ">{cat.name}</p>
+        <p className="card-text ">{category.name}</p>
       </div>
     </div>
   );

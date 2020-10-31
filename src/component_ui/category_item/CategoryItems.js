@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 // import { getCategoryItems } from "../../admin/apiAdmin";
 
 // import ProductCard from "../product_card/ProductCard";
-import { ProductCard, SubCatCard } from "../content_card/Card";
+import { SubCatCard } from "../content_card/Card";
+import Product from "../product/Product";
 import "../../common/common.css";
 import "./category_item.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,7 +22,7 @@ import { API } from "../../config";
 import { selectCategoryWithProduct } from "../../redux/categoryWithProductSlice";
 import { loadCategoryWithProduct } from "../../redux/categoryWithProductSlice";
 import { loadActiveCategories } from "../../redux/categorySlice";
-
+import OutsideAlerter from "../../util/OutsideAlerter";
 const CategoryItems = ({ match }) => {
   const bar = useSelector(selectSideBarBarToViewSelection);
   const category = useSelector(selectCategoryWithProduct);
@@ -64,11 +65,58 @@ const CategoryItems = ({ match }) => {
     }
   }, [category]);
 
-  const onItemSelect = (slug) => {
+  const onCategorySelect = (slug) => {
     dispatch(setBarToView({ barToView: slug }));
     dispatch(loadCategoryWithProduct(slug));
     dispatch(setViewToBar({ viewToBar: slug }));
   };
+
+  const getSubcates = (items) => {
+    var test = [];
+  
+    for (var j = 0; j < 25; j++) {
+      test[j] = { i: 89, j: j };
+    }
+    // var chunkSize = 6;
+    // var R = [];
+    // for (var i = 0; i < test.length; i += chunkSize) {
+    //   R.push(test.slice(i, i + chunkSize));
+    // }
+  
+    return items.map((item, index) => (
+      <div>
+                <SubCatCard onClick={onCategorySelect} category={item} key={index}></SubCatCard>
+  
+      </div>
+    ));
+  
+    // return R.map((row, index) => {
+    //   return (
+    //     <div
+    //       style={{
+    //         display: "flex",
+    //         justifyContent: "space-arround",
+    //         flexWrap: "wrap",
+    //       }}
+    //     >
+    //       {row.map((ele, index) => {
+    //         return <ProductCard></ProductCard>;
+    //       })}
+    //     </div>
+    //   );
+    // });
+  };
+  const getSubcatsProduct = (items) => {
+    console.log("items...", items)
+    return items.map((item, index) => (
+      <div>
+        <OutsideAlerter>
+          <Product product={item} index={index}></Product>
+        </OutsideAlerter>
+      </div>
+    ));
+  };
+  const getNothingFound = (items) => {};
   return (
     <div>
       {false ? (
@@ -142,7 +190,7 @@ const CategoryItems = ({ match }) => {
             {category.subcats && category.subcats.length > 0
               ? getSubcates(category.subcats)
               : category.products && category.products.length > 0
-              ? getSubcatsProduct(category.products.length)
+              ? getSubcatsProduct(category.products)
               : getNothingFound()}
           </div>
 
@@ -185,43 +233,10 @@ const CategoryItems = ({ match }) => {
       )}
     </div>
   );
+
+  
 };
 
-const getSubcates = (items) => {
-  var test = [];
 
-  for (var j = 0; j < 25; j++) {
-    test[j] = { i: 89, j: j };
-  }
-  // var chunkSize = 6;
-  // var R = [];
-  // for (var i = 0; i < test.length; i += chunkSize) {
-  //   R.push(test.slice(i, i + chunkSize));
-  // }
-
-  return test.map((item, index) => (
-    <div>
-      <ProductCard index={index}></ProductCard>
-    </div>
-  ));
-
-  // return R.map((row, index) => {
-  //   return (
-  //     <div
-  //       style={{
-  //         display: "flex",
-  //         justifyContent: "space-arround",
-  //         flexWrap: "wrap",
-  //       }}
-  //     >
-  //       {row.map((ele, index) => {
-  //         return <ProductCard></ProductCard>;
-  //       })}
-  //     </div>
-  //   );
-  // });
-};
-const getSubcatsProduct = (items) => {};
-const getNothingFound = (items) => {};
 
 export default CategoryItems;
