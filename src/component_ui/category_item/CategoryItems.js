@@ -22,7 +22,7 @@ import { API } from "../../config";
 import { selectCategoryWithProduct } from "../../redux/categoryWithProductSlice";
 import { loadCategoryWithProduct } from "../../redux/categoryWithProductSlice";
 import { loadActiveCategories } from "../../redux/categorySlice";
-import OutsideAlerter from "../../util/OutsideAlerter";
+import { setSlug } from "../../redux/productHoverSlice";
 const CategoryItems = ({ match }) => {
   const bar = useSelector(selectSideBarBarToViewSelection);
   const category = useSelector(selectCategoryWithProduct);
@@ -86,10 +86,7 @@ const CategoryItems = ({ match }) => {
     return items.map((item, index) => (
       <div>
         <Link to={item.slug}>
-          <SubCatCard
-            category={item}
-            key={item._id}
-          ></SubCatCard>
+          <SubCatCard category={item} key={item._id}></SubCatCard>
         </Link>
       </div>
     ));
@@ -114,9 +111,7 @@ const CategoryItems = ({ match }) => {
     console.log("items...", items);
     return items.map((item, index) => (
       <div>
-        <OutsideAlerter>
-          <Product product={item} index={index}></Product>
-        </OutsideAlerter>
+        <Product product={item} index={index}></Product>
       </div>
     ));
   };
