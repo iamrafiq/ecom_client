@@ -43,15 +43,12 @@ function Product({ product }) {
   const dispatch = useDispatch();
   //dispatch(setSlug({ slug: product.slug }));
   useEffect(() => {
-    console.log("product...", product);
   }, [selectedHoverSlug]);
 
   const onClickAddToCart = () => {
-    console.log("add to cart");
     dispatch(addItem({ product: product }));
   };
   const onClickRemoveFromCart = () => {
-    console.log("remove from cart");
     dispatch(removeItem({ product: product }));
   };
   const onHoverProduct = () => {

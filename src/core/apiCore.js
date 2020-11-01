@@ -134,8 +134,18 @@ export const getAdvertisementsBySlug = (slug) => {
       .catch((err) => console.log(err));
   };
 
-  export const getCategoryWithProducts = (slug) => {
-    return fetch(`${API}/category/items/${slug}`, {
+  export const getProductsByCategorySlug = (slug) => {
+    return fetch(`${API}/category/products/byslug/${slug}`, {
+      method: "GET",
+    })
+      .then((responce) => {
+        return responce.json();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  export const getProductsByCategoryId = (id) => {
+    return fetch(`${API}/category/products/byid/${id}`, {
       method: "GET",
     })
       .then((responce) => {

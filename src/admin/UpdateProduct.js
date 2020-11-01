@@ -6,6 +6,7 @@ import { getProduct, getCategories, updateProduct } from "./apiAdmin";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
+import { getProductsByCategoryId } from "../core/apiCore";
 
 var slugify = require("slugify");
 const UpdateProduct = ({ match }) => {
@@ -38,6 +39,8 @@ const UpdateProduct = ({ match }) => {
     thirdPartyItem: "",
     photosUrl: "",
     offerPhotosUrl: "",
+    categoryProducts: [],
+    relatedProducts: [],
     selectedCategories: "",
     recursiveCategories: "",
     manufacturers: "",
@@ -53,6 +56,10 @@ const UpdateProduct = ({ match }) => {
   const [
     defaultCategoriesForSpinner,
     setDefaultCategoriesForSpinner,
+  ] = useState([]);
+  const [
+    defaultRelatedProductForSpinner,
+    setDefaultRelatedProductForSpinner,
   ] = useState([]);
 
   const {
@@ -79,6 +86,8 @@ const UpdateProduct = ({ match }) => {
     thirdPartyItem,
     photosUrl,
     offerPhotosUrl,
+    categoryProducts,
+    relatedProducts,
     selectedCategories,
     recursiveCategories,
     manufacturers,
@@ -110,8 +119,14 @@ const UpdateProduct = ({ match }) => {
       isAlwaysAvailable: data.isAlwaysAvailable,
       commonStock: data.commonStock,
       preferredStock: data.preferredStock,
-      earliestAvailabilityTime: earliestAvailabilityTime.length<=0? "": new Date(earliestAvailabilityTime),
-      availabilityCutOffTime: availabilityCutOffTime.length<=0?"":new Date(availabilityCutOffTime),
+      earliestAvailabilityTime:
+        earliestAvailabilityTime.length <= 0
+          ? ""
+          : new Date(earliestAvailabilityTime),
+      availabilityCutOffTime:
+        availabilityCutOffTime.length <= 0
+          ? ""
+          : new Date(availabilityCutOffTime),
       blockAtWarehouse: data.blockAtWarehouse,
       isPerishable: data.isPerishable,
       thirdPartyItem: data.thirdPartyItem,
@@ -135,8 +150,22 @@ const UpdateProduct = ({ match }) => {
         setDefaultState(data);
         console.log("sel..cat", data.categories);
         initCategory(data.categories);
+        initRelatedProducts(data.relatedProducts);
       }
     });
+  };
+  const initRelatedProducts = (relatedProducts) => {
+    console.log("relatedProducts", relatedProducts);
+
+    const mapedArray = relatedProducts.map((prod, index) => {
+      return {
+        value: prod.name,
+        label: prod.name,
+        obj: prod,
+      };
+    });
+    console.log("mapped array", mapedArray);
+    setDefaultRelatedProductForSpinner(mapedArray);
   };
   // load categories and set form data
   const initCategory = (selectedCategories) => {
@@ -144,7 +173,7 @@ const UpdateProduct = ({ match }) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
-        const rootless = data.filter(e => e.name !== 'root')
+        const rootless = data.filter((e) => e.name !== "root");
         setCategories(rootless);
 
         const newArray = rootless.filter((cat) =>
@@ -155,7 +184,7 @@ const UpdateProduct = ({ match }) => {
           return {
             value: cat.name,
             label: cat.name,
-            obj:cat
+            obj: cat,
           };
         });
         setDefaultCategoriesForSpinner(mapedArray);
@@ -202,6 +231,9 @@ const UpdateProduct = ({ match }) => {
       earliestAvailabilityTime.toString()
     );
     formData.set("availabilityCutOffTime", availabilityCutOffTime.toString());
+    if (relatedProducts.length > 0) {
+      formData.set("relatedProducts", relatedProducts);
+    }
     updateProduct(match.params.productId, user._id, token, formData).then(
       (data) => {
         if (data.error) {
@@ -226,8 +258,7 @@ const UpdateProduct = ({ match }) => {
   };
   const handleOptionChange = (option) => {
     formData.set(option.field, option.value);
-    setValues({ ...values, [option.field]: option.value, formData:formData });
-
+    setValues({ ...values, [option.field]: option.value, formData: formData });
   };
   const handleChangeCategoris = (selectedOption) => {
     console.log(`Option selected:`, selectedOption);
@@ -237,28 +268,57 @@ const UpdateProduct = ({ match }) => {
         return cat.obj._id;
       });
 
-      const catsRecursive = selectedOption
-        .map((cat, index) => {
-          return cat.obj.recursiveCategories.map((rc, index) => {
-            return rc;
-          });
-        })
-        .toString()
-        .split(",");
-
-      const uniqueIds = catsRecursive
-        .filter(function (item, pos) {
-          return catsRecursive.indexOf(item) == pos;
-        })
-        .toString();
-
-      setValues({
-        ...values,
-        selectedCategories: catsId.toString(),
-        recursiveCategories: uniqueIds.toString(),
+      let catsRecursive = selectedOption.map((cat, index) => {
+        return cat.obj.recursiveCategories.map((rc, index) => {
+          return rc;
+        });
       });
+
+      catsRecursive = catsRecursive.filter(function (el) {
+        return el.length > 0;
+      });
+
+      if (catsRecursive.length > 0) {
+        catsRecursive = catsRecursive.toString().split(",");
+        const uniqueIds = catsRecursive
+          .filter(function (item, pos) {
+            return catsRecursive.indexOf(item) == pos;
+          })
+          .toString();
+        console.log("rccc", uniqueIds);
+
+        setValues({
+          ...values,
+          selectedCategories: catsId.toString(),
+          recursiveCategories: uniqueIds.toString(),
+        });
+      } else {
+        setValues({
+          ...values,
+          selectedCategories: catsId.toString(),
+        });
+      }
     } else {
       setValues({ ...values, selectedCategories: "", recursiveCategories: "" });
+    }
+  };
+  const loadProducts = (selectedOption) => {
+    getProductsByCategoryId(selectedOption.obj._id).then((data) => {
+      if (data === undefined && data.error) {
+      } else {
+        setValues({ ...values, categoryProducts: data.products });
+      }
+    });
+  };
+  const onProductSelect = (selectedOptions) => {
+    if (selectedOptions) {
+      const relatedProducts = selectedOptions.map((option, index) => {
+        console.log(option);
+        return option.obj._id;
+      });
+      setValues({ ...values, relatedProducts: relatedProducts });
+    } else {
+      setValues({ ...values, relatedProducts: "" });
     }
   };
   const newPostFrom = () => (
@@ -400,130 +460,140 @@ const UpdateProduct = ({ match }) => {
         <label htmlFor="" className="text-muted">
           Apply Discounts
         </label>
-        {applyDiscounts !== "" &&(<Select
-          onChange={handleOptionChange}
-          defaultValue={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            if (op.value === applyDiscounts) return op;
-          })}
-          options={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            op.field = "applyDiscounts";
-            return op;
-          })}
-        />)}
+        {applyDiscounts !== "" && (
+          <Select
+            onChange={handleOptionChange}
+            defaultValue={[
+              { value: 0, label: "No", field: "" },
+              { value: 1, label: "Yes", field: "" },
+            ].map((op, index) => {
+              if (op.value === applyDiscounts) return op;
+            })}
+            options={[
+              { value: 0, label: "No", field: "" },
+              { value: 1, label: "Yes", field: "" },
+            ].map((op, index) => {
+              op.field = "applyDiscounts";
+              return op;
+            })}
+          />
+        )}
       </div>
 
       <div className="form-group">
         <label htmlFor="" className="text-muted">
-        Block Sale
+          Block Sale
         </label>
-        {blockSale !== "" &&(<Select
-          onChange={handleOptionChange}
-          defaultValue={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            if (op.value === blockSale) return op;
-          })}
-          options={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            op.field = "blockSale";
-            return op;
-          })}
-        />)}
-      </div>
-
- 
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-        Availablity
-        </label>
-        {isAlwaysAvailable !== "" &&(<Select
-          onChange={handleOptionChange}
-          defaultValue={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            if (op.value === isAlwaysAvailable) return op;
-          })}
-          options={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            op.field = "isAlwaysAvailable";
-            return op;
-          })}
-        />)}
+        {blockSale !== "" && (
+          <Select
+            onChange={handleOptionChange}
+            defaultValue={[
+              { value: 0, label: "No", field: "" },
+              { value: 1, label: "Yes", field: "" },
+            ].map((op, index) => {
+              if (op.value === blockSale) return op;
+            })}
+            options={[
+              { value: 0, label: "No", field: "" },
+              { value: 1, label: "Yes", field: "" },
+            ].map((op, index) => {
+              op.field = "blockSale";
+              return op;
+            })}
+          />
+        )}
       </div>
 
       <div className="form-group">
         <label htmlFor="" className="text-muted">
-        Block At Warehouse
+          Availablity
         </label>
-        {blockAtWarehouse !== "" &&(<Select
-          onChange={handleOptionChange}
-          defaultValue={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            if (op.value === blockAtWarehouse) return op;
-          })}
-          options={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            op.field = "blockAtWarehouse";
-            return op;
-          })}
-        />)}
+        {isAlwaysAvailable !== "" && (
+          <Select
+            onChange={handleOptionChange}
+            defaultValue={[
+              { value: 0, label: "No", field: "" },
+              { value: 1, label: "Yes", field: "" },
+            ].map((op, index) => {
+              if (op.value === isAlwaysAvailable) return op;
+            })}
+            options={[
+              { value: 0, label: "No", field: "" },
+              { value: 1, label: "Yes", field: "" },
+            ].map((op, index) => {
+              op.field = "isAlwaysAvailable";
+              return op;
+            })}
+          />
+        )}
       </div>
 
       <div className="form-group">
         <label htmlFor="" className="text-muted">
-        Is Perishable
+          Block At Warehouse
         </label>
-        {isPerishable !== "" &&(<Select
-          onChange={handleOptionChange}
-          defaultValue={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            if (op.value === isPerishable) return op;
-          })}
-          options={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            op.field = "isPerishable";
-            return op;
-          })}
-        />)}
+        {blockAtWarehouse !== "" && (
+          <Select
+            onChange={handleOptionChange}
+            defaultValue={[
+              { value: 0, label: "No", field: "" },
+              { value: 1, label: "Yes", field: "" },
+            ].map((op, index) => {
+              if (op.value === blockAtWarehouse) return op;
+            })}
+            options={[
+              { value: 0, label: "No", field: "" },
+              { value: 1, label: "Yes", field: "" },
+            ].map((op, index) => {
+              op.field = "blockAtWarehouse";
+              return op;
+            })}
+          />
+        )}
       </div>
 
       <div className="form-group">
         <label htmlFor="" className="text-muted">
-        Third Party Item
+          Is Perishable
         </label>
-        {thirdPartyItem !== "" &&(<Select
-          onChange={handleOptionChange}
-          defaultValue={options.map((op, index) => {
-            if (op.value === thirdPartyItem) return op;
-          })}
-          options={options.map((op, index) => {
-            op.field = "thirdPartyItem";
-            return op;
-          })}
-        />)}
+        {isPerishable !== "" && (
+          <Select
+            onChange={handleOptionChange}
+            defaultValue={[
+              { value: 0, label: "No", field: "" },
+              { value: 1, label: "Yes", field: "" },
+            ].map((op, index) => {
+              if (op.value === isPerishable) return op;
+            })}
+            options={[
+              { value: 0, label: "No", field: "" },
+              { value: 1, label: "Yes", field: "" },
+            ].map((op, index) => {
+              op.field = "isPerishable";
+              return op;
+            })}
+          />
+        )}
       </div>
 
-     
+      <div className="form-group">
+        <label htmlFor="" className="text-muted">
+          Third Party Item
+        </label>
+        {thirdPartyItem !== "" && (
+          <Select
+            onChange={handleOptionChange}
+            defaultValue={options.map((op, index) => {
+              if (op.value === thirdPartyItem) return op;
+            })}
+            options={options.map((op, index) => {
+              op.field = "thirdPartyItem";
+              return op;
+            })}
+          />
+        )}
+      </div>
+
       <div className="form-group">
         <label htmlFor="" className="text-muted">
           Earliest Availability Time
@@ -605,44 +675,97 @@ const UpdateProduct = ({ match }) => {
               return {
                 value: cat.name,
                 label: cat.name,
-                obj:cat,
+                obj: cat,
               };
             })}
           />
-        // ):(
-        //   <Select
-        //     onChange={handleChangeCategoris}
-        //     closeMenuOnSelect={false}
-        //     isMulti
-        //     options={categories.map((cat, index) => {
-        //       return {
-        //         value: cat,
-        //         label: cat.name,
-        //       };
-        //     })}
-        //   />
-         )}
+          // ):(
+          //   <Select
+          //     onChange={handleChangeCategoris}
+          //     closeMenuOnSelect={false}
+          //     isMulti
+          //     options={categories.map((cat, index) => {
+          //       return {
+          //         value: cat,
+          //         label: cat.name,
+          //       };
+          //     })}
+          //   />
+        )}
+        <div className="form-group">
+          <label htmlFor="" className="text-muted">
+            Related Products (Select category)
+          </label>
+          <Select
+            options={categories.map((cat, index) => {
+              return {
+                value: cat.name,
+                label: cat.name,
+                obj: cat,
+              };
+            })}
+            onChange={loadProducts}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="" className="text-muted">
+            Related Products (Select products)
+          </label>
+          {defaultRelatedProductForSpinner.length > 0 && (
+            <Select
+              defaultValue={defaultRelatedProductForSpinner.map(
+                (prod, index) => {
+                  return prod;
+                }
+              )}
+              options={categoryProducts.map((prod, index) => {
+                return {
+                  value: prod.name,
+                  label: prod.name,
+                  obj: prod,
+                };
+              })}
+              isMulti
+              onChange={onProductSelect}
+            />
+          )}
+           {defaultRelatedProductForSpinner.length === 0 && (
+            <Select
+              options={categoryProducts.map((prod, index) => {
+                return {
+                  value: prod.name,
+                  label: prod.name,
+                  obj: prod,
+                };
+              })}
+              isMulti
+              onChange={onProductSelect}
+            />
+          )}
+        </div>
       </div>
       <div className="form-group">
         <label htmlFor="" className="text-muted">
-        Shipping
+          Shipping
         </label>
-        {shipping !== "" &&(<Select
-          onChange={handleOptionChange}
-          defaultValue={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            if (op.value === shipping) return op;
-          })}
-          options={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            op.field = "shipping";
-            return op;
-          })}
-        />)}
+        {shipping !== "" && (
+          <Select
+            onChange={handleOptionChange}
+            defaultValue={[
+              { value: 0, label: "No", field: "" },
+              { value: 1, label: "Yes", field: "" },
+            ].map((op, index) => {
+              if (op.value === shipping) return op;
+            })}
+            options={[
+              { value: 0, label: "No", field: "" },
+              { value: 1, label: "Yes", field: "" },
+            ].map((op, index) => {
+              op.field = "shipping";
+              return op;
+            })}
+          />
+        )}
       </div>
 
       <button className="btn btn-outline-primary">Create a new product</button>

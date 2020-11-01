@@ -6,6 +6,7 @@ import { createProduct, getCategories } from "./apiAdmin";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
+import { getProductsByCategoryId } from "../core/apiCore";
 
 var slugify = require("slugify");
 
@@ -41,6 +42,8 @@ const AddProduct = () => {
     photosUrl: "",
     offerPhotosUrl: "",
     categories: [],
+    categoryProducts: [],
+    relatedProducts: [],
     selectedCategories: "",
     recursiveCategories: "",
     manufacturers: "",
@@ -78,6 +81,8 @@ const AddProduct = () => {
     photosUrl,
     offerPhotosUrl,
     categories,
+    categoryProducts,
+    relatedProducts,
     selectedCategories,
     recursiveCategories,
     manufacturers,
@@ -98,15 +103,19 @@ const AddProduct = () => {
       } else {
         console.log("cats...", data);
 
-        const rootless = data.filter(e => e.name !== 'root')
-        setValues({ ...values, categories: rootless, formData: new FormData() });
+        const rootless = data.filter((e) => e.name !== "root");
+        setValues({
+          ...values,
+          categories: rootless,
+          formData: new FormData(),
+        });
       }
     });
   };
   useEffect(() => {
     console.log("use effect");
     init();
-  }, []);
+  }, [createdProduct]);
   const handleChange = (field) => (event) => {
     let value = event.target.value;
     formData.set(field, value);
@@ -141,8 +150,9 @@ const AddProduct = () => {
       earliestAvailabilityTime.toString()
     );
     formData.set("availabilityCutOffTime", availabilityCutOffTime.toString());
-  
-  
+    if (relatedProducts.length > 0) {
+      formData.set("relatedProducts", relatedProducts);
+    }
 
     createProduct(user._id, token, formData).then((data) => {
       if (data.error) {
@@ -173,6 +183,8 @@ const AddProduct = () => {
           thirdPartyItem: "",
           photosUrl: "",
           offerPhotosUrl: "",
+          categoryProducts: [],
+          relatedProducts: [],
           selectedCategories: "",
           recursiveCategories: "",
           manufacturers: "",
@@ -201,7 +213,7 @@ const AddProduct = () => {
   };
   const handleOptionChange = (option) => {
     formData.set(option.field, option.value);
-    setValues({ ...values, [option.field]: option.value, formData:formData });
+    setValues({ ...values, [option.field]: option.value, formData: formData });
   };
   const handleChangeCategoris = (selectedOption) => {
     console.log(`Option selected:`, selectedOption);
@@ -213,31 +225,59 @@ const AddProduct = () => {
 
       // console.log(`cates Id:`, catsId.toString());
 
-      const catsRecursive = selectedOption
-        .map((cat, index) => {
-          return cat.obj.recursiveCategories.map((rc, index) => {
-            return rc;
-          });
-        })
-        .toString()
-        .split(",");
-
-      const uniqueIds = catsRecursive
-        .filter(function (item, pos) {
-          return catsRecursive.indexOf(item) == pos;
-        })
-        .toString();
-
-      setValues({
-        ...values,
-        selectedCategories: catsId.toString(),
-        recursiveCategories: uniqueIds.toString(),
+      let catsRecursive = selectedOption.map((cat, index) => {
+        return cat.obj.recursiveCategories.map((rc, index) => {
+          return rc;
+        });
       });
+
+      catsRecursive = catsRecursive.filter(function (el) {
+        return el.length > 0;
+      });
+
+      if (catsRecursive.length > 0) {
+        catsRecursive = catsRecursive.toString().split(",");
+        const uniqueIds = catsRecursive
+          .filter(function (item, pos) {
+            return catsRecursive.indexOf(item) == pos;
+          })
+          .toString();
+        console.log("rccc", uniqueIds);
+
+        setValues({
+          ...values,
+          selectedCategories: catsId.toString(),
+          recursiveCategories: uniqueIds.toString(),
+        });
+      } else {
+        setValues({
+          ...values,
+          selectedCategories: catsId.toString(),
+        });
+      }
     } else {
       setValues({ ...values, selectedCategories: "", recursiveCategories: "" });
     }
   };
-
+  const loadProducts = (selectedOption) => {
+    getProductsByCategoryId(selectedOption.obj._id).then((data) => {
+      if (data === undefined && data.error) {
+      } else {
+        setValues({ ...values, categoryProducts: data.products });
+      }
+    });
+  };
+  const onProductSelect = (selectedOptions) => {
+    if (selectedOptions) {
+      const relatedProducts = selectedOptions.map((option, index) => {
+        console.log(option);
+        return option.obj._id;
+      });
+      setValues({ ...values, relatedProducts: relatedProducts });
+    } else {
+      setValues({ ...values, relatedProducts: "" });
+    }
+  };
   const newPostFrom = () => (
     <form className="mb-3" onSubmit={clickSubmit}>
       <div className="form-group">
@@ -377,34 +417,32 @@ const AddProduct = () => {
         <label htmlFor="" className="text-muted">
           Apply Discounts
         </label>
-          <Select
-            onChange={handleOptionChange}
-            options={[
-              { value: 0, label: "No", field: "" },
-              { value: 1, label: "Yes", field: "" },
-            ].map((op, index) => {
-              op.field = "applyDiscounts";
-              return op;
-            })}
-          />
-        
+        <Select
+          onChange={handleOptionChange}
+          options={[
+            { value: 0, label: "No", field: "" },
+            { value: 1, label: "Yes", field: "" },
+          ].map((op, index) => {
+            op.field = "applyDiscounts";
+            return op;
+          })}
+        />
       </div>
 
       <div className="form-group">
         <label htmlFor="" className="text-muted">
           Block Sale
         </label>
-          <Select
-            onChange={handleOptionChange}
-            options={[
-              { value: 0, label: "No", field: "" },
-              { value: 1, label: "Yes", field: "" },
-            ].map((op, index) => {
-              op.field = "blockSale";
-              return op;
-            })}
-          />
-        
+        <Select
+          onChange={handleOptionChange}
+          options={[
+            { value: 0, label: "No", field: "" },
+            { value: 1, label: "Yes", field: "" },
+          ].map((op, index) => {
+            op.field = "blockSale";
+            return op;
+          })}
+        />
       </div>
 
       <div className="form-group">
@@ -548,26 +586,57 @@ const AddProduct = () => {
             return {
               value: cat.name,
               label: cat.name,
-              obj:cat,
+              obj: cat,
             };
           })}
         />
       </div>
       <div className="form-group">
         <label htmlFor="" className="text-muted">
+          Related Products (Select category)
+        </label>
+        <Select
+          options={categories.map((cat, index) => {
+            return {
+              value: cat.name,
+              label: cat.name,
+              obj: cat,
+            };
+          })}
+          onChange={loadProducts}
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="" className="text-muted">
+          Related Products (Select products)
+        </label>
+        <Select
+          options={categoryProducts.map((prod, index) => {
+            return {
+              value: prod.name,
+              label: prod.name,
+              obj: prod,
+            };
+          })}
+          isMulti
+          onChange={onProductSelect}
+        />
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="" className="text-muted">
           Shipping
         </label>
-          <Select
-            onChange={handleOptionChange}
-            options={[
-              { value: 0, label: "No", field: "" },
-              { value: 1, label: "Yes", field: "" },
-            ].map((op, index) => {
-              op.field = "shipping";
-              return op;
-            })}
-          />
-        
+        <Select
+          onChange={handleOptionChange}
+          options={[
+            { value: 0, label: "No", field: "" },
+            { value: 1, label: "Yes", field: "" },
+          ].map((op, index) => {
+            op.field = "shipping";
+            return op;
+          })}
+        />
       </div>
 
       <button className="btn btn-outline-primary">Create a new product</button>

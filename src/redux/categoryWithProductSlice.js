@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCategoryWithProducts } from "../core/apiCore";
+import { getProductsByCategorySlug } from "../core/apiCore";
 export const categoryWithProductSlice = createSlice({
   name: "categoryWithProduct",
   initialState: {
@@ -17,7 +17,7 @@ export const categoryWithProductSlice = createSlice({
 const { setCategoryWithProduct } = categoryWithProductSlice.actions;
 
 export const loadCategoryWithProduct = (slug) => (dispatch) => {
-  getCategoryWithProducts(slug).then((data) => {
+  getProductsByCategorySlug(slug).then((data) => {
     if (data===undefined && data.error) {
     } else {
       dispatch(setCategoryWithProduct({ data }));
