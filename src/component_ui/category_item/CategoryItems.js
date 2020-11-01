@@ -65,15 +65,15 @@ const CategoryItems = ({ match }) => {
     }
   }, [category]);
 
-  const onCategorySelect = (slug) => {
-    dispatch(setBarToView({ barToView: slug }));
-    dispatch(loadCategoryWithProduct(slug));
-    dispatch(setViewToBar({ viewToBar: slug }));
-  };
+  // const onCategorySelect = (slug) => {
+  //   dispatch(setBarToView({ barToView: slug }));
+  //   dispatch(loadCategoryWithProduct(slug));
+  //   dispatch(setViewToBar({ viewToBar: slug }));
+  // };
 
   const getSubcates = (items) => {
     var test = [];
-  
+
     for (var j = 0; j < 25; j++) {
       test[j] = { i: 89, j: j };
     }
@@ -82,14 +82,18 @@ const CategoryItems = ({ match }) => {
     // for (var i = 0; i < test.length; i += chunkSize) {
     //   R.push(test.slice(i, i + chunkSize));
     // }
-  
+
     return items.map((item, index) => (
       <div>
-                <SubCatCard onClick={onCategorySelect} category={item} key={index}></SubCatCard>
-  
+        <Link to={item.slug}>
+          <SubCatCard
+            category={item}
+            key={item._id}
+          ></SubCatCard>
+        </Link>
       </div>
     ));
-  
+
     // return R.map((row, index) => {
     //   return (
     //     <div
@@ -107,7 +111,7 @@ const CategoryItems = ({ match }) => {
     // });
   };
   const getSubcatsProduct = (items) => {
-    console.log("items...", items)
+    console.log("items...", items);
     return items.map((item, index) => (
       <div>
         <OutsideAlerter>
@@ -233,10 +237,6 @@ const CategoryItems = ({ match }) => {
       )}
     </div>
   );
-
-  
 };
-
-
 
 export default CategoryItems;

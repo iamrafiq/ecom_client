@@ -70,7 +70,7 @@ export function SubCatCard(props) {
   return (
     <div
       className="card"
-      style={{ width: "14rem" }} onClick = {()=>{onClick(category.slug)}}
+      style={{ width: "14rem" }}
     >
       <img
         src={`${API}/category/thumbnail/${category._id}`}

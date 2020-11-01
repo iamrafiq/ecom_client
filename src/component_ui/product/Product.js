@@ -41,12 +41,14 @@ function Product({ product }) {
 
   const dispatch = useDispatch();
   //dispatch(setSlug({ slug: product.slug }));
-  useEffect(() => {}, [productFromCart, language]);
+  useEffect(() => {}, []);
 
   const onClickAddToCart = () => {
+    console.log("add to cart");
     dispatch(addItem({ product: product }));
   };
   const onClickRemoveFromCart = () => {
+    console.log("remove from cart")
     dispatch(removeItem({ product: product }));
   };
   const onHoverProduct = () => {
@@ -114,7 +116,7 @@ function Product({ product }) {
                 <div className="actions">
                   <span
                     className="action-sub"
-                    onClick={() => onClickRemoveFromCart()}
+                    onClick={()=> onClickRemoveFromCart()}
                   >
                     -
                   </span>
@@ -124,7 +126,7 @@ function Product({ product }) {
                   </span>
                   <span
                     className="action-add"
-                    onClick={() => onClickAddToCart()}
+                    onClick={()=>onClickAddToCart()}
                   >
                     +
                   </span>
@@ -133,7 +135,7 @@ function Product({ product }) {
               </div>
             </div>
           ) : (
-            <div className="add-text" onClick={() => onClickAddToCart()}>
+            <div className="add-text" onClick={()=>onClickAddToCart()}>
               <div className="text">Add to shopping bag</div>
             </div>
           )}
