@@ -85,7 +85,7 @@ function Product({ product }) {
          header={""}
          scrollable={false}
         // footer="Buttons?"
-         closeButtonPosition="bottom"
+        //  closeButtonPosition="bottom"
         // closeButtonPosition="bottom"
         // portal
         // closeButton={<div>&#10007;</div>}
