@@ -19,13 +19,11 @@ const CustomHeader = ({ node, style, prefix }) => (
     <div style={style.base}>
       <div style={{ ...style.title, display: "flex", margin: "auto" }}>
         <span>
-          {node.iconMenu ? (
+          {node.iconMenu && node.iconMenu.url&&(
             <img
               style={{ width: "20px", height: "20px", marginRight: "5px" }}
-              src={`${API}/image/?image_name=${node.iconMenu.fileName}`}
+              src={node.iconMenu.url}
             ></img>
-          ) : (
-            ""
           )}
         </span>{" "}
         {

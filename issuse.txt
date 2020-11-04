@@ -1,0 +1,2 @@
+1. refresh after createing / updating category, make sure resting the image inputs becacuse if updating one category more then once 
+without refreshing the screen privious files are sent to server
