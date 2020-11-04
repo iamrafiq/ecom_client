@@ -95,7 +95,7 @@ function Product({ product }) {
           return true;
         }}
       >
-        <ProductDetails></ProductDetails>
+        <ProductDetails product = {product}></ProductDetails>
       </PureModal>
       </div>):(<div className="product-card">
       <div

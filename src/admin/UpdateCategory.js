@@ -7,6 +7,8 @@ var slugify = require("slugify");
 
 const UpdateCategory = ({ match }) => {
   const { user, token } = isAuthenticated();
+  const [iconMenu, setIconMenu] = useState(null);
+
   const [icon, setIcon] = useState(null);
   const [thumbnail, setThumbnail] = useState(null);
   const [values, setValues] = useState({
@@ -85,7 +87,10 @@ const UpdateCategory = ({ match }) => {
   const handleImageChange = (name) => (event) => {
     if (name == "icon") {
       setIcon(event.target.files[0]);
-    } else if (name == "thumbnail") {
+    }else if (name == "iconMenu") {
+      setIconMenu(event.target.files[0]);
+    }
+     else if (name == "thumbnail") {
       setThumbnail(event.target.files[0]);
     }
   };
@@ -137,6 +142,9 @@ const UpdateCategory = ({ match }) => {
     if (icon !== null) {
       formData.append("icon", icon);
     }
+    if (iconMenu !== null) {
+      formData.append("iconMenu", iconMenu);
+    }
     formData.append("old_parent", oldParent._id);
 
     // let rc= [];
@@ -169,6 +177,17 @@ const UpdateCategory = ({ match }) => {
   };
   const newPostFrom = () => (
     <form className="mb-3" onSubmit={clickSubmit} id="form1">
+       <h4>Upload Icon Menu</h4>
+      <div className="form-group">
+        <label htmlFor="" className="btn btn-secondary">
+          <input
+            onChange={handleImageChange("iconMenu")}
+            type="file"
+            name="icon"
+            accept="image/webp"
+          />
+        </label>
+      </div>
       <h4>Upload Icon</h4>
       <div className="form-group">
         <label htmlFor="" className="btn btn-secondary">
@@ -176,7 +195,7 @@ const UpdateCategory = ({ match }) => {
             onChange={handleImageChange("icon")}
             type="file"
             name="icon"
-            accept="image/*"
+            accept="image/webp"
           />
         </label>
       </div>
@@ -187,7 +206,7 @@ const UpdateCategory = ({ match }) => {
             onChange={handleImageChange("thumbnail")}
             type="file"
             name="thumbnail"
-            accept="image/*"
+            accept="image/webp"
           />
         </label>
       </div>

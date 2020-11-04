@@ -19,16 +19,17 @@ const CustomHeader = ({ node, style, prefix }) => (
     <div style={style.base}>
       <div style={{ ...style.title, display: "flex", margin: "auto" }}>
         <span>
-          {node.icon ? (
+          {node.iconMenu ? (
             <img
               style={{ width: "20px", height: "20px", marginRight: "5px" }}
-              src={`${API}/category/icon/${node._id}`}
+              src={`${API}/image/?image_name=${node.iconMenu.fileName}`}
             ></img>
           ) : (
             ""
           )}
         </span>{" "}
-        {`${node.name.toUpperCase()}`}
+        {
+        `${node.name.toUpperCase()}`}
       </div>
     </div>
   </Link>

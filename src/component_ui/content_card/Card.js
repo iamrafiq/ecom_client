@@ -67,13 +67,16 @@ export function ProductCard(props) {
 
 export function SubCatCard(props) {
   const { category, onClick } = props;
+  console.log("thmb", category)
+
+  console.log("thmb", `${API}/image/?image_name=${category.thumbnail.fileName}`)
   return (
     <div
       className="card"
       style={{ width: "14rem" }}
     >
       <img
-        src={`${API}/category/thumbnail/${category._id}`}
+        src={`${API}/image/?image_name=${category.thumbnail.fileName}`}
         className="card-img-top"
         alt={category.name}
       />

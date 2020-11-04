@@ -9,6 +9,7 @@ var slugify = require("slugify");
 const AddCategory = () => {
   const [value, setValue] = useState();
   const { user, token } = isAuthenticated();
+  const [iconMenu, setIconMenu] = useState(null);
   const [icon, setIcon] = useState(null);
   const [thumbnail, setThumbnail] = useState(null);
   const [values, setValues] = useState({
@@ -72,6 +73,8 @@ const AddCategory = () => {
   const handleImageChange = (name) => (event) => {
     if (name == "icon") {
       setIcon(event.target.files[0]);
+    } else if (name == "iconMenu") {
+      setIconMenu(event.target.files[0]);
     } else if (name == "thumbnail") {
       setThumbnail(event.target.files[0]);
     }
@@ -107,7 +110,7 @@ const AddCategory = () => {
       const parentCat = JSON.parse(event.target.value);
       formData.set(field, parentCat._id);
       let rc = [];
-      if (parent.name !== 'root'){
+      if (parent.name !== "root") {
         rc.push(parentCat._id);
       }
       if (parentCat.recursiveCategories) {
@@ -134,6 +137,9 @@ const AddCategory = () => {
     }
     if (icon !== null) {
       formData.append("icon", icon);
+    }
+    if (iconMenu !== null) {
+      formData.append("iconMenu", iconMenu);
     }
 
     if (parents.length !== 0 && parent == "") {
@@ -164,6 +170,17 @@ const AddCategory = () => {
 
   const newPostFrom = () => (
     <form className="mb-3" onSubmit={clickSubmit} id="form1">
+      <h4>Upload Menu Icon</h4>
+      <div className="form-group">
+        <label htmlFor="" className="btn btn-secondary">
+          <input
+            onChange={handleImageChange("iconMenu")}
+            type="file"
+            name="iconMenu"
+            accept="image/webp"
+          />
+        </label>
+      </div>
       <h4>Upload Icon</h4>
       <div className="form-group">
         <label htmlFor="" className="btn btn-secondary">
@@ -171,7 +188,7 @@ const AddCategory = () => {
             onChange={handleImageChange("icon")}
             type="file"
             name="icon"
-            accept="image/*"
+            accept="image/webp"
           />
         </label>
       </div>
@@ -182,7 +199,7 @@ const AddCategory = () => {
             onChange={handleImageChange("thumbnail")}
             type="file"
             name="thumbnail"
-            accept="image/*"
+            accept="image/webp"
           />
         </label>
       </div>
