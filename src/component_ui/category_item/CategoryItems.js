@@ -129,7 +129,7 @@ const CategoryItems = ({ match }) => {
             >
               <img
                 className="card-img"
-                src={category.advertisements[0].photoUrl}
+                src={category.advertisements[0].photo.url}
                 alt={category.advertisements[0].name}
               />
             </div>

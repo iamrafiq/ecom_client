@@ -3,23 +3,24 @@ import ReactDOM from "react-dom";
 import Layout from "../../core/Layout";
 import { isAuthenticated } from "../../auth";
 import { Link, Redirect } from "react-router-dom";
-import {getCategories } from "../apiAdmin";
-import {getAllProducts } from "../apiAdmin";
+import { getCategories } from "../apiAdmin";
+import { getAllProducts } from "../apiAdmin";
 
 import { createAdvertisement } from "./apiAdvertisement";
 import Select from "react-select";
 
 const AddAvertisement = () => {
+  const [photo, setPhoto] = useState(null);
+
   const { user, token } = isAuthenticated();
   const [values, setValues] = useState({
     name: "",
     slugPages: "",
-    photoUrl: "",
-    categories:[],
-    products:[],
-    customSlug:"",
-    categorySlugs:"",
-    productSlugs:"",
+    categories: [],
+    products: [],
+    customSlug: "",
+    categorySlugs: "",
+    productSlugs: "",
     loading: false,
     error: "",
     createdProduct: "",
@@ -30,7 +31,6 @@ const AddAvertisement = () => {
   const {
     name,
     slugPages,
-    photoUrl,
     categories,
     products,
     customSlug,
@@ -43,7 +43,6 @@ const AddAvertisement = () => {
     formData,
   } = values;
 
-
   const downloadAllProducts = () => {
     getAllProducts().then((data) => {
       if (data.error) {
@@ -53,13 +52,12 @@ const AddAvertisement = () => {
 
         setValues({
           ...values,
-          products:data,
+          products: data,
           loading: false,
           formData: new FormData(),
         });
       }
     });
-  
   };
   const downloadAllCategories = () => {
     getCategories().then((data) => {
@@ -68,27 +66,30 @@ const AddAvertisement = () => {
       } else {
         console.log("cats...", data);
 
-        const rootless = data.filter(e => e.name !== 'root')
+        const rootless = data.filter((e) => e.name !== "root");
         setValues({
           ...values,
-          categories:rootless,
+          categories: rootless,
           loading: false,
           formData: new FormData(),
         });
       }
     });
-  
   };
   useEffect(() => {
-    if (products.length <=0){
+    if (products.length <= 0) {
       downloadAllProducts();
     }
-    if (categories.length<=0){
-     downloadAllCategories();
+    if (categories.length <= 0) {
+      downloadAllCategories();
     }
   }, [products, categories]);
 
-
+  const handlePhotoChange = (name) => (event) => {
+    if (name == "photo") {
+      setPhoto(event.target.files[0]);
+    }
+  };
   const handleChange = (field) => (event) => {
     let value = event.target.value;
     formData.set(field, value);
@@ -108,26 +109,29 @@ const AddAvertisement = () => {
     //   return;
     // }
 
-    let slug="";
-    if (categorySlugs.length > 0 ){
+    let slug = "";
+    if (categorySlugs.length > 0) {
       slug = categorySlugs;
     }
-    if (productSlugs.length > 0){
-      if (slug.length>0){
-        slug+=","+productSlugs;
-      }else{
-        slug=productSlugs;
+    if (productSlugs.length > 0) {
+      if (slug.length > 0) {
+        slug += "," + productSlugs;
+      } else {
+        slug = productSlugs;
       }
     }
-    if (customSlug.length>0){
-      if (slug.length>0){
-        slug+=","+customSlug;
-      }else{
-        slug=customSlug;
+    if (customSlug.length > 0) {
+      if (slug.length > 0) {
+        slug += "," + customSlug;
+      } else {
+        slug = customSlug;
       }
     }
-    if (slug.length>0){
+    if (slug.length > 0) {
       formData.set("slugPages", slug);
+    }
+    if (photo !== null) {
+      formData.append("photo", photo);
     }
     setValues({ ...values, error: "", loading: true });
     createAdvertisement(user._id, token, formData).then((data) => {
@@ -137,8 +141,7 @@ const AddAvertisement = () => {
         setValues({
           ...values,
           name: "",
-          slugPages:"",
-          photoUrl: "",
+          slugPages: "",
           products: [],
           customSlug: "",
           trash: false,
@@ -159,13 +162,12 @@ const AddAvertisement = () => {
         return cat.obj.slug;
       });
 
-
       setValues({
         ...values,
         categorySlugs: catsSlug.toString(),
       });
     } else {
-      setValues({ ...values, categorySlugs: ""});
+      setValues({ ...values, categorySlugs: "" });
     }
   };
   const handleChangeProducts = (selectedOption) => {
@@ -181,12 +183,22 @@ const AddAvertisement = () => {
         productSlugs: productsSlug.toString(),
       });
     } else {
-      setValues({ ...values, productSlugs: ""});
+      setValues({ ...values, productSlugs: "" });
     }
   };
   const newPostFrom = () => (
     <form className="mb-3" onSubmit={clickSubmit} id="form1">
-
+      <h4>Upload  Image</h4>
+      <div className="form-group">
+        <label htmlFor="" className="btn btn-secondary">
+          <input
+            onChange={handlePhotoChange("photo")}
+            type="file"
+            name="photo"
+            accept="image/*"
+          />
+        </label>
+      </div>
       <div className="form-group">
         <label htmlFor="" className="text-muted">
           Name
@@ -200,18 +212,7 @@ const AddAvertisement = () => {
       </div>
       <div className="form-group">
         <label htmlFor="" className="text-muted">
-        Photo Url
-        </label>
-        <input
-          onChange={handleChange("photoUrl")}
-          type="text"
-          className="form-control"
-          value={photoUrl}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-        Cust Page Slug: (Coma separeted value)
+          Cust Page Slug: (Coma separeted value)
         </label>
         <input
           onChange={handleChange("customSlug")}
@@ -220,42 +221,46 @@ const AddAvertisement = () => {
           value={customSlug}
         />
       </div>
-  
+
       <div className="form-group">
         <label htmlFor="" className="text-muted">
           Select Categori Pages:
         </label>
-        {categories.length > 0 && (<Select
-          onChange={handleChangeCategoris}
-          closeMenuOnSelect={false}
-          // defaultValue={[colourOptions[0], colourOptions[1]]}
-          isMulti
-          options={categories.map((cat, index) => {
-            return {
-              value: cat.name,
-              label: cat.name,
-              obj:cat,
-            };
-          })}
-        />)}
+        {categories.length > 0 && (
+          <Select
+            onChange={handleChangeCategoris}
+            closeMenuOnSelect={false}
+            // defaultValue={[colourOptions[0], colourOptions[1]]}
+            isMulti
+            options={categories.map((cat, index) => {
+              return {
+                value: cat.name,
+                label: cat.name,
+                obj: cat,
+              };
+            })}
+          />
+        )}
       </div>
       <div className="form-group">
         <label htmlFor="" className="text-muted">
           Select Product Pages:
         </label>
-        {products.length > 0 && (<Select
-          onChange={handleChangeProducts}
-          closeMenuOnSelect={false}
-          // defaultValue={[colourOptions[0], colourOptions[1]]}
-          isMulti
-          options={products.map((p, index) => {
-            return {
-              value: p.name,
-              label: p.name,
-              obj:p
-            };
-          })}
-        />)}
+        {products.length > 0 && (
+          <Select
+            onChange={handleChangeProducts}
+            closeMenuOnSelect={false}
+            // defaultValue={[colourOptions[0], colourOptions[1]]}
+            isMulti
+            options={products.map((p, index) => {
+              return {
+                value: p.name,
+                label: p.name,
+                obj: p,
+              };
+            })}
+          />
+        )}
       </div>
       <button
         type="submit"

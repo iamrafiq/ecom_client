@@ -14,11 +14,13 @@ import {
 import Select from "react-select";
 
 const UpdateAvertisement = ({ match }) => {
+  const [photo, setPhoto] = useState(null);
+
   const { user, token } = isAuthenticated();
   const [values, setValues] = useState({
     name: "",
     slugPages: "",
-    photoUrl: "",
+   
     advertisement: null,
     categories: [],
     products: [],
@@ -41,7 +43,6 @@ const UpdateAvertisement = ({ match }) => {
   const {
     name,
     slugPages,
-    photoUrl,
     advertisement,
     categories,
     products,
@@ -71,7 +72,6 @@ const UpdateAvertisement = ({ match }) => {
         setValues({
           ...values,
           name:data.name,
-          photoUrl:data.photoUrl,
           advertisement: data,
           advertisementAPICalled: true,
           formData: new FormData(),
@@ -154,7 +154,11 @@ const UpdateAvertisement = ({ match }) => {
       });
     }
   }, [products, categories, advertisement]);
-
+  const handlePhotoChange = (name) => (event) => {
+    if (name == "photo") {
+      setPhoto(event.target.files[0]);
+    }
+  };
   const handleChange = (field) => (event) => {
     let value = event.target.value;
     formData.set(field, value);
@@ -195,8 +199,10 @@ const UpdateAvertisement = ({ match }) => {
     if (slug.length > 0) {
       formData.set("slugPages", slug);
     }
+    if (photo !== null) {
+      formData.append("photo", photo);
+    }
     formData.set("name", name);
-    formData.set("photoUrl", photoUrl);
 
     setValues({ ...values, error: "" });
     updateAdvertisement(match.params.advertisementId, user._id, token, formData).then((data) => {
@@ -207,7 +213,6 @@ const UpdateAvertisement = ({ match }) => {
           ...values,
           name: "",
           slugPages: "",
-          photoUrl: "",
           advertisement: null,
           categories: [],
           products: [],
@@ -261,8 +266,19 @@ const UpdateAvertisement = ({ match }) => {
       setValues({ ...values, productSlugs: "" });
     }
   };
+  
   const newPostFrom = () => (
     <form className="mb-3" onSubmit={clickSubmit} id="form1">
+      <div className="form-group">
+        <label htmlFor="" className="btn btn-secondary">
+          <input
+            onChange={handlePhotoChange("photo")}
+            type="file"
+            name="photo"
+            accept="image/*"
+          />
+        </label>
+      </div>
       <div className="form-group">
         <label htmlFor="" className="text-muted">
           Name
@@ -274,17 +290,7 @@ const UpdateAvertisement = ({ match }) => {
           value={name}
         />
       </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Photo Url
-        </label>
-        <input
-          onChange={handleChange("photoUrl")}
-          type="text"
-          className="form-control"
-          value={photoUrl}
-        />
-      </div>
+    
       <div className="form-group">
         <label htmlFor="" className="text-muted">
           Cust Page Slug: (Coma separeted value)
