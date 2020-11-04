@@ -75,7 +75,7 @@ export function SubCatCard(props) {
       style={{ width: "14rem" }}
     >
       <img
-        src={category.thumbnail.url}
+        src={category.thumbnail}
         className="card-img-top"
         alt={category.name}
       />

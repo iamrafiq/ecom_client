@@ -19,10 +19,10 @@ const CustomHeader = ({ node, style, prefix }) => (
     <div style={style.base}>
       <div style={{ ...style.title, display: "flex", margin: "auto" }}>
         <span>
-          {node.iconMenu && node.iconMenu.url&&(
+          {node.iconMenu &&(
             <img
               style={{ width: "20px", height: "20px", marginRight: "5px" }}
-              src={node.iconMenu.url}
+              src={node.iconMenu}
             ></img>
           )}
         </span>{" "}

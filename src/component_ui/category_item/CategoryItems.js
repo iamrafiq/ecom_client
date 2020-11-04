@@ -122,14 +122,14 @@ const CategoryItems = ({ match }) => {
         <h2>Loading....</h2>
       ) : (
         <div>
-          {category.advertisements && (
+          {category.advertisements && category.advertisements.length> 0 &&(
             <div
               className="jumbotron text-center mx-auto d-block img-fluid unlock-icon mb-3 p-0"
               style={{ padding: 0, maxWidth: "700px" }}
             >
               <img
                 className="card-img"
-                src={category.advertisements[0].photo.url}
+                src={category.advertisements[0].photo}
                 alt={category.advertisements[0].name}
               />
             </div>

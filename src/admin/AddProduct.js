@@ -15,6 +15,7 @@ const AddProduct = () => {
     { value: 0, label: "No", field: "" },
     { value: 1, label: "Yes", field: "" },
   ];
+  const [icon, setIcon] = useState(null);
 
   const { user, token } = isAuthenticated();
   const [values, setValues] = useState({

@@ -7,7 +7,6 @@ import { createCategory, getCategories } from "./apiAdmin";
 var slugify = require("slugify");
 
 const AddCategory = () => {
-  const [value, setValue] = useState();
   const { user, token } = isAuthenticated();
   const [iconMenu, setIconMenu] = useState(null);
   const [icon, setIcon] = useState(null);
