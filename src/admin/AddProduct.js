@@ -15,7 +15,15 @@ const AddProduct = () => {
     { value: 0, label: "No", field: "" },
     { value: 1, label: "Yes", field: "" },
   ];
-  const [icon, setIcon] = useState(null);
+  const [photo1Url, setPhoto1Url] = useState();
+  const [photo2Url, setPhoto2Url] = useState();
+  const [photo3Url, setPhoto3Url] = useState();
+  const [photo4Url, setPhoto4Url] = useState();
+
+  const [offerPhoto1Url, setOfferPhoto1Url] = useState();
+  const [offerPhoto2Url, setOfferPhoto2Url] = useState();
+  const [offerPhoto3Url, setOfferPhoto3Url] = useState();
+  const [offerPhoto4Url, setOfferPhoto4Url] = useState();
 
   const { user, token } = isAuthenticated();
   const [values, setValues] = useState({
@@ -40,8 +48,6 @@ const AddProduct = () => {
     blockAtWarehouse: "",
     isPerishable: "",
     thirdPartyItem: "",
-    photosUrl: "",
-    offerPhotosUrl: "",
     categories: [],
     categoryProducts: [],
     relatedProducts: [],
@@ -79,8 +85,6 @@ const AddProduct = () => {
     blockAtWarehouse,
     isPerishable,
     thirdPartyItem,
-    photosUrl,
-    offerPhotosUrl,
     categories,
     categoryProducts,
     relatedProducts,
@@ -144,6 +148,8 @@ const AddProduct = () => {
     console.log("from data:", selectedCategories);
     console.log("from data:", recursiveCategories);
 
+    formData.set("arr", [{ name: "aaa" }, { name: "bbb" }].toString());
+
     formData.set("cats", selectedCategories);
     formData.set("rc", recursiveCategories);
     formData.set(
@@ -154,7 +160,32 @@ const AddProduct = () => {
     if (relatedProducts.length > 0) {
       formData.set("relatedProducts", relatedProducts);
     }
+    if (photo1Url){
+      formData.set("photo1Url", photo1Url);
+    }
+    if (photo2Url){
+      formData.set("photo2Url", photo2Url);
+    }
+    if (photo3Url){
+      formData.set("photo3Url", photo3Url);
+    }
+    if (photo4Url){
+      formData.set("photo4Url", photo4Url);
+    }
 
+    if (offerPhoto1Url){
+      formData.set("offerPhoto1Url", offerPhoto1Url);
+    }
+    if (offerPhoto2Url){
+      formData.set("offerPhoto2Url", offerPhoto2Url);
+    }
+    if (offerPhoto3Url){
+      formData.set("offerPhoto3Url", offerPhoto3Url);
+    }
+    if (offerPhoto4Url){
+      formData.set("offerPhoto4Url", offerPhoto4Url);
+    }
+   
     createProduct(user._id, token, formData).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
@@ -182,8 +213,6 @@ const AddProduct = () => {
           blockAtWarehouse: "",
           isPerishable: "",
           thirdPartyItem: "",
-          photosUrl: "",
-          offerPhotosUrl: "",
           categoryProducts: [],
           relatedProducts: [],
           selectedCategories: "",
@@ -198,6 +227,58 @@ const AddProduct = () => {
       }
     });
   };
+  function getBase64(file) {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      console.log(reader.result);
+    };
+    reader.onerror = function (error) {
+      console.log("Error: ", error);
+    };
+  }
+  const handleImageChange = (name) => (event) => {
+    console.log("handle iamge change");
+
+    if (name === "photosUrl") {
+      if (event.target.files) {
+        for (let i = 0; i < 4; i++) {
+          if (event.target.files[i]) {
+            if (i === 0) {
+              setPhoto1Url(event.target.files[i]);
+            } else if (i === 1) {
+              setPhoto2Url(event.target.files[i]);
+            } else if (i === 2) {
+              setPhoto3Url(event.target.files[i]);
+            } else if (i === 3) {
+              setPhoto4Url(event.target.files[i]);
+            }
+          } else {
+            break;
+          }
+        }
+      }
+    } else if (name === "offerPhotosUrl") {
+      if (event.target.files) {
+        for (let i = 0; i < 4; i++) {
+          if (event.target.files[i]) {
+            if (i === 0) {
+              setOfferPhoto1Url(event.target.files[i]);
+            } else if (i === 1) {
+              setOfferPhoto2Url(event.target.files[i]);
+            } else if (i === 2) {
+              setOfferPhoto3Url(event.target.files[i]);
+            } else if (i === 3) {
+              setOfferPhoto4Url(event.target.files[i]);
+            }
+          } else {
+            break;
+          }
+        }
+      }
+    }
+  };
+
   const handleSlugChange = (value) => () => {
     setValues({ ...values, enableCustomSlug: !value });
   };
@@ -282,6 +363,30 @@ const AddProduct = () => {
   const newPostFrom = () => (
     <form className="mb-3" onSubmit={clickSubmit}>
       <div className="form-group">
+        <h4>Upload Photos (Max 4 Photo Allowed)</h4>
+        <div className="form-group">
+          <label htmlFor="" className="btn btn-secondary">
+            <input
+              onChange={handleImageChange("photosUrl")}
+              type="file"
+              name="photosUrl"
+              accept="image"
+              multiple
+            />
+          </label>
+        </div>
+        <h4>Upload Offer Photos (Max 4 Photo Allowed)</h4>
+        <div className="form-group">
+          <label htmlFor="" className="btn btn-secondary">
+            <input
+              onChange={handleImageChange("offerPhotosUrl")}
+              type="file"
+              name="offerPhotosUrl"
+              accept="image"
+              multiple
+            />
+          </label>
+        </div>
         <label htmlFor="" className="text-muted">
           Product Code
         </label>
@@ -552,28 +657,6 @@ const AddProduct = () => {
         />
       </div>
 
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Photos Url
-        </label>
-        <input
-          onChange={handleChange("photosUrl")}
-          type="text"
-          className="form-control"
-          value={photosUrl}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Offer Photos Url
-        </label>
-        <input
-          onChange={handleChange("offerPhotosUrl")}
-          type="text"
-          className="form-control"
-          value={offerPhotosUrl}
-        />
-      </div>
       <div className="form-group">
         <label htmlFor="" className="text-muted">
           Categories
