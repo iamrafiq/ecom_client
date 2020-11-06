@@ -83,7 +83,15 @@ const AddAvertisement = () => {
     if (categories.length <= 0) {
       downloadAllCategories();
     }
-  }, [products, categories]);
+  }, []);
+  // useEffect(() => {
+  //   if (products.length <= 0) {
+  //     downloadAllProducts();
+  //   }
+  //   if (categories.length <= 0) {
+  //     downloadAllCategories();
+  //   }
+  // }, [products, categories]);
 
   const handlePhotoChange = (name) => (event) => {
     if (name == "photo") {

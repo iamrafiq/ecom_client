@@ -113,10 +113,10 @@ const UpdateAvertisement = ({ match }) => {
     if (advertisement === null) {
       downloadAdvertisementsById(match.params.advertisementId);
     }
-    if (products.length <= 0) {
+    if (products.length <= 0 && !productAPICalled) {
       downloadAllProducts();
     }
-    if (categories.length <= 0) {
+    if (categories.length <= 0 && !categoryAPICalled) {
       downloadAllCategories();
     }
     if (productAPICalled && categoryAPICalled && advertisementAPICalled) {
@@ -147,13 +147,13 @@ const UpdateAvertisement = ({ match }) => {
         productSlugs:prodSlug.map((prod, index) =>  prod.slug),
         customSlugDefault: otherSlugs,
         customSlug:otherSlugs,
-        productAPICalled: false,
-        categoryAPICalled: false,
-        advertisementAPICalled: false,
+        // productAPICalled: false,
+        // categoryAPICalled: false,
+        // advertisementAPICalled: false,
         loading:false
       });
     }
-  }, [products, categories, advertisement]);
+  }, [productAPICalled, categoryAPICalled, advertisement]);
   const handlePhotoChange = (name) => (event) => {
     if (name == "photo") {
       setPhoto(event.target.files[0]);
