@@ -8,6 +8,7 @@ import { getAllProducts } from "../apiAdmin";
 
 import { createAdvertisement } from "./apiAdvertisement";
 import Select from "react-select";
+var slugify = require("slugify");
 
 const AddAvertisement = () => {
   const [photo, setPhoto] = useState(null);
@@ -15,6 +16,7 @@ const AddAvertisement = () => {
   const { user, token } = isAuthenticated();
   const [values, setValues] = useState({
     name: "",
+    slug:"",
     slugPages: "",
     categories: [],
     products: [],
@@ -30,6 +32,7 @@ const AddAvertisement = () => {
 
   const {
     name,
+    slug,
     slugPages,
     categories,
     products,
@@ -100,6 +103,23 @@ const AddAvertisement = () => {
   };
   const handleChange = (field) => (event) => {
     let value = event.target.value;
+    if (field === "name") {
+      const slugStr = slugify(value, {
+        replacement: "-", // replace spaces with replacement character, defaults to `-`
+        remove: undefined, // remove characters that match regex, defaults to `undefined`
+        lower: true, // convert to lower case, defaults to `false`
+        strict: false, // strip special characters except replacement, defaults to `false`
+        locale: "vi", // language code of the locale to use
+      });
+      setValues({
+        ...values,
+        slug: slugStr,
+        error: false,
+        createdProduct: false,
+      });
+
+      formData.set("slug", slugStr);
+    }
     formData.set(field, value);
     setValues({
       ...values,

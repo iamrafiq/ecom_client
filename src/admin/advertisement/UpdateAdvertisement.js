@@ -5,13 +5,13 @@ import { isAuthenticated } from "../../auth";
 import { Link, Redirect } from "react-router-dom";
 import { getCategories } from "../apiAdmin";
 import { getAllProducts } from "../apiAdmin";
-
 import {
   getAdvertisementsById,
   getAdvertisementsBySlug,
   updateAdvertisement,
 } from "./apiAdvertisement";
 import Select from "react-select";
+var slugify = require("slugify");
 
 const UpdateAvertisement = ({ match }) => {
   const [photo, setPhoto] = useState(null);
@@ -19,8 +19,9 @@ const UpdateAvertisement = ({ match }) => {
   const { user, token } = isAuthenticated();
   const [values, setValues] = useState({
     name: "",
+    slug:"",
     slugPages: "",
-   
+
     advertisement: null,
     categories: [],
     products: [],
@@ -42,6 +43,7 @@ const UpdateAvertisement = ({ match }) => {
 
   const {
     name,
+    slug,
     slugPages,
     advertisement,
     categories,
@@ -71,7 +73,7 @@ const UpdateAvertisement = ({ match }) => {
 
         setValues({
           ...values,
-          name:data.name,
+          name: data.name,
           advertisement: data,
           advertisementAPICalled: true,
           formData: new FormData(),
@@ -142,15 +144,15 @@ const UpdateAvertisement = ({ match }) => {
       setValues({
         ...values,
         slugsCategoryDefault: catsSlug,
-        categorySlugs:catsSlug.map((cat, index) =>  cat.slug),
+        categorySlugs: catsSlug.map((cat, index) => cat.slug),
         slugsProductDefault: prodSlug,
-        productSlugs:prodSlug.map((prod, index) =>  prod.slug),
+        productSlugs: prodSlug.map((prod, index) => prod.slug),
         customSlugDefault: otherSlugs,
-        customSlug:otherSlugs,
+        customSlug: otherSlugs,
         // productAPICalled: false,
         // categoryAPICalled: false,
         // advertisementAPICalled: false,
-        loading:false
+        loading: false,
       });
     }
   }, [productAPICalled, categoryAPICalled, advertisement]);
@@ -161,6 +163,23 @@ const UpdateAvertisement = ({ match }) => {
   };
   const handleChange = (field) => (event) => {
     let value = event.target.value;
+    if (field === "name") {
+      const slugStr = slugify(value, {
+        replacement: "-", // replace spaces with replacement character, defaults to `-`
+        remove: undefined, // remove characters that match regex, defaults to `undefined`
+        lower: true, // convert to lower case, defaults to `false`
+        strict: false, // strip special characters except replacement, defaults to `false`
+        locale: "vi", // language code of the locale to use
+      });
+      setValues({
+        ...values,
+        slug: slugStr,
+        error: false,
+        createdProduct: false,
+      });
+
+      formData.set("slug", slugStr);
+    }
     formData.set(field, value);
     setValues({
       ...values,
@@ -205,7 +224,12 @@ const UpdateAvertisement = ({ match }) => {
     formData.set("name", name);
 
     setValues({ ...values, error: "" });
-    updateAdvertisement(match.params.advertisementId, user._id, token, formData).then((data) => {
+    updateAdvertisement(
+      match.params.advertisementId,
+      user._id,
+      token,
+      formData
+    ).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -242,7 +266,7 @@ const UpdateAvertisement = ({ match }) => {
     console.log(`Option selected:`, selectedOption);
 
     if (selectedOption != null) {
-      const catsSlug = selectedOption.map((cat, index) =>  cat.obj.slug);
+      const catsSlug = selectedOption.map((cat, index) => cat.obj.slug);
 
       setValues({
         ...values,
@@ -256,7 +280,9 @@ const UpdateAvertisement = ({ match }) => {
     console.log(`Option selected:`, selectedOption);
 
     if (selectedOption != null) {
-      const productsSlug = selectedOption.map((product, index) => product.obj.slug);
+      const productsSlug = selectedOption.map(
+        (product, index) => product.obj.slug
+      );
 
       setValues({
         ...values,
@@ -266,7 +292,7 @@ const UpdateAvertisement = ({ match }) => {
       setValues({ ...values, productSlugs: "" });
     }
   };
-  
+
   const newPostFrom = () => (
     <form className="mb-3" onSubmit={clickSubmit} id="form1">
       <div className="form-group">
@@ -290,7 +316,7 @@ const UpdateAvertisement = ({ match }) => {
           value={name}
         />
       </div>
-    
+
       <div className="form-group">
         <label htmlFor="" className="text-muted">
           Cust Page Slug: (Coma separeted value)
@@ -316,7 +342,7 @@ const UpdateAvertisement = ({ match }) => {
               return {
                 value: cat.name,
                 label: cat.name,
-                obj:cat,
+                obj: cat,
               };
             })}
             isMulti
@@ -324,7 +350,7 @@ const UpdateAvertisement = ({ match }) => {
               return {
                 value: cat.name,
                 label: cat.name,
-                obj:cat,
+                obj: cat,
               };
             })}
           />
@@ -334,7 +360,7 @@ const UpdateAvertisement = ({ match }) => {
         <label htmlFor="" className="text-muted">
           Select Product Pages:
         </label>
-        { 
+        {
           <Select
             onChange={handleChangeProducts}
             closeMenuOnSelect={false}
@@ -342,7 +368,7 @@ const UpdateAvertisement = ({ match }) => {
               return {
                 value: prod.name,
                 label: prod.name,
-                obj:prod
+                obj: prod,
               };
             })}
             isMulti
@@ -350,7 +376,7 @@ const UpdateAvertisement = ({ match }) => {
               return {
                 value: prod.name,
                 label: prod.name,
-                obj:prod
+                obj: prod,
               };
             })}
           />
@@ -403,20 +429,21 @@ const UpdateAvertisement = ({ match }) => {
       Back to Dashboard
     </Link>
   );
-  return (
-    loading?(showLoading()) : (<Layout
+  return loading ? (
+    showLoading()
+  ) : (
+    <Layout
       title=" Add a new product"
       description={`G'day ${user.name}, ready to add a new product?`}
     >
       <div className="row">
         <div className="col-md-8 offset-md-2">
-          
           {showSuccess()}
           {showError()}
-          { newPostFrom()}
+          {newPostFrom()}
         </div>
       </div>
-    </Layout>)
+    </Layout>
   );
 };
 
