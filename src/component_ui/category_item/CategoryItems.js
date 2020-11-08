@@ -24,6 +24,7 @@ import { loadCategoryWithProduct } from "../../redux/categoryWithProductSlice";
 import { loadActiveCategories } from "../../redux/categorySlice";
 import { setSlug } from "../../redux/productHoverSlice";
 import { selectResolutionSelection } from "../../redux/settingsSlice";
+import Grid from "../grid/Grid";
 
 const CategoryItems = ({ match }) => {
   const bar = useSelector(selectSideBarBarToViewSelection);
@@ -75,44 +76,26 @@ const CategoryItems = ({ match }) => {
   //   dispatch(setViewToBar({ viewToBar: slug }));
   // };
 
-  const getSubcates = (items) => {
+  const subcategories = (items) => {
     var test = [];
 
     for (var j = 0; j < 25; j++) {
       test[j] = { i: 89, j: j };
     }
-    // var chunkSize = 6;
-    // var R = [];
-    // for (var i = 0; i < test.length; i += chunkSize) {
-    //   R.push(test.slice(i, i + chunkSize));
-    // }
 
     return items.map((item, index) => (
       <div>
         <Link to={item.slug}>
-          <Category category={item} key={item._id} resulationSelector = {resulationSelector}></Category>
+          <Category
+            category={item}
+            key={item._id}
+            resulationSelector={resulationSelector}
+          ></Category>
         </Link>
       </div>
     ));
-
-    // return R.map((row, index) => {
-    //   return (
-    //     <div
-    //       style={{
-    //         display: "flex",
-    //         justifyContent: "space-arround",
-    //         flexWrap: "wrap",
-    //       }}
-    //     >
-    //       {row.map((ele, index) => {
-    //         return <ProductCard></ProductCard>;
-    //       })}
-    //     </div>
-    //   );
-    // });
   };
-  const getSubcatsProduct = (items) => {
-    console.log("items...", items);
+  const products = (items) => {
     return items.map((item, index) => (
       <div>
         <Product product={item} index={index}></Product>
@@ -126,27 +109,16 @@ const CategoryItems = ({ match }) => {
         <h2>Loading....</h2>
       ) : (
         <div>
-          {category.advertisements && category.advertisements.length> 0 &&(
-            <div
-              className="jumbotron text-center mx-auto d-block img-fluid unlock-icon mb-3 p-0"
-              style={{ padding: 0, maxWidth: "700px" }}
-            >
+          {category.advertisements && category.advertisements.length > 0 && (
+            <div className="addvert-area">
               <img
-                className="card-img"
-                src={category.advertisements[0].photo}
+                src={`${category.advertisements[0].photo}&res=${resulationSelector}`}
                 alt={category.advertisements[0].name}
               />
             </div>
           )}
 
-          <div
-            style={{
-              margin: "0px",
-              padding: "0px",
-              display: "flex",
-              flexDirection: "row",
-            }}
-          >
+          <div className="back-links">
             {category.recursiveCategories
               ? category.recursiveCategories.map((item, index) => (
                   <div key={Math.random().toString(10).slice(2)}>
@@ -168,70 +140,20 @@ const CategoryItems = ({ match }) => {
             )}
           </div>
 
-          <div
-            className="row"
-            style={{
-              margin: "0px",
-              padding: "0px",
-              display: "flex",
-              flexDirection: "row",
-            }}
-          >
-            <hr style={{ flex: "1" }} />
-            <div
-              style={{
-                margin: "auto",
-                paddingLeft: "50px",
-                paddingRight: "50px",
-              }}
-            >
-              {category && category.name}
-            </div>
-            <hr style={{ flex: "1" }} />
+          <div className="horizontal-line">
+            <hr />
+            <div>{category && category.name}</div>
+            <hr />
           </div>
-          <div className="grid">
-            {category.subcats && category.subcats.length > 0
-              ? getSubcates(category.subcats)
-              : category.products && category.products.length > 0
-              ? getSubcatsProduct(category.products)
-              : getNothingFound()}
-          </div>
-
-          {/* <div className="container" style={{ marginTop: "30px" }}>
-            <div className="mx-2">
-              <div className="col-12">
-                <div className="row">
-                  {category.subcats && category.subcats.length > 0 ? (
-                    category.subcats.map((el, index) => (
-                      <div key={el._id} className=" m-1 ">
-                        <Link to={el.slug}>
-                          <SubCatCard
-                            // onClick={onItemSelect}
-                            cat={el}
-                            key={el._id}
-                          ></SubCatCard>
-                        </Link>
-                      </div>
-                    ))
-                  ) : category.products && category.products.length > 0 ? (
-                    category.products.map((el, index) => (
-                      <div key={el._id} className=" m-1 ">
-                        <Link to={el.slug}>
-                          <ProductCard
-                            // onClick={onItemSelect}
-                            key={el._id}
-                          ></ProductCard>
-                        </Link>
-                      </div>
-                    ))
-                  ) : (
-                    <h2>Nothing found!!!</h2>
-                  )}
-                </div>
-                <hr />
-              </div>
-            </div>
-          </div> */}
+          <Grid
+            content={
+              category.subcats && category.subcats.length > 0
+                ? subcategories(category.subcats)
+                : category.products && category.products.length > 0
+                ? products(category.products)
+                : getNothingFound()
+            }
+          ></Grid>
         </div>
       )}
     </div>
