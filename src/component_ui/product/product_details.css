@@ -15,7 +15,12 @@
   align-items: center;
 }
 
-.container-top .left .top {
+.container-top .left .top img{
+   object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto; 
 }
 .container-top .left .bottom {
   display: flex;
