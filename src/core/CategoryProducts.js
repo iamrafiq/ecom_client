@@ -4,17 +4,13 @@ import { getProducts } from "./apiCore";
 import { useEffect, useState } from "react";
 import Card from "./Card";
 import Search from "./Search";
-import ProductCard from "../component_ui/product_card/ProductCard";
 const CategoryChildren = (props) => {
-
-
   return (
     <Layout
       title="Category Product"
       description="Node React"
       className="container-fluid"
     >
-      <ProductCard></ProductCard>
     </Layout>
   );
 };
