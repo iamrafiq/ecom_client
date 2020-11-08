@@ -80,27 +80,28 @@ function Product({ product }) {
   });
 
   return (
-    <div className="">
-      {modalInnerScroll ? (
-        <div>
-          <PureModal
-            header={""}
-            scrollable={false}
-            // footer="Buttons?"
-            //  closeButtonPosition="bottom"
-            // closeButtonPosition="bottom"
-            // portal
-            // closeButton={<div>&#10007;</div>}
-            isOpen={modalInnerScroll}
-            onClose={() => {
-              // setModalInnerScroll(false);
-              return true;
-            }}
-          >
-            <ProductDetails product={product}></ProductDetails>
-          </PureModal>
-        </div>
-      ) : (
+    <div>
+      <React.Fragment>
+        {modalInnerScroll && (
+          <div>
+            <PureModal
+              header={""}
+              scrollable={false}
+              // footer="Buttons?"
+              //  closeButtonPosition="bottom"
+              // closeButtonPosition="bottom"
+              // portal
+              // closeButton={<div>&#10007;</div>}
+              isOpen={modalInnerScroll}
+              onClose={() => {
+                 setModalInnerScroll(false);
+                return true;
+              }}
+            >
+              <ProductDetails product={product}></ProductDetails>
+            </PureModal>
+          </div>
+        )}
         <div className="product-card">
           <div
             className="content-image"
@@ -109,7 +110,11 @@ function Product({ product }) {
           >
             <div className="product-card__image ">
               <img
-                src={photosUrl && photosUrl.length > 0 ? `${photosUrl[0]}&res=${resulationSelector}` : ""}
+                src={
+                  photosUrl && photosUrl.length > 0
+                    ? `${photosUrl[0]}&res=${resulationSelector}`
+                    : ""
+                }
                 alt={name}
               ></img>
             </div>
@@ -157,8 +162,7 @@ function Product({ product }) {
                         -
                       </span>
                       <span className="action-result">
-                        {" "}
-                        {productFromCart.qtyCart}{" "}
+                        {productFromCart.qtyCart}
                       </span>
                       <span
                         className="action-add"
@@ -210,7 +214,7 @@ function Product({ product }) {
             </div>
           )}
         </div>
-      )}
+      </React.Fragment>
     </div>
   );
 }

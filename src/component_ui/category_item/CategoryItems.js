@@ -145,15 +145,13 @@ const CategoryItems = ({ match }) => {
             <div>{category && category.name}</div>
             <hr />
           </div>
-          <Grid
-            content={
-              category.subcats && category.subcats.length > 0
-                ? subcategories(category.subcats)
-                : category.products && category.products.length > 0
-                ? products(category.products)
-                : getNothingFound()
-            }
-          ></Grid>
+          <Grid>
+            {category.subcats && category.subcats.length > 0
+              ? subcategories(category.subcats)
+              : category.products && category.products.length > 0
+              ? products(category.products)
+              : getNothingFound()}
+          </Grid>
         </div>
       )}
     </div>

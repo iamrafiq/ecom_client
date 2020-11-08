@@ -2,108 +2,158 @@ import React from "react";
 import { useEffect, useState } from "react";
 import "./product_details.css";
 import { useSelector, useDispatch } from "react-redux";
+import { selectLanguageSelection } from "../../redux/settingsSlice";
 import {
-  selectLanguageSelection,
-  selectResolutionSelection,
-} from "../../redux/settingsSlice";
+  addItem,
+  removeItem,
+  selectCartProducts,
+  selectAcartProduct,
+} from "../../redux/cartSlice";
+import ProductPhotoViewer from "../../util/ProductPhotoViewer";
+import { englishToBangla, discountInPercentage } from "../../util/utils";
+
 function ProductDetails({ product }) {
-  const resulationSelector = useSelector(selectResolutionSelection);
-  const { language } = useSelector(selectLanguageSelection);
-  const { photosUrl } = product;
+  const dispatch = useDispatch();
+  const language  = useSelector(selectLanguageSelection);
+  const productFromCart = useSelector(selectAcartProduct(product));
+
+  const {
+    photosUrl,
+    name,
+    bengaliName,
+    subText,
+    mrp,
+    cropPrice,
+    shortDesc,
+    longDesc,
+  } = product;
+  const onClickAddToCart = () => {
+    dispatch(addItem({ product: product }));
+  };
+  const onClickRemoveFromCart = () => {
+    dispatch(removeItem({ product: product }));
+  };
+  const onClickBuy = () => {
+    console.log("on click buy");
+  };
   return (
     <div className="root-details">
       <div className="root-container">
         <div className="container-top">
           <div className="left">
-            <div className="top">
-              <img
-                src={
-                  photosUrl && photosUrl.length > 0
-                    ? `${photosUrl[0]}&res=${resulationSelector}`
-                    : ""
-                }
-                alt=""
-              />
-            </div>
-
-            {photosUrl && photosUrl.length > 1 && (
-              <div className="bottom">
-                {photosUrl.map((url, index) => (
-                  <img
-                    src={`${photosUrl[index]}&res=${"low"}`}
-                    alt=""
-                  />
-                ))}
-              </div>
-            )}
-            {/* <div className="bottom">
-              <img
-                src="https://cdn.chaldal.net/_mpimage/nestle-maggi-2-minute-noodles-masala-8-pack-496-gm?src=https%3A%2F%2Feggyolk.chaldal.com%2Fapi%2FPicture%2FRaw%3FpictureId%3D47374&q=low&v=1&w=80&webp=1"
-                alt=""
-                className="group round-circle-border"
-              />
-              <img
-                src="https://cdn.chaldal.net/_mpimage/nestle-maggi-2-minute-noodles-masala-8-pack-496-gm?src=https%3A%2F%2Feggyolk.chaldal.com%2Fapi%2FPicture%2FRaw%3FpictureId%3D46402&q=low&v=1&w=80&webp=1"
-                alt=""
-                className="group"
-              />
-              <img
-                src="https://cdn.chaldal.net/_mpimage/nestle-maggi-2-minute-noodles-masala-8-pack-496-gm?src=https%3A%2F%2Feggyolk.chaldal.com%2Fapi%2FPicture%2FRaw%3FpictureId%3D47372&q=low&v=1&w=80&webp=1"
-                alt=""
-                className="group"
-              />
-              <img
-                src="https://cdn.chaldal.net/_mpimage/nestle-maggi-2-minute-noodles-masala-8-pack-496-gm?src=https%3A%2F%2Feggyolk.chaldal.com%2Fapi%2FPicture%2FRaw%3FpictureId%3D47373&q=low&v=1&w=80&webp=1"
-                alt=""
-                className="group"
-              />
-            </div> */}
+            <ProductPhotoViewer
+              photosUrl={photosUrl}
+              alt={name}
+            ></ProductPhotoViewer>
           </div>
           <div className="right">
-            <div className="title">
-              Nestlé MAGGI 2-Minute Noodles Masala 8 Pack
-            </div>
-            <div className="subtext">496 gram</div>
+            {language === "en" ? (
+              <div className="title">{name}</div>
+            ) : (
+              <div className="title">{bengaliName}</div>
+            )}
+
+            {subText &&
+              (language === "en" ? (
+                <div className="subtext">{subText}</div>
+              ) : (
+                <div className="subtext">{englishToBangla(subText)}</div>
+              ))}
+
             <div className="price">
               <div className="left">
-                <span className="crop-price"> &#2547; 300 &nbsp;</span>
+                {cropPrice && cropPrice > 0 ? (
+                  language === "en" ? (
+                    <React.Fragment>
+                      <span className="font-large-price">
+                        &#2547; {cropPrice} &nbsp;
+                      </span>
+                      <span className="font-small-price">
+                        <del>MRP {mrp} &#2547; </del>
+                      </span>
+                    </React.Fragment>
+                  ) : (
+                    <React.Fragment>
+                      <span className="font-large-price">
+                        &#2547; {englishToBangla(cropPrice)} &nbsp;
+                      </span>
+                      <span className="font-small-price">
+                        <del>MRP {englishToBangla(mrp)} &#2547; </del>
+                      </span>
+                    </React.Fragment>
+                  )
+                ) : language === "en" ? (
+                  <React.Fragment>
+                    <span className="font-large-price">MRP {mrp} &#2547;</span>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <span className="font-large-price">
+                      MRP {englishToBangla(mrp)} &#2547;
+                    </span>
+                  </React.Fragment>
+                )}
+                {/* <span className="crop-price"> &#2547; {cropPrice} &nbsp;</span>
                 <span className="mrp">
-                  <del>MRP &#2547; 500</del>
-                </span>
+                  <del>MRP {mrp} &#2547; </del>
+                </span> */}
               </div>
-              <div className="right">
-                <span className="dot"></span>
-                <span className="text">25% OFF</span>
-              </div>
+
+              {cropPrice && (
+                <div className="right">
+                  <span className="dot"></span>
+                  {language === "en" ? (
+                    <span className="text">
+                      {discountInPercentage(mrp, cropPrice)} % OFF
+                    </span>
+                  ) : (
+                    <span className="text">
+                      {englishToBangla(discountInPercentage(mrp, cropPrice))} %
+                      OFF
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
             <div className="btns">
               <div className="counter">
-                <div className="minus">-</div>
-                <div className="bag">
-                  <div className="top">0</div>
-                  <div className="bottom">in bag</div>
+                <div className="minus" onClick={() => onClickRemoveFromCart()}>
+                  -
                 </div>
-                <div className="plus">+</div>
+                <div className="bag">
+                  {language == "en" ? (
+                    <React.Fragment>
+                      {productFromCart ? (
+                        <div className="top">{productFromCart.qtyCart}</div>
+                      ) : (
+                        <div className="top">{0}</div>
+                      )}
+                      <div className="bottom">in bag</div>
+                    </React.Fragment>
+                  ) : (
+                    <React.Fragment>
+                      {productFromCart ? (
+                        <div className="top">
+                          {englishToBangla(productFromCart.qtyCart)}
+                        </div>
+                      ) : (
+                        <div className="top">{englishToBangla(0)}</div>
+                      )}
+
+                      <div className="bottom">{`টি ব্যাগে`}</div>
+                    </React.Fragment>
+                  )}
+                </div>
+                <div className="plus" onClick={() => onClickAddToCart()}>
+                  +
+                </div>
               </div>
-              <div className="buy-now">
+              <div className="buy-now" onClick={() => onClickBuy()}>
                 <span>Buy now</span>
               </div>
             </div>
             <hr className="divider" />
-            <div className="description">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum
-              error voluptates blanditiis quo quae praesentium ducimus delectus
-              aut assumenda illo! Illo nulla laborum perferendis mollitia
-              excepturi, quos explicabo aut fugit ea! Expedita quis ipsam
-              tempore debitis! Nam quasi ut libero vel at rerum, perferendis
-              numquam! Voluptatem tempore maiores expedita aperiam cumque
-              consequatur eaque minima, accusantium rerum amet perferendis quos
-              eveniet sint ex doloribus, dicta numquam vel? Odio assumenda
-              fugiat minus eaque optio adipisci architecto. Quam perspiciatis
-              iusto laboriosam rerum voluptate eum maiores illum eos doloremque
-              suscipit dolorem id, at error ad veniam qui adipisci voluptatum
-              accusamus optio minus. Unde, ex!
-            </div>
+            <div className="description">{longDesc}</div>
           </div>
         </div>
         <div className="container-bottom">
@@ -113,15 +163,29 @@ function ProductDetails({ product }) {
                 src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/stores/chaldal/components/page/BrandComponent/images/1-hour.png?q=low&webp=1&alpha=1"
                 alt="1 hour delivery"
               />
-              <span>1 hour delivery</span>
+              {language === "en" ? (
+                <span>1 hour delivery</span>
+              ) : (
+                <span>১ ঘণ্টার মধ্যে বিতরণ</span>
+              )}
+
               <img
                 src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/stores/chaldal/components/page/BrandComponent/images/cash-on-delivery.png?q=low&webp=1&alpha=1"
                 alt="Cash on delivery"
               />
-              <span>Cash on delivery</span>
+              {language === "en" ? (
+                <span>Cash on delivery</span>
+              ) : (
+                <span> প্রদানোত্তর পরিশোধ</span>
+              )}
             </div>
             <div className="right">
-              <span>Pay with</span>
+              {language === "en" ? (
+                <span>Pay with</span>
+              ) : (
+                <span>প্রদান করুন</span>
+              )}
+
               <img
                 src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/components/shared/NewFooter/images/Amex.png?q=low&webp=1&alpha=1"
                 alt="Amex"
@@ -147,31 +211,82 @@ function ProductDetails({ product }) {
           <div className="bottom">
             <div className="left">
               <img src="http://sowdamart.com/images/logo.png" alt="Logo" />
-              <div className="company-goal">
-                Sowdamart.com is an online shop in Dhaka, Bangladesh. We believe
-                time is valuable to our fellow Dhaka residents, and that they
-                should not have to waste hours in traffic, brave bad weather and
-                wait in line just to buy basic necessities like eggs! This is
-                why Chaldal delivers everything you need right at your door-step
-                and at no additional cost.
-              </div>
+              {language === "en" ? (
+                <div className="company-goal">
+                  Sowdamart.com is an online shop in Dhaka, Bangladesh. We
+                  believe time is valuable to our fellow Dhaka residents, and
+                  that they should not have to waste hours in traffic, brave bad
+                  weather and wait in line just to buy basic necessities like
+                  eggs! This is why Sowdamart delivers everything you need right
+                  at your door-step and at no additional cost.
+                </div>
+              ) : (
+                <div className="company-goal">
+                  সওদামার্ট বাংলাদেশ এর সর্ব প্রথম অনলাইন ভিত্তিক শপ। বর্তমান
+                  সমাজের ব্যস্তটায় ফাঁকে প্রত্যেকটি মানুষ তার নিত্য প্রয়োজনীয়
+                  জিনিস যেন ঘরে বসে অনয়াসেই কেনাকাটা করতে পারে এমন লক্ষ্য নিয়েই
+                  সওদামার্ট এর যাত্রা শুরু। “সময় বাঁচাও, খরচ বাঁচাও” এই স্লোগান
+                  নিয়েই সওদামার্ট ঢাকাবাসীদের তাদের প্রাত্যহিক হয়রানি থেকে
+                  মুক্তি দেওয়ার চেষ্টায় নিয়োজিত। যদিও আপাতত এই সেবাটি ঢাকা এর
+                  মাঝেই সীমাবদ্ধ, তবে আমরা আশা করছি অচিরেই সারা বাংলাদেশে আমাদের
+                  এই সেবা ছড়িয়ে দেব।
+                </div>
+              )}
+
               <div className="links">
                 <div className="customer-service">
-                  <div className="title">Customer Service</div>
+                  {language === "en" ? (
+                    <div className="title">Customer Service</div>
+                  ) : (
+                    <div className="title">গ্রাহক সেবা</div>
+                  )}
+
                   <hr className="border" />
-                  <div className="item">Contact Us</div>
-                  <div className="item">FAQ</div>
+                  {language === "en" ? (
+                    <div className="item">Contact Us</div>
+                  ) : (
+                    <div className="item">যোগাযোগ</div>
+                  )}
+
+                  {language === "en" ? (
+                    <div className="item">FAQ</div>
+                  ) : (
+                    <div className="item">প্রতিনিয়ত জিজ্ঞাসিত প্রশ্ন</div>
+                  )}
                 </div>
                 <div className="about-company">
-                  <div className="title">About Sowdamart</div>
+                  {language === "en" ? (
+                    <div className="title">About Sowdamart</div>
+                  ) : (
+                    <div className="title">সওদামার্ট সম্পর্কে</div>
+                  )}
+
                   <hr className="border" />
-                  <div className="item">Privacy Policy</div>
-                  <div className="item">Terms of Use</div>
+                  {language === "en" ? (
+                    <div className="item">Privacy Policy</div>
+                  ) : (
+                    <div className="item">গোপনীয়তা নীতি</div>
+                  )}
+
+                  {language === "en" ? (
+                    <div className="item">Terms of Use</div>
+                  ) : (
+                    <div className="item">ব্যবহারের নিয়মাবলি</div>
+                  )}
                 </div>
                 <div className="for-business">
-                  <div className="title">For Business</div>
+                  {language === "en" ? (
+                    <div className="title">For Business</div>
+                  ) : (
+                    <div className="title">ব্যাবসার জন্য</div>
+                  )}
+
                   <hr className="border" />
-                  <div className="item">Contact Us</div>
+                  {language === "en" ? (
+                    <div className="item">Corporate</div>
+                  ) : (
+                    <div className="item">কর্পোরেট</div>
+                  )}
                 </div>
               </div>
             </div>
@@ -197,7 +312,11 @@ function ProductDetails({ product }) {
                     src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/components/shared/NewFooter/images/phone_icon.png?q=low&webp=1&alpha=1"
                     alt="Phone Icon"
                   />
-                  <span>01768567184</span>
+                  {language === "en" ? (
+                    <span>0176-8567184</span>
+                  ) : (
+                    <span>০১৭৬-৮৫৬৭১৮৪</span>
+                  )}
                 </div>
                 <div className="email">
                   or email{" "}

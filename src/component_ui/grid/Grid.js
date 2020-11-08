@@ -1,7 +1,7 @@
 import React from "react";
 import './grid.css'
-export default function  ({content}){
+export default function Grid ({ className, children }){
     return <div className="grid">
-        {content}
+        {children}
     </div>
 }

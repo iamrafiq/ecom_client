@@ -27,22 +27,21 @@ const AddProduct = () => {
 
   const { user, token } = isAuthenticated();
   const [values, setValues] = useState({
-    productCode: "4342",
-    name: "czcz",
-    slug: "zxczxc",
-    bengaliName: "zczxc",
-    nameWithOutSubText: "zxczx",
-    subText: "zxczxc",
-    mrp: "34",
-    price: "34",
-    cropPrice: "34",
+    productCode: "",
+    name: "",
+    slug: "",
+    bengaliName: "",
+    nameWithOutSubText: "",
+    subText: "",
+    mrp: "",
+    cropPrice: "",
     applyDiscounts: "",
     blockSale: "",
     shortDesc: "",
     longDesc: "",
     isAlwaysAvailable: "",
-    commonStock: "4324",
-    preferredStock: "34234",
+    commonStock: "",
+    preferredStock: "",
     earliestAvailabilityTime: "",
     availabilityCutOffTime: "",
     blockAtWarehouse: "",
@@ -71,7 +70,6 @@ const AddProduct = () => {
     nameWithOutSubText,
     subText,
     mrp,
-    price,
     cropPrice,
     applyDiscounts,
     blockSale,
@@ -473,18 +471,6 @@ const AddProduct = () => {
       </div>
       <div className="form-group">
         <label htmlFor="" className="text-muted">
-          Body Price
-        </label>
-        <input
-          onChange={handleChange("price")}
-          type="number"
-          className="form-control"
-          value={price}
-          required="true"
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
           Crop Price
         </label>
         <input
@@ -492,7 +478,6 @@ const AddProduct = () => {
           type="number"
           className="form-control"
           value={cropPrice}
-          required="true"
         />
       </div>
       <div className="form-group">
