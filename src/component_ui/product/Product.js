@@ -7,7 +7,7 @@ import {
   setSlug,
   selectProductHoverSelection,
 } from "../../redux/productHoverSlice";
-import { selectSettingsSelection } from "../../redux/settingsSlice";
+import { selectLanguageSelection, selectResolutionSelection } from "../../redux/settingsSlice";
 import {
   addItem,
   removeItem,
@@ -48,8 +48,8 @@ function Product({ product }) {
   } = product;
   const selectedHoverSlug = useSelector(selectProductHoverSelection);
   const productFromCart = useSelector(selectAcartProduct(product));
-  const { language } = useSelector(selectSettingsSelection);
-
+  const {resolution} = useSelector(selectResolutionSelection);
+  const {language} = useSelector(selectLanguageSelection);
   const dispatch = useDispatch();
   //dispatch(setSlug({ slug: product.slug }));
   useEffect(() => {}, [selectedHoverSlug, openDetailsView]);

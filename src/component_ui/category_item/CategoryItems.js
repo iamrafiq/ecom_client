@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 // import { getCategoryItems } from "../../admin/apiAdmin";
 
 // import ProductCard from "../product_card/ProductCard";
-import { SubCatCard } from "../content_card/Card";
+import Category from "../category/Category";
 import Product from "../product/Product";
 import "../../common/common.css";
 import "./category_item.css";
@@ -23,9 +23,13 @@ import { selectCategoryWithProduct } from "../../redux/categoryWithProductSlice"
 import { loadCategoryWithProduct } from "../../redux/categoryWithProductSlice";
 import { loadActiveCategories } from "../../redux/categorySlice";
 import { setSlug } from "../../redux/productHoverSlice";
+import { selectResolutionSelection } from "../../redux/settingsSlice";
+
 const CategoryItems = ({ match }) => {
   const bar = useSelector(selectSideBarBarToViewSelection);
   const category = useSelector(selectCategoryWithProduct);
+  const resulationSelector = useSelector(selectResolutionSelection);
+
   const dispatch = useDispatch();
 
   const [rerendar, setRerendar] = useState(0);
@@ -86,7 +90,7 @@ const CategoryItems = ({ match }) => {
     return items.map((item, index) => (
       <div>
         <Link to={item.slug}>
-          <SubCatCard category={item} key={item._id}></SubCatCard>
+          <Category category={item} key={item._id} resulationSelector = {resulationSelector}></Category>
         </Link>
       </div>
     ));

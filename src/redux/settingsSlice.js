@@ -3,17 +3,22 @@ import { createSlice } from "@reduxjs/toolkit";
 export const settingsSlice = createSlice({
   name: "settings",
   initialState: {
-    settings: {language:"en"}  // for bangla value 'bn'
+    language: "en",  // for bangla value 'bn'
+    resolution: "medium"   // low, heigh, medium // used to 
   },
   reducers: {
-    setSettings: (state, action) => {
-      state.settings = action.payload.settings;
+    setLanguage: (state, action) => {
+      state.language = action.payload.language;
+    },
+    setResolution: (state, action) => {
+      state.resolution = action.payload.resolution;
     },
   },
 });
 
 
-export const { setSettings } = settingsSlice.actions;
-export const selectSettingsSelection = (state) => state.settings.settings;
+export const { setLanguage, setResolution } = settingsSlice.actions;
+export const selectLanguageSelection = (state) => state.settings.language;
+export const selectResolutionSelection = (state) => state.settings.resolution;
 
 export default settingsSlice.reducer;

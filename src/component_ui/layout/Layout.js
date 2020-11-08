@@ -7,11 +7,23 @@ import "./Layout.css";
 import { loadCategories } from "../../redux/categorySlice";
 import { useState, useEffect } from "react";
 import { selectCategories } from "../../redux/categorySlice";
+import { setResolution, selectResolutionSelection } from "../../redux/settingsSlice";
+
 import { useSelector, useDispatch } from "react-redux";
+import { MOBIEL_DEVICE_RESOLUTION } from "../../config";
+
+const mql = window.matchMedia(`(min-width: ${MOBIEL_DEVICE_RESOLUTION}px)`);
 
 function Layout(props) {
   const dispatch = useDispatch();
+  //const resolution = useSelector(selectResolutionSelection);
+  console.log("mql...", mql.matches)
 
+  if (mql.matches){
+    dispatch(setResolution({resolution:"high"}));
+  }else{
+    dispatch(setResolution({resolution:"medium"}));
+  }
   useEffect(() => {
     dispatch(loadCategories());
   }, []);

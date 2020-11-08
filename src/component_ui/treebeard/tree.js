@@ -4,34 +4,8 @@ import { Link } from "react-router-dom";
 import { Treebeard, animations, decorators, theme } from "./index";
 import { includes } from "lodash";
 import { API } from "../../config";
-const CustomHeader = ({ node, style, prefix }) => (
-  <Link
-    className="nav-link"
-    to={node.slug}
 
-    // {{
-    //   pathname: `${
-    //     node.children ? "/category/children/": "/category/products/"
-    //   }`,
-    //   _id: node._id,
-    // }}
-  >
-    <div style={style.base}>
-      <div style={{ ...style.title, display: "flex", margin: "auto" }}>
-        <span>
-          {node.iconMenu &&(
-            <img
-              style={{ width: "20px", height: "20px", marginRight: "5px" }}
-              src={node.iconMenu}
-            ></img>
-          )}
-        </span>{" "}
-        {
-        `${node.name.toUpperCase()}`}
-      </div>
-    </div>
-  </Link>
-);
+
 
 // class CutomContainer extends decorators.Container {
 //   render() {
@@ -64,9 +38,29 @@ class TreeExample extends React.Component {
     this.onSelect = this.onSelect.bind(this);
     this.onViewToBar = this.onViewToBar.bind(this);
     this.checkSlug = this.checkSlug.bind(this);
+    this.CustomHeader = this.CustomHeader.bind(this);
+    this.resolutionSelector = props.resolutionSelector;
     // this.viewToBar = props.viewToBar;
     props.setViewToBarChange(this.onViewToBar);
   }
+  CustomHeader = ({ node, style, prefix }) => {
+     const {settings} = this.state
+     return <Link className="nav-link" to={node.slug}>
+      <div style={style.base}>
+        <div style={{ ...style.title, display: "flex", margin: "auto" }}>
+          <span>
+            {node.iconMenu && (
+              <img
+                style={{ width: "20px", height: "20px", marginRight: "5px" }}
+                src={`${node.iconMenu}&res=${this.resolutionSelector}`}
+              ></img>
+            )}
+          </span>{" "}
+          {`${node.name.toUpperCase()}`}
+        </div>
+      </div>
+    </Link>
+  };
   onToggle(node, toggled) {
     const { cursor } = this.state;
     if (cursor) {
@@ -85,7 +79,6 @@ class TreeExample extends React.Component {
 
     this.setBar(node.slug);
     this.setState({ cursor: node });
-
   }
   onSelect(node) {
     const { cursor, data } = this.state;
@@ -102,7 +95,6 @@ class TreeExample extends React.Component {
 
     this.setState(() => ({ cursor: node, data: Object.assign({}, data) }));
   }
-
 
   checkSlug = (slug, parent) => {
     for (let i = 0; i < parent.length; i++) {
@@ -132,7 +124,7 @@ class TreeExample extends React.Component {
 
     node.active = true;
     if (node.children) {
-      node.toggled =  !node.toggled;
+      node.toggled = !node.toggled;
     }
 
     //this.setBar(node.slug);
@@ -140,7 +132,7 @@ class TreeExample extends React.Component {
   }
   render() {
     const { data, slug, cursor } = this.state;
-    decorators.Header = CustomHeader;
+    decorators.Header = this.CustomHeader;
     //  decorators.Container = CutomContainer;
 
     theme.tree.base = {
