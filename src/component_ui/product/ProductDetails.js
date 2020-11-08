@@ -2,8 +2,14 @@ import React from "react";
 import { useEffect, useState } from "react";
 import "./product_details.css";
 import { useSelector, useDispatch } from "react-redux";
-
+import {
+  selectLanguageSelection,
+  selectResolutionSelection,
+} from "../../redux/settingsSlice";
 function ProductDetails({ product }) {
+  const resulationSelector = useSelector(selectResolutionSelection);
+  const { language } = useSelector(selectLanguageSelection);
+  const { photosUrl } = product;
   return (
     <div className="root-details">
       <div className="root-container">
@@ -11,12 +17,26 @@ function ProductDetails({ product }) {
           <div className="left">
             <div className="top">
               <img
-                src="https://cdn.chaldal.net/_mpimage/nestle-maggi-2-minute-noodles-masala-8-pack-496-gm?src=https%3A%2F%2Feggyolk.chaldal.com%2Fapi%2FPicture%2FRaw%3FpictureId%3D46402&q=low&v=1&w=600&webp=1"
+                src={
+                  photosUrl && photosUrl.length > 0
+                    ? `${photosUrl[0]}&res=${resulationSelector}`
+                    : ""
+                }
                 alt=""
-                className="main"
               />
             </div>
-            <div className="bottom">
+
+            {photosUrl && photosUrl.length > 1 && (
+              <div className="bottom">
+                {photosUrl.map((url, index) => (
+                  <img
+                    src={`${photosUrl[index]}&res=${"low"}`}
+                    alt=""
+                  />
+                ))}
+              </div>
+            )}
+            {/* <div className="bottom">
               <img
                 src="https://cdn.chaldal.net/_mpimage/nestle-maggi-2-minute-noodles-masala-8-pack-496-gm?src=https%3A%2F%2Feggyolk.chaldal.com%2Fapi%2FPicture%2FRaw%3FpictureId%3D47374&q=low&v=1&w=80&webp=1"
                 alt=""
@@ -37,7 +57,7 @@ function ProductDetails({ product }) {
                 alt=""
                 className="group"
               />
-            </div>
+            </div> */}
           </div>
           <div className="right">
             <div className="title">
@@ -128,13 +148,12 @@ function ProductDetails({ product }) {
             <div className="left">
               <img src="http://sowdamart.com/images/logo.png" alt="Logo" />
               <div className="company-goal">
-               Sowdamart.com is an online shop in Dhaka, Bangladesh. We believe
+                Sowdamart.com is an online shop in Dhaka, Bangladesh. We believe
                 time is valuable to our fellow Dhaka residents, and that they
                 should not have to waste hours in traffic, brave bad weather and
                 wait in line just to buy basic necessities like eggs! This is
                 why Chaldal delivers everything you need right at your door-step
                 and at no additional cost.
-                
               </div>
               <div className="links">
                 <div className="customer-service">
@@ -159,19 +178,18 @@ function ProductDetails({ product }) {
             <div className="right">
               <div className="mobile-apps">
                 <div className="box-app">
-                <img
-                  src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/components/shared/NewFooter/images/google_play_store.png?q=low&webp=1&alpha=1"
-                  alt=""
-                  className="Anroid App"
-                />
+                  <img
+                    src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/components/shared/NewFooter/images/google_play_store.png?q=low&webp=1&alpha=1"
+                    alt=""
+                    className="Anroid App"
+                  />
                 </div>
                 <div className="box-app">
-                <img
-                  src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/components/shared/NewFooter/images/app_store.png?q=low&webp=1&alpha=1"
-                  alt="iPhone App"
-                />
+                  <img
+                    src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/components/shared/NewFooter/images/app_store.png?q=low&webp=1&alpha=1"
+                    alt="iPhone App"
+                  />
                 </div>
-               
               </div>
               <div className="contact-info">
                 <div className="phone-number">
@@ -187,8 +205,6 @@ function ProductDetails({ product }) {
                 </div>
               </div>
               <div className="social-networks">
-                
-
                 <img
                   src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/components/shared/NewFooter/images/Facebook.png?q=low&webp=1&alpha=1"
                   alt="Facebook"
