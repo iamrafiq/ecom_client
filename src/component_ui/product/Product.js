@@ -188,7 +188,7 @@ function Product({ product }) {
                         className="action-sub"
                         onClick={() => onClickRemoveFromCart()}
                       >
-                        -
+                        <FontAwesome className="" name="minus" />
                       </span>
                       {language === "en" ? (
                         <span className="action-result">
@@ -204,7 +204,7 @@ function Product({ product }) {
                         className="action-add"
                         onClick={() => onClickAddToCart()}
                       >
-                        +
+                        <FontAwesome className="" name="plus" />
                       </span>
                     </div>
                     {language === "en" ? (
@@ -241,16 +241,20 @@ function Product({ product }) {
                 className="btn-bag__m"
                 onClick={() => onClickRemoveFromCart()}
               >
-                -
+                <FontAwesome className="" name="minus" />
               </div>
-              {language==="en"?( <span className="btn-bag__text">
-                {productFromCart.qtyCart} {"in bag"}
-              </span>):( <span className="btn-bag__text">
-                {englishToBangla(productFromCart.qtyCart)} {"টি ব্যাগে"}
-              </span>)}
-             
+              {language === "en" ? (
+                <span className="btn-bag__text">
+                  {productFromCart.qtyCart} {"in bag"}
+                </span>
+              ) : (
+                <span className="btn-bag__text">
+                  {englishToBangla(productFromCart.qtyCart)} {"টি ব্যাগে"}
+                </span>
+              )}
+
               <div className="btn-bag__p" onClick={() => onClickAddToCart()}>
-                +
+                <FontAwesome className="" name="plus" />
               </div>
             </div>
           ) : (
