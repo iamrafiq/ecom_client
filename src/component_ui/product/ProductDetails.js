@@ -1,8 +1,9 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { useEffect, useState } from "react";
 import "./product_details.css";
 import { useSelector, useDispatch } from "react-redux";
 import { selectLanguageSelection } from "../../redux/settingsSlice";
+import { getAdvertisementsBySlug } from "../../admin/advertisement/apiAdvertisement";
 import {
   addItem,
   removeItem,
@@ -11,12 +12,14 @@ import {
 } from "../../redux/cartSlice";
 import ProductPhotoViewer from "../../util/ProductPhotoViewer";
 import { englishToBangla, discountInPercentage } from "../../util/utils";
+import { selectResolutionSelection } from "../../redux/settingsSlice";
 
 function ProductDetails({ product }) {
   const dispatch = useDispatch();
-  const language  = useSelector(selectLanguageSelection);
+  const language = useSelector(selectLanguageSelection);
+  const resulationSelector = useSelector(selectResolutionSelection);
   const productFromCart = useSelector(selectAcartProduct(product));
-
+  const [advertisments, setAdvertisiments] = useState("");
   const {
     photosUrl,
     name,
@@ -36,8 +39,34 @@ function ProductDetails({ product }) {
   const onClickBuy = () => {
     console.log("on click buy");
   };
+  const downloadAdvertisement = (slug) => {
+    getAdvertisementsBySlug(slug).then((data) => {
+      if (!data.error) {
+        setAdvertisiments(data);
+      }
+    });
+  };
+  useEffect(() => {
+    downloadAdvertisement(product.slug);
+  }, []);
   return (
     <div className="root-details">
+      {advertisments && advertisments.length > 0 && (
+        <div className="advert">
+          {language === "en" ? (
+            <Fragment>
+              <span>Why shop in Sowdamart</span>
+              <img src={`${advertisments[0].photo}&res=${resulationSelector}`} alt="Sowdamart" />
+            </Fragment>
+          ) : (
+            <Fragment>
+              <span> সওদামার্ট এ কেন বাজার করবেন </span>
+              <img src={`${advertisments[0].photoBangla}&res=${resulationSelector}`} alt="Sowdamart" />
+            </Fragment>
+          )}
+        </div>
+      )}
+
       <div className="root-container">
         <div className="container-top">
           <div className="left">

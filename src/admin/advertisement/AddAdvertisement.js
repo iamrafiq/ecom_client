@@ -12,14 +12,15 @@ var slugify = require("slugify");
 
 const AddAvertisement = () => {
   const [photo, setPhoto] = useState(null);
+  const [photoBangla, setPhotoBangla] = useState(null);
+  const [products, setProducts] = useState({});
+  const [categories, setCategories] = useState({});
 
   const { user, token } = isAuthenticated();
   const [values, setValues] = useState({
     name: "",
     slug:"",
     slugPages: "",
-    categories: [],
-    products: [],
     customSlug: "",
     categorySlugs: "",
     productSlugs: "",
@@ -34,8 +35,6 @@ const AddAvertisement = () => {
     name,
     slug,
     slugPages,
-    categories,
-    products,
     customSlug,
     categorySlugs,
     productSlugs,
@@ -53,9 +52,9 @@ const AddAvertisement = () => {
       } else {
         console.log("products...", data);
 
+        setProducts(data)
         setValues({
           ...values,
-          products: data,
           loading: false,
           formData: new FormData(),
         });
@@ -70,22 +69,25 @@ const AddAvertisement = () => {
         console.log("cats...", data);
 
         const rootless = data.filter((e) => e.name !== "root");
+        setCategories(rootless)
         setValues({
           ...values,
-          categories: rootless,
           loading: false,
           formData: new FormData(),
         });
+        downloadAllProducts();
       }
     });
   };
   useEffect(() => {
-    if (products.length <= 0) {
-      downloadAllProducts();
-    }
-    if (categories.length <= 0) {
-      downloadAllCategories();
-    }
+   
+    downloadAllCategories();
+    // if (products.length <= 0) {
+    //   downloadAllProducts();
+    // }
+    // if (categories.length <= 0) {
+    //   downloadAllCategories();
+    // }
   }, []);
   // useEffect(() => {
   //   if (products.length <= 0) {
@@ -99,7 +101,10 @@ const AddAvertisement = () => {
   const handlePhotoChange = (name) => (event) => {
     if (name == "photo") {
       setPhoto(event.target.files[0]);
+    }else if (name == "photoBangla"){
+      setPhotoBangla(event.target.files[0]);
     }
+
   };
   const handleChange = (field) => (event) => {
     let value = event.target.value;
@@ -161,6 +166,9 @@ const AddAvertisement = () => {
     if (photo !== null) {
       formData.append("photo", photo);
     }
+    if (photoBangla !== null) {
+      formData.append("photoBangla", photoBangla);
+    }
     setValues({ ...values, error: "", loading: true });
     createAdvertisement(user._id, token, formData).then((data) => {
       if (data.error) {
@@ -216,13 +224,25 @@ const AddAvertisement = () => {
   };
   const newPostFrom = () => (
     <form className="mb-3" onSubmit={clickSubmit} id="form1">
-      <h4>Upload  Image</h4>
+      <h4>Upload Image</h4>
       <div className="form-group">
         <label htmlFor="" className="btn btn-secondary">
           <input
             onChange={handlePhotoChange("photo")}
             type="file"
             name="photo"
+            accept="image/*"
+          />
+        </label>
+      </div>
+      <h4>Upload Bangla Image</h4>
+
+      <div className="form-group">
+        <label htmlFor="" className="btn btn-secondary">
+          <input
+            onChange={handlePhotoChange("photoBangla")}
+            type="file"
+            name="photoBangla"
             accept="image/*"
           />
         </label>
