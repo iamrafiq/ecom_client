@@ -39,14 +39,23 @@ const ProductPhotoViewer = ({ photosUrl, alt }) => {
 
         {photosUrl && photosUrl.length > 1 && (
           <div className="thumbs">
-            {photosUrl.map((url, index) => (
-              <img
-                className="group"
-                src={`${photosUrl[index]}&res=${"low"}`}
-                alt={alt}
-                onClick={() => onClickThumb(index)}
-              />
-            ))}
+            {photosUrl.map((url, index) => {
+              if (active.index === index){
+                return ( <img
+                  className="group round-circle-border"
+                  src={`${photosUrl[index]}&res=${"low"}`}
+                  alt={alt}
+                  onClick={() => onClickThumb(index)}
+                />)
+              }else{
+                return ( <img
+                  className="group"
+                  src={`${photosUrl[index]}&res=${"low"}`}
+                  alt={alt}
+                  onClick={() => onClickThumb(index)}
+                />)
+              }
+            })}
           </div>
         )}
       </div>
