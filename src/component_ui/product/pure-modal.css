@@ -83,9 +83,9 @@
     right: 3px;
     top: 3px;
     z-index: 1;
-    background: rgba(140, 140, 140, 1);
+    background: var( --font-color-primary-inverse);
     width: 30px;
-    color: rgb(256, 256, 256);
+    color: var(--font-color-alert);
     transition: color ease-in-out 0.1s;
     height: 30px;
     border-radius: 15px;

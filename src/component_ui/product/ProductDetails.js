@@ -13,6 +13,7 @@ import {
 import ProductPhotoViewer from "../../util/ProductPhotoViewer";
 import { englishToBangla, discountInPercentage } from "../../util/utils";
 import { selectResolutionSelection } from "../../redux/settingsSlice";
+var FontAwesome = require("react-fontawesome");
 
 function ProductDetails({ product }) {
   const dispatch = useDispatch();
@@ -154,7 +155,8 @@ function ProductDetails({ product }) {
             <div className="btns">
               <div className="counter">
                 <div className="minus" onClick={() => onClickRemoveFromCart()}>
-                  -
+                <FontAwesome className="" name="minus" />
+
                 </div>
                 <div className="bag">
                   {language == "en" ? (
@@ -181,7 +183,8 @@ function ProductDetails({ product }) {
                   )}
                 </div>
                 <div className="plus" onClick={() => onClickAddToCart()}>
-                  +
+                <FontAwesome className="" name="plus" />
+
                 </div>
               </div>
               <div className="buy-now" onClick={() => onClickBuy()}>
