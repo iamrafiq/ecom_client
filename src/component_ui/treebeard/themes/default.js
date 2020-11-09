@@ -27,10 +27,10 @@ export default {
                 base: {
                     position: 'relative',
                     display: 'inline-block',
-                    verticalAlign: 'top',
+                    verticalAlign: 'center',
                     marginLeft: '-5px',
-                    marginTop:"8px",
-                    height: '24px',
+                    marginTop:"10px",
+                    height: '8px',
                     width: '24px',
                     float:"right"
                 },
@@ -39,7 +39,7 @@ export default {
                     top: '50%',
                     left: '50%',
                     margin: '-7px 0 0 -7px',
-                    height: '14px'
+                    height: '10px'
                 },
                 height: 14,
                 width: 14,
@@ -64,7 +64,7 @@ export default {
                     left: '-21px'
                 },
                 title: {
-                    lineHeight: '24px',
+                    lineHeight: '8px',
                     verticalAlign: 'middle'
                 }
             },

@@ -29,7 +29,7 @@ const styles = {
     backgroundColor: "#757575",
   },
   content: {
-    padding: "16px",
+    padding: "0px",
     height: "100%",
     backgroundImage:
       "linear-gradient(to bottom, #fff,#fff,#fff,#fff,#fff,#fff , #7CCD7C)",

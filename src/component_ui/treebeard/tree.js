@@ -57,7 +57,7 @@ class TreeExample extends React.Component {
               ></img>
             )}
           </span>
-          {this.language === "en"?(<span>{`${node.name}`}</span>):(<span>{`${node.bengaliName}`}</span>)}
+          {this.language === "en"?(<span style={{ marginTop: "5px" }}>{`${node.name}`}</span>):(<span style={{ marginTop: "5px" }}>{`${node.bengaliName}`}</span>)}
           
           
         </div>
