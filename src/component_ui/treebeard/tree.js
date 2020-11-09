@@ -40,6 +40,7 @@ class TreeExample extends React.Component {
     this.checkSlug = this.checkSlug.bind(this);
     this.CustomHeader = this.CustomHeader.bind(this);
     this.resolutionSelector = props.resolutionSelector;
+    this.language = props.language;
     // this.viewToBar = props.viewToBar;
     props.setViewToBarChange(this.onViewToBar);
   }
@@ -55,8 +56,10 @@ class TreeExample extends React.Component {
                 src={`${node.iconMenu}&res=${this.resolutionSelector}`}
               ></img>
             )}
-          </span>{" "}
-          {`${node.name.toUpperCase()}`}
+          </span>
+          {this.language === "en"?(<span>{`${node.name}`}</span>):(<span>{`${node.bengaliName}`}</span>)}
+          
+          
         </div>
       </div>
     </Link>

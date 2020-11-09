@@ -23,13 +23,14 @@ import { selectCategoryWithProduct } from "../../redux/categoryWithProductSlice"
 import { loadCategoryWithProduct } from "../../redux/categoryWithProductSlice";
 import { loadActiveCategories } from "../../redux/categorySlice";
 import { setSlug } from "../../redux/productHoverSlice";
-import { selectResolutionSelection } from "../../redux/settingsSlice";
+import { selectResolutionSelection, selectLanguageSelection } from "../../redux/settingsSlice";
 import Grid from "../grid/Grid";
 
 const CategoryItems = ({ match }) => {
   const bar = useSelector(selectSideBarBarToViewSelection);
   const category = useSelector(selectCategoryWithProduct);
   const resulationSelector = useSelector(selectResolutionSelection);
+  const { language } = useSelector(selectLanguageSelection);
 
   const dispatch = useDispatch();
 
@@ -121,8 +122,10 @@ const CategoryItems = ({ match }) => {
             {category.recursiveCategories
               ? category.recursiveCategories.map((item, index) => (
                   <div key={Math.random().toString(10).slice(2)}>
+                    
                     <Link to={item.slug}>
-                      <span>{`${item.name}`}</span>
+                    {language==="en"?( <span>{`${item.bengaliName}`}</span>):( <span>{`${item.bengaliName}`}</span>)}
+                     
                     </Link>
                     &nbsp; {">"} &nbsp;
                   </div>
@@ -131,7 +134,9 @@ const CategoryItems = ({ match }) => {
             {category ? (
               <div>
                 <div>
-                  <div>{`${category.name}`}</div>
+                {language==="en"?( <div>{`${category.name}`}</div>):(category.bengaliName)}
+
+                 
                 </div>
               </div>
             ) : (
