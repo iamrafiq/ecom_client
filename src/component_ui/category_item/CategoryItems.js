@@ -89,7 +89,6 @@ const CategoryItems = ({ match }) => {
           <Category
             category={item}
             key={item._id}
-            resulationSelector={resulationSelector}
           ></Category>
         </Link>
       </div>

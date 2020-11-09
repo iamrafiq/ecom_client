@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const settingsSlice = createSlice({
   name: "settings",
   initialState: {
-    language: "en",  // for bangla value 'bn'
+    language: "bn",  // for bangla value 'bn'
     resolution: "medium"   // low, heigh, medium // used to 
   },
   reducers: {

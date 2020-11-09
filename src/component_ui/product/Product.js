@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { Fragment, useCallback } from "react";
 import { useEffect, useState } from "react";
 import "./product.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,6 +22,7 @@ import OuterClickHandler from "../../util/OuterClickHandler";
 
 import PureModal from "react-pure-modal";
 import "./pure-modal.css";
+import { englishToBangla } from "../../util/utils";
 var FontAwesome = require("react-fontawesome");
 
 function Product({ product }) {
@@ -94,7 +95,7 @@ function Product({ product }) {
               // closeButton={<div>&#10007;</div>}
               isOpen={modalInnerScroll}
               onClose={() => {
-                 setModalInnerScroll(false);
+                setModalInnerScroll(false);
                 return true;
               }}
             >
@@ -124,26 +125,47 @@ function Product({ product }) {
               </div>
               {subText && subText.length > 0 && (
                 <div className="sub-text">
-                  <span>{subText}</span>
+                  {language === "en" ? (
+                    <span>{subText}</span>
+                  ) : (
+                    <p>{englishToBangla(subText)}</p>
+                  )}
                 </div>
               )}
 
               <div className="price">
-                {applyDiscounts ? (
-                  cropPrice ? (
-                    <div className="crop">
-                      <span className="mrp product-card__price-text-color-red">
-                        &#2547; {cropPrice}
-                      </span>
-                      <span className="discounted-mrp">
-                        <del>&#2547; {mrp}</del>
-                      </span>
-                    </div>
-                  ) : (
-                    <span className="mrp">&#2547; 100</span>
-                  )
+                {applyDiscounts && cropPrice && cropPrice > 0 ? (
+                  <div className="crop">
+                    {language === "en" ? (
+                      <Fragment>
+                        <span className="mrp product-card__price-text-color-red">
+                          &#2547; {cropPrice}
+                        </span>
+                        <span className="discounted-mrp">
+                          <del>&#2547; {mrp}</del>
+                        </span>
+                      </Fragment>
+                    ) : (
+                      <Fragment>
+                        <span className="mrp product-card__price-text-color-red">
+                          &#2547; {englishToBangla(cropPrice)}
+                        </span>
+                        <span className="discounted-mrp">
+                          <del>&#2547; {englishToBangla(mrp)}</del>
+                        </span>
+                      </Fragment>
+                    )}
+                  </div>
                 ) : (
-                  <span className="mrp">&#2547; 100</span>
+                  <Fragment>
+                    {language === "en" ? (
+                      <span className="mrp">&#2547; {mrp}</span>
+                    ) : (
+                      <span className="mrp">
+                        &#2547; {englishToBangla(mrp)}
+                      </span>
+                    )}
+                  </Fragment>
                 )}
               </div>
             </div>
@@ -152,7 +174,14 @@ function Product({ product }) {
             <div className="content-overly" ref={innerClickRef}>
               {productFromCart ? (
                 <div className="add-to-cart">
-                  <div className="amount">&#2547; {totalPrice()}</div>
+                  {language === "en" ? (
+                    <div className="amount">&#2547; {totalPrice()}</div>
+                  ) : (
+                    <div className="amount">
+                      &#2547; {englishToBangla(totalPrice())}
+                    </div>
+                  )}
+
                   <div className="actions-text">
                     <div className="actions">
                       <span
@@ -161,9 +190,16 @@ function Product({ product }) {
                       >
                         -
                       </span>
-                      <span className="action-result">
-                        {productFromCart.qtyCart}
-                      </span>
+                      {language === "en" ? (
+                        <span className="action-result">
+                          {productFromCart.qtyCart}
+                        </span>
+                      ) : (
+                        <span className="action-result">
+                          {englishToBangla(productFromCart.qtyCart)}
+                        </span>
+                      )}
+
                       <span
                         className="action-add"
                         onClick={() => onClickAddToCart()}
@@ -171,12 +207,20 @@ function Product({ product }) {
                         +
                       </span>
                     </div>
-                    <div className="text">in bag</div>
+                    {language === "en" ? (
+                      <div className="text">in bag</div>
+                    ) : (
+                      <div className="text">টি ব্যাগে</div>
+                    )}
                   </div>
                 </div>
               ) : (
                 <div className="add-text" onClick={() => onClickAddToCart()}>
-                  <div className="text">Add to shopping bag</div>
+                  {language === "en" ? (
+                    <div className="text">Add to shopping bag</div>
+                  ) : (
+                    <div className="text">বাজারের ব্যাগে যোগ করুন</div>
+                  )}
                 </div>
               )}
             </div>
@@ -199,9 +243,12 @@ function Product({ product }) {
               >
                 -
               </div>
-              <span className="btn-bag__text">
+              {language==="en"?( <span className="btn-bag__text">
                 {productFromCart.qtyCart} {"in bag"}
-              </span>
+              </span>):( <span className="btn-bag__text">
+                {englishToBangla(productFromCart.qtyCart)} {"টি ব্যাগে"}
+              </span>)}
+             
               <div className="btn-bag__p" onClick={() => onClickAddToCart()}>
                 +
               </div>
@@ -209,7 +256,11 @@ function Product({ product }) {
           ) : (
             <div class="btn btn-full" onClick={() => onClickAddToCart()}>
               <div className="btn-add-to-cart">
-                <span>Add to cart</span>
+                {language === "en" ? (
+                  <span>Add to cart</span>
+                ) : (
+                  <span>ব্যাগে যোগ করুন</span>
+                )}
               </div>
             </div>
           )}

@@ -29,6 +29,7 @@ function ProductDetails({ product }) {
     cropPrice,
     shortDesc,
     longDesc,
+    applyDiscounts,
   } = product;
   const onClickAddToCart = () => {
     dispatch(addItem({ product: product }));
@@ -56,12 +57,18 @@ function ProductDetails({ product }) {
           {language === "en" ? (
             <Fragment>
               <span>Why shop in Sowdamart</span>
-              <img src={`${advertisments[0].photo}&res=${resulationSelector}`} alt="Sowdamart" />
+              <img
+                src={`${advertisments[0].photo}&res=${resulationSelector}`}
+                alt="Sowdamart"
+              />
             </Fragment>
           ) : (
             <Fragment>
               <span> সওদামার্ট এ কেন বাজার করবেন </span>
-              <img src={`${advertisments[0].photoBangla}&res=${resulationSelector}`} alt="Sowdamart" />
+              <img
+                src={`${advertisments[0].photoBangla}&res=${resulationSelector}`}
+                alt="Sowdamart"
+              />
             </Fragment>
           )}
         </div>
@@ -91,7 +98,7 @@ function ProductDetails({ product }) {
 
             <div className="price">
               <div className="left">
-                {cropPrice && cropPrice > 0 ? (
+                {applyDiscounts && cropPrice && cropPrice > 0 ? (
                   language === "en" ? (
                     <React.Fragment>
                       <span className="font-large-price">
