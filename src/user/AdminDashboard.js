@@ -47,6 +47,11 @@ const AdminDashboard = () => {
               Manage Advertisement
             </Link>
           </li>
+          <li className="list-group-item">
+            <Link className="nav-link" to="/admin/createorupdatehome">
+             Create or Update Home
+            </Link>
+          </li>
         </ul>
       </div>
     );

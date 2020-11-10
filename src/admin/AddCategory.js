@@ -4,6 +4,8 @@ import Layout from "../core/Layout";
 import { isAuthenticated } from "../auth";
 import { Link, Redirect } from "react-router-dom";
 import { createCategory, getCategories } from "./apiAdmin";
+import Select from "react-select";
+
 var slugify = require("slugify");
 
 const AddCategory = () => {
@@ -14,6 +16,9 @@ const AddCategory = () => {
   const [values, setValues] = useState({
     name: "",
     bengaliName: "",
+    nameFull: "",
+    bengaliNameFull: "",
+    showHome: "",
     slug: "",
     order: "",
     parents: [],
@@ -29,6 +34,9 @@ const AddCategory = () => {
   const {
     name,
     bengaliName,
+    nameFull,
+    bengaliNameFull,
+    showHome,
     slug,
     order,
     parents,
@@ -54,6 +62,9 @@ const AddCategory = () => {
           ...values,
           name: "",
           bengaliName: "",
+          nameFull: "",
+          bengaliNameFull: "",
+          showHome: "",
           slug: "",
           order: "",
           trash: false,
@@ -126,7 +137,10 @@ const AddCategory = () => {
       createdProduct: false,
     });
   };
-
+  const handleOptionChange = (option) => {
+    formData.set(option.field, option.value);
+    setValues({ ...values, [option.field]: option.value, formData: formData });
+  };
   const clickSubmit = (event) => {
     event.preventDefault();
     formData.append("trash", false);
@@ -214,17 +228,6 @@ const AddCategory = () => {
       </div>
       <div className="form-group">
         <label htmlFor="" className="text-muted">
-          Slug
-        </label>
-        <input
-          onChange={handleChange("slug")}
-          type="text"
-          className="form-control"
-          value={slug}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
           Bengali Name
         </label>
         <input
@@ -232,6 +235,39 @@ const AddCategory = () => {
           type="text"
           className="form-control"
           value={bengaliName}
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="" className="text-muted">
+          Name Full
+        </label>
+        <input
+          onChange={handleChange("nameFull")}
+          type="text"
+          className="form-control"
+          value={nameFull}
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="" className="text-muted">
+          Bengali Name Full
+        </label>
+        <input
+          onChange={handleChange("bengaliNameFull")}
+          type="text"
+          className="form-control"
+          value={bengaliNameFull}
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="" className="text-muted">
+          Slug
+        </label>
+        <input
+          onChange={handleChange("slug")}
+          type="text"
+          className="form-control"
+          value={slug}
         />
       </div>
       <div className="form-group">
@@ -260,6 +296,21 @@ const AddCategory = () => {
         </select>
       </div>
 
+      <div className="form-group">
+        <label htmlFor="" className="text-muted">
+          Show In Home Screen
+        </label>
+        <Select
+          onChange={handleOptionChange}
+          options={[
+            { value: 0, label: "No", field: "" },
+            { value: 1, label: "Yes", field: "" },
+          ].map((op, index) => {
+            op.field = "showHome";
+            return op;
+          })}
+        />
+      </div>
       <button
         type="submit"
         form="form1"

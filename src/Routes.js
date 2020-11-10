@@ -24,6 +24,8 @@ import CategoryProducts from "./core/CategoryProducts";
 import AddAdvertisement from "./admin/advertisement/AddAdvertisement";
 import UpdateAdvertisement from "./admin/advertisement/UpdateAdvertisement";
 import ManageAdvertisement from "./admin/advertisement/ManageAdvertisement";
+import CreateOrUpdateHome from "./admin/home/CreateOrUpdateHome";
+import ManageGallery from "./admin/home/ManageGallery";
 
 const AnyComponent = (props) => {
   return <CategoryItems id={props.match.params.any_slug} />;
@@ -91,7 +93,16 @@ const Routes = () =>{
       exact
       component={ManageAdvertisement}
     />
-
+ <PrivateRoute
+      path="/admin/createorupdatehome"
+      exact
+      component={CreateOrUpdateHome}
+    />
+     <PrivateRoute
+      path="/admin/managegallery"
+      exact
+      component={ManageGallery}
+    />
     <AdminRoute
       path="/admin/product/update/:productId"
       exact

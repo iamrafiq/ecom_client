@@ -3,6 +3,8 @@ import Layout from "../core/Layout";
 import { isAuthenticated } from "../auth";
 import { Link, Redirect } from "react-router-dom";
 import { getCategory, getCategories, updateCategory } from "./apiAdmin";
+import Select from "react-select";
+
 var slugify = require("slugify");
 
 const UpdateCategory = ({ match }) => {
@@ -13,7 +15,11 @@ const UpdateCategory = ({ match }) => {
   const [thumbnail, setThumbnail] = useState(null);
   const [values, setValues] = useState({
     name: "",
-    bengaliName:"",
+    bengaliName: "",
+    bengaliName: "",
+    nameFull: "",
+    bengaliNameFull: "",
+    showHome: "",
     slug: "",
     order: "",
     //parents: [],
@@ -30,6 +36,9 @@ const UpdateCategory = ({ match }) => {
   const {
     name,
     bengaliName,
+    nameFull,
+    bengaliNameFull,
+    showHome,
     slug,
     order,
     // parents,
@@ -59,6 +68,9 @@ const UpdateCategory = ({ match }) => {
           slug: data.slug,
           name: data.name,
           bengaliName: data.bengaliName,
+          nameFull: data.nameFull,
+          bengaliNameFull: data.bengaliNameFull,
+          showHome: data.showHome,
           order: data.order,
           parent: data.parent,
           oldParent: data.parent,
@@ -87,10 +99,9 @@ const UpdateCategory = ({ match }) => {
   const handleImageChange = (name) => (event) => {
     if (name == "icon") {
       setIcon(event.target.files[0]);
-    }else if (name == "iconMenu") {
+    } else if (name == "iconMenu") {
       setIconMenu(event.target.files[0]);
-    }
-     else if (name == "thumbnail") {
+    } else if (name == "thumbnail") {
       setThumbnail(event.target.files[0]);
     }
   };
@@ -123,7 +134,7 @@ const UpdateCategory = ({ match }) => {
       const parentCat = JSON.parse(event.target.value);
       formData.set(field, parentCat._id);
       let rc = [];
-      if (parent.name !== 'root'){
+      if (parent.name !== "root") {
         rc.push(parentCat._id);
       }
       if (parentCat.recursiveCategories) {
@@ -133,6 +144,10 @@ const UpdateCategory = ({ match }) => {
     }
 
     setValues({ ...values, [field]: value });
+  };
+  const handleOptionChange = (option) => {
+    formData.set(option.field, option.value);
+    setValues({ ...values, [option.field]: option.value, formData: formData });
   };
   const clickSubmit = (event) => {
     event.preventDefault();
@@ -177,7 +192,7 @@ const UpdateCategory = ({ match }) => {
   };
   const newPostFrom = () => (
     <form className="mb-3" onSubmit={clickSubmit} id="form1">
-       <h4>Upload Icon Menu</h4>
+      <h4>Upload Icon Menu</h4>
       <div className="form-group">
         <label htmlFor="" className="btn btn-secondary">
           <input
@@ -234,7 +249,7 @@ const UpdateCategory = ({ match }) => {
       </div>
       <div className="form-group">
         <label htmlFor="" className="text-muted">
-        Bengali Name
+          Bengali Name
         </label>
         <input
           onChange={handleChange("bengaliName")}
@@ -283,7 +298,40 @@ const UpdateCategory = ({ match }) => {
             )}
         </select>
       </div>
-
+      <div className="form-group">
+        <label htmlFor="" className="text-muted">
+          Show In Home Screen
+        </label>
+        {showHome !== "" ? (
+          <Select
+            onChange={handleOptionChange}
+            defaultValue={[
+              { value: 0, label: "No", field: "" },
+              { value: 1, label: "Yes", field: "" },
+            ].map((op, index) => {
+              if (op.value === showHome) return op;
+            })}
+            options={[
+              { value: 0, label: "No", field: "" },
+              { value: 1, label: "Yes", field: "" },
+            ].map((op, index) => {
+              op.field = "showHome";
+              return op;
+            })}
+          />
+        ) : (
+          <Select
+            onChange={handleOptionChange}
+            options={[
+              { value: 0, label: "No", field: "" },
+              { value: 1, label: "Yes", field: "" },
+            ].map((op, index) => {
+              op.field = "showHome";
+              return op;
+            })}
+          />
+        )}
+      </div>
       <div className="form-group">
         <input
           onChange={handleChange("trash")}

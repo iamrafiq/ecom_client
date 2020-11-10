@@ -36,6 +36,7 @@ const UpdateProduct = ({ match }) => {
     price: "",
     cropPrice: "",
     applyDiscounts: "",
+    applyOffer:"",
     blockSale: "",
     shortDesc: "",
     longDesc: "",
@@ -81,6 +82,7 @@ const UpdateProduct = ({ match }) => {
     price,
     cropPrice,
     applyDiscounts,
+    applyOffer,
     blockSale,
     shortDesc,
     longDesc,
@@ -119,6 +121,7 @@ const UpdateProduct = ({ match }) => {
       price: data.price,
       cropPrice: data.cropPrice,
       applyDiscounts: data.applyDiscounts,
+      applyOffer: data.applyOffer,
       blockSale: data.blockSale,
       shortDesc: data.shortDesc,
       longDesc: data.longDesc,
@@ -552,7 +555,7 @@ const UpdateProduct = ({ match }) => {
           value={preferredStock}
         />
       </div>
-
+      
       <div className="form-group">
         <label htmlFor="" className="text-muted">
           Apply Discounts
@@ -576,7 +579,29 @@ const UpdateProduct = ({ match }) => {
           />
         )}
       </div>
-
+      <div className="form-group">
+        <label htmlFor="" className="text-muted">
+          Apply Offer
+        </label>
+        {applyOffer !== "" && (
+          <Select
+            onChange={handleOptionChange}
+            defaultValue={[
+              { value: 0, label: "No", field: "" },
+              { value: 1, label: "Yes", field: "" },
+            ].map((op, index) => {
+              if (op.value === applyOffer) return op;
+            })}
+            options={[
+              { value: 0, label: "No", field: "" },
+              { value: 1, label: "Yes", field: "" },
+            ].map((op, index) => {
+              op.field = "applyOffer";
+              return op;
+            })}
+          />
+        )}
+      </div>
       <div className="form-group">
         <label htmlFor="" className="text-muted">
           Block Sale

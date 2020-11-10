@@ -36,6 +36,7 @@ const AddProduct = () => {
     mrp: "",
     cropPrice: "",
     applyDiscounts: "",
+    applyOffer: "",
     blockSale: "",
     shortDesc: "",
     longDesc: "",
@@ -72,6 +73,7 @@ const AddProduct = () => {
     mrp,
     cropPrice,
     applyDiscounts,
+    applyOffer,
     blockSale,
     shortDesc,
     longDesc,
@@ -200,6 +202,7 @@ const AddProduct = () => {
           price: "",
           cropPrice: "",
           applyDiscounts: "",
+          applyOffer:"",
           blockSale: "",
           shortDesc: "",
           longDesc: "",
@@ -503,7 +506,7 @@ const AddProduct = () => {
           value={preferredStock}
         />
       </div>
-
+      
       <div className="form-group">
         <label htmlFor="" className="text-muted">
           Apply Discounts
@@ -519,7 +522,21 @@ const AddProduct = () => {
           })}
         />
       </div>
-
+      <div className="form-group">
+        <label htmlFor="" className="text-muted">
+          Apply Offer
+        </label>
+        <Select
+          onChange={handleOptionChange}
+          options={[
+            { value: 0, label: "No", field: "" },
+            { value: 1, label: "Yes", field: "" },
+          ].map((op, index) => {
+            op.field = "applyOffer";
+            return op;
+          })}
+        />
+      </div>
       <div className="form-group">
         <label htmlFor="" className="text-muted">
           Block Sale
