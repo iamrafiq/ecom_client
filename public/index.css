@@ -1,4 +1,8 @@
 :root {
+  --side-bar-width:17rem;
+  /**content area padding**/
+  --padding-left:19rem;  /*side bar width */
+  --padding-right:.2rem;
     /**color**/
   --font-color-primary: #000000; 
   --font-color-secondary: #A6A6A6; 
@@ -34,7 +38,7 @@
   --gap-small:.2rem;
   --gap-very-small:.1rem;
 
-
+  
 
 }
 

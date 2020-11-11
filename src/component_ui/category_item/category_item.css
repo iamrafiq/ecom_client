@@ -1,4 +1,8 @@
 
+.content--area{
+   margin-left: var(--gap-extra-large); 
+  margin-right: var(--gap-extra-large); 
+}
 .addvert-area{
   display: flex;
   flex-direction: row;
@@ -31,4 +35,11 @@ padding:0;
   margin: auto;
   padding-left: 50px;
   padding-right: 50px;
+}
+
+@media only screen and (max-width: 700px) {
+  .content--area{
+    margin-left: var(--gap-medium); 
+   margin-right: var(--gap-medium); 
+ }
 }

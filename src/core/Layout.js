@@ -8,7 +8,7 @@ const Layout = ({
   className,
   children,
 }) => (
-  <div>
+  <div style={{marginLeft:"17rem"}}>
 
     <Menu />
     <div className="jumbotron">

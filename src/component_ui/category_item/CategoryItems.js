@@ -104,7 +104,7 @@ const CategoryItems = ({ match }) => {
   };
   const getNothingFound = (items) => {};
   return (
-    <div>
+    <div className="content--area">
       {false ? (
         <h2>Loading....</h2>
       ) : (
