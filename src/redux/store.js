@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import categoryReducer from "./categorySlice";
+import homeReducer from "./homeSlice";
 import sideBarReducer  from "./sideBarSlice";
 import categoryWithProductReducer from "./categoryWithProductSlice";
 import productHoverReducer from "./productHoverSlice";
@@ -11,7 +11,7 @@ import cartReducer from "./cartSlice";
 
 export default configureStore({
     reducer:{
-        categories: categoryReducer,
+        home: homeReducer,
         sideBar:sideBarReducer,
         categoryWithProduct:categoryWithProductReducer,
         productHover:productHoverReducer,

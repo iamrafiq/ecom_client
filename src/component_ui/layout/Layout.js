@@ -4,9 +4,8 @@ import Routes from "../../Routes";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import AppBarTop from "../app_bar/AppBarTop";
 import "./Layout.css";
-import { loadCategories } from "../../redux/categorySlice";
 import { useState, useEffect } from "react";
-import { selectCategories } from "../../redux/categorySlice";
+import { selectCategories , loadHome} from "../../redux/homeSlice";
 import { setResolution, selectResolutionSelection } from "../../redux/settingsSlice";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -25,7 +24,7 @@ function Layout(props) {
     dispatch(setResolution({resolution:"medium"}));
   }
   useEffect(() => {
-    dispatch(loadCategories());
+    dispatch(loadHome());
   }, []);
   const [state, setState] = useState({
     menuClickCallBack: "",

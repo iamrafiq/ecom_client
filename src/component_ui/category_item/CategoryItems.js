@@ -21,7 +21,7 @@ import { getAdvertisementsBySlug, getProducts } from "../../core/apiCore";
 import { API } from "../../config";
 import { selectCategoryWithProduct } from "../../redux/categoryWithProductSlice";
 import { loadCategoryWithProduct } from "../../redux/categoryWithProductSlice";
-import { loadActiveCategories } from "../../redux/categorySlice";
+import { loadActiveCategories } from "../../redux/homeSlice";
 import { setSlug } from "../../redux/productHoverSlice";
 import {
   selectResolutionSelection,
