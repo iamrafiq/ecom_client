@@ -5,24 +5,22 @@ import {
   selectResolutionSelection,
   selectLanguageSelection,
 } from "../../redux/settingsSlice";
+import { selectHomeSelection } from "../../redux/homeSlice";
+import Advertisiment from "../../util/Advertisiment";
 import "./home.css";
 var FontAwesome = require("react-fontawesome");
 
 export default function Category(props) {
   const resulationSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
+  const home = useSelector(selectHomeSelection);
 
-  useEffect(()=>{
-
-  },[]);
+  useEffect(() => {}, []);
   return (
     <div className="home">
       <div className="home__landing">
         <div className="landing__img">
-          <img
-            src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1510/Default/stores/chaldal/components/landingPage2/LandingPage/images/landingBannerTop.jpg"
-            alt=""
-          />
+        <img src={`${home.photoLanding}&res=${resulationSelector}`} alt="" />
         </div>
         <div className="landing__content">
           <span className="content__title">Sowdamart always low price.</span>
@@ -42,11 +40,20 @@ export default function Category(props) {
           </div>
         </div>
       </div>
-      <div className="home__advert"></div>
-      <div className="home__cats"></div>
-      <div className="home__tutorial"></div>
-      <div className="home__offer"></div>
-      <div className="home__features"></div>
+      <div className="home_content">
+        {home.advertisements && (
+          <div className="content__advert">
+            {home.advertisements.map((ele, index) => (
+              <Advertisiment advertisiment={ele}></Advertisiment>
+            ))}
+          </div>
+        )}
+
+        <div className="content__cats"></div>
+        <div className="content__tutorial"></div>
+        <div className="content__offer"></div>
+        <div className="content__features"></div>
+      </div>
       <div className="home__footer"></div>
     </div>
   );

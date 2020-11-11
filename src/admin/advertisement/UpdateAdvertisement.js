@@ -15,11 +15,12 @@ var slugify = require("slugify");
 
 const UpdateAvertisement = ({ match }) => {
   const [photo, setPhoto] = useState(null);
+  const [photoBangla, setPhotoBangla] = useState(null);
 
   const { user, token } = isAuthenticated();
   const [values, setValues] = useState({
     name: "",
-    slug:"",
+    slug: "",
     slugPages: "",
 
     advertisement: null,
@@ -159,6 +160,8 @@ const UpdateAvertisement = ({ match }) => {
   const handlePhotoChange = (name) => (event) => {
     if (name == "photo") {
       setPhoto(event.target.files[0]);
+    } else if (name == "photoBangla") {
+      setPhotoBangla(event.target.files[0]);
     }
   };
   const handleChange = (field) => (event) => {
@@ -295,12 +298,24 @@ const UpdateAvertisement = ({ match }) => {
 
   const newPostFrom = () => (
     <form className="mb-3" onSubmit={clickSubmit} id="form1">
+      <h4>Upload Image</h4>
       <div className="form-group">
         <label htmlFor="" className="btn btn-secondary">
           <input
             onChange={handlePhotoChange("photo")}
             type="file"
             name="photo"
+            accept="image/*"
+          />
+        </label>
+      </div>
+      <h4>Upload Bangla Image</h4>
+      <div className="form-group">
+        <label htmlFor="" className="btn btn-secondary">
+          <input
+            onChange={handlePhotoChange("photoBangla")}
+            type="file"
+            name="photoBangla"
             accept="image/*"
           />
         </label>

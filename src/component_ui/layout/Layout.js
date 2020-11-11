@@ -5,7 +5,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import AppBarTop from "../app_bar/AppBarTop";
 import "./Layout.css";
 import { useState, useEffect } from "react";
-import { selectCategories , loadHome} from "../../redux/homeSlice";
+import { selectTree , loadHome} from "../../redux/homeSlice";
 import { setResolution, selectResolutionSelection } from "../../redux/settingsSlice";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -32,7 +32,7 @@ function Layout(props) {
   });
   let menuClickCallBack;
 
-  const cats = useSelector(selectCategories);
+  const cats = useSelector(selectTree);
 
   console.log("Layout..................");
   const onTouchResetRedux = () => {
