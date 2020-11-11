@@ -23,7 +23,10 @@ import { selectCategoryWithProduct } from "../../redux/categoryWithProductSlice"
 import { loadCategoryWithProduct } from "../../redux/categoryWithProductSlice";
 import { loadActiveCategories } from "../../redux/categorySlice";
 import { setSlug } from "../../redux/productHoverSlice";
-import { selectResolutionSelection, selectLanguageSelection } from "../../redux/settingsSlice";
+import {
+  selectResolutionSelection,
+  selectLanguageSelection,
+} from "../../redux/settingsSlice";
 import Grid from "../grid/Grid";
 
 const CategoryItems = ({ match }) => {
@@ -87,10 +90,7 @@ const CategoryItems = ({ match }) => {
     return items.map((item, index) => (
       <div>
         <Link to={item.slug}>
-          <Category
-            category={item}
-            key={item._id}
-          ></Category>
+          <Category category={item} key={item._id}></Category>
         </Link>
       </div>
     ));
@@ -122,10 +122,12 @@ const CategoryItems = ({ match }) => {
             {category.recursiveCategories
               ? category.recursiveCategories.map((item, index) => (
                   <div key={Math.random().toString(10).slice(2)}>
-                    
                     <Link to={item.slug}>
-                    {language==="en"?( <span>{`${item.bengaliName}`}</span>):( <span>{`${item.bengaliName}`}</span>)}
-                     
+                      {language === "en" ? (
+                        <span>{`${item.bengaliName}`}</span>
+                      ) : (
+                        <span>{`${item.bengaliName}`}</span>
+                      )}
                     </Link>
                     &nbsp; {">"} &nbsp;
                   </div>
@@ -134,9 +136,11 @@ const CategoryItems = ({ match }) => {
             {category ? (
               <div>
                 <div>
-                {language==="en"?( <div>{`${category.name}`}</div>):(category.bengaliName)}
-
-                 
+                  {language === "en" ? (
+                    <div>{`${category.name}`}</div>
+                  ) : (
+                    <div>{`${category.bengaliName}`}</div>
+                  )}
                 </div>
               </div>
             ) : (
@@ -146,7 +150,7 @@ const CategoryItems = ({ match }) => {
 
           <div className="horizontal-line">
             <hr />
-            <div>{category && category.name}</div>
+            <div>{category && (language==="en"?<div>{category.name}</div>:<div>{category.bengaliName}</div>)}</div>
             <hr />
           </div>
           <Grid>
