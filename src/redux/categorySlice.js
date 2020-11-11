@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCategories, getTree } from "../admin/apiAdmin";
+import {getHome } from "../core/apiCore";
 
 export const categoriesSlice = createSlice({
   name: "categories",
   initialState: {
     cats: [],
+    offerProducts:[],
+    advertisiments:[],
+    
   },
   reducers: {
     setCategories: (state, action) => {
@@ -16,10 +19,10 @@ export const categoriesSlice = createSlice({
 const { setCategories } = categoriesSlice.actions;
 
 export const loadCategories = () => (dispatch) => {
-  getTree().then((data) => {
+  getHome().then((data) => {
     if (data===undefined && data.error) {
     } else {
-      dispatch(setCategories({ cats:data }));
+      dispatch(setCategories({ cats:data.categoryTree }));
     }
   });
 };
