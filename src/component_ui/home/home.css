@@ -95,6 +95,13 @@
   margin-top: var(--gap-large);
 
 }
+.section__carousel{
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 50px var( --gap-large) 0px var(--gap-large);
+}
 .content-carousel{
  display: flex;
  justify-content: center;
@@ -107,6 +114,14 @@
 @media only screen and (min-width: 1000px) {
   .landing__img img {
     width: 100%;
+  }
+  .section__carousel{
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 200px;
+    padding-right: 200px;
   }
 }
 /* @media only screen and (max-width: 1000px) {
