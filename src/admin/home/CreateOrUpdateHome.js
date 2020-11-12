@@ -12,6 +12,8 @@ const CreateOrUpdateHome = () => {
   const { user, token } = isAuthenticated();
   const [photoLanding, setPhotoLanding] = useState(null);
   const [photoTutorial, setPhotoTutorial] = useState(null);
+  const [photoTutorialBengali, setPhotoTutorialBengali] = useState(null);
+
   const [values, setValues] = useState({
     title: "",
     bengaliTitle: "",
@@ -64,6 +66,8 @@ const CreateOrUpdateHome = () => {
       setPhotoLanding(event.target.files[0]);
     } else if (name == "photoTutorial") {
       setPhotoTutorial(event.target.files);
+    }else if (name == "photoTutorialBengali") {
+      setPhotoTutorialBengali(event.target.files);
     }
   };
   const handleChange = (field) => (event) => {
@@ -85,6 +89,11 @@ const CreateOrUpdateHome = () => {
     if (photoTutorial !== null) {
       for (let x = 0; x < photoTutorial.length; x++) {
         formData.append("photoTutorial", photoTutorial[x]);
+      }
+    }
+    if (photoTutorialBengali !== null) {
+      for (let x = 0; x < photoTutorialBengali.length; x++) {
+        formData.append("photoTutorialBengali", photoTutorialBengali[x]);
       }
     }
     setValues({ ...values, error: "", loading: true });
@@ -120,6 +129,7 @@ const CreateOrUpdateHome = () => {
             type="file"
             name="photoLanding"
             accept="image/*"
+            required
           />
         </label>
       </div>
@@ -132,6 +142,20 @@ const CreateOrUpdateHome = () => {
             name="photoTutorial"
             accept="image/*"
             multiple
+            required
+          />
+        </label>
+      </div>
+      <h4>Upload Tutorial Bengali Images</h4>
+      <div className="form-group">
+        <label htmlFor="" className="btn btn-secondary">
+          <input
+            onChange={handleImageChange("photoTutorialBengali")}
+            type="file"
+            name="photoTutorialBengali"
+            accept="image/*"
+            multiple
+            required
           />
         </label>
       </div>
@@ -144,6 +168,7 @@ const CreateOrUpdateHome = () => {
           type="text"
           className="form-control"
           value={title}
+          required
         />
       </div>
       <div className="form-group">
@@ -155,6 +180,7 @@ const CreateOrUpdateHome = () => {
           type="text"
           className="form-control"
           value={bengaliTitle}
+          required
         />
       </div>
       <button

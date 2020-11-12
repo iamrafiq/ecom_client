@@ -5,7 +5,6 @@ import {
   selectLanguageSelection,
 } from "../redux/settingsSlice";
 import { useSelector } from "react-redux";
-import { lang } from "moment";
 
 // const tooglesGroupId = 'Toggles';
 // const valuesGroupId = 'Values';
@@ -39,12 +38,14 @@ const configProps = {
   interval: 2000,
   dynamicHeight: false,
 };
-export default ({ photoTutorial }) => {
+export default ({ photoTutorial, photoTutorialBengali }) => {
   const resulationSelector = useSelector(selectResolutionSelection);
-  const { language } = useSelector(selectLanguageSelection);
+  const language  = useSelector(selectLanguageSelection);
+  console.log("language", language)
+  console.log("resulationSelector", resulationSelector)
 
-  const photos = (photoTutorial) => {
-    return photoTutorial.map((ele, index) => (
+  const photos = (pt) => {
+    return pt.map((ele, index) => (
       <div>
         <img src={`${ele}&res=${resulationSelector}`} alt="sowdamart.com" />
       </div>
@@ -52,7 +53,7 @@ export default ({ photoTutorial }) => {
   };
   return (
     <Carousel {...configProps}>
-      {language === "en" ? photos(photoTutorial) : photos(photoTutorial)}
+      {language === "en" ? photos(photoTutorial) : photos(photoTutorialBengali)}
     </Carousel>
   );
 };

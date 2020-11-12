@@ -93,7 +93,10 @@ export default function Home(props) {
               )}
             </div>
             <div className="content-carousel">
-              <Carousel photoTutorial={home.photoTutorial}></Carousel>
+              <Carousel
+                photoTutorial={home.photoTutorial}
+                photoTutorialBengali={home.photoTutorialBengali}
+              ></Carousel>
             </div>
           </section>
         )}

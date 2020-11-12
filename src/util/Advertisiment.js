@@ -7,7 +7,7 @@ import {
 
 export default function Adevertisiment({advertisiment}) {
   const resulationSelector = useSelector(selectResolutionSelection);
-  const { language } = useSelector(selectLanguageSelection);
+  const language = useSelector(selectLanguageSelection);
   
   const onClick = (advertisiment) =>{
     console.log(advertisiment)

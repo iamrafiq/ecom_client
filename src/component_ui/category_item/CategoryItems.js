@@ -33,7 +33,7 @@ const CategoryItems = ({ match }) => {
   const bar = useSelector(selectSideBarBarToViewSelection);
   const category = useSelector(selectCategoryWithProduct);
   const resulationSelector = useSelector(selectResolutionSelection);
-  const { language } = useSelector(selectLanguageSelection);
+  const language = useSelector(selectLanguageSelection);
 
   const dispatch = useDispatch();
 

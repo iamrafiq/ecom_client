@@ -52,8 +52,8 @@ function Product({ product }) {
   } = product;
   const selectedHoverSlug = useSelector(selectProductHoverSelection);
   const productFromCart = useSelector(selectAcartProduct(product));
-  const { resolution } = useSelector(selectResolutionSelection);
-  const { language } = useSelector(selectLanguageSelection);
+  const resolution  = useSelector(selectResolutionSelection);
+  const language  = useSelector(selectLanguageSelection);
   const dispatch = useDispatch();
   //dispatch(setSlug({ slug: product.slug }));
   useEffect(() => {}, [selectedHoverSlug, openDetailsView]);
