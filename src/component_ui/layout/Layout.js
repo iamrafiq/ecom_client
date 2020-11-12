@@ -6,10 +6,10 @@ import AppBarTop from "../app_bar/AppBarTop";
 import "./Layout.css";
 import { useState, useEffect } from "react";
 import { selectTree , loadHome} from "../../redux/homeSlice";
-import { setResolution, selectResolutionSelection } from "../../redux/settingsSlice";
+import { setResolution, setDevice } from "../../redux/settingsSlice";
 
 import { useSelector, useDispatch } from "react-redux";
-import { MOBIEL_DEVICE_RESOLUTION } from "../../config";
+import { MOBIEL_DEVICE_RESOLUTION, TAB_DEVICE_RESOLUTION } from "../../config";
 
 const mql = window.matchMedia(`(min-width: ${MOBIEL_DEVICE_RESOLUTION}px)`);
 
@@ -23,6 +23,7 @@ function Layout(props) {
   }else{
     dispatch(setResolution({resolution:"medium"}));
   }
+  
   useEffect(() => {
     dispatch(loadHome());
   }, []);
@@ -34,7 +35,6 @@ function Layout(props) {
 
   const cats = useSelector(selectTree);
 
-  console.log("Layout..................");
   const onTouchResetRedux = () => {
   };
   return (
@@ -50,10 +50,8 @@ function Layout(props) {
            
             tree={cats}
             onClickMenu={(callBack) => {
-              console.log("ppp...");
               setState({ ...state, menuClickCallBack: callBack });
               // menuClickCallBack = callBack;
-              console.log("ppp...", menuClickCallBack);
             }}
           ></Sidebar>
         )}

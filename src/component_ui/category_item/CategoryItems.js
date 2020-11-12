@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 // import { getCategoryItems } from "../../admin/apiAdmin";
 
 // import ProductCard from "../product_card/ProductCard";
-import Category from "../category/Category";
+import {Category} from "../category/Category";
 import Product from "../product/Product";
 import "../../common/common.css";
 import "./category_item.css";
@@ -81,12 +81,6 @@ const CategoryItems = ({ match }) => {
   // };
 
   const subcategories = (items) => {
-    var test = [];
-
-    for (var j = 0; j < 25; j++) {
-      test[j] = { i: 89, j: j };
-    }
-
     return items.map((item, index) => (
       <div>
         <Link to={item.slug}>

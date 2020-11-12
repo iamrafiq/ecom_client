@@ -1,7 +1,7 @@
 
 .content--area{
-   margin-left: var(--gap-extra-large); 
-  margin-right: var(--gap-extra-large); 
+   margin-left: var( --sidebar-width-with-extra-padding); 
+  margin-right: var(--padding-right-extra); 
 }
 .addvert-area{
   display: flex;
@@ -42,4 +42,4 @@ padding:0;
     margin-left: var(--gap-medium); 
    margin-right: var(--gap-medium); 
  }
-}
+} 

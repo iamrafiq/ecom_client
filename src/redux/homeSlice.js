@@ -12,6 +12,7 @@ export const homesSlice = createSlice({
   },
   reducers: {
     setHome: (state, action) => {
+      console.log(".......set home")
       let data = action.payload.data.categories;
       const idMapping = data.reduce((acc, el, i) => {
         acc[el._id] = i;

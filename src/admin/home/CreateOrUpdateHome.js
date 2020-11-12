@@ -11,7 +11,7 @@ var slugify = require("slugify");
 const CreateOrUpdateHome = () => {
   const { user, token } = isAuthenticated();
   const [photoLanding, setPhotoLanding] = useState(null);
-  const [photoFeatures, setPhotoFeatures] = useState(null);
+  const [photoTutorial, setPhotoTutorial] = useState(null);
   const [values, setValues] = useState({
     title: "",
     bengaliTitle: "",
@@ -62,8 +62,8 @@ const CreateOrUpdateHome = () => {
   const handleImageChange = (name) => (event) => {
     if (name == "photoLanding") {
       setPhotoLanding(event.target.files[0]);
-    } else if (name == "photoFeatures") {
-      setPhotoFeatures(event.target.files);
+    } else if (name == "photoTutorial") {
+      setPhotoTutorial(event.target.files);
     }
   };
   const handleChange = (field) => (event) => {
@@ -82,9 +82,9 @@ const CreateOrUpdateHome = () => {
     if (photoLanding !== null) {
       formData.append("photoLanding", photoLanding);
     }
-    if (photoFeatures !== null) {
-      for (let x = 0; x < photoFeatures.length; x++) {
-        formData.append("photoFeatures", photoFeatures[x]);
+    if (photoTutorial !== null) {
+      for (let x = 0; x < photoTutorial.length; x++) {
+        formData.append("photoTutorial", photoTutorial[x]);
       }
     }
     setValues({ ...values, error: "", loading: true });
@@ -123,13 +123,13 @@ const CreateOrUpdateHome = () => {
           />
         </label>
       </div>
-      <h4>Upload Features Images</h4>
+      <h4>Upload Tutorial Images</h4>
       <div className="form-group">
         <label htmlFor="" className="btn btn-secondary">
           <input
-            onChange={handleImageChange("photoFeatures")}
+            onChange={handleImageChange("photoTutorial")}
             type="file"
-            name="photoFeatures"
+            name="photoTutorial"
             accept="image/*"
             multiple
           />

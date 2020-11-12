@@ -9,7 +9,7 @@
   position: absolute;
   width: 100%;
   padding-top: 4rem; /*top bar height*/
-  padding-left: var( --side-bar-width); /*side bar width + padding*/
+  padding-left: var( --side-bar-width); /*side bar width*/
   background-color:white;
 }
 

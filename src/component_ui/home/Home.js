@@ -1,29 +1,50 @@
 import React from "react";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { CategoryRect } from "../category/Category";
+
 import {
   selectResolutionSelection,
   selectLanguageSelection,
 } from "../../redux/settingsSlice";
 import { selectHomeSelection } from "../../redux/homeSlice";
 import Advertisiment from "../../util/Advertisiment";
+import Carousel from "../../util/Carousel";
 import "./home.css";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+
 var FontAwesome = require("react-fontawesome");
 
-export default function Category(props) {
+export default function Home(props) {
   const resulationSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
   const home = useSelector(selectHomeSelection);
-
+  console.log("home....", home);
   useEffect(() => {}, []);
+  const categories = (items) => {
+    return items.map((item, index) => {
+      if (item.showHome === 1) {
+        return (
+          <div className="content__cats--width">
+            <Link to={item.slug}>
+              <CategoryRect category={item} key={item._id}></CategoryRect>
+            </Link>
+          </div>
+        );
+      }
+    });
+  };
   return (
-    <div className="home">
-      <div className="home__landing">
+    <section className="home">
+      <section className="home__landing">
         <div className="landing__img">
-        <img src={`${home.photoLanding}&res=${resulationSelector}`} alt="" />
+          <img src={`${home.photoLanding}&res=${resulationSelector}`} alt="" />
         </div>
         <div className="landing__content">
-          <span className="content__title">Sowdamart always low price.</span>
+          <span className="landing__content--title">
+            Sowdamart always low price.
+          </span>
           <div class="search-wrapper-home">
             <form>
               <input
@@ -39,22 +60,48 @@ export default function Category(props) {
             </form>
           </div>
         </div>
-      </div>
-      <div className="home_content">
+      </section>
+      <section className="section_content">
         {home.advertisements && (
-          <div className="content__advert">
+          <div className="section__advert">
             {home.advertisements.map((ele, index) => (
               <Advertisiment advertisiment={ele}></Advertisiment>
             ))}
           </div>
         )}
 
-        <div className="content__cats"></div>
-        <div className="content__tutorial"></div>
-        <div className="content__offer"></div>
-        <div className="content__features"></div>
-      </div>
-      <div className="home__footer"></div>
-    </div>
+        <section className="section__content">
+          <div className="content--title">
+            {language === "en" ? (
+              <span>Our Product Categories</span>
+            ) : (
+              <span>আমাদের পন্যের বিভাগসমুহ</span>
+            )}
+          </div>
+          <div className="content--cats">
+            {home.categories && categories(home.categories)}
+          </div>
+        </section>
+
+        {home.photoTutorial && (
+          <section className="section__content">
+            <div className="content--title">
+              {language === "en" ? (
+                <span>Our Product Categories</span>
+              ) : (
+                <span>আমাদের পন্যের বিভাগসমুহ</span>
+              )}
+            </div>
+            <div className="content-carousel">
+              <Carousel photoTutorial={home.photoTutorial}></Carousel>
+            </div>
+          </section>
+        )}
+
+        <section className="section__content"></section>
+        <section className="section__content"></section>
+      </section>
+      <footer className="section__footer"></footer>
+    </section>
   );
 }
