@@ -18,7 +18,7 @@ const styles = {
   header: {
     // position:"fixed",
     width: "100%",
-    zIndex: 5, // same z index for sidebar
+    zIndex: 9999, // same z index for sidebar
   },
 };
 

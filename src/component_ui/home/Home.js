@@ -11,6 +11,8 @@ import {
 import { selectHomeSelection } from "../../redux/homeSlice";
 import Advertisiment from "../../util/Advertisiment";
 import Carousel from "../../util/Carousel";
+import MultiCarousel from "../../util/multi_carousel/MultiCarousel";
+
 import "./home.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -87,9 +89,9 @@ export default function Home(props) {
           <section className="section__carousel">
             <div className="content--title">
               {language === "en" ? (
-                <span>Our Product Categories</span>
+                <span>How to order from Sowdamart ?</span>
               ) : (
-                <span>আমাদের পন্যের বিভাগসমুহ</span>
+                <span>কিভাবে সওদামার্ট থেকে অর্ডার করতে হয় ?</span>
               )}
             </div>
             <div className="content-carousel">
@@ -100,6 +102,23 @@ export default function Home(props) {
             </div>
           </section>
         )}
+         {/* {home.offerProducts && ( */}
+          <section className="section__multi_carousel">
+            <div className="content--title">
+              {language === "en" ? (
+                <span>Special Offers </span>
+              ) : (
+                <span>দারুন অফার</span>
+              )}
+            </div>
+            <div className="content-multi-carousel">
+              <MultiCarousel
+                photoTutorial={home.photoTutorial}
+                photoTutorialBengali={home.photoTutorialBengali}
+              ></MultiCarousel>
+            </div>
+          </section>
+        {/* )} */}
 
         <section className="section__content"></section>
         <section className="section__content"></section>

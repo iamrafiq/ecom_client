@@ -7,7 +7,7 @@
     width: 100%;
     top: 0;
     left: 0;
-    z-index: 7;
+    z-index: 9999; /*same z index for side bar*/
     background-image: linear-gradient(to right, #B3EE3A , #7CCD7C);
     height: 4rem; /*config.APP_BAR_HEIGHT_FULL_SCREEN*/
   }
@@ -84,7 +84,7 @@
       width: 100%;
       top: 0;
       left: 0;
-      z-index: 7;
+      z-index: 9999; /*same z index for side bar*/
       flex-direction: column;
       margin: auto ;
       gap:.5rem 2rem;

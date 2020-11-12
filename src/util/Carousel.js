@@ -37,6 +37,7 @@ const configProps = {
   swipeable: true,
   interval: 2000,
   dynamicHeight: false,
+  stopOnHover:true,
 };
 export default ({ photoTutorial, photoTutorialBengali }) => {
   const resulationSelector = useSelector(selectResolutionSelection);
