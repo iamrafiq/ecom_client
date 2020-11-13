@@ -102,7 +102,7 @@ export default function Home(props) {
             </div>
           </section>
         )}
-         {/* {home.offerProducts && ( */}
+         {home.offerProducts && (
           <section className="section__multi_carousel">
             <div className="content--title">
               {language === "en" ? (
@@ -113,12 +113,11 @@ export default function Home(props) {
             </div>
             <div className="content-multi-carousel">
               <MultiCarousel
-                photoTutorial={home.photoTutorial}
-                photoTutorialBengali={home.photoTutorialBengali}
+                products={home.offerProducts}
               ></MultiCarousel>
             </div>
           </section>
-        {/* )} */}
+        )}
 
         <section className="section__content"></section>
         <section className="section__content"></section>

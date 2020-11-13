@@ -28,7 +28,7 @@
     max-width: 100%;
     box-sizing: border-box; 
     transition: all 0.2s ease-in-out;
-    max-height: 96%;
+    max-height: 80%;
   }
   
   .pure-modal.auto-height {

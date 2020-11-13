@@ -1,12 +1,13 @@
 import React from "react";
 
 import Carousel from "react-multi-carousel";
+import OfferProduct, {  } from "../../component_ui/product/OfferProduct";
 // import { Image } from "semantic-ui-react";
 
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
-    items: 6,
+    items: 5,
     paritialVisibilityGutter: 60
   },
   tablet: {
@@ -46,7 +47,7 @@ const ButtonGroup = ({ next, previous, goToSlide, ...rest }) => {
   };
 // Because this is an inframe, so the SSR mode doesn't not do well here.
 // It will work on real devices.
-const CarouselRenderer = ({ deviceType }) => {
+const CarouselRenderer = ({ deviceType, products }) => {
   return (
     <Carousel
     //   ssr
@@ -73,12 +74,12 @@ const CarouselRenderer = ({ deviceType }) => {
     // customTransition="all .5"
     // transitionDuration={500}
     containerClass="carousel-container"
-    // removeArrowOnDeviceType={["tablet", "mobile"]}
+     removeArrowOnDeviceType={["tablet", "mobile"]}
     deviceType={deviceType}
     dotListClass="custom-dot-list-style"
     itemClass="carousel-item-padding-40-px"
     >
-      {images.map(image => {
+      {/* {images.map(image => {
         return (
           <img
             draggable={false}
@@ -86,7 +87,36 @@ const CarouselRenderer = ({ deviceType }) => {
             src={image}
           />
         );
-      })}
+      })} */}
+      {products.map((ele, index)=>(
+      <OfferProduct product={ele}></OfferProduct>     
+      ))}
+      {products.map((ele, index)=>(
+      <OfferProduct product={ele}></OfferProduct>     
+      ))}
+      {products.map((ele, index)=>(
+      <OfferProduct product={ele}></OfferProduct>     
+      ))}
+      {products.map((ele, index)=>(
+      <OfferProduct product={ele}></OfferProduct>     
+      ))}
+      {products.map((ele, index)=>(
+      <OfferProduct product={ele}></OfferProduct>     
+      ))}
+       {/* <OfferProduct product={product}></OfferProduct>
+      <OfferProduct product={product}></OfferProduct>
+      <OfferProduct product={product}></OfferProduct>
+      <OfferProduct product={product}></OfferProduct>
+      <OfferProduct product={product}></OfferProduct>
+      <OfferProduct product={product}></OfferProduct>
+      <OfferProduct product={product}></OfferProduct>
+      <OfferProduct product={product}></OfferProduct>
+      <OfferProduct product={product}></OfferProduct>
+      <OfferProduct product={product}></OfferProduct>
+
+      <OfferProduct product={product}></OfferProduct>
+      <OfferProduct product={product}></OfferProduct> */}
+
     </Carousel>
   );
 };

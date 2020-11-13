@@ -2,11 +2,14 @@ import React from "react";
 import UAParser from "ua-parser-js";
 import CarouselRenderer from "./CarouselRenderer";
 
-import {
-  selectResolutionSelection,
-  selectLanguageSelection,
-} from "../../redux/settingsSlice";
-import { useSelector } from "react-redux";
+// import {
+//   selectResolutionSelection,
+//   selectLanguageSelection,
+// } from "../../redux/settingsSlice";
+// import {
+// selectOfferProducts
+// } from "../../redux/homeSlice";
+// import { useSelector } from "react-redux";
 import "react-multi-carousel/lib/styles.css";
 
 const responsive = {
@@ -27,11 +30,11 @@ const responsive = {
   },
 };
 
-const MultiCarousel = ({ deviceType }) => {
-  const resulationSelector = useSelector(selectResolutionSelection);
-  const language = useSelector(selectLanguageSelection);
+const MultiCarousel = ({ deviceType, products }) => {
+  // const resulationSelector = useSelector(selectResolutionSelection);
+  // const language = useSelector(selectLanguageSelection);
 
-  return <CarouselRenderer deviceType={deviceType} />;
+  return (products&&<CarouselRenderer deviceType={deviceType} products = {products} />);
 };
 
 MultiCarousel.getInitialProps = ({ req }) => {

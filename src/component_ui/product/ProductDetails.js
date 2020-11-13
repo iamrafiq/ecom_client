@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { useEffect, useState } from "react";
-import "./product_details.css";
+import "./product-details.css";
 import { useSelector, useDispatch } from "react-redux";
 import { selectLanguageSelection } from "../../redux/settingsSlice";
 import { getAdvertisementsBySlug } from "../../admin/advertisement/apiAdvertisement";
