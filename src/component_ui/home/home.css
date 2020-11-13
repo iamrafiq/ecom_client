@@ -62,7 +62,8 @@
   cursor: pointer;
 }
 
-.section_content {
+.section_content,
+.section__footer {
   display: flex;
   margin-top: var(--gap-large);
   margin-left: var(--sidebar-width);
@@ -105,13 +106,14 @@
   margin-top: var(--gap-large);
 }
 .section__multi_carousel,
-.section__gallery{
+.section__gallery {
   display: flex;
   flex-direction: column;
   margin: 50px var(--gap-large) 0px var(--gap-large);
 }
 
-.content-multi-carousel {
+.content-multi-carousel,
+.content--gallery {
   margin-top: var(--gap-large);
 }
 /* .content__cats--width{

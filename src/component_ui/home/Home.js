@@ -13,6 +13,7 @@ import Advertisiment from "../../util/Advertisiment";
 import Carousel from "../../util/Carousel";
 import MultiCarousel from "../../util/multi_carousel/MultiCarousel";
 import FeatureGallery from "./FeatureGallery";
+import Footer from "../footer/Footer";
 import "./home.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -117,22 +118,24 @@ export default function Home(props) {
           </section>
         )}
 
-        {home.gallery&&(<section className="section__gallery">
-          <div className="content--title">
-            {language === "en" ? (
-              <span>Our Product Categories</span>
-            ) : (
-              <span>আমাদের পন্যের বিভাগসমুহ</span>
-            )}
-          </div>
-          <div className="content--gallery">
-            <FeatureGallery gallery={home.gallery}></FeatureGallery>
-          </div>
-        </section>)}
-      
-        <section className="section__content"></section>
+        {home.gallery && (
+          <section className="section__gallery">
+            <div className="content--title">
+              {language === "en" ? (
+                <span>Why people like Sowdamart?</span>
+              ) : (
+                <span>কেন মানুষ সওদামার্ট পছন্দ করে?</span>
+              )}
+            </div>
+            <div className="content--gallery">
+              <FeatureGallery gallery={home.gallery}></FeatureGallery>
+            </div>
+          </section>
+        )}
       </section>
-      <footer className="section__footer"></footer>
+      <footer className="section__footers">
+        <Footer></Footer>
+      </footer>
     </section>
   );
 }
