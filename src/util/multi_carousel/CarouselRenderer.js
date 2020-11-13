@@ -63,8 +63,8 @@ const CarouselRenderer = ({ deviceType, products }) => {
     showDots={false}
     responsive={responsive}
     ssr={true} // means to render carousel on server-side.
-    // infinite={true}
-    // autoPlay={deviceType !== "mobile" ? true : false}
+    infinite={true}
+    autoPlay={deviceType !== "mobile" ? true : false}
     autoPlaySpeed={2000}
     keyBoardControl={true}
     // arrows={false} 
@@ -74,7 +74,7 @@ const CarouselRenderer = ({ deviceType, products }) => {
     // customTransition="all .5"
     // transitionDuration={500}
     containerClass="carousel-container"
-     removeArrowOnDeviceType={["tablet", "mobile"]}
+    //  removeArrowOnDeviceType={["tablet", "mobile"]}
     deviceType={deviceType}
     dotListClass="custom-dot-list-style"
     itemClass="carousel-item-padding-40-px"

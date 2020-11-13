@@ -75,6 +75,7 @@
   width: 100%;
   text-align: center;
   margin-top: var(--gap-medium);
+  color: var(--font-color-secondary);
 
 }
 .offer__product__price {
@@ -95,7 +96,6 @@
 
 }
 .price--red {
-  background-color: wheat;
 }
 .offer_content__overly {
   position: absolute;
