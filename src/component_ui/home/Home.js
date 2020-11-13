@@ -12,7 +12,7 @@ import { selectHomeSelection } from "../../redux/homeSlice";
 import Advertisiment from "../../util/Advertisiment";
 import Carousel from "../../util/Carousel";
 import MultiCarousel from "../../util/multi_carousel/MultiCarousel";
-
+import FeatureGallery from "./FeatureGallery";
 import "./home.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -102,7 +102,7 @@ export default function Home(props) {
             </div>
           </section>
         )}
-         {home.offerProducts && (
+        {home.offerProducts && (
           <section className="section__multi_carousel">
             <div className="content--title">
               {language === "en" ? (
@@ -112,14 +112,24 @@ export default function Home(props) {
               )}
             </div>
             <div className="content-multi-carousel">
-              <MultiCarousel
-                products={home.offerProducts}
-              ></MultiCarousel>
+              <MultiCarousel products={home.offerProducts}></MultiCarousel>
             </div>
           </section>
         )}
 
-        <section className="section__content"></section>
+        {home.gallery&&(<section className="section__gallery">
+          <div className="content--title">
+            {language === "en" ? (
+              <span>Our Product Categories</span>
+            ) : (
+              <span>আমাদের পন্যের বিভাগসমুহ</span>
+            )}
+          </div>
+          <div className="content--gallery">
+            <FeatureGallery gallery={home.gallery}></FeatureGallery>
+          </div>
+        </section>)}
+      
         <section className="section__content"></section>
       </section>
       <footer className="section__footer"></footer>

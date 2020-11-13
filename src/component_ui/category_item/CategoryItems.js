@@ -94,8 +94,8 @@ const CategoryItems = ({ match }) => {
   const products = (items) => {
     return items.map((item, index) => (
       <div>
-        <OfferProduct product={item} index={index}></OfferProduct>
-        {/* <Product product={item} index={index}></Product> */}
+        {/* <OfferProduct product={item} index={index}></OfferProduct> */}
+        <Product product={item} index={index}></Product>
 
       </div>
     ));
