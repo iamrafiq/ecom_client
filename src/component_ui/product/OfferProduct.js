@@ -202,69 +202,74 @@ function OfferProduct({ regularProduct, offerProduct, product }) {
             ) : (
               ""
             )}
-            <div className="content--image">
-              <img
-                src={
-                  photosUrl && photosUrl.length > 0
-                    ? `${photosUrl[0]}&res=${"low"}`
-                    : ""
-                }
-                alt={name}
-              ></img>
-            </div>
-            <div className="offer__content__text">
+            <div className="offer__card--body">
               <div className="offer__text--title">
                 {language === "en" ? (
-                  <span>{nameWithOutSubText}</span>
+                  <span>{name}</span>
                 ) : (
-                  <p>{bengaliName}</p>
+                  <span>{bengaliName}</span>
                 )}
               </div>
-              {subText && subText.length > 0 && (
-                <div className="offer__text--sub">
-                  {language === "en" ? (
-                    <span>{subText}</span>
-                  ) : (
-                    <p>{englishToBangla(subText)}</p>
-                  )}
-                </div>
-              )}
-
-              <div className="offer__product__price">
-                {applyDiscounts && cropPrice && cropPrice > 0 ? (
-                  <div className="offer__price--crop">
+            
+            <div className="offer__card--ic">
+              <div className="offer__content--image">
+                <img
+                  src={
+                    photosUrl && photosUrl.length > 0
+                      ? `${photosUrl[0]}&res=${"low"}`
+                      : ""
+                  }
+                  alt={name}
+                ></img>
+              </div>
+              <div className="offer__content__text">
+                {subText && subText.length > 0 && (
+                  <div className="offer__text--sub">
                     {language === "en" ? (
-                      <Fragment>
-                        <span className="offer__price--mrp price--red">
-                          &#2547; {cropPrice}
-                        </span>
-                        <span>
-                          <del>&#2547; {mrp}</del>
-                        </span>
-                      </Fragment>
+                      <span>{subText}</span>
                     ) : (
-                      <Fragment>
-                        <span className="offer__price--mrp price--red">
-                          &#2547; {englishToBangla(cropPrice)}
-                        </span>
-                        <span>
-                          <del>&#2547; {englishToBangla(mrp)}</del>
-                        </span>
-                      </Fragment>
+                      <p>{englishToBangla(subText)}</p>
                     )}
                   </div>
-                ) : (
-                  <Fragment>
-                    {language === "en" ? (
-                      <span className="offer__price--mrp">&#2547; {mrp}</span>
-                    ) : (
-                      <span className="offer__price--mrp">
-                        &#2547; {englishToBangla(mrp)}
-                      </span>
-                    )}
-                  </Fragment>
                 )}
+
+                <div className="offer__product__price">
+                  {applyDiscounts && cropPrice && cropPrice > 0 ? (
+                    <div className="offer__price--crop">
+                      {language === "en" ? (
+                        <Fragment>
+                          <span className="offer__price--mrp price--red">
+                            &#2547; {cropPrice}
+                          </span>
+                          <span>
+                            <del>&#2547; {mrp}</del>
+                          </span>
+                        </Fragment>
+                      ) : (
+                        <Fragment>
+                          <span className="offer__price--mrp price--red">
+                            &#2547; {englishToBangla(cropPrice)}
+                          </span>
+                          <span>
+                            <del>&#2547; {englishToBangla(mrp)}</del>
+                          </span>
+                        </Fragment>
+                      )}
+                    </div>
+                  ) : (
+                    <Fragment>
+                      {language === "en" ? (
+                        <span className="offer__price--mrp">&#2547; {mrp}</span>
+                      ) : (
+                        <span className="offer__price--mrp">
+                          &#2547; {englishToBangla(mrp)}
+                        </span>
+                      )}
+                    </Fragment>
+                  )}
+                </div>
               </div>
+            </div>
             </div>
           </div>
 

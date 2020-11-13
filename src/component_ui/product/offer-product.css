@@ -1,6 +1,34 @@
+.offer__product-card {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+  height: auto;
+}
+.offer__card__content {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  overflow: hidden;
+  justify-content: space-around;
+  height: 9rem;
+}
+.offer__card--body{
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+}
+.offer__card--ic{
+  display: flex;
+  flex-direction: row;
+}
+.offer__cart--text {
+  margin: 0 auto;
+  margin-top: var(--gap-medium);
+}
+
 .offer__content--image,
 .offer__image {
-  display: flex;
+  /* display: flex; */
 }
 
 .offer__content--image,
@@ -9,52 +37,67 @@
   max-height: 100%; */
   width: 100%;
   margin: 0 auto;
-  background-color: teal;
 }
-.offer__content--image{
-  width: 100%; max-height:537px; height: auto;}
-.offer__image{
-  width: 100%; max-height:537px; height: auto;
-}
-.offer__product-card {
-  display: flex;
-  flex-direction: column;
-  margin: 5px;
-  height: auto;
-  background-color: chocolate;
 
+.offer__image {
+  width: 100%;
+  max-height: 537px;
+  height: auto;
 }
-.offer__card__content{
+
+.offer__content--image {
+  flex: 1;
   display: flex;
-  flex-direction: row;
-  background-color: cornflowerblue;
-  position: relative;
-  overflow: hidden;
+  justify-content: center;
+  margin: auto;
+}
+.offer__content__text{
+  /* padding: 0px;
+  margin: 0px; */
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 .offer__text--title {
   font-size: var(--font-size-small);
   line-height: 1rem;
-  width: 100%;
   text-align: center;
-  background-color: chartreuse;
+  display: flex;
+  flex-direction: row;
+  margin-top: var(--gap-medium);
+}
+.offer__text--title span{
+  flex: 5;
+  flex-grow: 1;
 }
 .offer__text--sub {
   font-size: var(--font-size-small);
   line-height: 1rem;
   width: 100%;
   text-align: center;
-  background-color: chartreuse;
+  margin-top: var(--gap-medium);
+
 }
-.offer__product__price{
-  background-color: darkblue;
+.offer__product__price {
   display: flex;
   flex-direction: column;
+  margin-top: var(--gap-medium);
+  margin:0 auto;
+
 }
-.offer__price--crop{
+/* .offer__price--mrp{
+  display: flex;
+ justify-content: center;
+} */
+.offer__price--crop {
   display: flex;
   flex-direction: column;
+  margin-top: var(--gap-medium);
+
 }
-.price--red{
+.price--red {
   background-color: wheat;
 }
 .offer_content__overly {
@@ -70,16 +113,13 @@
   /* transition: .5s ease; */
   background-color: black;
   height: 200px;
-
 }
 
 .price--red {
   color: red;
 }
 
-
 /* overlay start**/
-
 
 /* .product-card:hover .content__overly {
     opacity: 1;
@@ -105,7 +145,7 @@
   transform: translate(-50%, -50%); */
   text-align: center;
 }
- .offer__cart__amount--totla {
+.offer__cart__amount--totla {
   color: white;
   font-size: var(--font-size-small);
   line-height: 1.2rem;
@@ -120,41 +160,38 @@
 .offer__overly__cart {
   height: 100%;
 }
- .offer__cart__action {
+.offer__cart__action {
   display: flex;
   flex-direction: column;
   margin-top: 30px;
   color: var(--theme-color-2-light);
   font-size: var(--font-size-large);
-  line-height:var(--font-size-large);
+  line-height: var(--font-size-large);
 
   height: 100%;
 }
- .offer__actions {
+.offer__actions {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
 }
 
- .offer__action--sub {
+.offer__action--sub {
   cursor: pointer;
   border-radius: 50px;
   margin-top: var(--gap-medium);
 }
- .offer__action--result {
+.offer__action--result {
   font-size: var(--font-size-extra-large);
   font-style: bold;
   margin-top: var(--gap-medium);
 }
- .offer__action--add {
+.offer__action--add {
   cursor: pointer;
   margin-top: var(--gap-medium);
 }
- .offer__cart--text {
-  margin: 0 auto;
-  margin-top: var(--gap-medium);
-}
+
 
 .icon-overly {
   position: absolute;
@@ -175,8 +212,8 @@
   box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2);
   transition: background-color 0.2s, border 0.2s, color 0.2s; /*means when we hover over a btn backgorund, border and text  color will take 0.2s transition time to change the color*/
 }
- .product__card__btn,
- .offer__details--btn--full {
+.product__card__btn,
+.offer__details--btn--full {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -193,8 +230,6 @@
   color: var(--font-color-primary-inverse);
   padding: var(--gap-small);
   font-size: var(--font-size-medium);
-  
-
 }
 /* .product-card .btn-ghost,
 .product-card .btn-ghost {
