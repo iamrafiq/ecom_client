@@ -4,6 +4,7 @@ import {
   selectResolutionSelection,
   selectLanguageSelection,
 } from "../redux/settingsSlice";
+import {imageUrlConverter} from "./ImageUrlConverter";
 
 export default function Adevertisiment({advertisiment}) {
   const resulationSelector = useSelector(selectResolutionSelection);
@@ -15,10 +16,10 @@ export default function Adevertisiment({advertisiment}) {
   return (
     <div  style={{cursor:"pointer", objectFit:"contain", width:"auto", padding:"2px"}} onClick = {()=>onClick(advertisiment)}>
       {language === "en"?( <img
-        src={`${advertisiment.photo}&res=${resulationSelector}`}
+        src={`${imageUrlConverter(advertisiment.photo)}&res=${resulationSelector}`}
         alt={advertisiment.name}
       />):( <img
-        src={`${advertisiment.photoBangla}&res=${resulationSelector}`}
+        src={`${imageUrlConverter(advertisiment.photoBangla)}&res=${resulationSelector}`}
         alt={advertisiment.name}
       />)}
      

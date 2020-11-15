@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Treebeard, animations, decorators, theme } from "./index";
 import { includes } from "lodash";
 import { API } from "../../config";
+import {imageUrlConverter} from "../../util/ImageUrlConverter";
 
 
 
@@ -53,7 +54,7 @@ class TreeExample extends React.Component {
             {node.iconMenu && (
               <img
                 style={{ width: "20px", height: "20px", marginRight: "5px" }}
-                src={`${node.iconMenu}&res=${this.resolutionSelector}`}
+                src={`${imageUrlConverter(node.iconMenu)}&res=${this.resolutionSelector}`}
               ></img>
             )}
           </span>

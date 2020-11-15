@@ -5,6 +5,7 @@ import {
   selectLanguageSelection,
 } from "../../redux/settingsSlice";
 import "./feature-gallery.css";
+import { imageUrlConverter } from "../../util/ImageUrlConverter";
 export default function FeatureGallery({ gallery }) {
   const resulationSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
@@ -14,7 +15,7 @@ export default function FeatureGallery({ gallery }) {
       {gallery.map((ele, index) => (
         <div className="gallery__item">
           <img
-            src={`${ele.photoG}&res=${resulationSelector}`}
+            src={`${imageUrlConverter(ele.photoG)}&res=${resulationSelector}`}
             alt={ele.titleG}
           />
           <div className="gallery__text">

@@ -13,7 +13,7 @@ const defaultStyles = {
     overflow: "hidden"
   },
   sidebar: {
-    zIndex: 9999,
+    zIndex: 9,
     position: "fixed",
     top: APP_BAR_HEIGHT_MOBILE_SCREEN * parseFloat(getComputedStyle(document.documentElement).fontSize),
     bottom: 0,
@@ -43,7 +43,7 @@ const defaultStyles = {
     transition: "left .3s ease-out, right .3s ease-out"
   },
   overlay: {
-    zIndex: 9998,
+    zIndex: 8,
     position: "fixed",
     top: 0,
     left: 0,

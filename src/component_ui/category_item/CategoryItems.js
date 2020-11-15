@@ -30,6 +30,7 @@ import {
   selectLanguageSelection,
 } from "../../redux/settingsSlice";
 import Grid from "../grid/Grid";
+import { imageUrlConverter } from "../../util/ImageUrlConverter";
 
 const CategoryItems = ({ match }) => {
   const bar = useSelector(selectSideBarBarToViewSelection);
@@ -110,7 +111,7 @@ const CategoryItems = ({ match }) => {
           {category.advertisements && category.advertisements.length > 0 && (
             <div className="addvert-area">
               <img
-                src={`${category.advertisements[0].photo}&res=${resulationSelector}`}
+                src={`${imageUrlConverter(category.advertisements[0].photo)}&res=${resulationSelector}`}
                 alt={category.advertisements[0].name}
               />
             </div>

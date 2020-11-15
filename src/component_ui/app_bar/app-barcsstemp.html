@@ -1,0 +1,228 @@
+.nav-bar{
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 9999; /*same z index for side bar*/
+    background-color: var(--theme-color-1-dark);
+    height: 4rem; /*config.APP_BAR_HEIGHT_FULL_SCREEN*/
+  }
+  .nav-bar-left{
+   width: 21rem;
+   margin: auto;
+  }
+  .nav-bar-right{
+    width: 100%;
+    margin: auto;
+    display: flex;
+    /* flex: 0 0 100%; */
+    flex-direction: row;
+  
+  }
+  .nav {
+    display: flex;
+    flex: 0 0 100%;
+    flex-direction: row;
+    /* gap:.5rem 2rem; */
+    margin: auto ;
+  
+  }
+   .menu{
+    visibility: visible;
+  }
+  .logo{
+    max-width: 10rem;
+    max-height: 5rem;
+    margin: auto;
+  } 
+  .search-box {
+    flex: 1;
+  
+    display: flex;
+    /* padding-left: 18rem; SIDE_BAR_WIDTH from config file */
+    height: 2.5rem;
+  }
+  
+  .search-box input {
+    flex: 1;
+  }
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-right: 2rem;
+    /* margin: auto 2rem 0 auto; */
+  }
+  .button{
+    border: none;
+    display: inline-block;
+    cursor: pointer;
+    color: white;
+  }
+  .text-button{
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  .sign-in{
+      margin: auto;
+  }
+  .language{
+      margin: auto;
+  }
+    /*small phones from 0 to 480px*/
+    @media only screen and (max-width: 700px) {
+      .nav-bar-right{
+        display: flex;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 9999; /*same z index for side bar*/
+        flex-direction: column;
+        margin: auto ;
+        gap:.5rem 2rem;
+        background-color: var(--theme-color-1-dark);
+        height: 5rem; /*config.APP_BAR_HEIGHT_MOBILE_SCREEN*/
+      }
+      .button{
+        border: none;
+        display: inline-block;
+        cursor: pointer;
+        color: white;
+  
+      }
+      .text-button{
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+      .search-box {
+        flex: 1;
+        display: flex;
+        margin: 0 .2rem;
+        order: 2;
+       
+      }
+      .search-box input {
+        flex: 1;
+        height: 2rem;
+      }
+      .buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 1rem;
+        margin: auto 1rem;
+        order: 1;
+        color: white;
+  
+    
+      }
+      .menu{
+        visibility: visible;
+      }
+    }
+
+    <div className="nav-bar">
+    <div className="nav-bar-left">
+      <div className="logo">
+        <img  src="http://alupiaj.com/images/logo5.png" alt="" />
+      </div>
+    </div>
+    <div className="nav-bar-right">
+      <div className="search-box">
+        {/* <input type="text" placeholder="Search.." name="search" /> */}
+        <SearchBox></SearchBox>
+      </div>
+      <div className="buttons">
+        <button
+          className="button menu"
+          style={{ background: "transparent" }}
+          onClick={(e) => {
+            e.preventDefault();
+            //   dispatch(toggleSideBar())
+            console.log("ppp button click");
+            onClickMenu();
+          }}
+        >
+           <FontAwesome
+            name="bars"
+            size="2x"
+            style={{ textShadow: "0 1px 0 rgba(0, 0, 0, 0.1)" }}
+          />
+        </button>
+        <button
+          className="button home"
+          style={{ background: "transparent" }}
+          onClick={(e) => {
+            e.preventDefault();
+            //   dispatch(toggleSideBar())
+            console.log("ppp button click");
+            onClickMenu();
+          }}
+        >
+           <FontAwesome
+            name="home"
+            size="2x"
+            style={{ textShadow: "0 1px 0 rgba(0, 0, 0, 0.1)" }}
+          />
+        </button>
+        <button
+          className="button cart"
+          style={{ background: "transparent" }}
+          onClick={(e) => {
+            e.preventDefault();
+            //   dispatch(toggleSideBar())
+            console.log("ppp button click");
+            onClickMenu();
+          }}
+        >
+          <FontAwesome
+            name="user"
+            size="2x"
+            style={{ textShadow: "0 1px 0 rgba(0, 0, 0, 0.1)" }}
+          />
+        </button>
+        <button className="button cart" style={{ background: "transparent" }}>
+          <span>
+            <span
+              className="button text-button"
+              onClick={(e) => {
+                e.preventDefault();
+              }}
+            >
+              EN
+            </span>{" "}
+            <span className="text-button">|</span>{" "}
+            <span
+              className="button text-button"
+              onClick={(e) => {
+                e.preventDefault();
+              }}
+            >
+              {" "}
+              বাং
+            </span>
+          </span>
+        </button>
+
+        <button
+          className="button language"
+          style={{ background: "transparent" }}
+          onClick={(e) => {
+            e.preventDefault();
+            //   dispatch(toggleSideBar())
+            onClickMenu();
+          }}
+        >
+          <FontAwesome
+            name="cart-plus"
+            size="2x"
+            style={{ textShadow: "0 1px 0 rgba(0, 0, 0, 0.1)" }}
+          />
+        </button>
+      </div>
+    </div>
+  </div>

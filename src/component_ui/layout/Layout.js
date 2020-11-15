@@ -2,7 +2,8 @@ import React from "react";
 import Sidebar from "../side_bar/SideBar";
 import Routes from "../../Routes";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import AppBarTop from "../app_bar/AppBarTop";
+import AppBar from "../app_bar/AppBar";
+
 import "./Layout.css";
 import { useState, useEffect } from "react";
 import { selectTree , loadHome} from "../../redux/homeSlice";
@@ -40,7 +41,7 @@ function Layout(props) {
   return (
     <BrowserRouter>
       <div className="layout">
-        <AppBarTop
+        <AppBar
           onClickMenu={() => {
             state.menuClickCallBack();
           }}

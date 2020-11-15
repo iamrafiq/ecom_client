@@ -4,6 +4,8 @@ import {
   selectResolutionSelection,
   selectLanguageSelection,
 } from "../../redux/settingsSlice";
+import {imageUrlConverter} from "../../util/ImageUrlConverter";
+
 import "./category.css";
 export function Category(props) {
   const resulationSelector = useSelector(selectResolutionSelection);
@@ -12,7 +14,7 @@ export function Category(props) {
   return (
     <div className="card" style={{ width: "14rem" }}>
       <img
-        src={`${category.thumbnail}&res=${resulationSelector}`}
+        src={`${imageUrlConverter(category.thumbnail)}&res=${resulationSelector}`}
         className="card-img-top"
         alt={category.name}
       />
@@ -33,7 +35,7 @@ export function CategoryRect(props) {
   const { category, onClick } = props;
   return (
     <div className="category__rect">
-      <img src={`${category.icon}&res=${"low"}`} alt={category.name} />
+      <img src={`${imageUrlConverter(category.icon)}&res=${"low"}`} alt={category.name} />
       <span className="rect__text">
         {language === "en" ? (
           <span className="text__name">{category.name}</span>

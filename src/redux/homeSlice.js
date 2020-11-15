@@ -50,7 +50,7 @@ const { setHome } = homesSlice.actions;
 
 export const loadHome = () => (dispatch) => {
   getHome().then((data) => {
-    if (data === undefined && data.error) {
+    if (data === undefined) {
     } else {
       dispatch(setHome({ data }));
     }

@@ -4,15 +4,15 @@ import {
   selectResolutionSelection,
   selectLanguageSelection,
 } from "../../redux/settingsSlice";
-
+import "./footer.css";
 export default function Footer(props) {
   const resulationSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
 
   return (
-    <div className="container-bottom">
-      <div className="top">
-        <div className="left">
+    <div className="app__footer">
+      <div className="footer__top">
+        <div className="delivery--hr">
           <img
             src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/stores/chaldal/components/page/BrandComponent/images/1-hour.png?q=low&webp=1&alpha=1"
             alt="1 hour delivery"
@@ -33,7 +33,7 @@ export default function Footer(props) {
             <span> প্রদানোত্তর পরিশোধ</span>
           )}
         </div>
-        <div className="right">
+        <div className="">
           {language === "en" ? <span>Pay with</span> : <span>প্রদান করুন</span>}
 
           <img
@@ -58,11 +58,11 @@ export default function Footer(props) {
           />
         </div>
       </div>
-      <div className="bottom">
-        <div className="left">
+      <div className="footer__bottom">
+        <div className="footer__company">
           <img src="http://sowdamart.com/images/logo.png" alt="Logo" />
           {language === "en" ? (
-            <div className="company-goal">
+            <div className="company__goal">
               Sowdamart.com is an online shop in Dhaka, Bangladesh. We believe
               time is valuable to our fellow Dhaka residents, and that they
               should not have to waste hours in traffic, brave bad weather and
@@ -71,7 +71,7 @@ export default function Footer(props) {
               at no additional cost.
             </div>
           ) : (
-            <div className="company-goal">
+            <div className="company__goal">
               সওদামার্ট বাংলাদেশ এর সর্ব প্রথম অনলাইন ভিত্তিক শপ। বর্তমান সমাজের
               ব্যস্তটায় ফাঁকে প্রত্যেকটি মানুষ তার নিত্য প্রয়োজনীয় জিনিস যেন ঘরে
               বসে অনয়াসেই কেনাকাটা করতে পারে এমন লক্ষ্য নিয়েই সওদামার্ট এর
@@ -82,64 +82,64 @@ export default function Footer(props) {
             </div>
           )}
 
-          <div className="links">
+          <div className="footer__links">
             <div className="customer-service">
               {language === "en" ? (
-                <div className="title">Customer Service</div>
+                <div className="footer__links--title">Customer Service</div>
               ) : (
-                <div className="title">গ্রাহক সেবা</div>
+                <div className="footer__links--title">গ্রাহক সেবা</div>
               )}
 
-              <hr className="border" />
+              <hr className="footer__links--border" />
               {language === "en" ? (
-                <div className="item">Contact Us</div>
+                <div className="footer__links--item">Contact Us</div>
               ) : (
-                <div className="item">যোগাযোগ</div>
+                <div className="footer__links--item">যোগাযোগ</div>
               )}
 
               {language === "en" ? (
-                <div className="item">FAQ</div>
+                <div className="footer__links--item">FAQ</div>
               ) : (
-                <div className="item">প্রতিনিয়ত জিজ্ঞাসিত প্রশ্ন</div>
+                <div className="footer__links--item">প্রতিনিয়ত জিজ্ঞাসিত প্রশ্ন</div>
               )}
             </div>
             <div className="about-company">
               {language === "en" ? (
-                <div className="title">About Sowdamart</div>
+                <div className="footer__links--title">About Sowdamart</div>
               ) : (
-                <div className="title">সওদামার্ট সম্পর্কে</div>
+                <div className="footer__links--title">সওদামার্ট সম্পর্কে</div>
               )}
 
-              <hr className="border" />
+              <hr className="footer__links--border" />
               {language === "en" ? (
-                <div className="item">Privacy Policy</div>
+                <div className="footer__links--item">Privacy Policy</div>
               ) : (
-                <div className="item">গোপনীয়তা নীতি</div>
+                <div className="footer__links--item">গোপনীয়তা নীতি</div>
               )}
 
               {language === "en" ? (
-                <div className="item">Terms of Use</div>
+                <div className="footer__links--item">Terms of Use</div>
               ) : (
-                <div className="item">ব্যবহারের নিয়মাবলি</div>
+                <div className="footer__links--item">ব্যবহারের নিয়মাবলি</div>
               )}
             </div>
             <div className="for-business">
               {language === "en" ? (
-                <div className="title">For Business</div>
+                <div className="footer__links--title">For Business</div>
               ) : (
-                <div className="title">ব্যাবসার জন্য</div>
+                <div className="footer__links--title">ব্যাবসার জন্য</div>
               )}
 
-              <hr className="border" />
+              <hr className="footer__links--border" />
               {language === "en" ? (
-                <div className="item">Corporate</div>
+                <div className="footer__links--item">Corporate</div>
               ) : (
-                <div className="item">কর্পোরেট</div>
+                <div className="footer__links--item">কর্পোরেট</div>
               )}
             </div>
           </div>
         </div>
-        <div className="right">
+        <div className="footer__contact__apps">
           <div className="mobile-apps">
             <div className="box-app">
               <img

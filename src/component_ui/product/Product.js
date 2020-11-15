@@ -2,6 +2,8 @@ import React, { Fragment, useCallback } from "react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ProductDetails from "./ProductDetails";
+import {imageUrlConverter} from "../../util/ImageUrlConverter";
+
 import {
   setSlug,
   selectProductHoverSelection,
@@ -128,7 +130,7 @@ function Product({regularProduct,offerProduct, product }) {
               <img
                 src={
                   photosUrl && photosUrl.length > 0
-                    ? `${photosUrl[0]}&res=${resulationSelector}`
+                    ? `${imageUrlConverter(photosUrl[0])}&res=${resulationSelector}`
                     : ""
                 }
                 alt={name}

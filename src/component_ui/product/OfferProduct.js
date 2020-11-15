@@ -24,6 +24,7 @@ import "./pure-modal.css";
 import { englishToBangla } from "../../util/utils";
 import "./product.css";
 import "./offer-product.css";
+import {imageUrlConverter} from "../../util/ImageUrlConverter";
 
 var FontAwesome = require("react-fontawesome");
 
@@ -123,7 +124,7 @@ function OfferProduct({ regularProduct, offerProduct, product }) {
             <img
               src={
                 offerPhotosUrl && offerPhotosUrl.length > 0
-                  ? `${offerPhotosUrl[0]}&res=${resulationSelector}`
+                  ? `${imageUrlConverter(offerPhotosUrl[0])}&res=${resulationSelector}`
                   : ""
               }
               alt={name}
@@ -216,7 +217,7 @@ function OfferProduct({ regularProduct, offerProduct, product }) {
                 <img
                   src={
                     photosUrl && photosUrl.length > 0
-                      ? `${photosUrl[0]}&res=${"low"}`
+                      ? `${imageUrlConverter(photosUrl[0])}&res=${"low"}`
                       : ""
                   }
                   alt={name}

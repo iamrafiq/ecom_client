@@ -11,6 +11,8 @@ var slugify = require("slugify");
 const CreateOrUpdateHome = () => {
   const { user, token } = isAuthenticated();
   const [photoLanding, setPhotoLanding] = useState(null);
+  const [logo, setLogo] = useState(null);
+
   const [photoTutorial, setPhotoTutorial] = useState(null);
   const [photoTutorialBengali, setPhotoTutorialBengali] = useState(null);
 
@@ -68,6 +70,8 @@ const CreateOrUpdateHome = () => {
       setPhotoTutorial(event.target.files);
     }else if (name == "photoTutorialBengali") {
       setPhotoTutorialBengali(event.target.files);
+    }else if (name == "logo") {
+      setLogo(event.target.files[0]);
     }
   };
   const handleChange = (field) => (event) => {
@@ -85,6 +89,9 @@ const CreateOrUpdateHome = () => {
     event.preventDefault();
     if (photoLanding !== null) {
       formData.append("photoLanding", photoLanding);
+    }
+    if (logo !== null) {
+      formData.append("logo", logo);
     }
     if (photoTutorial !== null) {
       for (let x = 0; x < photoTutorial.length; x++) {
@@ -121,6 +128,18 @@ const CreateOrUpdateHome = () => {
 
   const newPostFrom = () => (
     <form className="mb-3" onSubmit={clickSubmit} id="form1">
+       <h4>Logo</h4>
+      <div className="form-group">
+        <label htmlFor="" className="btn btn-secondary">
+          <input
+            onChange={handleImageChange("logo")}
+            type="file"
+            name="logo"
+            accept="image/*"
+            // required
+          />
+        </label>
+      </div>
       <h4>Upload Landing Image</h4>
       <div className="form-group">
         <label htmlFor="" className="btn btn-secondary">
@@ -129,7 +148,7 @@ const CreateOrUpdateHome = () => {
             type="file"
             name="photoLanding"
             accept="image/*"
-            required
+            // required
           />
         </label>
       </div>
@@ -142,7 +161,7 @@ const CreateOrUpdateHome = () => {
             name="photoTutorial"
             accept="image/*"
             multiple
-            required
+            // required
           />
         </label>
       </div>
@@ -155,7 +174,7 @@ const CreateOrUpdateHome = () => {
             name="photoTutorialBengali"
             accept="image/*"
             multiple
-            required
+            // required
           />
         </label>
       </div>
@@ -168,7 +187,7 @@ const CreateOrUpdateHome = () => {
           type="text"
           className="form-control"
           value={title}
-          required
+          // required
         />
       </div>
       <div className="form-group">
@@ -180,7 +199,7 @@ const CreateOrUpdateHome = () => {
           type="text"
           className="form-control"
           value={bengaliTitle}
-          required
+          // required
         />
       </div>
       <button

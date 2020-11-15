@@ -2,8 +2,8 @@
   --mobile-device-resolution:700;
   --tab-device-resolution:1000;
   /**content area padding**/
-  --sidebar-width:17rem; /*side bar width*/
-  --sidebar-width-with-extra-padding:19rem;  /*side bar width + padding*/
+  --sidebar-width:0rem; /*side bar width*/
+  --sidebar-width-with-extra-padding:2rem;  /*side bar width + padding*/
   --padding-right-extra:.2rem;
     /**color**/
   --font-color-primary: #000000; 
@@ -12,8 +12,8 @@
   --font-color-primary-inverse: #FFFFFF;
   --font-color-alert: #ff0000; 
  
-  --theme-color-1-dark: #3f02b0; 
-  --theme-color-1-light: #4e03da; 
+  --theme-color-1-dark: #7F0641; 
+  --theme-color-1-light: #B6095E; 
   --theme-color-2-dark: #067f44; 
   --theme-color-2-light: #09b661; 
   --theme-color-3-dark: #960088; 
@@ -22,7 +22,10 @@
   --background-color-primary: #FFFFFF; 
   --background-color-secondary: #F0F0F0; 
   --background-color-primary-hover: #EBEBEB; 
+  --background-color-primary-inverse: #000000;
+  --background-color-secondary-inverse: #858585; 
 
+  --border-color-menu-dark: #7D7D7D; 
   --border-color-dark: #E5E5E5; 
   --border-color-light: #EBEBEB; 
  

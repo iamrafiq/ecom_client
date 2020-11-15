@@ -5,6 +5,7 @@ import {
   selectLanguageSelection,
 } from "../redux/settingsSlice";
 import { useSelector } from "react-redux";
+import {imageUrlConverter} from "./ImageUrlConverter";
 
 // const tooglesGroupId = 'Toggles';
 // const valuesGroupId = 'Values';
@@ -48,7 +49,7 @@ export default ({ photoTutorial, photoTutorialBengali }) => {
   const photos = (pt) => {
     return pt.map((ele, index) => (
       <div>
-        <img src={`${ele}&res=${resulationSelector}`} alt="sowdamart.com" />
+        <img src={`${imageUrlConverter(ele)}&res=${resulationSelector}`} alt="sowdamart.com" />
       </div>
     ));
   };

@@ -1,6 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import ReactImageMagnify from "react-image-magnify";
+import {imageUrlConverter} from "./ImageUrlConverter";
+
 import "./productPhotoViewer.css";
 const ProductPhotoViewer = ({ photosUrl, alt }) => {
   const [active, setActive] = useState({
@@ -22,10 +24,10 @@ const ProductPhotoViewer = ({ photosUrl, alt }) => {
               smallImage: {
                 alt: { alt },
                 isFluidWidth: true,
-                src: `${active.url}&res=${"high"}`,
+                src: `${imageUrlConverter(active.url)}&res=${"high"}`,
               },
               largeImage: {
-                src: `${active.url}&res=${"high"}`,
+                src: `${imageUrlConverter(active.url)}&res=${"high"}`,
                 width: 1200,
                 height: 1800,
               },
@@ -43,14 +45,14 @@ const ProductPhotoViewer = ({ photosUrl, alt }) => {
               if (active.index === index){
                 return ( <img
                   className="group round-circle-border"
-                  src={`${photosUrl[index]}&res=${"low"}`}
+                  src={`${imageUrlConverter(photosUrl[index])}&res=${"low"}`}
                   alt={alt}
                   onClick={() => onClickThumb(index)}
                 />)
               }else{
                 return ( <img
                   className="group"
-                  src={`${photosUrl[index]}&res=${"low"}`}
+                  src={`${imageUrlConverter(photosUrl[index])}&res=${"low"}`}
                   alt={alt}
                   onClick={() => onClickThumb(index)}
                 />)

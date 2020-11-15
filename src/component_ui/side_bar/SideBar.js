@@ -18,7 +18,7 @@ const styles = {
   header: {
     // position:"fixed",
     width: "100%",
-    zIndex: 9999, // same z index for sidebar
+    zIndex: 9, // same z index for sidebar
   },
 };
 
@@ -29,7 +29,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      docked: mql.matches,
+      // docked: mql.matches,
       open:false,
       loading: false,
       tree: JSON.parse(JSON.stringify(props.tree)),

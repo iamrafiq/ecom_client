@@ -16,7 +16,7 @@ import FeatureGallery from "./FeatureGallery";
 import Footer from "../footer/Footer";
 import "./home.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-
+import {imageUrlConverter} from "../../util/ImageUrlConverter";
 var FontAwesome = require("react-fontawesome");
 
 export default function Home(props) {
@@ -42,7 +42,7 @@ export default function Home(props) {
     <section className="home">
       <section className="home__landing">
         <div className="landing__img">
-          <img src={`${home.photoLanding}&res=${resulationSelector}`} alt="" />
+          <img src={`${imageUrlConverter(home.photoLanding)}&res=${resulationSelector}`} alt="" />
         </div>
         <div className="landing__content">
           <span className="landing__content--title">
@@ -133,7 +133,7 @@ export default function Home(props) {
           </section>
         )}
       </section>
-      <footer className="section__footers">
+      <footer className="section__footer">
         <Footer></Footer>
       </footer>
     </section>
