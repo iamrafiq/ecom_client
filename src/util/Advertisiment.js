@@ -15,13 +15,13 @@ export default function Adevertisiment({advertisiment}) {
   }
   return (
     <div  style={{cursor:"pointer", objectFit:"contain", width:"auto", padding:"2px"}} onClick = {()=>onClick(advertisiment)}>
-      {language === "en"?( <img
+      {/* {language === "en"?( <img
         src={`${imageUrlConverter(advertisiment.photo)}&res=${resulationSelector}`}
         alt={advertisiment.name}
       />):( <img
         src={`${imageUrlConverter(advertisiment.photoBangla)}&res=${resulationSelector}`}
         alt={advertisiment.name}
-      />)}
+      />)} */}
      
     </div>
   );

@@ -1,129 +1,130 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import FontAwesome from "react-fontawesome";
-import { RadioGroup, Radio } from "react-radio-group";
 import SearchBox from "./SearchBox";
 import "./app-bar.css";
 import { imageUrlConverter } from "../../util/ImageUrlConverter";
 import { selectHomeSelection } from "../../redux/homeSlice";
-import bnFlag from "../../images/bn.png";
-import enFlag from "../../images/en.png";
 
-import LanguagePopup from "./LanguagePopup";
 import {
   selectResolutionSelection,
   selectLanguageSelection,
-  setLanguage
+  setLanguage,
+  selectDeviceTypeSelection,
 } from "../../redux/settingsSlice";
-import Popup from "reactjs-popup";
-import "reactjs-popup/dist/index.css";
+import logo from "../../images/logo.svg";
+import SearchBoxMobile from "./SearchBoxMobile";
+import LanguageMenu from "./LanguageMenu";
+import SigninMenu from "./SigninMenu";
+import Orders from "./Orders";
+import Cart from "./Cart";
 
 const AppBar = (props) => {
   const dispatch = useDispatch();
   const home = useSelector(selectHomeSelection);
   const resulationSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
+  const deviceType = useSelector(selectDeviceTypeSelection);
+
+  console.log("device Type:", deviceType);
+
   // const mood = useSelector(selectSideBarMood);
   const { onClickMenu } = props;
- 
-  const handleLanguageChange = (value) =>{
-    console.log("handle change")
-    if (value == "en"){
-      dispatch(setLanguage({ language: "en"}))
-    }
-    if (value == "bn"){
-      dispatch(setLanguage({ language: "bn"}))
-    }
-  }
+
   const contentStyle = {
     position: "fixed",
     height: "200px",
     backgroundColor: "red",
   };
   return (
-    <div className="nav__bar__main">
-      <div className="nav__left">
-        <div
-          className="button__menu"
-          onClick={(e) => {
-            e.preventDefault();
-            //   dispatch(toggleSideBar())
-            console.log("ppp button click");
-            onClickMenu();
-          }}
-        >
-          <FontAwesome name="bars" size="2x" />
-        </div>
-        {home.logo && (
-          <img
-            src={`${imageUrlConverter(home.logo)}&res=${resulationSelector}`}
-            alt="Sowdamart.com"
-          />
-        )}
-      </div>
-      <div className="nav__middle">
-        <SearchBox className="nav_middle"></SearchBox>
-      </div>
-      <div className="nav__right">
-        <div className="nav__right--mobile">
-          <FontAwesome name="ellipsis-v" size="2x" />
-        </div>
-        <div className="nav__right--desktop">
-          {/* <div
-            className="desktop--language"
-            onTouchStart={() => onHoverProduct()}
-            onMouseEnter={() => onHoverProduct()}
-          >
-            <img src={bnFlag} alt="flag" />
-            <FontAwesome name="sort-down" size="1x" />
-          </div> */}
-          <div className="menu">
-            <Popup
-              trigger={
-                <div className="menu-item">
-                  {" "}
-                  <div
-                    className="desktop--language"
-                    // onTouchStart={() => onHoverProduct()}
-                    // onMouseEnter={() => onHoverProduct()}
-                  >
-                    <img src={language==="en"?enFlag:bnFlag} alt="flag" style={{width:"25px", height:"25px"}}/>
-                    <FontAwesome name="sort-down" size="1x" />
-                  </div>{" "}
-                </div>
-              }
-              position="bottom center"
-              on="hover"
-              closeOnDocumentClick
-              mouseLeaveDelay={300}
-              mouseEnterDelay={0}
-              contentStyle={{ padding: "0px", border: "none" }}
-              arrow={true}
-            >
-              <div className="menu">
-                <RadioGroup
-                  name="language"
-                  selectedValue={language}
-                  onChange={handleLanguageChange}
-                >
-                  <label>
-                    <Radio value="bn" />
-                    <span>&nbsp; &nbsp; বাংলা</span> &nbsp; &nbsp;  &nbsp; &nbsp;<img src={bnFlag} alt="flag" style={{width:"25px", height:"25px"}}/>
-
-                  </label>
-                  <br/>
-                  <label>
-                    <Radio value="en" />
-                    <span>&nbsp; &nbsp; English</span> &nbsp; &nbsp;<img src={enFlag} alt="flag" style={{width:"25px", height:"25px"}}/>
-
-                  </label>
-                </RadioGroup>
+    <div className="nav__bar">
+      {deviceType === "desktop" ? (
+        <div className="nav__bar__main--desktop">
+          <div className="nav--desktop">
+            <div className="nav__desktop--left">
+              <div
+                className="button__lang--menu"
+                onClick={(e) => {
+                  e.preventDefault();
+                  //   dispatch(toggleSideBar())
+                  console.log("ppp button click");
+                  onClickMenu();
+                }}
+              >
+                <FontAwesome name="bars" size="2x" />
               </div>
-            </Popup>
+              {home.logo && (
+                <img
+                  src={`${imageUrlConverter(
+                    home.logo
+                  )}&res=${resulationSelector}`}
+                  alt="Sowdamart.com"
+                />
+              )}
+            </div>
+            <div className="search__box--desktop">
+              <SearchBox className="search__box--desktop"></SearchBox>
+            </div>
+            <div className="desktop--menu">
+              <div className="destop--menu--item">
+                <LanguageMenu></LanguageMenu>
+              </div>
+              <div className="desktop--menu--item">
+                <SigninMenu></SigninMenu>
+              </div>
+              <div className="desktop--menu--item">
+                <Orders></Orders>
+              </div>
+              <div className="desktop--menu--item">
+                <Cart></Cart>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      {/* <SearchBox className="nav_middle"></SearchBox> */}
+      ) : (
+        <div className="nav__bar__main--mobile">
+          <div className="nav--mobile">
+            <div className="nav__mobile--left">
+              <div
+                className="button__lang--menu"
+                onClick={(e) => {
+                  e.preventDefault();
+                  //   dispatch(toggleSideBar())
+                  console.log("ppp button click");
+                  onClickMenu();
+                }}
+              >
+                <FontAwesome name="bars" size="2x" />
+              </div>
+              {home.logo && (
+                <img
+                  src={`${imageUrlConverter(home.logo)}&res=${"low"}`}
+                  alt="Sowdamart.com"
+                />
+              )}
+            </div>
+            <div className="nav__mobile--right">
+              <div className="nav__menu--mobile">
+                <div className="mobile--menu--item">
+                  <LanguageMenu></LanguageMenu>
+                </div>
+                <div className="mobile--menu--item">
+                  <SigninMenu mobile={true}></SigninMenu>
+                </div>
+                <div className="mobile--menu--item">
+                  <Orders mobile={true}></Orders>
+                </div>
+                <div className="mobile--menu--item">
+                <Cart mobile={true}></Cart>
+              </div>
+              </div>
+            </div>
+          </div>
+          <div className="search__box--mobile">
+            <SearchBoxMobile className=""></SearchBoxMobile>
+          </div>
+        </div>
+      )}
     </div>
     // <div className="nav__bar">
     //   <div className="nav__bar--logo">

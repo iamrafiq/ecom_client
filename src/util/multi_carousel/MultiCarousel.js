@@ -33,7 +33,7 @@ const responsive = {
 const MultiCarousel = ({ deviceType, products }) => {
   // const resulationSelector = useSelector(selectResolutionSelection);
   // const language = useSelector(selectLanguageSelection);
-
+   console.log("device typesssss", deviceType)
   return (products&&<CarouselRenderer deviceType={deviceType} products = {products} />);
 };
 

@@ -5,6 +5,7 @@ export const settingsSlice = createSlice({
   initialState: {
     language: "bn",  // for bangla value 'bn'
     resolution: "medium",   // low, heigh, medium // used to 
+    deviceType:"desktop", //"tablet"/ "mobile"/ "desktop" // default should be desktop because UAParser set device type mobile only when it is in mobile
     
   },
   reducers: {
@@ -14,14 +15,17 @@ export const settingsSlice = createSlice({
     setResolution: (state, action) => {
       state.resolution = action.payload.resolution;
     },
+    setDeviceType: (state, action) => {
+      state.deviceType = action.payload.deviceType;
+    },
   },
 });
 
 
-export const { setLanguage, setResolution } = settingsSlice.actions;
+export const { setLanguage, setResolution, setDeviceType } = settingsSlice.actions;
 export const selectLanguageSelection = (state) => state.settings.language;
 export const selectResolutionSelection = (state) => state.settings.resolution;
-export const selectDeviceSelection = (state) => state.settings.device;
+export const selectDeviceTypeSelection = (state) => state.settings.deviceType;
 
 
 export default settingsSlice.reducer;

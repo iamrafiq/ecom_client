@@ -5,7 +5,6 @@
 .search-wrapper {
   width: 100%;
   height: auto;
-  /* background-color: yellow; */
   padding: 1px;
   position: relative;
 
@@ -31,7 +30,6 @@
   color: var(--font-color-primary-inverse);
   border-top-right-radius: 5px;  
   border-bottom-right-radius: 5px;
-  /* top: 0; */
   right: 0;
   margin-left: -30px;
   transform: translate(100% 100%);

@@ -1,0 +1,103 @@
+.nav__bar__main {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 9; /*same z index for side bar*/
+    background-color: var(--theme-color-1-dark);
+    height: 3.5rem; /*config.APP_BAR_HEIGHT_FULL_SCREEN*/
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .nav__left {
+    display: flex;
+    flex-direction: row;
+    /* background-color: tomato; */
+    flex: 1;
+    min-width: 200px;
+  
+    /* width: 250px; */
+  }
+  .nav__left img {
+    width: 100%;
+    height: auto;
+  }
+  .button__menu {
+    margin: auto 0;
+    border: 1px solid var(--border-color-menu-dark);
+    border-radius: 5px;
+    padding: var(--gap-small);
+    margin-left: var(--gap-small);
+    color: var(--font-color-primary-inverse);
+  }
+  .button__menu:hover {
+    border-color: var(--border-color-dark);
+  }
+  .nav__middle {
+    display: flex;
+    flex: 7; /*grow | shrink | basis */
+    /* background-color: violet; */
+  }
+  .nav__right {
+    display: flex;
+    flex: 4;
+    color: var(--font-color-primary-inverse);
+    cursor: pointer;
+    /* background-color: yellowgreen; */
+  }
+  .nav__right--mobile {
+    visibility: hidden;
+  }
+  .nav__right--desktop {
+    visibility: visible;
+    display: flex;
+    flex-direction: row;
+  }
+  .nav__right--desktop:hover{
+   
+  }
+  .desktop--language{
+    padding: 5px;
+  
+  }
+  .desktop--language:hover{
+    box-shadow:inset 0px 0px 0px 1px var(--border-color-dark);
+  }
+  .menu {
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    padding: 10px;
+  
+  }
+  .menu-item {
+    z-index: 10;
+    cursor: pointer;
+  }
+  .menu-item:hover {
+    /* color: #2980b9; */
+  }
+  
+  /*small phones from 0 to 480px*/
+  @media only screen and (max-width: 700px) {
+    .nav__left {
+      min-width: 150px;
+    }
+    .nav__right {
+      flex: .1;
+      /* background-color: yellowgreen; */
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      margin-left: 20px;
+      }
+    .nav__right--desktop {
+      visibility: hidden;
+    }
+    .nav__right--mobile {
+      visibility: visible;
+      /* background-color: red; */
+    }
+  }
+  
