@@ -74,7 +74,7 @@ export default function SigninMenu({ mobile = false }) {
           <div className="menu--signin">
             <div className="signin__btn">
               <Link
-                className="btn__menu btn__menu--full link"
+                className="btn__all app__btn200 app__btn--filled  link"
                 to="/user/signin"
                 onClick={() => close()}
               >

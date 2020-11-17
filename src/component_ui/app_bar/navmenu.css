@@ -113,20 +113,7 @@
 .menu--signin ul {
   list-style: none;
 }
-.btn__menu {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
-  height: 2.6rem;
-  border-radius: 5px;
-  width: 200px;
-  box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2);
-  transition: background-color 0.2s, border 0.2s, color 0.2s;
-  cursor: pointer;
-  text-decoration: none;
-  margin: var(--gap-small);
-}
 .signin__btn{
   align-items: center;
   display: flex;
@@ -134,12 +121,7 @@
   flex-direction: column;
   color: var(--font-color-primary-inverse);
 }
-.btn__menu:hover,
-.btn__menu:visited,
-.btn__menu:link,
-.btn__menu:active {
-  color: var(--font-color-primary-inverse);
-}
+
 .link:hover,
 .link:visited,
 .link:link,
@@ -147,10 +129,7 @@
   text-decoration: none;
 
 }
-.btn__menu--full {
-  background-color: var(--theme-color-2-dark);
-  border: 1px solid var(--theme-color-2-dark);
-}
+
 .text__signup{
   font-size: var(--font-size-very-small);
   color: var(--font-color-primary);

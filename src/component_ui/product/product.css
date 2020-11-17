@@ -63,7 +63,6 @@
   color: red;
 }
 /*---------BUTTONS--------*/
-.product__card__btn,
 .btn__bag {
   display: flex;
   height: 2.6rem;
@@ -71,17 +70,7 @@
   box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2);
   transition: background-color 0.2s, border 0.2s, color 0.2s; /*means when we hover over a btn backgorund, border and text  color will take 0.2s transition time to change the color*/
 }
- .product__card__btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
 
-.product__card__btn--full {
-  background-color: white;
-  border: 1px solid #d9d9d9;
-}
 /* .product-card .btn-ghost,
 .product-card .btn-ghost {
   border: 1px solid #e67e22;

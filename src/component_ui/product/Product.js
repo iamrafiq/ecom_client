@@ -275,7 +275,7 @@ function Product({regularProduct,offerProduct, product }) {
               </div>
             </div>
           ) : (
-            <div class="product__card__btn product__card__btn--full" onClick={() => onClickAddToCart()}>
+            <div class="btn__all app__btn" onClick={() => onClickAddToCart()}>
               <div className="btn__add">
                 {language === "en" ? (
                   <span>Add to cart</span>

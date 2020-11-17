@@ -12,8 +12,8 @@
   --font-color-secondary: #6b6b6b;
   --font-color-secondary-inverse: #a6a6a6;
   --font-color-primary-inverse: #ffffff;
-  --font-color-ternary-inverse: #CCCCCC;
-  --font-color-ternary: #B8B8B8;
+  --font-color-ternary-inverse: #cccccc;
+  --font-color-ternary: #b8b8b8;
 
   --font-color-alert: #ff0000;
 
@@ -25,8 +25,9 @@
   --theme-color-3-light: #bd00ab;
 
   --background-color-primary: #ffffff;
-  --background-color-secondary: #f0f0f0;
   --background-color-primary-hover: #ebebeb;
+  --background-color-secondary: #f0f0f0;
+  --background-color-secondary-hover: #EBEBEB;
   --background-color-primary-inverse: #000000;
   --background-color-secondary-inverse: #858585;
 
@@ -52,8 +53,8 @@
   --gap-very-small: 0.1rem;
 }
 
-html{
-  font-size: 16px; 
+html {
+  font-size: 16px;
 }
 body {
   margin: 0;
@@ -99,9 +100,55 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
   z-index: 1; /* Specify a stack order in case you're using a different order for other elements */
   cursor: pointer; /* Add a pointer on hover */
+}
+
+/* app buttons**/
+.btn__all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.6rem;
+  border-radius: 5px;
+  box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s, border 0.2s, color 0.2s;
+  cursor: pointer;
+}
+.app__btn {
+  background-color: var(--background-color-secondary);
+  border: 1px solid var(--background-color-secondary);
+  color: var(--font-color-primary);
+
+}
+.app__btn:hover,
+.app__btn:link {
+  background: var(--background-color-secondary-hover);
+  color: var(--font-color-primary);
+}
+
+
+.app__btn--filled {
+  background: var(--theme-color-2-light);
+  text-decoration: none;
+  margin: var(--gap-small);
+  color: var(--font-color-primary-inverse);
+  border: 1px solid var(--font-color-primary-inverse);
+}
+
+.app__btn--filled:hover,
+.app__btn--filled:link {
+  background: var(--theme-color-2-dark);
+  color: var(--font-color-primary-inverse);
+}
+.app__btn--filled:active {
+  transform: matrix(0.95, 0, 0, 0.95, 0, 0);
+  box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2);
+}
+
+.app__btn200 {
+  width: 200px;
 }
 /*  GO FULL WIDTH AT LESS THAN 480 PIXELS */
 
