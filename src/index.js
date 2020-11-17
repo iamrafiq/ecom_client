@@ -5,6 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import Layout from "./component_ui/layout/Layout";
 import store from "./redux/store";
 import { Provider } from "react-redux";
+
 ReactDOM.render(
   <React.Fragment>
     <Provider store={store}>

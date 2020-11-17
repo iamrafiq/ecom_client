@@ -26,7 +26,6 @@ const AppBar = (props) => {
   const language = useSelector(selectLanguageSelection);
   const deviceType = useSelector(selectDeviceTypeSelection);
 
-  console.log("device Type:", deviceType);
 
   // const mood = useSelector(selectSideBarMood);
   const { onClickMenu } = props;
@@ -38,6 +37,7 @@ const AppBar = (props) => {
   };
   return (
     <div className="nav__bar">
+
       {deviceType === "desktop" ? (
         <div className="nav__bar__main--desktop">
           <div className="nav--desktop">

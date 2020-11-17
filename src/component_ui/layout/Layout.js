@@ -26,9 +26,9 @@ const Layout = (props) => {
   console.log("mql...", mql.matches);
   const parser = new UAParser();
   const result = parser.getResult();
-  let deviceType = `desktop`
-  if (result.device && result.device.type){
-    deviceType = JSON.stringify( result.device.type);
+  let deviceType = `desktop`;
+  if (result.device && result.device.type) {
+    deviceType = JSON.stringify(result.device.type);
   }
   dispatch(setDeviceType({ deviceType: deviceType }));
 
@@ -73,7 +73,8 @@ const Layout = (props) => {
             }}
           ></Sidebar>
         )}
-        <div className="layout-body">
+
+        <div className="layout-body ">
           {/* <div className={!state.sidebar?"layout-body-full":"layout-body"}> */}
           <Routes></Routes>
         </div>
