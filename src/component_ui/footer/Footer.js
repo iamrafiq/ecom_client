@@ -5,6 +5,22 @@ import {
   selectLanguageSelection,
 } from "../../redux/settingsSlice";
 import "./footer.css";
+import oneHourImg from "../../images/1-hour.png";
+import amexImg from "../../images/Amex.png";
+import bKashImg from "../../images/bkash.png";
+import cashOnDeliveryImg from "../../images/cash-on-delivery.png";
+import codImg from "../../images/COD.png";
+import visaImg from "../../images/VIsa.png";
+
+import masterCardImg from "../../images/mastercard.png";
+import playStoreImg from "../../images/google_play_store.png";
+import phoneIcon from "../../images/phone_icon.png";
+import facebookImg from "../../images/Facebook.png";
+import twitterImg from "../../images/twitter.png";
+import youtubeImg from "../../images/Youtube.png";
+import instagramImg from "../../images/Instagram.png";
+import appstoreImg from "../../images/app_store.png";
+
 export default function Footer(props) {
   const resulationSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
@@ -13,49 +29,28 @@ export default function Footer(props) {
     <div className="app__footer">
       <div className="footer__top">
         <div className="delivery--hr">
-          <img
-            src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/stores/chaldal/components/page/BrandComponent/images/1-hour.png?q=low&webp=1&alpha=1"
-            alt="1 hour delivery"
-          />
+          <img src={oneHourImg} alt="1 hour delivery" />
           {language === "en" ? (
             <span>1 hour delivery</span>
           ) : (
             <span>১ ঘণ্টার মধ্যে বিতরণ</span>
           )}
 
-          <img
-            src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/stores/chaldal/components/page/BrandComponent/images/cash-on-delivery.png?q=low&webp=1&alpha=1"
-            alt="Cash on delivery"
-          />
+          <img src={cashOnDeliveryImg} alt="Cash on delivery" />
           {language === "en" ? (
             <span>Cash on delivery</span>
           ) : (
             <span> প্রদানোত্তর পরিশোধ</span>
           )}
         </div>
-        <div className="">
+        <div className="pay--with">
           {language === "en" ? <span>Pay with</span> : <span>প্রদান করুন</span>}
 
-          <img
-            src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/components/shared/NewFooter/images/Amex.png?q=low&webp=1&alpha=1"
-            alt="Amex"
-          />
-          <img
-            src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/components/shared/NewFooter/images/mastercard.png?q=low&webp=1&alpha=1"
-            alt="Master Card"
-          />
-          <img
-            src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/components/shared/NewFooter/images/VIsa.png?q=low&webp=1&alpha=1"
-            alt="Visa Card"
-          />
-          <img
-            src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/components/shared/NewFooter/images/bkash.png?v=1&q=low&webp=1&alpha=1"
-            alt="bKash"
-          />
-          <img
-            src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/components/shared/NewFooter/images/COD.png?v=1&q=low&webp=1&alpha=1"
-            alt="Cash On Delivery"
-          />
+          <img src={amexImg} alt="Amex" />
+          <img src={masterCardImg} alt="Master Card" />
+          <img src={visaImg} alt="Visa Card" />
+          <img src={bKashImg} alt="bKash" />
+          <img src={codImg} alt="Cash On Delivery" />
         </div>
       </div>
       <div className="footer__bottom">
@@ -100,7 +95,9 @@ export default function Footer(props) {
               {language === "en" ? (
                 <div className="footer__links--item">FAQ</div>
               ) : (
-                <div className="footer__links--item">প্রতিনিয়ত জিজ্ঞাসিত প্রশ্ন</div>
+                <div className="footer__links--item">
+                  প্রতিনিয়ত জিজ্ঞাসিত প্রশ্ন
+                </div>
               )}
             </div>
             <div className="about-company">
@@ -142,25 +139,15 @@ export default function Footer(props) {
         <div className="footer__contact__apps">
           <div className="mobile-apps">
             <div className="box-app">
-              <img
-                src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/components/shared/NewFooter/images/google_play_store.png?q=low&webp=1&alpha=1"
-                alt=""
-                className="Anroid App"
-              />
+              <img src={playStoreImg} alt="" className="Anroid App" />
             </div>
             <div className="box-app">
-              <img
-                src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/components/shared/NewFooter/images/app_store.png?q=low&webp=1&alpha=1"
-                alt="iPhone App"
-              />
+              <img src={appstoreImg} alt="iPhone App" />
             </div>
           </div>
           <div className="contact-info">
             <div className="phone-number">
-              <img
-                src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/components/shared/NewFooter/images/phone_icon.png?q=low&webp=1&alpha=1"
-                alt="Phone Icon"
-              />
+              <img src={phoneIcon} alt="Phone Icon" />
               {language === "en" ? (
                 <span>0176-8567184</span>
               ) : (
@@ -173,22 +160,10 @@ export default function Footer(props) {
             </div>
           </div>
           <div className="social-networks">
-            <img
-              src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/components/shared/NewFooter/images/Facebook.png?q=low&webp=1&alpha=1"
-              alt="Facebook"
-            />
-            <img
-              src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/components/shared/NewFooter/images/Youtube.png?q=low&webp=1&alpha=1"
-              alt="Youtube"
-            />
-            <img
-              src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/components/shared/NewFooter/images/twitter.png?q=low&webp=1&alpha=1"
-              alt="Twitter"
-            />
-            <img
-              src="https://cdn.chaldal.net/asset/Egg.Grocery.Fabric/Egg.Grocery.Web/1.5.0+Release-1490/Default/components/shared/NewFooter/images/Instagram.png?q=low&webp=1&alpha=1"
-              alt="Instagram"
-            />
+            <img src={facebookImg} alt="Facebook" />
+            <img src={youtubeImg} alt="Youtube" />
+            <img src={twitterImg} alt="Twitter" />
+            <img src={instagramImg} alt="Instagram" />
           </div>
         </div>
       </div>

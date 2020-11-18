@@ -26,6 +26,8 @@ import UpdateAdvertisement from "./admin/advertisement/UpdateAdvertisement";
 import ManageAdvertisement from "./admin/advertisement/ManageAdvertisement";
 import CreateOrUpdateHome from "./admin/home/CreateOrUpdateHome";
 import ManageGallery from "./admin/home/ManageGallery";
+import SigninForm from "./component_ui/user/SigninForm";
+import SignupForm from "./component_ui/user/SignupForm";
 
 const AnyComponent = (props) => {
   return <CategoryItems id={props.match.params.any_slug} />;
@@ -71,8 +73,8 @@ const Routes = () =>{
     <Route path="/shop" exact component={Shop} />
     {/* <Route path="/category/children" exact component={CategoryChildren} />
       <Route path="/category/products" exact component={CategoryProducts} /> */}
-    <Route exact path="/user/signin" component={Signin} />
-    <Route exact path="/user/signup" component={Signup} />
+    <Route exact path="/user/signin" component={SigninForm} />
+    <Route exact path="/user/signup" component={SignupForm} />
     <PrivateRoute path="/user/dashboard" exact component={UserDashboard} />
     <AdminRoute path="/admin/dashboard" exact component={AdminDashboard} />
     <AdminRoute path="/create/category" exact component={AddCategory} />

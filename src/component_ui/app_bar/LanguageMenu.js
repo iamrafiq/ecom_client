@@ -44,8 +44,8 @@ export default function LanguageMenu({ gallery }) {
         <div className="menu-item">
           {" "}
           <div
-            className="menu__lang--language"
-            onTouchStart={() => menuOpen()}
+              className="menu__box"
+              onTouchStart={() => menuOpen()}
               onMouseEnter={() => menuOpen()}
           >
             <img
@@ -60,7 +60,6 @@ export default function LanguageMenu({ gallery }) {
       position="bottom center"
       on="hover"
       closeOnDocumentClick 
-      mouseLeaveDelay={300}
       mouseEnterDelay={0}
       contentStyle={{ padding: "0px", border: "none" }}
       arrow={true}

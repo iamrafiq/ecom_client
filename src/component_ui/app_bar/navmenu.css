@@ -20,14 +20,12 @@
 
 .menu__lang:hover {
 }
-.menu__lang--language,
-.menu__signin,
-.menu__cart {
+
+.menu__box{
   padding: 6px 9px;
 }
-.menu__lang--language:hover,
-.menu__signin:hover,
-.menu__cart:hover {
+
+.menu__box:hover {
   box-shadow: inset 0px 0px 0px 1px var(--border-color-dark);
 }
 .menu__cart {
@@ -83,7 +81,7 @@
 
 }
 
-.menu__signin {
+.menu__box {
   display: flex;
   flex-direction: row;
 }
@@ -135,17 +133,19 @@
   color: var(--font-color-primary);
 
 }
+.signup--link{
+  color:#0000EE 
+}
 .list__order{
   display: flex;
   flex-direction: row;
   /* justify-content: flex-start; */
 }
 .list__title{
-  font-size: var(--font-size-medium);
-  font-weight: 700;
+  font-size: var(--font-size-small);
 }
 .list__item{
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-very-small);
   color: var(--font-color-primary);
 }
 .icon--list{

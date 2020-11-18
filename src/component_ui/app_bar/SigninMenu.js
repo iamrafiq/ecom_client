@@ -25,11 +25,12 @@ export default function SigninMenu({ mobile = false }) {
   const language = useSelector(selectLanguageSelection);
   const deviceType = useSelector(selectDeviceTypeSelection);
   const [overlay, setOverlay] = useState(false);
+
   const closeModal = () => setOverlay(false);
   const menuOpen = () => {
     setOverlay(true);
   };
-  const linkTo = (to) => {};
+
   return (
     <div>
       <Popup
@@ -37,7 +38,7 @@ export default function SigninMenu({ mobile = false }) {
           <div className="menu-item">
             {" "}
             <div
-              className="menu__signin"
+              className="menu__box"
               onTouchStart={() => menuOpen()}
               onMouseEnter={() => menuOpen()}
             >
@@ -63,7 +64,6 @@ export default function SigninMenu({ mobile = false }) {
         position="bottom center"
         on="hover"
         closeOnDocumentClick
-        mouseLeaveDelay={300}
         mouseEnterDelay={0}
         contentStyle={{ width: "16rem", border: "none" }}
         arrow={true}
@@ -76,14 +76,16 @@ export default function SigninMenu({ mobile = false }) {
               <Link
                 className="btn__all app__btn200 app__btn--filled  link"
                 to="/user/signin"
-                onClick={() => close()}
+                onClick={() => {
+                  close();
+                }}
               >
                 Signin
               </Link>
               <span className="text__signup">
                 New customer{" "}
                 <Link to="/user/signup" onClick={() => close()}>
-                  Sign Up
+                  <span className="signup--link"> Sign Up</span>
                 </Link>
               </span>{" "}
             </div>
@@ -94,7 +96,7 @@ export default function SigninMenu({ mobile = false }) {
 
                 <ul>
                   <li>
-                    <Link className="link" onClick={()=>close()}>
+                    <Link className="link" onClick={() => close()}>
                       <FontAwesomeIcon
                         className="icon--list "
                         size="1x"
@@ -104,7 +106,7 @@ export default function SigninMenu({ mobile = false }) {
                     </Link>
                   </li>
                   <li>
-                    <Link className="link" onClick={()=>close()}>
+                    <Link className="link" onClick={() => close()}>
                       <FontAwesomeIcon
                         className="icon--list "
                         size="1x"
@@ -114,7 +116,7 @@ export default function SigninMenu({ mobile = false }) {
                     </Link>
                   </li>
                   <li>
-                    <Link className="link" onClick={()=>close()}>
+                    <Link className="link" onClick={() => close()}>
                       <FontAwesomeIcon
                         className="icon--list "
                         size="1x"
@@ -124,7 +126,7 @@ export default function SigninMenu({ mobile = false }) {
                     </Link>
                   </li>
                   <li>
-                    <Link className="link" onClick={()=>close()}>
+                    <Link className="link" onClick={() => close()}>
                       <FontAwesomeIcon
                         className="icon--list "
                         size="1x"
@@ -140,7 +142,7 @@ export default function SigninMenu({ mobile = false }) {
                 <span className="list__title">Your Orders</span>
                 <ul>
                   <li>
-                    <Link className="link" onClick={()=>close()}>
+                    <Link className="link" onClick={() => close()}>
                       <FontAwesomeIcon
                         className="icon--list icon--flip"
                         size="1x"
@@ -151,7 +153,7 @@ export default function SigninMenu({ mobile = false }) {
                   </li>
 
                   <li>
-                    <Link className="link" onClick={()=>close()}>
+                    <Link className="link" onClick={() => close()}>
                       <FontAwesomeIcon
                         className="icon--list "
                         size="1x"

@@ -17,8 +17,8 @@
 
   --font-color-alert: #ff0000;
 
-  --theme-color-1-dark: #7f0641;
-  --theme-color-1-light: #b6095e;
+  --theme-color-1-dark: #fcba03;
+  --theme-color-1-light: rgba(254,231,154,1);
   --theme-color-2-dark: #067f44;
   --theme-color-2-light: #09b661;
   --theme-color-3-dark: #960088;
@@ -163,3 +163,4 @@ body {
     width: 100%;
   }
 }
+

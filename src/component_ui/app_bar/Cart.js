@@ -35,7 +35,7 @@ export default function SigninMenu({ mobile = false }) {
   return (
     <div className="menu-item">
       {mobile ? (
-        <div className="menu__cart">
+        <div className="menu__box menu__cart">
           <img
             src={cartImage}
             alt="cart"
@@ -44,7 +44,7 @@ export default function SigninMenu({ mobile = false }) {
           <span className="cart--quantity--mobile">10</span>
         </div>
       ) : (
-        <div className="menu__cart">
+        <div className="menu__box menu__cart">
           <img
             src={cartImage}
             alt="cart"
