@@ -1,10 +1,18 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  signin,
+  signout,
+  authenticate,
+  isAuthenticated,
+} from "../../auth/index";
 
 import {
   selectLanguageSelection,
   selectDeviceTypeSelection,
+  selectAuthenticateSelection,
+  setAuthenticate,
 } from "../../redux/settingsSlice";
 import "./navmenu.css";
 import { imageUrlConverter } from "../../util/ImageUrlConverter";
@@ -24,6 +32,8 @@ export default function SigninMenu({ mobile = false }) {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
   const deviceType = useSelector(selectDeviceTypeSelection);
+  const auth = useSelector(selectAuthenticateSelection);
+  console.log("auth...", auth);
   const [overlay, setOverlay] = useState(false);
 
   const closeModal = () => setOverlay(false);
@@ -50,10 +60,30 @@ export default function SigninMenu({ mobile = false }) {
                 />
               ) : (
                 <span className="sigin__text">
-                  <span className="sigin__text--siginin">Hello Sign in </span>
-                  <span className="sigin__text--account">
-                    Account&nbsp;&#38;&nbsp;List
-                  </span>
+                  {auth ? (
+                    language === "en" ? (
+                      <span className="sigin__text--siginin">Sign out </span>
+                    ) : (
+                      <span className="sigin__text--siginin">সাইন আউট</span>
+                    )
+                  ) : language === "en" ? (
+                    <span className="sigin__text--siginin">
+                      Hello, Sign in{" "}
+                    </span>
+                  ) : (
+                    <span className="sigin__text--siginin">
+                      হ্যালো, সাইন ইন{" "}
+                    </span>
+                  )}
+                  {language === "en" ? (
+                    <span className="sigin__text--account">
+                      Account&nbsp;&#38;&nbsp;List
+                    </span>
+                  ) : (
+                    <span className="sigin__text--account">
+                      একাউন্ট&nbsp;&#38;&nbsp;লিস্ট
+                    </span>
+                  )}
                 </span>
               )}
 
@@ -65,35 +95,73 @@ export default function SigninMenu({ mobile = false }) {
         on="hover"
         closeOnDocumentClick
         mouseEnterDelay={0}
-        contentStyle={{ width: "16rem", border: "none" }}
+        contentStyle={{ width: "18rem", border: "none" }}
         arrow={true}
         open={overlay}
         onClose={closeModal}
       >
         {(close) => (
           <div className="menu--signin">
-            <div className="signin__btn">
-              <Link
-                className="btn__all app__btn200 app__btn--filled  link"
-                to="/user/signin"
-                onClick={() => {
-                  close();
-                }}
-              >
-                Signin
-              </Link>
-              <span className="text__signup">
-                New customer{" "}
-                <Link to="/user/signup" onClick={() => close()}>
-                  <span className="signup--link"> Sign Up</span>
+            {auth ? (
+              <div className="signin__btn">
+                <Link
+                  className="btn__all app__btn200 app__btn--filled  link"
+                  to="/"
+                  onClick={() => {
+                    close();
+                    signout(() => {
+                      // props.history.push("/");
+                    });
+                    dispatch(
+                      setAuthenticate({
+                        authenticate: undefined,
+                      })
+                    );
+                  }}
+                >
+                  Signout
                 </Link>
-              </span>{" "}
-            </div>
+              </div>
+            ) : (
+              <div className="signin__btn">
+                <Link
+                  className="btn__all app__btn200 app__btn--filled  link"
+                  to="/user/signin"
+                  onClick={() => {
+                    close();
+                  }}
+                >
+                  {language === "en" ? (
+                    <span>Signin</span>
+                  ) : (
+                    <span>সাইন ইন</span>
+                  )}
+                </Link>
+                <span className="text__signup">
+                  {language === "en" ? (
+                    <span>New customer</span>
+                  ) : (
+                    <span>নতুন কাস্টমার</span>
+                  )}
+                  <Link to="/user/signup" onClick={() => close()}>
+                    {language === "en" ? (
+                      <span className="signup--link">&nbsp;Sign Up</span>
+                    ) : (
+                      <span className="signup--link">&nbsp;সাইন আপ</span>
+                    )}
+                  </Link>
+                </span>
+              </div>
+            )}
+
             <hr className="line line--horizontal" />
             <div className="list__order">
               <div className="list__your">
-                <span className="list__title">Your List</span>
-
+                {language === "en" ? (
+                  <span className="list__title">Your List</span>
+                ) : (
+                  <span className="list__title">আপনার লিস্ট</span>
+                )}
                 <ul>
                   <li>
                     <Link className="link" onClick={() => close()}>
@@ -102,7 +170,11 @@ export default function SigninMenu({ mobile = false }) {
                         size="1x"
                         icon={faCheckCircle}
                       />
-                      <span className="list__item">Daily List</span>
+                      {language === "en" ? (
+                        <span className="list__item">Daily List</span>
+                      ) : (
+                        <span className="list__item">দৈনিক লিস্ট</span>
+                      )}
                     </Link>
                   </li>
                   <li>
@@ -112,7 +184,11 @@ export default function SigninMenu({ mobile = false }) {
                         size="1x"
                         icon={faCheckCircle}
                       />
-                      <span className="list__item">Weekly List</span>
+                      {language === "en" ? (
+                        <span className="list__item">Weekly List</span>
+                      ) : (
+                        <span className="list__item">সাপ্তাহিক লিস্ট</span>
+                      )}
                     </Link>
                   </li>
                   <li>
@@ -122,7 +198,11 @@ export default function SigninMenu({ mobile = false }) {
                         size="1x"
                         icon={faCheckCircle}
                       />
-                      <span className="list__item">Monthly List</span>
+                      {language === "en" ? (
+                        <span className="list__item">Monthly List</span>
+                      ) : (
+                        <span className="list__item">মাসিক লিস্ট</span>
+                      )}
                     </Link>
                   </li>
                   <li>
@@ -132,14 +212,22 @@ export default function SigninMenu({ mobile = false }) {
                         size="1x"
                         icon={faCheckCircle}
                       />
-                      <span className="list__item"> Create a List</span>
+                      {language === "en" ? (
+                        <span className="list__item">Create a List</span>
+                      ) : (
+                        <span className="list__item">লিস্ট লিখুন</span>
+                      )}
                     </Link>
                   </li>
                 </ul>
               </div>
               <div className="line row_break" />
               <div className="order__your">
-                <span className="list__title">Your Orders</span>
+                {language === "en" ? (
+                  <span className="list__title">Your Orders</span>
+                ) : (
+                  <span className="list__title">আপনার অর্ডার</span>
+                )}
                 <ul>
                   <li>
                     <Link className="link" onClick={() => close()}>
@@ -148,7 +236,16 @@ export default function SigninMenu({ mobile = false }) {
                         size="1x"
                         icon={faTruckMoving}
                       />
-                      <span className="list__item"> Track and Manage</span>
+                      {language === "en" ? (
+                        <span className="list__item">
+                          {" "}
+                          Track&nbsp;&#38;&nbsp;Manage
+                        </span>
+                      ) : (
+                        <span className="list__item">
+                          ট্র্যাক&nbsp;&#38;&nbsp;ম্যানেজ{" "}
+                        </span>
+                      )}
                     </Link>
                   </li>
 
@@ -159,7 +256,11 @@ export default function SigninMenu({ mobile = false }) {
                         size="1x"
                         icon={faShoppingBasket}
                       />
-                      <span className="list__item"> Buy again</span>
+                      {language === "en" ? (
+                        <span className="list__item"> Buy again</span>
+                      ) : (
+                        <span className="list__item">আবার কিনুন</span>
+                      )}
                     </Link>
                   </li>
                 </ul>

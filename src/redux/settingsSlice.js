@@ -3,10 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 export const settingsSlice = createSlice({
   name: "settings",
   initialState: {
-    language: "bn",  // for bangla value 'bn'
-    resolution: "medium",   // low, heigh, medium // used to 
-    deviceType:"desktop", //"tablet"/ "mobile"/ "desktop" // default should be desktop because UAParser set device type mobile only when it is in mobile
-    
+    language: "bn", // for bangla value 'bn'
+    resolution: "medium", // low, heigh, medium // used to
+    deviceType: "desktop", //"tablet"/ "mobile"/ "desktop" // default should be desktop because UAParser set device type mobile only when it is in mobile
+    authenticate: undefined, // hold object
   },
   reducers: {
     setLanguage: (state, action) => {
@@ -18,14 +18,22 @@ export const settingsSlice = createSlice({
     setDeviceType: (state, action) => {
       state.deviceType = action.payload.deviceType;
     },
+    setAuthenticate: (state, action) => {
+      state.authenticate = action.payload.authenticate;
+    },
   },
 });
 
-
-export const { setLanguage, setResolution, setDeviceType } = settingsSlice.actions;
+export const {
+  setLanguage,
+  setResolution,
+  setDeviceType,
+  setAuthenticate,
+} = settingsSlice.actions;
 export const selectLanguageSelection = (state) => state.settings.language;
 export const selectResolutionSelection = (state) => state.settings.resolution;
 export const selectDeviceTypeSelection = (state) => state.settings.deviceType;
-
+export const selectAuthenticateSelection = (state) =>
+  state.settings.authenticate;
 
 export default settingsSlice.reducer;

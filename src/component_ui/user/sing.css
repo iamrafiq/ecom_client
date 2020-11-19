@@ -1,4 +1,8 @@
 
+.page{
+  display: flex;
+  flex-direction: column;
+}
 
 #wrapper {
     width: 100%;
@@ -76,7 +80,7 @@
     font-weight: 400;
   }
   
-  #box > input {
+  .submit__btn {
     width: 260px;
     height: 50px;
     background: var(--theme-color-2-light);;

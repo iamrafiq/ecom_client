@@ -21,17 +21,6 @@ export default function SigninMenu({ mobile = false }) {
 
   const resulationSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
-
-  const handleLanguageChange = (value) => {
-    if (value == "en") {
-      dispatch(setLanguage({ language: "en" }));
-      localStorage.setItem("lngSelect", "en");
-    }
-    if (value == "bn") {
-      dispatch(setLanguage({ language: "bn" }));
-      localStorage.setItem("lngSelect", "bn");
-    }
-  };
   return (
     <div className="menu-item menu__cart">
       {mobile ? (
@@ -40,10 +29,15 @@ export default function SigninMenu({ mobile = false }) {
           alt="user"
           style={{ width: "20px", height: "20px" }}
         />
-      ) : (
+      ) : language == "en" ? (
         <span className="sigin__text">
           <span className="sigin__text--siginin">Returns</span>
           <span className="sigin__text--account">&#38;&nbsp;Orders</span>
+        </span>
+      ) : (
+        <span className="sigin__text">
+          <span className="sigin__text--siginin">রিটার্ন</span>
+          <span className="sigin__text--account">&#38;&nbsp;অর্ডার</span>
         </span>
       )}
     </div>

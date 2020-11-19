@@ -13,6 +13,7 @@ import {
   setDeviceType,
   selectLanguageSelection,
   setLanguage,
+  setAuthenticate,
 } from "../../redux/settingsSlice";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -42,7 +43,11 @@ const Layout = (props) => {
   } else {
     dispatch(setResolution({ resolution: "medium" }));
   }
-
+  if (localStorage.getItem("jwt")) {
+    dispatch(
+      setAuthenticate({ authenticate: JSON.parse(localStorage.getItem("jwt")) })
+    );
+  }
   useEffect(() => {
     dispatch(loadHome());
   }, []);

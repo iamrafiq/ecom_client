@@ -18,7 +18,7 @@
   --font-color-alert: #ff0000;
 
   --theme-color-1-dark: #fcba03;
-  --theme-color-1-light: rgba(254,231,154,1);
+  --theme-color-1-light: rgba(254, 231, 154, 1);
   --theme-color-2-dark: #067f44;
   --theme-color-2-light: #09b661;
   --theme-color-3-dark: #960088;
@@ -27,7 +27,7 @@
   --background-color-primary: #ffffff;
   --background-color-primary-hover: #ebebeb;
   --background-color-secondary: #f0f0f0;
-  --background-color-secondary-hover: #EBEBEB;
+  --background-color-secondary-hover: #ebebeb;
   --background-color-primary-inverse: #000000;
   --background-color-secondary-inverse: #858585;
 
@@ -120,14 +120,12 @@ body {
   background-color: var(--background-color-secondary);
   border: 1px solid var(--background-color-secondary);
   color: var(--font-color-primary);
-
 }
 .app__btn:hover,
 .app__btn:link {
   background: var(--background-color-secondary-hover);
   color: var(--font-color-primary);
 }
-
 
 .app__btn--filled {
   background: var(--theme-color-2-light);
@@ -150,6 +148,34 @@ body {
 .app__btn200 {
   width: 200px;
 }
+
+/**button end**/
+/**alert box**/
+.alert__box {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.alert--success {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+
+.alert--failure {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+
+.alert--warning {
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+}
+/**alert box end**/
 /*  GO FULL WIDTH AT LESS THAN 480 PIXELS */
 
 @media only screen and (max-width: 480px) {
@@ -163,4 +189,3 @@ body {
     width: 100%;
   }
 }
-

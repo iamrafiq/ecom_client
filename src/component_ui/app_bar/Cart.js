@@ -14,6 +14,7 @@ import cartImage from "../../images/addtocart.svg";
 import enFlag from "../../images/en.png";
 import LanguagePopup from "./LanguagePopup";
 import { RadioGroup, Radio } from "react-radio-group";
+import { englishToBangla } from "../../util/utils";
 var FontAwesome = require("react-fontawesome");
 
 export default function SigninMenu({ mobile = false }) {
@@ -21,17 +22,6 @@ export default function SigninMenu({ mobile = false }) {
 
   const resulationSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
-
-  const handleLanguageChange = (value) => {
-    if (value == "en") {
-      dispatch(setLanguage({ language: "en" }));
-      localStorage.setItem("lngSelect", "en");
-    }
-    if (value == "bn") {
-      dispatch(setLanguage({ language: "bn" }));
-      localStorage.setItem("lngSelect", "bn");
-    }
-  };
   return (
     <div className="menu-item">
       {mobile ? (
@@ -50,8 +40,19 @@ export default function SigninMenu({ mobile = false }) {
             alt="cart"
             style={{ width: "30px", height: "30px" }}
           />
-          <span className="cart--text--desktop">Cart</span>
-          <span className="cart--quantity--desktop">10</span>
+          {language === "en" ? (
+            <div className="">
+              <span className="cart--text--desktop">Cart</span>
+              <span className="cart--quantity--desktop">10</span>
+            </div>
+          ) : (
+            <div className="">
+              <span className="cart--text--desktop">ব্যাগ</span>
+              <span className="cart--quantity--desktop">
+                {englishToBangla(10)}
+              </span>
+            </div>
+          )}
         </div>
       )}
     </div>
