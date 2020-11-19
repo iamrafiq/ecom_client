@@ -95,7 +95,7 @@ export default function SigninMenu({ mobile = false }) {
         on="hover"
         closeOnDocumentClick
         mouseEnterDelay={0}
-        contentStyle={{ width: "18rem", border: "none" }}
+        contentStyle={{ width: "18rem", border: "none" , zIndex:"1002"}}
         arrow={true}
         open={overlay}
         onClose={closeModal}

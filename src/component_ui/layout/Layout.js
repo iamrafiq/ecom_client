@@ -64,6 +64,7 @@ const Layout = (props) => {
   return (
     <BrowserRouter>
       <div className="layout">
+        
         <AppBar
           onClickMenu={() => {
             state.menuClickCallBack();

@@ -5,11 +5,11 @@
 .menu {
   display: flex;
   flex-direction: column;
-  z-index: 10;
+  /* z-index: 2007; */
   padding: 10px;
 }
 .menu-item {
-  z-index: 10;
+  /* z-index: 2007; */
   cursor: pointer;
 }
 .menu__lang {

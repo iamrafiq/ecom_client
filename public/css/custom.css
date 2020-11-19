@@ -7,7 +7,7 @@
   width: 100%;
   top: 0;
   left: 0;
-  z-index: 9; /*same z index for side bar*/
+  z-index: 1001; /*same z index for side bar*/
   background-color: var(--theme-color-1-dark);
   height: 3.5rem; /*config.APP_BAR_HEIGHT_FULL_SCREEN*/
   display: flex;
@@ -43,7 +43,7 @@
   width: 100%;
   top: 0;
   left: 0;
-  z-index: 9; /*same z index for side bar*/
+  z-index: 1001; /*same z index for side bar*/
   background-color: var(--theme-color-1-dark);
   height: 5.2rem; 
   display: flex;

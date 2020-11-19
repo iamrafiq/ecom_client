@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 const styles = {
   root: {
-    fontFamily:
-      '"HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif',
+    // fontFamily:
+    //   '"HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif',
     fontWeight: 300,
     
   },

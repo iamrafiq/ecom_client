@@ -3,9 +3,6 @@ import Sidebar from "./core/sidebar";
 import SidebarContent from "./core/sidebar_content";
 import { MOBIEL_DEVICE_RESOLUTION } from "../../config";
 
-
-
-
 const styles = {
   contentHeaderMenuLink: {
     textDecoration: "none",
@@ -30,7 +27,7 @@ class App extends React.Component {
 
     this.state = {
       // docked: mql.matches,
-      open:false,
+      open: false,
       loading: false,
       tree: JSON.parse(JSON.stringify(props.tree)),
     };
@@ -38,16 +35,13 @@ class App extends React.Component {
     this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
     this.toggleOpen = this.toggleOpen.bind(this);
     this.onSetOpen = this.onSetOpen.bind(this);
-    props.onClickMenu(this.toggleOpen)
+    this.onClickCloseButton = this.onClickCloseButton.bind(this);
 
-   
+    props.onClickMenu(this.toggleOpen);
   }
 
- 
-
   componentWillMount() {
-   // this.downloadCategories();
-
+    // this.downloadCategories();
 
     mql.addListener(this.mediaQueryChanged);
   }
@@ -66,22 +60,25 @@ class App extends React.Component {
       open: false,
     });
   }
-
+ onClickCloseButton(){
+    this.setState({ open: !this.state.open });
+  }
   toggleOpen(ev) {
     if (ev) {
       ev.preventDefault();
     }
-    this.setState({ open: !this.state.open });    
+    this.setState({ open: !this.state.open });
   }
 
   render() {
-
- 
     const { loading, tree } = this.state;
-    const sidebar = <SidebarContent toggleSideBar={this.toggleOpen} tree={tree} />;
+    const sidebar = (
+      <SidebarContent toggleSideBar={this.toggleOpen} tree={tree} />
+    );
 
     const sidebarProps = {
       sidebar,
+      // pullRight:"true",
       docked: this.state.docked,
       open: this.state.open,
       onSetOpen: this.onSetOpen,
@@ -89,8 +86,10 @@ class App extends React.Component {
 
     return (
       <div>
+        {this.state.open&&( <div class="side__bar__cross--left" onClick={()=>this.onClickCloseButton()}></div>)}
+       
         <Sidebar {...sidebarProps}>
-        <div /> 
+          <div />
         </Sidebar>
       </div>
     );

@@ -13,9 +13,9 @@ const defaultStyles = {
     overflow: "hidden"
   },
   sidebar: {
-    zIndex: 9,
+    zIndex: 1003,
     position: "fixed",
-    top: APP_BAR_HEIGHT_MOBILE_SCREEN * parseFloat(getComputedStyle(document.documentElement).fontSize),
+     top: 0, //APP_BAR_HEIGHT_MOBILE_SCREEN * parseFloat(getComputedStyle(document.documentElement).fontSize),
     bottom: 0,
     transition: "transform .3s ease-out",
     WebkitTransition: "-webkit-transform .3s ease-out",
@@ -25,7 +25,7 @@ const defaultStyles = {
   sidebar_full_screen: {
     zIndex: 5,
     position: "fixed",
-    top:  APP_BAR_HEIGHT_FULL_SCREEN * parseFloat(getComputedStyle(document.documentElement).fontSize),
+    top: 0, //APP_BAR_HEIGHT_FULL_SCREEN * parseFloat(getComputedStyle(document.documentElement).fontSize),
     bottom: 0,
     transition: "transform .3s ease-out",
     WebkitTransition: "-webkit-transform .3s ease-out",
@@ -43,7 +43,7 @@ const defaultStyles = {
     transition: "left .3s ease-out, right .3s ease-out"
   },
   overlay: {
-    zIndex: 8,
+    zIndex: 1002,
     position: "fixed",
     top: 0,
     left: 0,
@@ -52,7 +52,7 @@ const defaultStyles = {
     opacity: 0,
     visibility: "hidden",
     transition: "opacity .3s ease-out, visibility .3s ease-out",
-    backgroundColor: "rgba(0,0,0,.3)"
+    backgroundColor: "rgba(0,0,0,.8)"
   },
   dragHandle: {
     zIndex: 1,

@@ -10,7 +10,10 @@ import {
   selectSideBarViewToBarSelection,
 } from "../../../redux/sideBarSlice";
 import { loadCategoryWithProduct } from "../../../redux/categoryWithProductSlice";
-import {selectResolutionSelection, selectLanguageSelection } from "../../../redux/settingsSlice";
+import {
+  selectResolutionSelection,
+  selectLanguageSelection,
+} from "../../../redux/settingsSlice";
 const styles = {
   sidebar: {
     width: `${SIDE_BAR_WIDTH}rem`,
@@ -23,13 +26,13 @@ const styles = {
     color: "#757575",
     textDecoration: "none",
   },
+
   divider: {
     margin: "8px 0",
     height: 1,
     backgroundColor: "#757575",
   },
   content: {
-    padding: "0px",
     height: "100%",
     backgroundImage:
       "linear-gradient(to bottom, #fff,#fff,#fff,#fff,#fff,#fff , #7CCD7C)",
@@ -46,7 +49,7 @@ const SidebarContent = (props) => {
   const resolutionSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
 
-  console.log("resolutionSelector...", resolutionSelector)
+  console.log("resolutionSelector...", resolutionSelector);
 
   const [state, setState] = useState({
     viewToBarChange: "",
@@ -65,9 +68,9 @@ const SidebarContent = (props) => {
     }
   }, [viewToBar]);
 
-
   return (
     <SideBarPanel renderTitle={false} title="" style={style}>
+      
       <div style={styles.content}>
         <a href="index.html" style={styles.sidebarLink}>
           Offer
@@ -81,12 +84,12 @@ const SidebarContent = (props) => {
               }}
               setBar={(bar) => {
                 selectedBar(bar);
-               props.toggleSideBar();
+                props.toggleSideBar();
               }}
               tree={props.tree}
               viewToBar={viewToBar}
-              resolutionSelector = {resolutionSelector}
-              language = {language}
+              resolutionSelector={resolutionSelector}
+              language={language}
             ></TreeExample>
           </div>
         }

@@ -1,10 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;1,700&display=swap");
 
 :root {
+  --overlay-color:rgba(0, 0, 0, 0.8);
   --mobile-device-resolution: 700;
   --tab-device-resolution: 1000;
   /**content area padding**/
-  --sidebar-width: 0rem; /*side bar width*/
+  --sidebar-width: 15rem; /*side bar width*/
   --sidebar-width-with-extra-padding: 2rem; /*side bar width + padding*/
   --padding-right-extra: 0.2rem;
   /**color**/
@@ -17,10 +18,10 @@
 
   --font-color-alert: #ff0000;
 
-  --theme-color-1-dark: #fcba03;
-  --theme-color-1-light: rgba(254, 231, 154, 1);
-  --theme-color-2-dark: #067f44;
-  --theme-color-2-light: #09b661;
+  --theme-color-1-dark: #0c0028;
+  --theme-color-1-light:#190052;
+  --theme-color-2-dark: #ca9502;
+  --theme-color-2-light: #fcba03;
   --theme-color-3-dark: #960088;
   --theme-color-3-light: #bd00ab;
 
@@ -100,8 +101,8 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
-  z-index: 1; /* Specify a stack order in case you're using a different order for other elements */
+  background-color:var(--overlay-color); /* Black background with opacity */
+  z-index: 1002; /* Specify a stack order in case you're using a different order for other elements */
   cursor: pointer; /* Add a pointer on hover */
 }
 
@@ -175,6 +176,22 @@ body {
   background-color: #fcf8e3;
   border-color: #faebcc;
 }
+.side__bar__cross--left{
+	position:fixed;
+	top:0px;
+	left:16rem;
+  z-index: 1003;
+}
+
+
+.side__bar__cross--left:after {
+  content: "\00d7";
+  font-size: 50px; 
+  color: #ffffff;
+  text-align: center;
+  cursor: pointer;
+}
+
 /**alert box end**/
 /*  GO FULL WIDTH AT LESS THAN 480 PIXELS */
 

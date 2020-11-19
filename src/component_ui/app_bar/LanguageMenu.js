@@ -61,7 +61,7 @@ export default function LanguageMenu({ gallery }) {
       on="hover"
       closeOnDocumentClick 
       mouseEnterDelay={0}
-      contentStyle={{ padding: "0px", border: "none" }}
+      contentStyle={{ padding: "0px", border: "none", zIndex:"1002"}}
       arrow={true}
       open={overlay}
       onClose={closeModal}
