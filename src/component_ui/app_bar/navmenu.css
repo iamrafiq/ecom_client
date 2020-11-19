@@ -171,3 +171,13 @@
   padding: var(--gap-small);
 }
 
+.radio--lang{
+  display: flex;
+  font-size: var(--font-size-small);
+  text-align: center;
+  padding: var(--gap-small);
+}
+.radio--lang img{
+  width: 25px;
+  height: 25px;
+}

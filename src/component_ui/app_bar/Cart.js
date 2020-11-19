@@ -31,7 +31,8 @@ export default function SigninMenu({ mobile = false }) {
             alt="cart"
             style={{ width: "25px", height: "25px" }}
           />
-          <span className="cart--quantity--mobile">10</span>
+          {language === "en"?(<span className="cart--quantity--mobile">10</span>):(<span className="cart--quantity--mobile">{englishToBangla(10)}</span>)}
+          
         </div>
       ) : (
         <div className="menu__box menu__cart">

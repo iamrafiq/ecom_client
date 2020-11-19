@@ -8,8 +8,11 @@ import {
   authenticate,
   isAuthenticated,
 } from "../../auth/index";
-import {selectLanguageSelection, setAuthenticate } from "../../redux/settingsSlice";
-import "./sing.css";
+import {
+  selectLanguageSelection,
+  setAuthenticate,
+} from "../../redux/settingsSlice";
+import "./user-forms.css";
 import googleImg from "../../images/google_icon.svg";
 import facebookImg from "../../images/facebook.svg";
 import Footer from "../footer/Footer";
@@ -23,11 +26,19 @@ const SignupForm = () => {
     password: "",
     error: "",
     success: false,
-    user:"",
-    redirectToReferrer:false,
+    user: "",
+    redirectToReferrer: false,
   });
 
-  const { name, userId, password, success, error, redirectToReferrer, user } = values;
+  const {
+    name,
+    userId,
+    password,
+    success,
+    error,
+    redirectToReferrer,
+    user,
+  } = values;
 
   const handleChange = (field) => {
     return (event) => {
@@ -64,7 +75,7 @@ const SignupForm = () => {
                 error: "",
                 loading: false,
                 redirectToReferrer: true,
-                user:data,
+                user: data,
               });
             });
           }
@@ -73,87 +84,55 @@ const SignupForm = () => {
     });
   };
   const signUpFrom = () => (
-    <div id="box">
-      <div className="soc">
+    <div className="form__box">
+         <div className="soc">
         <div className="soc--btn facebook">
           <img src={facebookImg} alt="facebook" />
-          <span>Sign up with Facebook</span>
+          {language==="en"?( <span>Sign up with Facebook</span>):( <span>ফেসবুক দিয়ে সাইন-আপ করুন </span>)}
+         
         </div>
         <div className="soc--btn google">
           <img src={googleImg} alt="google" />
-          <span>Sign up with google</span>
+          {language==="en"?( <span>Sign up with google</span>):( <span>গুগুল দিয়ে সাইন-আপ করুন</span>)}
+         
         </div>
       </div>
-
-      <h3>or sign up using phone number</h3>
-      <form onSubmit={clickSubmit}>
+      <div className="or__text">
+        <hr />
+        {language==="en"?(<span>OR</span>):(<span>অথবা</span>)}
+        
+        <hr />
+      </div>
+      {language==="en"?( <h3 className="form__box--h3">Sign up using phone number</h3>):( <h3 className="form__box--h3">ফোন নাম্বার দিয়ে সাইন-আপ করুন</h3>)}
+     
+      <form className="user__form" onSubmit={clickSubmit}>
         <input
-          placeholder="name (optional)"
+          placeholder={language==="en"?"name (optional)":"নাম (অপসনাল)"}
           onChange={handleChange("name")}
           type="text"
-          className="form-control"
+          className="form--input"
           value={name}
         />
         <input
-          placeholder="phone number"
+          placeholder={language==="en"?"Phone number":"ফোন নাম্বার"}
           onChange={handleChange("userId")}
           type="text"
-          className="form-control"
+          className="form--input"
           value={userId}
           required
         />
         <input
           type="text"
-          placeholder="PASSWORD"
+          placeholder={language==="en"?"password":"পাসওয়ার্ড"}
+          className="form--input"
           onChange={handleChange("password")}
           type="password"
           value={password}
           required
         />
-        <input className="submit__btn" type="submit" value="Sign Up" />
+        <input className="submit__btn margin__bottom20px" type="submit" value={language==="en"?"Sign Up":"সাইন-আপ"} />
       </form>
-
-      {/* <div class="signup">
-        <p>
-          not a member ?{" "}
-          <Link to="/user/signup">
-            <span className="signup--link"> Sign Up</span>
-          </Link>
-        </p>
-      </div> */}
     </div>
-    // <form action="">
-    //   <div className="form-group">
-    //     <label className="text-muted">Name</label>
-    //     <input
-    //       onChange={handleChange("name")}
-    //       type="text"
-    //       className="form-control"
-    //       value={name}
-    //     />
-    //   </div>
-    //   <div className="form-group">
-    //     <label className="text-muted">Email</label>
-    //     <input
-    //       onChange={handleChange("email")}
-    //       type="email"
-    //       className="form-control"
-    //       value={email}
-    //     />
-    //   </div>
-    //   <div className="form-group">
-    //     <label className="text-muted">Password</label>
-    //     <input
-    //       onChange={handleChange("password")}
-    //       type="password"
-    //       className="form-control"
-    //       value={password}
-    //     />
-    //   </div>
-    //   <button onClick={clickSubmit} className="btn btn-primary">
-    //     Submit
-    //   </button>
-    // </form>
   );
 
   const showError = () => (

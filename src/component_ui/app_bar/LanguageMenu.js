@@ -76,23 +76,23 @@ export default function LanguageMenu({ gallery }) {
               close();
             }}
           >
-            <label>
+            <label className="radio--lang">
               <Radio value="bn" />
               <span>&nbsp; &nbsp; বাংলা</span> &nbsp; &nbsp; &nbsp; &nbsp;
               <img
                 src={bnFlag}
                 alt="flag"
-                style={{ width: "25px", height: "25px" }}
+                
               />
             </label>
-            <br />
-            <label>
+           
+            <label className="radio--lang">
               <Radio value="en" />
               <span>&nbsp; &nbsp; English</span> &nbsp; &nbsp;
               <img
                 src={enFlag}
                 alt="flag"
-                style={{ width: "25px", height: "25px" }}
+                
               />
             </label>
           </RadioGroup>
