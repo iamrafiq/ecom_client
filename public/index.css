@@ -5,7 +5,7 @@
   --mobile-device-resolution: 700;
   --tab-device-resolution: 1000;
   /**content area padding**/
-  --sidebar-width: 16rem; /*side bar width*/
+  --sidebar-width: 260px; /*side bar width same in config file*/
   --appbar-desktop-height:3.5rem;
   --appbar-mobile-height: 6.2rem;
   --sidebar-width-with-extra-padding: 2rem; /*side bar width + padding*/

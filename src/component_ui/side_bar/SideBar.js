@@ -1,10 +1,9 @@
 import React from "react";
-import Sidebar from "./core/sidebar";
-import SideBarContent from "./core/sidebar_content";
+import SideBarContent from "../sidebar/SidebarContent";
 import { MOBIEL_DEVICE_RESOLUTION } from "../../config";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
+import Sidebar from "../sidebar/Sidebar";
 import {
   selectSideBar,
   setSideBar,
@@ -40,16 +39,16 @@ const SideBar = (props) => {
     onSetOpen: onSetOpen,
   };
   return (
-    <div>
+    <React.Fragment>
       {sideBar.open && (
         <div class="side__bar__cross--left" onClick={toggleOpen}></div>
       )}
       {console.log("open bar",sideBar)}
 
-      <Sidebar {...sidebarProps}>
-        <div />
+      <Sidebar width={300} height={1000} children={sidebar} >
+       
       </Sidebar>
-    </div>
+      </React.Fragment>
   );
 };
 export default SideBar;

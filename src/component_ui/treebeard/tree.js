@@ -48,7 +48,7 @@ class TreeExample extends React.Component {
     console.log("node slug...", node.slug);
     return (
       <div className="">
-        <Link to={node.slug} className="react__link--colorless" >
+        <Link to={node.slug} >
           <div style={style.base}>
             <div style={{ ...style.title, display: "flex", margin: "auto" }}>
               <span>

@@ -1,7 +1,7 @@
 import React from "react";
-import Sidebar from "../side_bar/SideBar";
-import Cartbar from "../side_bar/CartBar";
-
+import Sidebar from "../sidebar/Sidebar";
+// import Cartbar from "../side_bar/CartBar";
+import Cartbar from "../sidebar/Sidebar";
 import Routes from "../../Routes";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import AppBar from "../app_bar/AppBar";
@@ -65,25 +65,16 @@ const Layout = (props) => {
   return (
     <BrowserRouter>
       <div className="layout">
-        
         <AppBar
           onClickMenu={() => {
             state.menuClickCallBack();
           }}
         />
-        {cats.length > 0 && (
-          <Sidebar
-            tree={cats}
-            // onClickMenu={(callBack) => {
-            //   setState({ ...state, menuClickCallBack: callBack });
-            //   // menuClickCallBack = callBack;
-            // }}
-          ></Sidebar>
-        )}
+        {cats.length > 0 && <Sidebar children={JSON.parse(JSON.stringify(cats))}></Sidebar>}
         <div className="layout-body ">
-          {/* <div className={!state.sidebar?"layout-body-full":"layout-body"}> */}
           <Routes></Routes>
         </div>
+        {/* <Cartbar></Cartbar> */}
       </div>
     </BrowserRouter>
   );
