@@ -1,5 +1,7 @@
 import React from "react";
 import Sidebar from "../side_bar/SideBar";
+import Cartbar from "../side_bar/CartBar";
+
 import Routes from "../../Routes";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import AppBar from "../app_bar/AppBar";
@@ -18,7 +20,6 @@ import {
 
 import { useSelector, useDispatch } from "react-redux";
 import { MOBIEL_DEVICE_RESOLUTION, TAB_DEVICE_RESOLUTION } from "../../config";
-
 const mql = window.matchMedia(`(min-width: ${MOBIEL_DEVICE_RESOLUTION}px)`);
 
 const Layout = (props) => {
@@ -73,13 +74,12 @@ const Layout = (props) => {
         {cats.length > 0 && (
           <Sidebar
             tree={cats}
-            onClickMenu={(callBack) => {
-              setState({ ...state, menuClickCallBack: callBack });
-              // menuClickCallBack = callBack;
-            }}
+            // onClickMenu={(callBack) => {
+            //   setState({ ...state, menuClickCallBack: callBack });
+            //   // menuClickCallBack = callBack;
+            // }}
           ></Sidebar>
         )}
-
         <div className="layout-body ">
           {/* <div className={!state.sidebar?"layout-body-full":"layout-body"}> */}
           <Routes></Routes>

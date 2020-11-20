@@ -21,13 +21,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { englishToBangla } from "../../../util/utils";
 import { faUserCircle } from "@fortawesome/fontawesome-free-solid";
 
-const SidebarContent = (props) => {
+const CartBarContent = (props) => {
   const viewToBar = useSelector(selectSideBarViewToBarSelection);
   const resolutionSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
   const auth = useSelector(selectAuthenticateSelection);
   const offerProducts = useSelector(selectOfferProducts);
 
+  console.log("resolutionSelector...", resolutionSelector);
 
   const [state, setState] = useState({
     viewToBarChange: "",
@@ -90,10 +91,10 @@ const SidebarContent = (props) => {
           <div>
             <TreeExample
               setViewToBarChange={(callBack) => {
-                // setState({ ...state, viewToBarChange: callBack });
+                setState({ ...state, viewToBarChange: callBack });
               }}
               setBar={(bar) => {
-                // selectedBar(bar);
+                selectedBar(bar);
                 // props.toggleSideBar();
               }}
               tree={props.tree}
@@ -112,4 +113,4 @@ const SidebarContent = (props) => {
 //   style: PropTypes.object,
 // };
 
-export default SidebarContent;
+export default CartBarContent;

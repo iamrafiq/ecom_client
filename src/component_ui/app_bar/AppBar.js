@@ -9,7 +9,11 @@ import { selectHomeSelection } from "../../redux/homeSlice";
 import {
   selectResolutionSelection,
   selectLanguageSelection,
+  selectCartBar,
+  selectSideBar,
   setLanguage,
+  setCartBar,
+  setSideBar,
   selectDeviceTypeSelection,
 } from "../../redux/settingsSlice";
 import logo from "../../images/logo.svg";
@@ -25,6 +29,8 @@ const AppBar = (props) => {
   const resulationSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
   const deviceType = useSelector(selectDeviceTypeSelection);
+  const sideBar = useSelector(selectSideBar);
+  const cartBar= useSelector(selectCartBar);
 
 
   // const mood = useSelector(selectSideBarMood);
@@ -47,8 +53,8 @@ const AppBar = (props) => {
                 onClick={(e) => {
                   e.preventDefault();
                   //   dispatch(toggleSideBar())
-                  console.log("ppp button click");
-                  onClickMenu();
+                  // onClickMenu();
+                  dispatch(setSideBar({sideBar:{open:!sideBar.open}}))
                 }}
               >
                 <FontAwesome name="bars" size="2x" />
@@ -89,9 +95,7 @@ const AppBar = (props) => {
                 className="button__lang--menu"
                 onClick={(e) => {
                   e.preventDefault();
-                  //   dispatch(toggleSideBar())
-                  console.log("ppp button click");
-                  onClickMenu();
+                  dispatch(setSideBar({sideBar:{open:!sideBar.open}}))
                 }}
               >
                 <FontAwesome name="bars" size="2x" />

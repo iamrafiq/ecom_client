@@ -1,50 +1,55 @@
 import React from "react";
 import Sidebar from "./core/sidebar";
-import SideBarContent from "./core/sidebar_content";
+import CartBarContent from "./core/cartbar_content";
 import { MOBIEL_DEVICE_RESOLUTION } from "../../config";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
-  selectSideBar,
-  setSideBar,
+  selectCartBar,
+  setCartBar,
 } from "../../redux/settingsSlice";
-const SideBar = (props) => {
+const CartBar = (props) => {
   const dispatch = useDispatch();
 
-  const sideBar = useSelector(selectSideBar);
+  const cartBar = useSelector(selectCartBar);
 
   const [state, setState] = useState({
+    open: false,
     loading: false,
     tree: JSON.parse(JSON.stringify(props.tree)),
   });
   useEffect(() => {}, []);
 
   const toggleOpen = (ev) => {
-    dispatch(setSideBar({ sideBar: {open:!sideBar.open} }));
+    if (ev) {
+      ev.preventDefault();
+    }
+    // setState({ open: !state.open });
+    dispatch(setCartBar({ cartBar: {open:!cartBar.open} }));
   };
   const onSetOpen = (open) => {
-    dispatch(setSideBar({ sideBar: {open:open} }));
+    dispatch(setCartBar({ cartBar: {open:open} }));
 
   }
 
   const { loading, tree } = state;
   const sidebar = (
-    <SideBarContent toggleSideBar={toggleOpen} tree={tree} />
+    <CartBarContent toggleSideBar={toggleOpen} tree={tree} />
   );
 
   const sidebarProps = {
     sidebar,
     // pullRight: "true",
-    open: sideBar.open,
+    open: cartBar.open,
     onSetOpen: onSetOpen,
   };
   return (
     <div>
-      {sideBar.open && (
+      {cartBar.open && (
         <div class="side__bar__cross--left" onClick={toggleOpen}></div>
       )}
-      {console.log("open bar",sideBar)}
+      {console.log("open bar",cartBar)}
 
       <Sidebar {...sidebarProps}>
         <div />
@@ -52,4 +57,4 @@ const SideBar = (props) => {
     </div>
   );
 };
-export default SideBar;
+export default CartBar;
