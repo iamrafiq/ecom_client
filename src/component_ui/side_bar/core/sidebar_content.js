@@ -34,8 +34,8 @@ const styles = {
   },
   content: {
     height: "100%",
-    backgroundImage:
-      "linear-gradient(to bottom, #fff,#fff,#fff,#fff,#fff,#fff , #7CCD7C)",
+    backgroundColor: "#fff",
+
   },
 };
 const style = {

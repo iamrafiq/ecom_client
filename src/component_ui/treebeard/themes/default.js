@@ -6,43 +6,48 @@ export default {
             margin: 0,
             padding: 0,
             color: '#9DA5AB',
-            fontFamily: 'lucida grande ,tahoma,verdana,arial,sans-serif',
+            // fontFamily: 'lucida grande ,tahoma,verdana,arial,sans-serif',
             fontSize: '14px'
         },
         node: {
             base: {
-                position: 'relative'
+                position: 'relative',
+                 padding:"6px 0px"  // 6px vertical space between two items
             },
             link: {
                 cursor: 'pointer',
                 position: 'relative',
-                padding: '3px -2px',
-                display: 'block'
+                 padding: '0px 4px', // left , right padding for each item
+                display: 'block',
+                
             },
             activeLink: {
-                background: '#31363F',
-                
+                background: "#EBEBEB" , // active link color 
+                padding: '8px 4px',  // active link padding 8px makes height, 4px should be equal to link padding 4px
             },
             toggle: {
                 base: {
                     position: 'relative',
                     display: 'inline-block',
                     verticalAlign: 'center',
-                    marginLeft: '-5px',
-                    marginTop:"10px",
+                    // marginLeft: '-5px',
+                     // marginTop:"8px",
                     height: '8px',
                     width: '24px',
-                    float:"right"
+                    float:"right",
+                    padding: '8px 4px',
                 },
                 wrapper: {
                     position: 'absolute',
                     top: '50%',
                     left: '50%',
-                    margin: '-7px 0 0 -7px',
-                    height: '10px'
+                    margin: '-15px 0 0 -7px', // -15 px adjust arrow position
+                  
+                    color:"#000",  // arrpw font color
+                     fontSize:"24px" // arrow font size
                 },
-                height: 14,
-                width: 14,
+                // height: 14,
+                // width: 14,
                 arrow: {
                     fill: 'black',
                     strokeWidth: 0

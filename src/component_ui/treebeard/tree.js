@@ -49,7 +49,7 @@ class TreeExample extends React.Component {
      const {settings} = this.state
      return <Link className="nav-link" to={node.slug}>
       <div style={style.base}>
-        <div style={{ ...style.title, display: "flex", margin: "auto" }}>
+        <div style={{ ...style.title, display: "flex", margin: "auto"}}>
           <span>
             {node.iconMenu && (
               <img
@@ -59,8 +59,6 @@ class TreeExample extends React.Component {
             )}
           </span>
           {this.language === "en"?(<span style={{ marginTop: "5px" }}>{`${node.name}`}</span>):(<span style={{ marginTop: "5px" }}>{`${node.bengaliName}`}</span>)}
-          
-          
         </div>
       </div>
     </Link>
@@ -156,9 +154,9 @@ class TreeExample extends React.Component {
             style={{
               tree: {
                 base: { backgroundColor: "transparent" },
-                node: {
-                  activeLink: { color: "white", background: "#00ff0022" },
-                },
+                // node: {
+                //   activeLink: { color: "white", background: "#00ff0022" },
+                // },
               },
             }}
           />

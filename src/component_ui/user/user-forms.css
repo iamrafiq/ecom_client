@@ -1,5 +1,4 @@
 
-
   
   .form__box {
     width: 320px;
@@ -62,25 +61,6 @@
     font-size: 0.9em;
   }
   
-  /* .form__box > a {
-    display: block;
-    margin: 0;
-    padding: 5px 0 15px 0;
-    width: 260px;
-    height: 20px;
-    margin: 0 auto;
-    text-align: right;
-    text-transform: uppercase;
-    font-size: 0.7em;
-    color: var(--font-color-secondary);
-    font-weight: 400;
-  } */
- 
-
-  
-  /* .form--input:hover {
-    background: var(--theme-color-2-dark);
-  } */
   
  
 
@@ -114,22 +94,7 @@
     font-size: var(--font-size-small);
 
   }
-  /* .form__box > .signup p,
-  a {
-    font-size: 0.8em;
-    text-decoration: none;
-  }
-  
-  .form__box > .signup p {
-    color: var(--font-color-secondary);
-  }
-  
-  .form__box > .signup a {
-    text-decoration: none;
-    color: var(--theme-color-2-light);
-    font-size: 1em;
-    padding-left: 25px;
-  } */
+
   
   .submit__btn {
     width: 260px;
