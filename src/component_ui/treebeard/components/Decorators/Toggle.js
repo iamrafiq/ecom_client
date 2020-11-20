@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
 import {Div} from '../common';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { faChevronRight } from "@fortawesome/fontawesome-free-solid";
 const Polygon = styled('polygon', {
     shouldForwardProp: prop => ['className', 'children', 'points'].indexOf(prop) !== -1
 })((({style}) => style));
@@ -16,7 +18,7 @@ const Toggle = ({style}) => {
     return (
         <Div style={style.base}>
             <Div style={style.wrapper}>
-                &#62;
+            <FontAwesomeIcon  icon={faChevronRight} />
                 {/* <svg {...{height, width}}>
                     <Polygon points={points} style={style.arrow}/>
                 </svg> */}

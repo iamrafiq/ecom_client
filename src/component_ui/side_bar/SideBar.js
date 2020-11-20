@@ -35,7 +35,6 @@ class App extends React.Component {
     this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
     this.toggleOpen = this.toggleOpen.bind(this);
     this.onSetOpen = this.onSetOpen.bind(this);
-    this.onClickCloseButton = this.onClickCloseButton.bind(this);
 
     props.onClickMenu(this.toggleOpen);
   }
@@ -60,9 +59,7 @@ class App extends React.Component {
       open: false,
     });
   }
- onClickCloseButton(){
-    this.setState({ open: !this.state.open });
-  }
+
   toggleOpen(ev) {
     if (ev) {
       ev.preventDefault();
@@ -73,7 +70,7 @@ class App extends React.Component {
   render() {
     const { loading, tree } = this.state;
     const sidebar = (
-      <SidebarContent toggleSideBar={this.toggleOpen} tree={tree} />
+      <SidebarContent  toggleSideBar={this.toggleOpen} tree={tree} />
     );
 
     const sidebarProps = {
@@ -86,7 +83,7 @@ class App extends React.Component {
 
     return (
       <div>
-        {this.state.open&&( <div class="side__bar__cross--left" onClick={()=>this.onClickCloseButton()}></div>)}
+        {this.state.open&&( <div class="side__bar__cross--left" onClick={this.toggleOpen}></div>)}
        
         <Sidebar {...sidebarProps}>
           <div />

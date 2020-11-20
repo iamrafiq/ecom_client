@@ -4,9 +4,7 @@ import { Link } from "react-router-dom";
 import { Treebeard, animations, decorators, theme } from "./index";
 import { includes } from "lodash";
 import { API } from "../../config";
-import {imageUrlConverter} from "../../util/ImageUrlConverter";
-
-
+import { imageUrlConverter } from "../../util/ImageUrlConverter";
 
 // class CutomContainer extends decorators.Container {
 //   render() {
@@ -46,22 +44,39 @@ class TreeExample extends React.Component {
     props.setViewToBarChange(this.onViewToBar);
   }
   CustomHeader = ({ node, style, prefix }) => {
-     const {settings} = this.state
-     return <Link className="nav-link" to={node.slug}>
-      <div style={style.base}>
-        <div style={{ ...style.title, display: "flex", margin: "auto"}}>
-          <span>
-            {node.iconMenu && (
-              <img
-                style={{ width: "20px", height: "20px", marginRight: "5px" }}
-                src={`${imageUrlConverter(node.iconMenu)}&res=${this.resolutionSelector}`}
-              ></img>
-            )}
-          </span>
-          {this.language === "en"?(<span style={{ marginTop: "5px" }}>{`${node.name}`}</span>):(<span style={{ marginTop: "5px" }}>{`${node.bengaliName}`}</span>)}
-        </div>
+    const { settings } = this.state;
+    console.log("node slug...", node.slug);
+    return (
+      <div className="">
+        <Link to={node.slug} className="react__link--colorless" >
+          <div style={style.base}>
+            <div style={{ ...style.title, display: "flex", margin: "auto" }}>
+              <span>
+                {node.iconMenu && (
+                  <img
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                      marginRight: "5px",
+                    }}
+                    src={`${imageUrlConverter(node.iconMenu)}&res=${
+                      this.resolutionSelector
+                    }`}
+                  ></img>
+                )}
+              </span>
+              {this.language === "en" ? (
+                <span style={{ marginTop: "5px" }}>{`${node.name}`}</span>
+              ) : (
+                <span
+                  style={{ marginTop: "5px" }}
+                >{`${node.bengaliName}`}</span>
+              )}
+            </div>
+          </div>
+        </Link>
       </div>
-    </Link>
+    );
   };
   onToggle(node, toggled) {
     const { cursor } = this.state;

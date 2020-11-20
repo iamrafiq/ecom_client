@@ -17,34 +17,34 @@ export default {
             link: {
                 cursor: 'pointer',
                 position: 'relative',
-                 padding: '0px 4px', // left , right padding for each item
+                 padding: '0px 0px', // left , right padding for each item
                 display: 'block',
                 
             },
             activeLink: {
                 background: "#EBEBEB" , // active link color 
-                padding: '8px 4px',  // active link padding 8px makes height, 4px should be equal to link padding 4px
+                padding: '8px 0px',  // active link padding 8px makes height, 0px should be equal to link padding 0px
             },
             toggle: {
                 base: {
                     position: 'relative',
                     display: 'inline-block',
                     verticalAlign: 'center',
-                    // marginLeft: '-5px',
+                     //paddingRight: '-5px',
                      // marginTop:"8px",
                     height: '8px',
                     width: '24px',
                     float:"right",
-                    padding: '8px 4px',
+                    padding: '8px 6px',
                 },
                 wrapper: {
                     position: 'absolute',
                     top: '50%',
                     left: '50%',
                     margin: '-15px 0 0 -7px', // -15 px adjust arrow position
-                  
-                    color:"#000",  // arrpw font color
-                     fontSize:"24px" // arrow font size
+                    padding:"4px",
+                    color:"#B0B0B0",  // arrpw font color
+                     fontSize:"18px" // arrow font size
                 },
                 // height: 14,
                 // width: 14,

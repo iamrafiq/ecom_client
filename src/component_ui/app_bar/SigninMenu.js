@@ -105,7 +105,7 @@ export default function SigninMenu({ mobile = false }) {
             {auth ? (
               <div className="signin__btn">
                 <Link
-                  className="btn__all app__btn200 app__btn--filled  link"
+                  className="btn__all app__btn200 app__btn--filled  react__link--colorless"
                   to="/"
                   onClick={() => {
                     close();
@@ -125,7 +125,7 @@ export default function SigninMenu({ mobile = false }) {
             ) : (
               <div className="signin__btn">
                 <Link
-                  className="btn__all app__btn200 app__btn--filled  link"
+                  className="btn__all app__btn200 app__btn--filled  react__link--colorless"
                   to="/user/signin"
                   onClick={() => {
                     close();
@@ -143,11 +143,11 @@ export default function SigninMenu({ mobile = false }) {
                   ) : (
                     <span>নতুন কাস্টমার</span>
                   )}
-                  <Link to="/user/signup" onClick={() => close()}>
+                  <Link className="react__link--colored" to="/user/signup" onClick={() => close()}>
                     {language === "en" ? (
-                      <span className="signup--link">&nbsp;Sign Up</span>
+                      <span >&nbsp;Sign Up</span>
                     ) : (
-                      <span className="signup--link">&nbsp;সাইন আপ</span>
+                      <span >&nbsp;সাইন আপ</span>
                     )}
                   </Link>
                 </span>
@@ -164,7 +164,7 @@ export default function SigninMenu({ mobile = false }) {
                 )}
                 <ul>
                   <li>
-                    <Link className="link" onClick={() => close()}>
+                    <Link className="react__link--colorless" onClick={() => close()}>
                       <FontAwesomeIcon
                         className="icon--list "
                         size="1x"
@@ -178,7 +178,7 @@ export default function SigninMenu({ mobile = false }) {
                     </Link>
                   </li>
                   <li>
-                    <Link className="link" onClick={() => close()}>
+                    <Link className="react__link--colorless" onClick={() => close()}>
                       <FontAwesomeIcon
                         className="icon--list "
                         size="1x"
@@ -192,7 +192,7 @@ export default function SigninMenu({ mobile = false }) {
                     </Link>
                   </li>
                   <li>
-                    <Link className="link" onClick={() => close()}>
+                    <Link className="react__link--colorless" onClick={() => close()}>
                       <FontAwesomeIcon
                         className="icon--list "
                         size="1x"
@@ -206,7 +206,7 @@ export default function SigninMenu({ mobile = false }) {
                     </Link>
                   </li>
                   <li>
-                    <Link className="link" onClick={() => close()}>
+                    <Link className="react__link--colorless" onClick={() => close()}>
                       <FontAwesomeIcon
                         className="icon--list "
                         size="1x"
@@ -230,7 +230,7 @@ export default function SigninMenu({ mobile = false }) {
                 )}
                 <ul>
                   <li>
-                    <Link className="link" onClick={() => close()}>
+                    <Link className="react__link--colorless" onClick={() => close()}>
                       <FontAwesomeIcon
                         className="icon--list icon--flip"
                         size="1x"
@@ -250,7 +250,7 @@ export default function SigninMenu({ mobile = false }) {
                   </li>
 
                   <li>
-                    <Link className="link" onClick={() => close()}>
+                    <Link className="react__link--colorless" onClick={() => close()}>
                       <FontAwesomeIcon
                         className="icon--list "
                         size="1x"

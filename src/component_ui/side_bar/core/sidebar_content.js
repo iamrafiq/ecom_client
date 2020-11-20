@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
-import SideBarPanel from "./side_bar_panel";
 import { SIDE_BAR_WIDTH } from "../../../config";
 import TreeExample from "../../treebeard/tree";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,41 +13,20 @@ import { loadCategoryWithProduct } from "../../../redux/categoryWithProductSlice
 import {
   selectResolutionSelection,
   selectLanguageSelection,
+  selectAuthenticateSelection,
 } from "../../../redux/settingsSlice";
-const styles = {
-  sidebar: {
-    width: `${SIDE_BAR_WIDTH}rem`,
-    height: "100%",
-    overflow: "hidden" /* Hide scrollbars */,
-  },
-  sidebarLink: {
-    display: "block",
-    padding: "16px 0px",
-    color: "#757575",
-    textDecoration: "none",
-  },
-
-  divider: {
-    margin: "8px 0",
-    height: 1,
-    backgroundColor: "#757575",
-  },
-  content: {
-    height: "100%",
-    backgroundColor: "#fff",
-
-  },
-};
-const style = {
-  Collapsible: {
-    backgroundColor: "black",
-  },
-};
+import { selectOfferProducts } from "../../../redux/homeSlice";
+import "./side-bar.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { englishToBangla } from "../../../util/utils";
+import { faUserCircle } from "@fortawesome/fontawesome-free-solid";
 
 const SidebarContent = (props) => {
   const viewToBar = useSelector(selectSideBarViewToBarSelection);
   const resolutionSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
+  const auth = useSelector(selectAuthenticateSelection);
+  const offerProducts = useSelector(selectOfferProducts);
 
   console.log("resolutionSelector...", resolutionSelector);
 
@@ -55,9 +34,7 @@ const SidebarContent = (props) => {
     viewToBarChange: "",
   });
   const dispatch = useDispatch();
-  const style = props.style
-    ? { ...styles.sidebar, ...props.style }
-    : styles.sidebar;
+
   const selectedBar = (bar) => {
     dispatch(loadCategoryWithProduct(bar));
     dispatch(setBarToView({ barToView: bar }));
@@ -69,13 +46,47 @@ const SidebarContent = (props) => {
   }, [viewToBar]);
 
   return (
-    <SideBarPanel renderTitle={false} title="" style={style}>
-      
-      <div style={styles.content}>
-        <a href="index.html" style={styles.sidebarLink}>
-          Offer
-        </a>
-        <div style={styles.divider} />
+    <div className="sidebar__pannel">
+      <div className="sidebar--header">
+        <FontAwesomeIcon size="2x" icon={faUserCircle} />
+        {auth ? (
+          <Link
+            className="react__link--colorless"
+            to="/user/profile"
+            onClick={() => props.toggleSideBar()}
+          >
+            {language === "en" ? <span>Profile</span> : <span>প্রোফাইল</span>}
+          </Link>
+        ) : (
+          <Link
+            className="react__link--colorless"
+            to="/user/signin"
+            onClick={() => props.toggleSideBar()}
+          >
+            {language === "en" ? (
+              <span>Hello, Sign in</span>
+            ) : (
+              <span>হ্যালো, সাইন ইন</span>
+            )}
+          </Link>
+        )}
+      </div>
+      <div className="sidebar--content">
+        {language === "en" ? (
+          <Link className="offer__products react__link--colorless" to={"offer"}  onClick={() => props.toggleSideBar()}>
+            <span className="offer--text">Offer</span>
+            <span className="offer--count">{offerProducts.length}</span>
+          </Link>
+        ) : (
+          <Link className="offer__products react__link--colorless" to={"offer"}  onClick={() => props.toggleSideBar()}>
+            <span className="offer--text">অফার</span>
+            <span className="offer--count">
+              {englishToBangla(offerProducts.length)}
+            </span>
+          </Link>
+        )}
+
+        <hr className="sidebar--divider" />
         {
           <div>
             <TreeExample
@@ -94,12 +105,12 @@ const SidebarContent = (props) => {
           </div>
         }
       </div>
-    </SideBarPanel>
+    </div>
   );
 };
 
-SidebarContent.propTypes = {
-  style: PropTypes.object,
-};
+// SidebarContent.propTypes = {
+//   style: PropTypes.object,
+// };
 
 export default SidebarContent;

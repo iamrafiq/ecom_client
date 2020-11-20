@@ -120,22 +120,22 @@
   color: var(--font-color-primary-inverse);
 }
 
-.link:hover,
+/* .link:hover,
 .link:visited,
 .link:link,
 .link:active {
   text-decoration: none;
 
-}
+} */
 
 .text__signup{
   font-size: var(--font-size-very-small);
   color: var(--font-color-primary);
 
 }
-.signup--link{
+/* .signup--link{
   color:#0000EE 
-}
+} */
 .list__order{
   display: flex;
   flex-direction: row;

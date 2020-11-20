@@ -52,7 +52,7 @@ const defaultStyles = {
     opacity: 0,
     visibility: "hidden",
     transition: "opacity .3s ease-out, visibility .3s ease-out",
-    backgroundColor: "rgba(0,0,0,.8)"
+    backgroundColor: "rgba(0,0,0,.9)"
   },
   dragHandle: {
     zIndex: 1,

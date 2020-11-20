@@ -1,11 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;1,700&display=swap");
 
 :root {
-  --overlay-color:rgba(0, 0, 0, 0.8);
+  --overlay-color:rgba(0, 0, 0, 0.9);
   --mobile-device-resolution: 700;
   --tab-device-resolution: 1000;
   /**content area padding**/
-  --sidebar-width: 15rem; /*side bar width*/
+  --sidebar-width: 16rem; /*side bar width*/
+  --appbar-desktop-height:3.5rem;
+  --appbar-mobile-height: 5.2rem;
   --sidebar-width-with-extra-padding: 2rem; /*side bar width + padding*/
   --padding-right-extra: 0.2rem;
   /**color**/
@@ -25,7 +27,8 @@
   --theme-color-3-dark: #960088;
   --theme-color-3-light: #bd00ab;
 
-  --background-color-primary: #ffffff;
+  --background-color-sidebar: #F5F5F5;
+  --background-color-primary: #F5F5F5;
   --background-color-primary-hover: #ebebeb;
   --background-color-secondary: #f0f0f0;
   --background-color-secondary-hover: #ebebeb;
@@ -179,7 +182,7 @@ body {
 .side__bar__cross--left{
 	position:fixed;
 	top:0px;
-	left:16rem;
+	left:17rem;
   z-index: 1003;
 }
 
@@ -192,17 +195,20 @@ body {
   cursor: pointer;
 }
 
+/*********React Link************/
+.react__link--colorless{
+  color: inherit;
+  text-decoration: inherit;
+}
+.react__link--colored{
+  color: #0000EE;
+  text-decoration: inherit;
+}
 /**alert box end**/
 /*  GO FULL WIDTH AT LESS THAN 480 PIXELS */
 
-@media only screen and (max-width: 480px) {
-  .span_3_of_3 {
-    width: 100%;
-  }
-  .span_2_of_3 {
-    width: 100%;
-  }
-  .span_1_of_3 {
-    width: 100%;
+@media only screen and (max-width: 700px) {
+  html {
+    font-size: 14px;
   }
 }
