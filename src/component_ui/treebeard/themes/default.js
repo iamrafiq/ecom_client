@@ -12,7 +12,7 @@ export default {
         node: {
             base: {
                 position: 'relative',
-                 padding:"6px 0px"  // 6px vertical space between two items
+                 padding:"10px 0px 0px 0px"  // 6px vertical space between two items
             },
             link: {
                 cursor: 'pointer',

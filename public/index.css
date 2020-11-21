@@ -5,7 +5,7 @@
   --mobile-device-resolution: 700;
   --tab-device-resolution: 1000;
   /**content area padding**/
-  --sidebar-width: 260px; /*side bar width same in config file*/
+  --sidebar-width: 15rem; /*side bar width same in config file*/
   --appbar-desktop-height:3.5rem;
   --appbar-mobile-height: 6.2rem;
   --sidebar-width-with-extra-padding: 2rem; /*side bar width + padding*/
@@ -107,8 +107,26 @@ body {
   background-color:var(--overlay-color); /* Black background with opacity */
   z-index: 1002; /* Specify a stack order in case you're using a different order for other elements */
   cursor: pointer; /* Add a pointer on hover */
-}
+  transition: 0.5s;
 
+}
+.overlay__menu--mobile{
+  top:6.2rem
+}
+.overlay__menu--desktop{
+  top:3.5rem
+}
+.overlay--sidebar {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 1001;
+  top: 0;
+  left: 0;
+  background-color: var(--overlay-color);
+  overflow-x: hidden;
+  transition: 0.5s;
+}
 /* app buttons**/
 .btn__all {
   display: flex;

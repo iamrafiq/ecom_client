@@ -65,8 +65,8 @@
 .section_content,
 .section__footer {
   display: flex;
-  margin-top: var(--gap-large);
-  margin-left: var(--sidebar-width);
+  /* margin-top: var(--gap-large); */
+  /* margin-left: var(--sidebar-width); */
   flex-direction: column;
 }
 .section__advert {

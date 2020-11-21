@@ -1,7 +1,6 @@
 import React from "react";
 import Sidebar from "../sidebar/Sidebar";
-// import Cartbar from "../side_bar/CartBar";
-import Cartbar from "../sidebar/Sidebar";
+import Cartbar from "../sidebar/Cartbar";
 import Routes from "../../Routes";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import AppBar from "../app_bar/AppBar";
@@ -14,6 +13,8 @@ import {
   setResolution,
   setDeviceType,
   selectLanguageSelection,
+  selectSideBar,
+  selectCartBar,
   setLanguage,
   setAuthenticate,
 } from "../../redux/settingsSlice";
@@ -28,6 +29,7 @@ const Layout = (props) => {
   console.log("mql...", mql.matches);
   const parser = new UAParser();
   const result = parser.getResult();
+  const cartBar = useSelector(selectCartBar);
   let deviceType = `desktop`;
   if (result.device && result.device.type) {
     deviceType = JSON.stringify(result.device.type);
@@ -70,11 +72,43 @@ const Layout = (props) => {
             state.menuClickCallBack();
           }}
         />
-        {cats.length > 0 && <Sidebar children={JSON.parse(JSON.stringify(cats))}></Sidebar>}
-        <div className="layout-body ">
-          <Routes></Routes>
-        </div>
-        {/* <Cartbar></Cartbar> */}
+
+        {cats.length > 0 && (
+          <Sidebar children={JSON.parse(JSON.stringify(cats))}></Sidebar>
+        )}
+        {deviceType === "desktop" ? (
+          <React.Fragment>
+            {" "}
+            {cartBar.open ? (
+              <div className={`layout-body layout-body--padding`}>
+                {cats.length > 0 && (
+                  <Cartbar
+                    children={JSON.parse(JSON.stringify(cats))}
+                  ></Cartbar>
+                )}
+                <Routes></Routes>
+              </div>
+            ) : (
+              <div className={`layout-body`}>
+                {cats.length > 0 && (
+                  <Cartbar
+                    children={JSON.parse(JSON.stringify(cats))}
+                  ></Cartbar>
+                )}
+                <Routes></Routes>
+              </div>
+            )}
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <div className={`layout-body`}>
+              {cats.length > 0 && (
+                <Cartbar children={JSON.parse(JSON.stringify(cats))}></Cartbar>
+              )}
+              <Routes></Routes>
+            </div>
+          </React.Fragment>
+        )}
       </div>
     </BrowserRouter>
   );

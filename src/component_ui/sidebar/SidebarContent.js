@@ -89,9 +89,9 @@ const SidebarContent = (props) => {
         {
           <div>
             <TreeExample
-              setViewToBarChange={(callBack) => {
-                 setState({ ...state, viewToBarChange: callBack });
-              }}
+              // setViewToBarChange={(callBack) => {
+              //    setState({ ...state, viewToBarChange: callBack });
+              // }}
               setBar={(bar) => {
                  selectedBar(bar);
                 // props.toggleSideBar();

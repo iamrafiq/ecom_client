@@ -65,15 +65,15 @@ const CategoryItems = ({ match }) => {
 
   useEffect(() => {
     if (bar && bar !== match.params.slug) {
-      dispatch(setBarToView({ barToView: match.params.slug }));
-      dispatch(
-        setViewToBar({
-          viewToBar: {
-            key: Math.random().toString(10).slice(2),
-            value: match.params.slug,
-          },
-        })
-      );
+      // dispatch(setBarToView({ barToView: match.params.slug }));
+      // dispatch(
+      //   setViewToBar({
+      //     viewToBar: {
+      //       key: Math.random().toString(10).slice(2),
+      //       value: match.params.slug,
+      //     },
+      //   })
+      // );
     }
   }, [category]);
 

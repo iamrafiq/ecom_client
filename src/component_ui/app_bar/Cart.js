@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   selectResolutionSelection,
   selectLanguageSelection,
+  selectCartBar,
+  setCartBar,
   setLanguage,
 } from "../../redux/settingsSlice";
 import "./navmenu.css";
@@ -19,11 +21,15 @@ var FontAwesome = require("react-fontawesome");
 
 export default function SigninMenu({ mobile = false }) {
   const dispatch = useDispatch();
+  const cartBar = useSelector(selectCartBar);
 
   const resulationSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
   return (
-    <div className="menu-item">
+    <div className="menu-item" onClick={(e) => {
+      e.preventDefault();
+      dispatch(setCartBar({cartBar:{open:!cartBar.open}}))
+    }}>
       {mobile ? (
         <div className="menu__box menu__cart">
           <img

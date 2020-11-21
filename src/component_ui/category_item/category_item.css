@@ -1,6 +1,6 @@
 
 .content--area{
-   margin-left: var( --sidebar-width-with-extra-padding); 
+   margin-left: var(--padding-right-extra); 
   margin-right: var(--padding-right-extra); 
 }
 .addvert-area{

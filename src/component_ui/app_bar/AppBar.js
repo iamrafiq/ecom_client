@@ -9,7 +9,6 @@ import { selectHomeSelection } from "../../redux/homeSlice";
 import {
   selectResolutionSelection,
   selectLanguageSelection,
-  selectCartBar,
   selectSideBar,
   setLanguage,
   setCartBar,
@@ -30,7 +29,6 @@ const AppBar = (props) => {
   const language = useSelector(selectLanguageSelection);
   const deviceType = useSelector(selectDeviceTypeSelection);
   const sideBar = useSelector(selectSideBar);
-  const cartBar= useSelector(selectCartBar);
 
 
   // const mood = useSelector(selectSideBarMood);
