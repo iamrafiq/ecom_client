@@ -32,6 +32,7 @@ import {
 import Grid from "../grid/Grid";
 import { imageUrlConverter } from "../../util/ImageUrlConverter";
 
+import Footer from "../footer/Footer";
 const CategoryItems = ({ match }) => {
   const bar = useSelector(selectSideBarBarToViewSelection);
   const category = useSelector(selectCategoryWithProduct);
@@ -161,6 +162,10 @@ const CategoryItems = ({ match }) => {
           </Grid>
         </div>
       )}
+      <div className="footer--area">
+      <Footer ></Footer>
+
+      </div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
-import "./bar.css";
+import "../sidebar/bar.css";
 import React from "react";
-import { SIDE_BAR_WIDTH } from "../../config";
-import SideBarContent from "./SidebarContent";
+import { CART_BAR_WIDTH } from "../../config";
+import CartbarContent from "./CartbarContent";
 import { MOBIEL_DEVICE_RESOLUTION } from "../../config";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -16,7 +16,7 @@ const Cartbar = ({ height, children }) => {
   if (devicType == "desktop"){
     width =
     parseInt(getComputedStyle(document.documentElement).fontSize) *
-    SIDE_BAR_WIDTH;
+    CART_BAR_WIDTH;
   }else{
     width = window.innerWidth;
   }
@@ -72,7 +72,7 @@ const Cartbar = ({ height, children }) => {
           }}
         >
           <div className="sidebar__content">
-            {<SideBarContent toggleSideBar={toggleMenu} tree={children} />}
+            {<CartbarContent toggleSideBar={toggleMenu} tree={children} />}
           </div>
         </div>
       )}

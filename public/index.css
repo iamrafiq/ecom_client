@@ -6,6 +6,8 @@
   --tab-device-resolution: 1000;
   /**content area padding**/
   --sidebar-width: 15rem; /*side bar width same in config file*/
+  --cartbar-width: 20rem; /*cart bar width same in config file*/
+
   --appbar-desktop-height:3.5rem;
   --appbar-mobile-height: 6.2rem;
   --sidebar-width-with-extra-padding: 2rem; /*side bar width + padding*/
@@ -221,6 +223,11 @@ body {
 .react__link--colored{
   color: #0000EE;
   text-decoration: inherit;
+}
+
+/***color*****/
+.text--red{
+  color: red;
 }
 /**alert box end**/
 /*  GO FULL WIDTH AT LESS THAN 480 PIXELS */

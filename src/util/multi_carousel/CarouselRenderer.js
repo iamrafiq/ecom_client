@@ -63,8 +63,9 @@ const CarouselRenderer = ({ deviceType, products }) => {
     showDots={false}
     responsive={responsive}
     ssr={true} // means to render carousel on server-side.
-    infinite={true}
-    autoPlay={deviceType !== "mobile" ? true : false}
+    infinite={false}
+    autoPlay={false}
+    // autoPlay={deviceType !== "mobile" ? true : false}
     autoPlaySpeed={2000}
     keyBoardControl={true}
     // arrows={false} 

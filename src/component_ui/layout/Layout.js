@@ -1,6 +1,8 @@
 import React from "react";
-import Sidebar from "../sidebar/Sidebar";
-import Cartbar from "../sidebar/Cartbar";
+ import CartBar from "../side_bar/CartBar";
+
+ //import Sidebar from "../sidebar/Sidebar";
+import Cartbar from "../cart/Cartbar";
 import Routes from "../../Routes";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import AppBar from "../app_bar/AppBar";
@@ -74,37 +76,31 @@ const Layout = (props) => {
         />
 
         {cats.length > 0 && (
-          <Sidebar children={JSON.parse(JSON.stringify(cats))}></Sidebar>
+          <CartBar tree={JSON.parse(JSON.stringify(cats))}></CartBar>
         )}
+          {/* {cats.length > 0 && (
+          <Sidebar children={JSON.parse(JSON.stringify(cats))}></Sidebar>
+        )} */}
         {deviceType === "desktop" ? (
           <React.Fragment>
             {" "}
             {cartBar.open ? (
               <div className={`layout-body layout-body--padding`}>
-                {cats.length > 0 && (
-                  <Cartbar
-                    children={JSON.parse(JSON.stringify(cats))}
-                  ></Cartbar>
-                )}
+                <Cartbar></Cartbar>
                 <Routes></Routes>
               </div>
             ) : (
               <div className={`layout-body`}>
-                {cats.length > 0 && (
-                  <Cartbar
-                    children={JSON.parse(JSON.stringify(cats))}
-                  ></Cartbar>
-                )}
+                <Cartbar></Cartbar>
                 <Routes></Routes>
               </div>
             )}
           </React.Fragment>
         ) : (
           <React.Fragment>
+            <Cartbar children={JSON.parse(JSON.stringify(cats))}></Cartbar>
+
             <div className={`layout-body`}>
-              {cats.length > 0 && (
-                <Cartbar children={JSON.parse(JSON.stringify(cats))}></Cartbar>
-              )}
               <Routes></Routes>
             </div>
           </React.Fragment>

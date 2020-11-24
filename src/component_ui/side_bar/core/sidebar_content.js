@@ -2,32 +2,33 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
-import { SIDE_BAR_WIDTH } from "../../config";
-import TreeExample from "../treebeard/tree";
+import { SIDE_BAR_WIDTH } from "../../../config";
+import TreeExample from "../../treebeard/tree";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setBarToView,
   selectSideBarViewToBarSelection,
-} from "../../redux/sideBarSlice";
-import { loadCategoryWithProduct } from "../../redux/categoryWithProductSlice";
+} from "../../../redux/sideBarSlice";
+import { loadCategoryWithProduct } from "../../../redux/categoryWithProductSlice";
 import {
   selectResolutionSelection,
   selectLanguageSelection,
   selectAuthenticateSelection,
-} from "../../redux/settingsSlice";
-import { selectOfferProducts } from "../../redux/homeSlice";
-import "./bar.css";
+} from "../../../redux/settingsSlice";
+import { selectOfferProducts } from "../../../redux/homeSlice";
+// import "./side-bar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { englishToBangla } from "../../util/utils";
+import { englishToBangla } from "../../../util/utils";
 import { faUserCircle } from "@fortawesome/fontawesome-free-solid";
 
-const SidebarContent = (props) => {
+const CartBarContent = (props) => {
   const viewToBar = useSelector(selectSideBarViewToBarSelection);
   const resolutionSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
   const auth = useSelector(selectAuthenticateSelection);
   const offerProducts = useSelector(selectOfferProducts);
 
+  console.log("resolutionSelector...", resolutionSelector);
 
   const [state, setState] = useState({
     viewToBarChange: "",
@@ -89,11 +90,11 @@ const SidebarContent = (props) => {
         {
           <div>
             <TreeExample
-              // setViewToBarChange={(callBack) => {
-              //    setState({ ...state, viewToBarChange: callBack });
-              // }}
+              setViewToBarChange={(callBack) => {
+                setState({ ...state, viewToBarChange: callBack });
+              }}
               setBar={(bar) => {
-                 selectedBar(bar);
+                selectedBar(bar);
                 // props.toggleSideBar();
               }}
               tree={props.tree}
@@ -112,4 +113,4 @@ const SidebarContent = (props) => {
 //   style: PropTypes.object,
 // };
 
-export default SidebarContent;
+export default CartBarContent;

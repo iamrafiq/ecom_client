@@ -4,7 +4,7 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState: {
     productCount: 0,
-    products: [{}],
+    products: [],
   },
   reducers: {
     addItem: (state, action) => {
@@ -31,20 +31,32 @@ export const cartSlice = createSlice({
       let product = state.products.find(
         (p) => p.product && p.product._id === action.payload.product._id
       );
-      console.log("deleteing proeuct", product)
+      console.log("deleteing proeuct", product);
       if (product === undefined) return;
       if (product.qtyCart === 1) {
         var index = state.products.indexOf(product);
         state.products.splice(index, 1);
         state.productCount--;
+        product.qtyCart--;
       } else {
         product.qtyCart--;
       }
     },
+    deleteItem: (state, action) => {
+      let product = state.products.find(
+        (p) => p.product && p.product._id === action.payload.product._id
+      );
+      console.log("deleteing proeuct", product);
+      if (product === undefined) return;
+      product.qtyCart = 0;
+      var index = state.products.indexOf(product);
+      state.products.splice(index, 1);
+      state.productCount--;
+    },
   },
 });
 
-export const { addItem, removeItem } = cartSlice.actions;
+export const { addItem, removeItem, deleteItem } = cartSlice.actions;
 export const selectCartProducts = (state) => state.cart.products;
 export const selectAcartProduct = (product) => (state) => {
   return state.cart.products.find(

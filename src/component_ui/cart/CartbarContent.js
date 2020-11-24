@@ -15,11 +15,11 @@ import {
   selectLanguageSelection,
   selectAuthenticateSelection,
 } from "../../redux/settingsSlice";
+import { selectCartProducts } from "../../redux/cartSlice";
 import { selectOfferProducts } from "../../redux/homeSlice";
-import "./bar.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./cart.css";
 import { englishToBangla } from "../../util/utils";
-import { faUserCircle } from "@fortawesome/fontawesome-free-solid";
+import CartItem from "./CartItem";
 
 const SidebarContent = (props) => {
   const viewToBar = useSelector(selectSideBarViewToBarSelection);
@@ -27,13 +27,15 @@ const SidebarContent = (props) => {
   const language = useSelector(selectLanguageSelection);
   const auth = useSelector(selectAuthenticateSelection);
   const offerProducts = useSelector(selectOfferProducts);
+  const products = useSelector(selectCartProducts);
 
-
+  console.log("cart products...", products)
   const [state, setState] = useState({
     viewToBarChange: "",
   });
   const dispatch = useDispatch();
 
+  
   const selectedBar = (bar) => {
     dispatch(loadCategoryWithProduct(bar));
     dispatch(setBarToView({ barToView: bar }));
@@ -45,9 +47,8 @@ const SidebarContent = (props) => {
   }, [viewToBar]);
 
   return (
-    <div className="sidebar__pannel">
+    <div className="cartbar__pannel">
       <div className="sidebar--header">
-        <FontAwesomeIcon size="2x" icon={faUserCircle} />
         {auth ? (
           <Link
             className="react__link--colorless"
@@ -70,39 +71,16 @@ const SidebarContent = (props) => {
           </Link>
         )}
       </div>
-      <div className="sidebar--content">
-        {language === "en" ? (
-          <Link className="offer__products react__link--colorless" to={"offer"}  onClick={() => props.toggleSideBar()}>
-            <span className="offer--text">Offer</span>
-            <span className="offer--count">{offerProducts.length}</span>
-          </Link>
+      <div className="cart--content">
+        {products.length > 0 ? (
+          <React.Fragment>
+            {products.map((ele, index) => (
+              <CartItem cartItem={ele}></CartItem>
+            ))}
+          </React.Fragment>
         ) : (
-          <Link className="offer__products react__link--colorless" to={"offer"}  onClick={() => props.toggleSideBar()}>
-            <span className="offer--text">অফার</span>
-            <span className="offer--count">
-              {englishToBangla(offerProducts.length)}
-            </span>
-          </Link>
+          <div>No prodcts in cart</div>
         )}
-
-        <hr className="sidebar--divider" />
-        {
-          <div>
-            <TreeExample
-              // setViewToBarChange={(callBack) => {
-              //    setState({ ...state, viewToBarChange: callBack });
-              // }}
-              setBar={(bar) => {
-                 selectedBar(bar);
-                // props.toggleSideBar();
-              }}
-              tree={props.tree}
-              viewToBar={viewToBar}
-              resolutionSelector={resolutionSelector}
-              language={language}
-            ></TreeExample>
-          </div>
-        }
       </div>
     </div>
   );
