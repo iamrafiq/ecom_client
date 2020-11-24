@@ -16,19 +16,18 @@ import {
   selectAuthenticateSelection,
 } from "../../../redux/settingsSlice";
 import { selectOfferProducts } from "../../../redux/homeSlice";
-// import "./side-bar.css";
+import "./side-bar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { englishToBangla } from "../../../util/utils";
 import { faUserCircle } from "@fortawesome/fontawesome-free-solid";
 
-const CartBarContent = (props) => {
+const SidebarContent = (props) => {
   const viewToBar = useSelector(selectSideBarViewToBarSelection);
   const resolutionSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
   const auth = useSelector(selectAuthenticateSelection);
   const offerProducts = useSelector(selectOfferProducts);
 
-  console.log("resolutionSelector...", resolutionSelector);
 
   const [state, setState] = useState({
     viewToBarChange: "",
@@ -91,10 +90,10 @@ const CartBarContent = (props) => {
           <div>
             <TreeExample
               setViewToBarChange={(callBack) => {
-                setState({ ...state, viewToBarChange: callBack });
+                // setState({ ...state, viewToBarChange: callBack });
               }}
               setBar={(bar) => {
-                selectedBar(bar);
+                // selectedBar(bar);
                 // props.toggleSideBar();
               }}
               tree={props.tree}
@@ -113,4 +112,4 @@ const CartBarContent = (props) => {
 //   style: PropTypes.object,
 // };
 
-export default CartBarContent;
+export default SidebarContent;

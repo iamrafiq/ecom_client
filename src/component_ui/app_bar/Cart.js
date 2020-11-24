@@ -4,8 +4,11 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   selectResolutionSelection,
   selectLanguageSelection,
-  selectCartBar,
-  setCartBar,
+  selectCartBarDesktop,
+  setCartBarDesktop,
+  setCartBarMobile,
+  selectCartBarMobile,
+  selectDeviceTypeSelection,
   setLanguage,
 } from "../../redux/settingsSlice";
 import "./navmenu.css";
@@ -19,16 +22,24 @@ import { RadioGroup, Radio } from "react-radio-group";
 import { englishToBangla } from "../../util/utils";
 var FontAwesome = require("react-fontawesome");
 
-export default function SigninMenu({ mobile = false }) {
+export default function CartMenu({ mobile = false }) {
   const dispatch = useDispatch();
-  const cartBar = useSelector(selectCartBar);
+  const cartBarDesktop = useSelector(selectCartBarDesktop);
+  const cartBarMobile = useSelector(selectCartBarMobile);
 
   const resulationSelector = useSelector(selectResolutionSelection);
+  const deviceType = useSelector(selectDeviceTypeSelection);
+
   const language = useSelector(selectLanguageSelection);
   return (
     <div className="menu-item" onClick={(e) => {
       e.preventDefault();
-      dispatch(setCartBar({cartBar:{open:!cartBar.open}}))
+      if (deviceType === "desktop"){
+        dispatch(setCartBarDesktop({cartBarDesktop:{open:!cartBarDesktop.open}}))
+      }else{
+        dispatch(setCartBarMobile({cartBarMobile:{open:!cartBarMobile.open}}))
+
+      }
     }}>
       {mobile ? (
         <div className="menu__box menu__cart">

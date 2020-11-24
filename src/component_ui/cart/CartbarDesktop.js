@@ -5,21 +5,21 @@ import CartbarContent from "./CartbarContent";
 import { MOBIEL_DEVICE_RESOLUTION } from "../../config";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectCartBar, setSideBar, selectDeviceTypeSelection } from "../../redux/settingsSlice";
+import { selectCartBarDesktop, setSideBar, selectDeviceTypeSelection } from "../../redux/settingsSlice";
 import { Navigation } from "react-minimal-side-navigation";
 
 import "react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css";
-const Cartbar = ({ height, children }) => {
+const CartbarDesktop = ({ height, children }) => {
   const devicType = useSelector(selectDeviceTypeSelection);
 
   let width = 0;
-  if (devicType == "desktop"){
+  // if (devicType == "desktop"){
     width =
     parseInt(getComputedStyle(document.documentElement).fontSize) *
     CART_BAR_WIDTH;
-  }else{
-    width = window.innerWidth;
-  }
+  // }else{
+  //   width = window.innerWidth;
+  // }
    
   let windowWidth = 0//window.innerWidth;
   let posX = 0//windowWidth-width
@@ -27,7 +27,8 @@ const Cartbar = ({ height, children }) => {
   const [rendered, setRendered] = useState(false);
 
   const dispatch = useDispatch();
-  const sideBar = useSelector(selectCartBar);
+  const cartBarDesktop = useSelector(selectCartBarDesktop);
+  console.log("cart bar desktop", cartBarDesktop)
   const [xPosition, setX] = useState(posX);
 
   console.log("window width:", windowWidth);
@@ -42,7 +43,7 @@ const Cartbar = ({ height, children }) => {
   useEffect(() => {
     toggleMenu();
     setRendered(true);
-  }, [sideBar]);
+  }, [cartBarDesktop]);
   return (
     <React.Fragment>
       {/* {rendered && xPosition > -width ? (
@@ -80,4 +81,4 @@ const Cartbar = ({ height, children }) => {
   );
 };
 
-export default Cartbar;
+export default CartbarDesktop;

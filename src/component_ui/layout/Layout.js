@@ -1,8 +1,8 @@
 import React from "react";
- import CartBar from "../side_bar/CartBar";
-
+ import SideBar from "../side_bar/SideBar";
+import CartBar from "../cart/CartBarMobile";
  //import Sidebar from "../sidebar/Sidebar";
-import Cartbar from "../cart/Cartbar";
+import CartbarDesktop from "../cart/CartbarDesktop";
 import Routes from "../../Routes";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import AppBar from "../app_bar/AppBar";
@@ -16,7 +16,7 @@ import {
   setDeviceType,
   selectLanguageSelection,
   selectSideBar,
-  selectCartBar,
+  selectCartBarDesktop,
   setLanguage,
   setAuthenticate,
 } from "../../redux/settingsSlice";
@@ -31,7 +31,7 @@ const Layout = (props) => {
   console.log("mql...", mql.matches);
   const parser = new UAParser();
   const result = parser.getResult();
-  const cartBar = useSelector(selectCartBar);
+  const cartBarDesktop = useSelector(selectCartBarDesktop);
   let deviceType = `desktop`;
   if (result.device && result.device.type) {
     deviceType = JSON.stringify(result.device.type);
@@ -76,7 +76,7 @@ const Layout = (props) => {
         />
 
         {cats.length > 0 && (
-          <CartBar tree={JSON.parse(JSON.stringify(cats))}></CartBar>
+          <SideBar tree={JSON.parse(JSON.stringify(cats))}></SideBar>
         )}
           {/* {cats.length > 0 && (
           <Sidebar children={JSON.parse(JSON.stringify(cats))}></Sidebar>
@@ -84,21 +84,21 @@ const Layout = (props) => {
         {deviceType === "desktop" ? (
           <React.Fragment>
             {" "}
-            {cartBar.open ? (
+            {cartBarDesktop.open ? (
               <div className={`layout-body layout-body--padding`}>
-                <Cartbar></Cartbar>
+                <CartbarDesktop></CartbarDesktop>
                 <Routes></Routes>
               </div>
             ) : (
               <div className={`layout-body`}>
-                <Cartbar></Cartbar>
+                <CartbarDesktop></CartbarDesktop>
                 <Routes></Routes>
               </div>
             )}
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <Cartbar children={JSON.parse(JSON.stringify(cats))}></Cartbar>
+            <CartBar></CartBar>
 
             <div className={`layout-body`}>
               <Routes></Routes>
