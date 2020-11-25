@@ -65,16 +65,14 @@ const CartbarDesktop = ({ height, children }) => {
 
       {rendered && (
         <div
-          className="cart-bar"
+          className="cart__bar--desktop"
           style={{
              transform: `translatex(${xPosition}px)`,
             width: width,
             minHeight: height,
           }}
         >
-          <div className="sidebar__content">
-            {<CartbarContent toggleSideBar={toggleMenu} tree={children} />}
-          </div>
+         {<CartbarContent toggleSideBar={toggleMenu} />}
         </div>
       )}
     </React.Fragment>

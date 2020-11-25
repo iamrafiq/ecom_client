@@ -1,4 +1,4 @@
- .side-bar {
+ /* .side-bar {
     height: 100% !important;
     display: flex;
     flex-direction: column;
@@ -36,11 +36,11 @@
     background-color: rgba(64, 194, 133, 0.693);
     border-color: rgba(64, 194, 133, 0.693);
     border-left: 0;
-}
+} */
 
 /**side bar content**/
 
-.sidebar__pannel {
+/* .sidebar__pannel {
     height: 100%;
     width: var(--sidebar-width);
     background-color: var(--background-color-sidebar);
@@ -92,4 +92,4 @@
     border: 2px solid var(--theme-color-2-light);
     border-radius: 5px;
     padding:0 var(--gap-medium);
-  }
+  } */

@@ -20,7 +20,7 @@ const defaultStyles = {
     transition: "transform .3s ease-out",
     WebkitTransition: "-webkit-transform .3s ease-out",
     willChange: "transform",
-    overflowY: "auto"
+    overflowY: "auto",
   },
   sidebar_full_screen: {
     zIndex: 5,
