@@ -12,7 +12,6 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import bnFlag from "../../images/bn.png";
 import enFlag from "../../images/en.png";
-import LanguagePopup from "./LanguagePopup";
 import { RadioGroup, Radio } from "react-radio-group";
 var FontAwesome = require("react-fontawesome");
 

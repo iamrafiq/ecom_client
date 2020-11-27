@@ -100,28 +100,7 @@ const AppBar = (props) => {
             <SearchBoxMobile className=""></SearchBoxMobile>
           </div>
           <div className="mobile--more">
-            {/* <FontAwesomeIcon icon={faEllipsisV} /> */}
-            <Popup
-              trigger={
-                <button className="button">
-                  {" "}
-                  <FontAwesomeIcon icon={faEllipsisV} />{" "}
-                </button>
-              }
-              position="left top"
-              on="hover"
-              closeOnDocumentClick
-              mouseEnterDelay={0}
-              contentStyle={{ width: "18rem", border: "none" , zIndex:"1002"}}
-              arrow={true}
-              // open={overlay}
-              
-            >
-              {(close) => (
-                <div >lkjlsjflsjflsdj sldjflksjflsjflsjflskdsslsjdlasjdal jflksjflja l ksdflksdjflsdjfls </div>
-                 
-              )}
-            </Popup>
+            <MoreMobile></MoreMobile>
           </div>
         </div>
       )}
