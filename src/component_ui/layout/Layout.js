@@ -1,7 +1,8 @@
 import React from "react";
- import SideBar from "../side_bar/SideBar";
+import SideBar from "../side_bar/SideBar";
 import CartBar from "../cart/CartBarMobile";
- //import Sidebar from "../sidebar/Sidebar";
+import BottomBar from "../bottom_bar/BottomBar";
+//import Sidebar from "../sidebar/Sidebar";
 import CartbarDesktop from "../cart/CartbarDesktop";
 import Routes from "../../Routes";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
@@ -56,7 +57,9 @@ const Layout = (props) => {
   }
   if (localStorage.getItem("cart")) {
     dispatch(
-      loadCartFromLocalstroage({ cart: JSON.parse(localStorage.getItem("cart")) })
+      loadCartFromLocalstroage({
+        cart: JSON.parse(localStorage.getItem("cart")),
+      })
     );
   }
   useEffect(() => {
@@ -84,7 +87,7 @@ const Layout = (props) => {
         {cats.length > 0 && (
           <SideBar tree={JSON.parse(JSON.stringify(cats))}></SideBar>
         )}
-          {/* {cats.length > 0 && (
+        {/* {cats.length > 0 && (
           <Sidebar children={JSON.parse(JSON.stringify(cats))}></Sidebar>
         )} */}
         {deviceType === "desktop" ? (
@@ -111,6 +114,7 @@ const Layout = (props) => {
             </div>
           </React.Fragment>
         )}
+        {deviceType !== "desktop" &&( <BottomBar></BottomBar>)}
       </div>
     </BrowserRouter>
   );
