@@ -29,6 +29,9 @@
   --theme-color-3-dark: #960088;
   --theme-color-3-light: #bd00ab;
 
+  --background-color-cart:#E5E5E5;
+  --content-color-cart:#E0E0E0;
+
   --background-color-sidebar: #F5F5F5;
   --background-color-primary: #F5F5F5;
   --background-color-primary-hover: #ebebeb;
@@ -155,7 +158,7 @@ body {
 .app__btn--filled {
   background: var(--theme-color-2-light);
   text-decoration: none;
-  margin: var(--gap-small);
+  /* margin: var(--gap-small); */
   color: var(--font-color-primary-inverse);
   border: 1px solid var(--font-color-primary-inverse);
 }

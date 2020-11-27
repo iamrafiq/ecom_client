@@ -11,6 +11,7 @@ import {
   selectDeviceTypeSelection,
   setLanguage,
 } from "../../redux/settingsSlice";
+import { selectCartCount } from "../../redux/cartSlice";
 import "./navmenu.css";
 import { imageUrlConverter } from "../../util/ImageUrlConverter";
 import Popup from "reactjs-popup";
@@ -26,6 +27,7 @@ export default function CartMenu({ mobile = false }) {
   const dispatch = useDispatch();
   const cartBarDesktop = useSelector(selectCartBarDesktop);
   const cartBarMobile = useSelector(selectCartBarMobile);
+  const productCount = useSelector(selectCartCount);
 
   const resulationSelector = useSelector(selectResolutionSelection);
   const deviceType = useSelector(selectDeviceTypeSelection);
@@ -61,13 +63,13 @@ export default function CartMenu({ mobile = false }) {
           {language === "en" ? (
             <div className="">
               <span className="cart--text--desktop">Cart</span>
-              <span className="cart--quantity--desktop">10</span>
+          <span className="cart--quantity--desktop">{productCount}</span>
             </div>
           ) : (
             <div className="">
               <span className="cart--text--desktop">ব্যাগ</span>
               <span className="cart--quantity--desktop">
-                {englishToBangla(10)}
+                {englishToBangla(productCount)}
               </span>
             </div>
           )}

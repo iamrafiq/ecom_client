@@ -5,33 +5,42 @@ export const cartSlice = createSlice({
   initialState: {
     productCount: 0,
     products: [],
+    totalAmount: 0,
   },
   reducers: {
     addItem: (state, action) => {
-      console.log("add item 1", state.products);
       let cartProduct = state.products.find(
         (p) => p.product && p.product._id === action.payload.product._id
       );
-      console.log("cart Product", cartProduct);
 
       if (cartProduct === undefined) {
-        console.log("add item2", "push");
 
         state.products.push({
           product: action.payload.product,
           qtyCart: 1,
         });
-        console.log("add item3", state.products);
+        state.productCount++;
+
+        if (action.payload.product.applyDiscounts) {
+          state.totalAmount += action.payload.product.cropPrice;
+        } else {
+          state.totalAmount += action.payload.product.mrp;
+        }
       } else {
         cartProduct.qtyCart++;
+        if (cartProduct.product.applyDiscounts) {
+          state.totalAmount += cartProduct.product.cropPrice;
+        } else {
+          state.totalAmount += cartProduct.product.mrp;
+        }
       }
-      state.productCount++;
+      localStorage.setItem("cart", JSON.stringify(state));
+
     },
     removeItem: (state, action) => {
       let product = state.products.find(
         (p) => p.product && p.product._id === action.payload.product._id
       );
-      console.log("deleteing proeuct", product);
       if (product === undefined) return;
       if (product.qtyCart === 1) {
         var index = state.products.indexOf(product);
@@ -41,23 +50,44 @@ export const cartSlice = createSlice({
       } else {
         product.qtyCart--;
       }
+      if (product.product.applyDiscounts) {
+        state.totalAmount -= product.product.cropPrice;
+      } else {
+        state.totalAmount -= product.product.mrp;
+      }
+      localStorage.setItem("cart", JSON.stringify(state));
     },
     deleteItem: (state, action) => {
       let product = state.products.find(
         (p) => p.product && p.product._id === action.payload.product._id
       );
-      console.log("deleteing proeuct", product);
       if (product === undefined) return;
+
+      if (product.product.applyDiscounts) {
+        state.totalAmount -= product.qtyCart * product.product.cropPrice;
+      } else {
+        state.totalAmount -= product.qtyCart * product.product.mrp;
+      }
+
       product.qtyCart = 0;
       var index = state.products.indexOf(product);
       state.products.splice(index, 1);
       state.productCount--;
+      localStorage.setItem("cart", JSON.stringify(state));
     },
+    loadCartFromLocalstroage:(state, action)=>{
+      state.productCount = action.payload.cart.productCount;
+      state.products = action.payload.cart.products;
+      state.totalAmount = action.payload.cart.totalAmount;
+
+    }
   },
 });
 
-export const { addItem, removeItem, deleteItem } = cartSlice.actions;
+export const { addItem, removeItem, deleteItem, loadCartFromLocalstroage } = cartSlice.actions;
 export const selectCartProducts = (state) => state.cart.products;
+export const selectCartTotalAmount = (state) => state.cart.totalAmount;
+
 export const selectAcartProduct = (product) => (state) => {
   return state.cart.products.find(
     (p) => p.product && p.product._id === product._id

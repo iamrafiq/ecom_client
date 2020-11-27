@@ -99,6 +99,7 @@
     text-align: center;
     line-height: 30px;
     cursor: pointer;
+    background-color: #fff;
   }
   
   .pure-modal .panel-heading .close:hover {

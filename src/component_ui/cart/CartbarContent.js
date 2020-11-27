@@ -15,8 +15,17 @@ import {
   selectLanguageSelection,
   selectAuthenticateSelection,
   selectDeviceTypeSelection,
+  selectCartBarMobile,
+  setCartBarMobile,
+  selectCartBarDesktop,
+  setCartBarDesktop,
 } from "../../redux/settingsSlice";
-import { selectCartProducts, selectCartCount } from "../../redux/cartSlice";
+import {
+  selectCartProducts,
+  selectCartCount,
+  selectCartTotalAmount,
+} from "../../redux/cartSlice";
+
 import { selectOfferProducts } from "../../redux/homeSlice";
 import "./cart.css";
 import { englishToBangla } from "../../util/utils";
@@ -26,78 +35,165 @@ import { faShoppingBag } from "@fortawesome/fontawesome-free-solid";
 import { CART_BAR_WIDTH } from "../../config";
 
 const SidebarContent = (props) => {
-  const viewToBar = useSelector(selectSideBarViewToBarSelection);
+  const dispatch = useDispatch();
+
   const resolutionSelector = useSelector(selectResolutionSelection);
   const deviceType = useSelector(selectDeviceTypeSelection);
+  const totalAmount = useSelector(selectCartTotalAmount);
 
   const itemCount = useSelector(selectCartCount);
 
   const language = useSelector(selectLanguageSelection);
   const auth = useSelector(selectAuthenticateSelection);
   const products = useSelector(selectCartProducts);
-  let width ;
+  const cartBarDesktop = useSelector(selectCartBarDesktop);
+  const cartBarMobile = useSelector(selectCartBarMobile);
+
+  let width;
   if (deviceType === "desktop") {
-     width =
+    width =
       parseInt(getComputedStyle(document.documentElement).fontSize) *
       CART_BAR_WIDTH;
   } else {
-     width = window.innerWidth;
+    width = window.innerWidth;
   }
   console.log("cart products...", products);
   const [state, setState] = useState({
     viewToBarChange: "",
   });
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (state.viewToBarChange) {
-      state.viewToBarChange({ slug: viewToBar.value });
-    }
-  }, [viewToBar]);
+  // const totalAmount = () => {
+  //   let totalAmount = 0;
+  //   for (let i = 0; i < products.length; i++) {
+  //     if (products[i].product.applyDiscounts) {
+  //       totalAmount += products[i].product.cropPrice;
+  //     } else {
+  //       totalAmount += products[i].product.mrp;
+  //     }
+  //   }
+  //   return totalAmount;
+  // };
+  useEffect(() => {}, []);
 
   return (
-    <div className="cart__pannel" style={{ width: width }}>
-      <div className="pannel--header">
-        <span className="header--left">
-          <FontAwesomeIcon size="2x" icon={faShoppingBag} />
-          <span className="total__item">{` ${itemCount} items`}</span>
-        </span>
-        <span className="cart--close">Close</span>
-      </div>
-      <div className="pannel--content">
-        {products.length > 0 ? (
-          <React.Fragment>
-            {products.map((ele, index) => (
-              <CartItem cartItem={ele}></CartItem>
-            ))}
-            {products.map((ele, index) => (
-              <CartItem cartItem={ele}></CartItem>
-            ))}
-            {products.map((ele, index) => (
-              <CartItem cartItem={ele}></CartItem>
-            ))}
-            {products.map((ele, index) => (
-              <CartItem cartItem={ele}></CartItem>
-            ))}
-            {products.map((ele, index) => (
-              <CartItem cartItem={ele}></CartItem>
-            ))}
-            {products.map((ele, index) => (
-              <CartItem cartItem={ele}></CartItem>
-            ))}
-            {products.map((ele, index) => (
-              <CartItem cartItem={ele}></CartItem>
-            ))}
-            {products.map((ele, index) => (
-              <CartItem cartItem={ele}></CartItem>
-            ))}
-          </React.Fragment>
-        ) : (
-          <div>No prodcts in cart</div>
-        )}
-      </div>
-      <div className="pannel--footer"></div>
-    </div>
+    <React.Fragment>
+      {deviceType === "desktop" ? (
+        <React.Fragment>
+          <div
+            className="cart__bar cart__pannel--desktop "
+            style={{ width: width }}
+          >
+            <div className="pannel--header--desktop">
+              <span className="header--left">
+                <FontAwesomeIcon size="2x" icon={faShoppingBag} />
+                <span className="total__item">{` ${itemCount} items`}</span>
+              </span>
+              <span
+                className="cart--close"
+                onClick={() =>
+                  dispatch(
+                    setCartBarDesktop({
+                      cartBarDesktop: { open: !cartBarDesktop.open },
+                    })
+                  )
+                }
+              >
+                Close
+              </span>
+            </div>
+            <div className="pannel--content--desktop">
+              {products.length > 0 ? (
+                <React.Fragment>
+                  {products.map((ele, index) => (
+                    <CartItem cartItem={ele}></CartItem>
+                  ))}
+                  {products.map((ele, index) => (
+                    <CartItem cartItem={ele}></CartItem>
+                  ))}
+                  {products.map((ele, index) => (
+                    <CartItem cartItem={ele}></CartItem>
+                  ))}
+                  {products.map((ele, index) => (
+                    <CartItem cartItem={ele}></CartItem>
+                  ))}
+                  {products.map((ele, index) => (
+                    <CartItem cartItem={ele}></CartItem>
+                  ))}
+                  {products.map((ele, index) => (
+                    <CartItem cartItem={ele}></CartItem>
+                  ))}
+                  {products.map((ele, index) => (
+                    <CartItem cartItem={ele}></CartItem>
+                  ))}
+                </React.Fragment>
+              ) : (
+                <div className="no__product--message">No prodcts in cart</div>
+              )}
+            </div>
+            <div className="pannel--footer--desktop">
+              <div className="cart__footer--top">
+                <div className="cart__footer--totalamount ">
+                  <span> &#2547;{` ${totalAmount}`}</span>
+                </div>
+                <div className="cart__footer--placeorder btn__all  app__btn--filled ">
+                  Place Order
+                </div>
+              </div>
+              <div className="cartbar__livechat btn__all  app__btn--filled ">
+                <span>Live Chat</span>
+              </div>
+            </div>
+          </div>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <div
+            className="cart__bar cart__pannel--mobile"
+            style={{ width: width }}
+          >
+            <div className="pannel--header--mobile">
+              <span className="header--left">
+                <FontAwesomeIcon size="2x" icon={faShoppingBag} />
+                <span className="total__item">{` ${itemCount} items`}</span>
+              </span>
+              <span
+                className="cart--close"
+                onClick={() =>
+                  dispatch(
+                    setCartBarMobile({
+                      cartBarMobile: { open: !cartBarMobile.open },
+                    })
+                  )
+                }
+              >
+                Close
+              </span>
+            </div>
+            <div className="pannel--content--mobile">
+              {products.length > 0 ? (
+                <React.Fragment>
+                  {products.map((ele, index) => (
+                    <CartItem cartItem={ele}></CartItem>
+                  ))}
+                </React.Fragment>
+              ) : (
+                <div className="no__product--message">No prodcts in cart</div>
+              )}
+            </div>
+            <div className="pannel--footer--mobile">
+              <div className="cart__footer--top">
+                <div className="cart__footer--totalamount ">
+                  <span> &#2547;{` ${totalAmount}`}</span>
+                </div>
+                <div className="cart__footer--placeorder btn__all  app__btn--filled">
+                  Place Order
+                </div>
+              </div>
+            </div>
+          </div>
+        </React.Fragment>
+      )}
+    </React.Fragment>
   );
 };
 

@@ -20,6 +20,7 @@ import {
   setLanguage,
   setAuthenticate,
 } from "../../redux/settingsSlice";
+import { loadCartFromLocalstroage } from "../../redux/cartSlice";
 
 import { useSelector, useDispatch } from "react-redux";
 import { MOBIEL_DEVICE_RESOLUTION, TAB_DEVICE_RESOLUTION } from "../../config";
@@ -51,6 +52,11 @@ const Layout = (props) => {
   if (localStorage.getItem("jwt")) {
     dispatch(
       setAuthenticate({ authenticate: JSON.parse(localStorage.getItem("jwt")) })
+    );
+  }
+  if (localStorage.getItem("cart")) {
+    dispatch(
+      loadCartFromLocalstroage({ cart: JSON.parse(localStorage.getItem("cart")) })
     );
   }
   useEffect(() => {
