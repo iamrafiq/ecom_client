@@ -50,7 +50,7 @@ export default function CartMenu({ mobile = false }) {
             alt="cart"
             style={{ width: "25px", height: "25px" }}
           />
-          {language === "en"?(<span className="cart--quantity--mobile">10</span>):(<span className="cart--quantity--mobile">{englishToBangla(10)}</span>)}
+          {language === "en"?(<span className="cart--quantity--mobile">{productCount}</span>):(<span className="cart--quantity--mobile">{englishToBangla(productCount)}</span>)}
           
         </div>
       ) : (

@@ -86,7 +86,13 @@ const SidebarContent = (props) => {
             <div className="pannel--header--desktop">
               <span className="header--left">
                 <FontAwesomeIcon size="2x" icon={faShoppingBag} />
-                <span className="total__item">{` ${itemCount} items`}</span>
+                {language === "en" ? (
+                  <span className="total__item">{` ${itemCount} items`}</span>
+                ) : (
+                  <span className="total__item">{` ${englishToBangla(
+                    itemCount
+                  )} টি পণ্য`}</span>
+                )}
               </span>
               <span
                 className="cart--close"
@@ -98,7 +104,11 @@ const SidebarContent = (props) => {
                   )
                 }
               >
-                Close
+                {language === "en" ? (
+                  <span>Close</span>
+                ) : (
+                  <span>বন্ধ করুন</span>
+                )}
               </span>
             </div>
             <div className="pannel--content--desktop">
@@ -127,21 +137,48 @@ const SidebarContent = (props) => {
                   ))}
                 </React.Fragment>
               ) : (
-                <div className="no__product--message">No prodcts in cart</div>
+                <React.Fragment>
+                  {language === "en" ? (
+                    <div className="no__product--message">
+                      No prodcts in cart
+                    </div>
+                  ) : (
+                    <div className="no__product--message">ব্যাগ পণ্য নেই</div>
+                  )}
+                </React.Fragment>
               )}
             </div>
             <div className="pannel--footer--desktop">
               <div className="cart__footer--top">
-                <div className="cart__footer--totalamount ">
-                  <span> &#2547;{` ${totalAmount}`}</span>
-                </div>
-                <div className="cart__footer--placeorder btn__all  app__btn--filled ">
-                  Place Order
-                </div>
+                {language === "en" ? (
+                  <div className="cart__footer--totalamount ">
+                    <span> &#2547;{` ${totalAmount}`}</span>
+                  </div>
+                ) : (
+                  <div className="cart__footer--totalamount ">
+                    <span> &#2547;{` ${englishToBangla(totalAmount)}`}</span>
+                  </div>
+                )}
+
+                {language === "en" ? (
+                  <div className="cart__footer--placeorder btn__all  app__btn--filled ">
+                    Place Order
+                  </div>
+                ) : (
+                  <div className="cart__footer--placeorder btn__all  app__btn--filled ">
+                    অর্ডার স্থাপন করুন
+                  </div>
+                )}
               </div>
-              <div className="cartbar__livechat btn__all  app__btn--filled ">
-                <span>Live Chat</span>
-              </div>
+              {language === "en" ? (
+                <div className="cartbar__livechat btn__all  app__btn--filled ">
+                  <span>Live Chat</span>
+                </div>
+              ) : (
+                <div className="cartbar__livechat btn__all  app__btn--filled ">
+                  <span>লাইভ চ্যাট</span>
+                </div>
+              )}
             </div>
           </div>
         </React.Fragment>
@@ -154,7 +191,13 @@ const SidebarContent = (props) => {
             <div className="pannel--header--mobile">
               <span className="header--left">
                 <FontAwesomeIcon size="2x" icon={faShoppingBag} />
-                <span className="total__item">{` ${itemCount} items`}</span>
+                {language === "en" ? (
+                  <span className="total__item">{` ${itemCount} items`}</span>
+                ) : (
+                  <span className="total__item">{` ${englishToBangla(
+                    itemCount
+                  )} টি পণ্য`}</span>
+                )}
               </span>
               <span
                 className="cart--close"
@@ -166,7 +209,11 @@ const SidebarContent = (props) => {
                   )
                 }
               >
-                Close
+                {language === "en" ? (
+                  <span>Close</span>
+                ) : (
+                  <span>বন্ধ করুন</span>
+                )}
               </span>
             </div>
             <div className="pannel--content--mobile">
@@ -177,17 +224,37 @@ const SidebarContent = (props) => {
                   ))}
                 </React.Fragment>
               ) : (
-                <div className="no__product--message">No prodcts in cart</div>
+                <React.Fragment>
+                  {language === "en" ? (
+                    <div className="no__product--message">
+                      No prodcts in cart
+                    </div>
+                  ) : (
+                    <div className="no__product--message">ব্যাগ পণ্য নেই</div>
+                  )}
+                </React.Fragment>
               )}
             </div>
             <div className="pannel--footer--mobile">
               <div className="cart__footer--top">
-                <div className="cart__footer--totalamount ">
-                  <span> &#2547;{` ${totalAmount}`}</span>
-                </div>
-                <div className="cart__footer--placeorder btn__all  app__btn--filled">
-                  Place Order
-                </div>
+                {language === "en" ? (
+                  <div className="cart__footer--totalamount ">
+                    <span> &#2547;{` ${totalAmount}`}</span>
+                  </div>
+                ) : (
+                  <div className="cart__footer--totalamount ">
+                    <span> &#2547;{` ${englishToBangla(totalAmount)}`}</span>
+                  </div>
+                )}
+                {language === "en" ? (
+                  <div className="cart__footer--placeorder btn__all  app__btn--filled ">
+                    Place Order
+                  </div>
+                ) : (
+                  <div className="cart__footer--placeorder btn__all  app__btn--filled ">
+                    অর্ডার স্থাপন করুন
+                  </div>
+                )}
               </div>
             </div>
           </div>
