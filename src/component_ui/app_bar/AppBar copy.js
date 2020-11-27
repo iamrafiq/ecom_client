@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV, faBars } from "@fortawesome/fontawesome-free-solid";
+import FontAwesome from "react-fontawesome";
 import SearchBox from "./SearchBox";
 import "./app-bar.css";
 import { imageUrlConverter } from "../../util/ImageUrlConverter";
 import { selectHomeSelection } from "../../redux/homeSlice";
-import MoreMobile from "./MoreMobile";
+
 import {
   selectResolutionSelection,
   selectLanguageSelection,
@@ -22,8 +21,7 @@ import LanguageMenu from "./LanguageMenu";
 import SigninMenu from "./SigninMenu";
 import Orders from "./Orders";
 import Cart from "./Cart";
-import Popup from "reactjs-popup";
-import "./more-menu.css";
+
 const AppBar = (props) => {
   const dispatch = useDispatch();
   const home = useSelector(selectHomeSelection);
@@ -31,6 +29,7 @@ const AppBar = (props) => {
   const language = useSelector(selectLanguageSelection);
   const deviceType = useSelector(selectDeviceTypeSelection);
   const sideBar = useSelector(selectSideBar);
+
 
   // const mood = useSelector(selectSideBarMood);
   const { onClickMenu } = props;
@@ -42,6 +41,7 @@ const AppBar = (props) => {
   };
   return (
     <div className="nav__bar">
+
       {deviceType === "desktop" ? (
         <div className="nav__bar__main--desktop">
           <div className="nav--desktop">
@@ -52,10 +52,10 @@ const AppBar = (props) => {
                   e.preventDefault();
                   //   dispatch(toggleSideBar())
                   // onClickMenu();
-                  dispatch(setSideBar({ sideBar: { open: !sideBar.open } }));
+                  dispatch(setSideBar({sideBar:{open:!sideBar.open}}))
                 }}
               >
-                <FontAwesomeIcon size="2x" icon={faBars} />
+                <FontAwesome name="bars" size="2x" />
               </div>
               {home.logo && (
                 <img
@@ -86,42 +86,44 @@ const AppBar = (props) => {
           </div>
         </div>
       ) : (
-        <div className="nav__bar--mobile">
-          <div
-            className="mobile--menu"
-            onClick={(e) => {
-              e.preventDefault();
-              dispatch(setSideBar({ sideBar: { open: !sideBar.open } }));
-            }}
-          >
-            <FontAwesomeIcon size="2x" icon={faBars} />
-          </div>
-          <div className="mobile--search-box">
-            <SearchBoxMobile className=""></SearchBoxMobile>
-          </div>
-          <div className="mobile--more">
-            {/* <FontAwesomeIcon icon={faEllipsisV} /> */}
-            <Popup
-              trigger={
-                <button className="button">
-                  {" "}
-                  <FontAwesomeIcon icon={faEllipsisV} />{" "}
-                </button>
-              }
-              position="left top"
-              on="hover"
-              closeOnDocumentClick
-              mouseEnterDelay={0}
-              contentStyle={{ width: "18rem", border: "none" , zIndex:"1002"}}
-              arrow={true}
-              // open={overlay}
-              
-            >
-              {(close) => (
-                <div >lkjlsjflsjflsdj sldjflksjflsjflsjflskdsslsjdlasjdal jflksjflja l ksdflksdjflsdjfls </div>
-                 
+        <div className="nav__bar__main--mobile">
+          <div className="nav--mobile">
+            <div className="nav__mobile--left">
+              <div
+                className="button__lang--menu"
+                onClick={(e) => {
+                  e.preventDefault();
+                  dispatch(setSideBar({sideBar:{open:!sideBar.open}}))
+                }}
+              >
+                <FontAwesome name="bars" size="2x" />
+              </div>
+              {home.logo && (
+                <img
+                  src={`${imageUrlConverter(home.logo)}&res=${"low"}`}
+                  alt="Sowdamart.com"
+                />
               )}
-            </Popup>
+            </div>
+            <div className="nav__mobile--right">
+              <div className="nav__menu--mobile">
+                <div className="mobile--menu--item">
+                  <LanguageMenu></LanguageMenu>
+                </div>
+                <div className="mobile--menu--item">
+                  <SigninMenu mobile={true}></SigninMenu>
+                </div>
+                <div className="mobile--menu--item">
+                  <Orders mobile={true}></Orders>
+                </div>
+                <div className="mobile--menu--item">
+                <Cart mobile={true}></Cart>
+              </div>
+              </div>
+            </div>
+          </div>
+          <div className="search__box--mobile">
+            <SearchBoxMobile className=""></SearchBoxMobile>
           </div>
         </div>
       )}

@@ -39,14 +39,14 @@
   width: 100%;
   height: auto;
   position: relative;
-  margin: 10px;
+  /* margin: 10px; */
 
 }
 .search-box-mobile{
   width: 100%;
   outline: 0;
   border-radius: 5px;
-  padding: 10px;
+  padding: 6px;
 
 }
 .search-box-mobile:focus {
@@ -57,7 +57,7 @@
   z-index: 10;
   cursor: pointer;
   background-color: var(--theme-color-2-light);
-  padding: 10px 12px;
+  padding: 6px 12px;
   position: absolute;
   border-right: 1px solid var(--theme-color-2-light);
   color: var(--font-color-primary-inverse);

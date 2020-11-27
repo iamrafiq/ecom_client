@@ -122,6 +122,9 @@
   margin: var(--gap-medium) 0px;
 
 }
+.cartbar__livechat >*{
+ padding: var(--gap-small);
+}
 
 /* .cart__bar__content--desktop {
   width: 100%;

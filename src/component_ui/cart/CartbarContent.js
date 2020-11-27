@@ -31,7 +31,10 @@ import "./cart.css";
 import { englishToBangla } from "../../util/utils";
 import CartItem from "./CartItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingBag } from "@fortawesome/fontawesome-free-solid";
+import {
+  faShoppingBag,
+  faCommentDots,
+} from "@fortawesome/fontawesome-free-solid";
 import { CART_BAR_WIDTH } from "../../config";
 
 const SidebarContent = (props) => {
@@ -172,10 +175,13 @@ const SidebarContent = (props) => {
               </div>
               {language === "en" ? (
                 <div className="cartbar__livechat btn__all  app__btn--filled ">
+                  <FontAwesomeIcon size="2x" icon={faCommentDots} />
+
                   <span>Live Chat</span>
                 </div>
               ) : (
                 <div className="cartbar__livechat btn__all  app__btn--filled ">
+                  <FontAwesomeIcon size="2x" icon={faCommentDots} />
                   <span>লাইভ চ্যাট</span>
                 </div>
               )}

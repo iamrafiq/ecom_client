@@ -25,6 +25,7 @@ import { loadCartFromLocalstroage } from "../../redux/cartSlice";
 
 import { useSelector, useDispatch } from "react-redux";
 import { MOBIEL_DEVICE_RESOLUTION, TAB_DEVICE_RESOLUTION } from "../../config";
+
 const mql = window.matchMedia(`(min-width: ${MOBIEL_DEVICE_RESOLUTION}px)`);
 
 const Layout = (props) => {

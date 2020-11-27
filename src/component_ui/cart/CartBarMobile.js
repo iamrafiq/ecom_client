@@ -4,8 +4,7 @@ import CartbarContent from "./CartbarContent";
 import { MOBIEL_DEVICE_RESOLUTION } from "../../config";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import PureModal from "react-pure-modal";
-import "../product/pure-modal.css";
+
 import { unmoveableAddressBar, defaultStyle } from "../../util/bodyStyle";
 
 

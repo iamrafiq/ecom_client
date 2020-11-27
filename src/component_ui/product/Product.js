@@ -22,7 +22,7 @@ import {
 import OuterClickHandler from "../../util/OuterClickHandler";
 
 import PureModal from "react-pure-modal";
-import "./pure-modal.css";
+import  "../pure-modal.css";
 import { englishToBangla } from "../../util/utils";
 import "./product.css";
 import "./regular-product.css";
