@@ -8,7 +8,7 @@ import {
   selectResolutionSelection,
   selectLanguageSelection,
 } from "../../redux/settingsSlice";
-import { selectHomeSelection } from "../../redux/homeSlice";
+import { selectHomeSelection, selectHomeLoaded } from "../../redux/homeSlice";
 import Advertisiment from "../../util/Advertisiment";
 import Carousel from "../../util/Carousel";
 import MultiCarousel from "../../util/multi_carousel/MultiCarousel";
@@ -23,6 +23,8 @@ export default function Home(props) {
   const resulationSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
   const home = useSelector(selectHomeSelection);
+  const homeLoaded = useSelector(selectHomeLoaded);
+
   console.log("home....", home);
   useEffect(() => {}, []);
   const categories = (items) => {
