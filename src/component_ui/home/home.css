@@ -21,22 +21,8 @@
   -o-background-size: cover;
   background-size: cover;
 }
-.landing__content {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-20%, -50%);
-}
-.landing__content--title {
-  font-size: var(--font-size-extra-large);
-  color: var(--font-color-primary);
-  width: 80%;
-  font-style: bold;
-  position: absolute;
-  left: 50%;
-  top: -50%;
-  transform: translate(-50%, 0);
-}
+
+
 /** search box**/
 /* .search-box-home,
 .close-icon,

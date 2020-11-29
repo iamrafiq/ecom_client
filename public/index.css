@@ -9,10 +9,11 @@
   --cartbar-width: 20rem; /*cart bar width same in config file*/
 
   --appbar-desktop-height:3.5rem;
-  --appbar-mobile-height: 6.2rem;
+  --appbar-mobile-height: 3.5rem;
   --sidebar-width-with-extra-padding: 2rem; /*side bar width + padding*/
   --padding-right-extra: 0.2rem;
   /**color**/
+  --font-color-inactive:#B0B0B0;
   --font-color-primary: #000000;
   --font-color-secondary: #6b6b6b;
   --font-color-secondary-inverse: #a6a6a6;
@@ -32,6 +33,7 @@
   --background-color-cart:#E5E5E5;
   --content-color-cart:#E0E0E0;
 
+  --background-color-inactive:#D4D4D4;
   --background-color-sidebar: #F5F5F5;
   --background-color-primary: #F5F5F5;
   --background-color-primary-hover: #ebebeb;

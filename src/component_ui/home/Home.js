@@ -46,25 +46,6 @@ export default function Home(props) {
         <div className="landing__img">
           <img src={`${imageUrlConverter(home.photoLanding)}&res=${resulationSelector}`} alt="" />
         </div>
-        <div className="landing__content">
-          <span className="landing__content--title">
-            Sowdamart always low price.
-          </span>
-          <div class="search-wrapper-home">
-            <form>
-              <input
-                type="text"
-                name="focus"
-                required
-                class="search-box-home"
-                placeholder="Enter search term food goods meets"
-              />
-              <button class="search-btn" type="reset">
-                <FontAwesome className="" name="search" />
-              </button>
-            </form>
-          </div>
-        </div>
       </section>
       <section className="section_content">
         {home.advertisements && (

@@ -19,6 +19,39 @@ export const signup = (user) => {
       });
   };
 
+  export const verifyOtp = (user) => {
+    return fetch(`${API}/verfiy-otp`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((responce) => {
+        return responce.json();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  export const resendOtp = (user) => {
+    return fetch(`${API}/resend-otp`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((responce) => {
+        return responce.json();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
 export const signin = (user) => {
     return fetch(`${API}/signin`, {

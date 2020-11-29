@@ -5,6 +5,10 @@ import categoryWithProductReducer from "./categoryWithProductSlice";
 import productHoverReducer from "./productHoverSlice";
 import settingsReducer from "./settingsSlice";
 import cartReducer from "./cartSlice";
+import globalReducer from "./globalSlice";
+import authReducer from "./authSlice";
+
+
 
 
 
@@ -17,6 +21,9 @@ export default configureStore({
         productHover:productHoverReducer,
         settings:settingsReducer,
         cart:cartReducer,
+        global:globalReducer,
+        auth:authReducer
+
 
     }
 })

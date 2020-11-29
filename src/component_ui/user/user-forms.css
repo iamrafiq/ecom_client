@@ -238,4 +238,26 @@
   .btn-fb .fb-content p {
     color: rgba(255, 255, 255, 0.87);
   }
-  
+
+  .otp__btns{
+    display: flex;
+    flex-direction: row;
+  }
+  .otp__btns>*{
+    margin: var(--gap-medium);
+  }
+  .resend--inactive{
+    background-color: var(--background-color-inactive);
+    color: var(--font-color-inactive);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .resend--active{
+    background-color: var(--theme-color-1-light);
+    color: var(--font-color-primary-inverse);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

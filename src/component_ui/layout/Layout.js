@@ -26,6 +26,8 @@ import {
   setAuthenticate,
 } from "../../redux/settingsSlice";
 import { loadCartFromLocalstroage } from "../../redux/cartSlice";
+import { setToken, setUser } from "../../redux/authSlice";
+
 
 import { useSelector, useDispatch } from "react-redux";
 import { MOBIEL_DEVICE_RESOLUTION, TAB_DEVICE_RESOLUTION } from "../../config";
@@ -61,6 +63,13 @@ const Layout = (props) => {
     dispatch(
       setAuthenticate({ authenticate: JSON.parse(localStorage.getItem("jwt")) })
     );
+  }
+  if(localStorage.getItem("AuthT")){
+    dispatch(setToken({token:JSON.parse(localStorage.getItem("AuthT"))}));
+  }
+  if (localStorage.getItem("AuthU")){
+    dispatch(setUser({AuthU:JSON.parse(localStorage.getItem("AuthU")), decrypt:true}));
+
   }
   if (localStorage.getItem("cart")) {
     dispatch(
@@ -116,7 +125,6 @@ const Layout = (props) => {
           ) : (
             <React.Fragment>
               <CartBar></CartBar>
-
               <div className={`layout-body`}>
                 <Routes></Routes>
               </div>

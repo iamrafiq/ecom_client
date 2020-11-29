@@ -14,6 +14,7 @@ import {
   selectAuthenticateSelection,
   setAuthenticate,
 } from "../../redux/settingsSlice";
+import { selectUser, setToken, setUser } from "../../redux/authSlice";
 import "./navmenu.css";
 import { imageUrlConverter } from "../../util/ImageUrlConverter";
 import Popup from "reactjs-popup";
@@ -32,8 +33,7 @@ export default function SigninMenu({ mobile = false }) {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
   const deviceType = useSelector(selectDeviceTypeSelection);
-  const auth = useSelector(selectAuthenticateSelection);
-  console.log("auth...", auth);
+  const user = useSelector(selectUser);
   const [overlay, setOverlay] = useState(false);
 
   const closeModal = () => setOverlay(false);
@@ -60,12 +60,10 @@ export default function SigninMenu({ mobile = false }) {
                 />
               ) : (
                 <span className="sigin__text">
-                  {auth ? (
-                    language === "en" ? (
-                      <span className="sigin__text--siginin">Sign out </span>
-                    ) : (
-                      <span className="sigin__text--siginin">সাইন আউট</span>
-                    )
+                  {user ? (
+                    <span className="sigin__text--siginin">
+                      {user.name ? user.name : user.userId}{" "}
+                    </span>
                   ) : language === "en" ? (
                     <span className="sigin__text--siginin">
                       Hello, Sign in{" "}
@@ -95,14 +93,14 @@ export default function SigninMenu({ mobile = false }) {
         on="hover"
         closeOnDocumentClick
         mouseEnterDelay={0}
-        contentStyle={{ width: "18rem", border: "none" , zIndex:"1002"}}
+        contentStyle={{ width: "18rem", border: "none", zIndex: "1002" }}
         arrow={true}
         open={overlay}
         onClose={closeModal}
       >
         {(close) => (
           <div className="menu--signin">
-            {auth ? (
+            {user ? (
               <div className="signin__btn">
                 <Link
                   className="btn__all app__btn200 app__btn--filled  react__link--colorless"
@@ -112,11 +110,13 @@ export default function SigninMenu({ mobile = false }) {
                     signout(() => {
                       // props.history.push("/");
                     });
-                    dispatch(
-                      setAuthenticate({
-                        authenticate: undefined,
-                      })
-                    );
+                    dispatch(setToken({ token: undefined, signout:true }));
+                    dispatch(setUser({ user: undefined, signout:true }));
+                    // dispatch(
+                    //   setAuthenticate({
+                    //     authenticate: undefined,
+                    //   })
+                    //);
                   }}
                 >
                   Signout
@@ -143,11 +143,15 @@ export default function SigninMenu({ mobile = false }) {
                   ) : (
                     <span>নতুন কাস্টমার</span>
                   )}
-                  <Link className="react__link--colored" to="/user/signup" onClick={() => close()}>
+                  <Link
+                    className="react__link--colored"
+                    to="/user/signup"
+                    onClick={() => close()}
+                  >
                     {language === "en" ? (
-                      <span >&nbsp;Sign Up</span>
+                      <span>&nbsp;Sign Up</span>
                     ) : (
-                      <span >&nbsp;সাইন আপ</span>
+                      <span>&nbsp;সাইন আপ</span>
                     )}
                   </Link>
                 </span>
@@ -164,7 +168,10 @@ export default function SigninMenu({ mobile = false }) {
                 )}
                 <ul>
                   <li>
-                    <Link className="react__link--colorless" onClick={() => close()}>
+                    <Link
+                      className="react__link--colorless"
+                      onClick={() => close()}
+                    >
                       <FontAwesomeIcon
                         className="icon--list "
                         size="1x"
@@ -178,7 +185,10 @@ export default function SigninMenu({ mobile = false }) {
                     </Link>
                   </li>
                   <li>
-                    <Link className="react__link--colorless" onClick={() => close()}>
+                    <Link
+                      className="react__link--colorless"
+                      onClick={() => close()}
+                    >
                       <FontAwesomeIcon
                         className="icon--list "
                         size="1x"
@@ -192,7 +202,10 @@ export default function SigninMenu({ mobile = false }) {
                     </Link>
                   </li>
                   <li>
-                    <Link className="react__link--colorless" onClick={() => close()}>
+                    <Link
+                      className="react__link--colorless"
+                      onClick={() => close()}
+                    >
                       <FontAwesomeIcon
                         className="icon--list "
                         size="1x"
@@ -206,7 +219,10 @@ export default function SigninMenu({ mobile = false }) {
                     </Link>
                   </li>
                   <li>
-                    <Link className="react__link--colorless" onClick={() => close()}>
+                    <Link
+                      className="react__link--colorless"
+                      onClick={() => close()}
+                    >
                       <FontAwesomeIcon
                         className="icon--list "
                         size="1x"
@@ -230,7 +246,10 @@ export default function SigninMenu({ mobile = false }) {
                 )}
                 <ul>
                   <li>
-                    <Link className="react__link--colorless" onClick={() => close()}>
+                    <Link
+                      className="react__link--colorless"
+                      onClick={() => close()}
+                    >
                       <FontAwesomeIcon
                         className="icon--list icon--flip"
                         size="1x"
@@ -250,7 +269,10 @@ export default function SigninMenu({ mobile = false }) {
                   </li>
 
                   <li>
-                    <Link className="react__link--colorless" onClick={() => close()}>
+                    <Link
+                      className="react__link--colorless"
+                      onClick={() => close()}
+                    >
                       <FontAwesomeIcon
                         className="icon--list "
                         size="1x"

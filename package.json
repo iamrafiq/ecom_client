@@ -22,6 +22,7 @@
     "braintree-web": "^3.67.0",
     "braintree-web-drop-in-react": "^1.2.1",
     "consolidated-events": "^2.0.2",
+    "crypto-js": "^4.0.0",
     "deep-equal": "^2.0.4",
     "material-ui": "^0.20.2",
     "material-ui-icons": "^1.0.0-beta.36",
