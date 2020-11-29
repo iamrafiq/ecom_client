@@ -13,7 +13,6 @@ import { loadCategoryWithProduct } from "../../redux/categoryWithProductSlice";
 import {
   selectResolutionSelection,
   selectLanguageSelection,
-  selectAuthenticateSelection,
   selectDeviceTypeSelection,
   selectCartBarMobile,
   setCartBarMobile,
@@ -47,7 +46,6 @@ const SidebarContent = (props) => {
   const itemCount = useSelector(selectCartCount);
 
   const language = useSelector(selectLanguageSelection);
-  const auth = useSelector(selectAuthenticateSelection);
   const products = useSelector(selectCartProducts);
   const cartBarDesktop = useSelector(selectCartBarDesktop);
   const cartBarMobile = useSelector(selectCartBarMobile);

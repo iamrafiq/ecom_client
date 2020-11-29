@@ -13,8 +13,10 @@ import { loadCategoryWithProduct } from "../../../redux/categoryWithProductSlice
 import {
   selectResolutionSelection,
   selectLanguageSelection,
-  selectAuthenticateSelection,
 } from "../../../redux/settingsSlice";
+import {
+  selectUser
+} from "../../../redux/authSlice";
 import { selectOfferProducts } from "../../../redux/homeSlice";
 import "./side-bar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -25,7 +27,7 @@ const SidebarContent = (props) => {
   const viewToBar = useSelector(selectSideBarViewToBarSelection);
   const resolutionSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
-  const auth = useSelector(selectAuthenticateSelection);
+  const user = useSelector(selectUser);
   const offerProducts = useSelector(selectOfferProducts);
 
 
@@ -48,7 +50,7 @@ const SidebarContent = (props) => {
     <div className="sidebar__pannel">
       <div className="sidebar--header">
         <FontAwesomeIcon size="2x" icon={faUserCircle} />
-        {auth ? (
+        {user ? (
           <Link
             className="react__link--colorless"
             to="/user/profile"

@@ -71,8 +71,8 @@ const SignupForm = () => {
           if (data.error) {
             setValues({ ...values, error: data.error, loading: false });
           } else {
-            dispatch(setUserId({ userId: userId }));
-            dispatch(setPassword({ password: password }));
+            // dispatch(setUserId({ userId: userId }));
+            // dispatch(setPassword({ password: password }));
             // dispatch(setAuthenticate({ authenticate: data }));
             dispatch(setToken({token:data.token}));
             dispatch(setUser({user:data.user, encrypt:true}));

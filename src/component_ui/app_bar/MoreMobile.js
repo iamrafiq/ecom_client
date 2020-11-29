@@ -11,10 +11,10 @@ import {
 import {
   selectLanguageSelection,
   selectDeviceTypeSelection,
-  selectAuthenticateSelection,
-  setAuthenticate,
   setLanguage,
 } from "../../redux/settingsSlice";
+import { selectUser, setToken, setUser } from "../../redux/authSlice";
+
 import "./navmenu.css";
 import { imageUrlConverter } from "../../util/ImageUrlConverter";
 import Popup from "reactjs-popup";
@@ -34,8 +34,7 @@ export default function MoreMobile({ mobile = false }) {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
   const deviceType = useSelector(selectDeviceTypeSelection);
-  const auth = useSelector(selectAuthenticateSelection);
-  console.log("auth...", auth);
+  const user = useSelector(selectUser);
   const [overlay, setOverlay] = useState(false);
   const handleLanguageChange = (value) => {
     if (value == "en") {
@@ -70,7 +69,7 @@ export default function MoreMobile({ mobile = false }) {
       >
         {(close) => (
           <div className="menu--signin">
-            {auth ? (
+            {user ? (
               <div className="signin__btn">
                 <Link
                   className="btn__all app__btn200 app__btn--filled  react__link--colorless"
@@ -80,11 +79,8 @@ export default function MoreMobile({ mobile = false }) {
                     signout(() => {
                       // props.history.push("/");
                     });
-                    dispatch(
-                      setAuthenticate({
-                        authenticate: undefined,
-                      })
-                    );
+                    dispatch(setToken({ token: undefined, signout:true }));
+                    dispatch(setUser({ user: undefined, signout:true }));
                   }}
                 >
                   Signout

@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   selectResolutionSelection,
   selectLanguageSelection,
-  selectAuthenticateSelection,
   selectDeviceTypeSelection,
 } from "../../redux/settingsSlice";
 import { imageUrlConverter } from "../../util/ImageUrlConverter";
@@ -22,7 +21,6 @@ import { addItem, removeItem, deleteItem } from "../../redux/cartSlice";
 const Cart = ({ cartItem }) => {
   const resolutionSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
-  const auth = useSelector(selectAuthenticateSelection);
 
   let { product, qtyCart } = cartItem;
   if (product.photosUrl && product.photosUrl.length > 0) {

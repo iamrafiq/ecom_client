@@ -23,7 +23,6 @@ import {
   selectSideBar,
   selectCartBarDesktop,
   setLanguage,
-  setAuthenticate,
 } from "../../redux/settingsSlice";
 import { loadCartFromLocalstroage } from "../../redux/cartSlice";
 import { setToken, setUser } from "../../redux/authSlice";
@@ -59,11 +58,7 @@ const Layout = (props) => {
   } else {
     dispatch(setResolution({ resolution: "medium" }));
   }
-  if (localStorage.getItem("jwt")) {
-    dispatch(
-      setAuthenticate({ authenticate: JSON.parse(localStorage.getItem("jwt")) })
-    );
-  }
+
   if(localStorage.getItem("AuthT")){
     dispatch(setToken({token:JSON.parse(localStorage.getItem("AuthT"))}));
   }

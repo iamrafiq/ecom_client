@@ -14,11 +14,8 @@ import {
   setAuthenticate,
 } from "../../redux/settingsSlice";
 import {
-  selectUserId,
-  selectPassword,
-  setUserId,
-  setPassword,
-} from "../../redux/globalSlice";
+  selectUser
+} from "../../redux/authSlice";
 import {
   setUser
 } from "../../redux/authSlice";
@@ -31,8 +28,7 @@ const OtpVerificationForm = () => {
   let resendTime = 5;
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
-  const userId = useSelector(selectUserId);
-  const password = useSelector(selectPassword);
+  const userUnverified = useSelector(selectUser);
   const [timeLeft, setTimeLeft] = useState(resendTime);
   const [values, setValues] = useState({
     otp: "",
@@ -43,7 +39,7 @@ const OtpVerificationForm = () => {
   });
 
   const { otp, success, error, redirectToReferrer, user } = values;
-
+  const {userId} = userUnverified;
   useEffect(() => {
     if (!timeLeft) return;
     const intervalId = setInterval(() => {
@@ -80,9 +76,6 @@ const OtpVerificationForm = () => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
       } else {
-            dispatch(setAuthenticate({ authenticate: data }));
-            dispatch(setUserId({ userId: "" }));
-            dispatch(setPassword({ password: "" }));
             dispatch(setUser({user:data.user, encrypt:true}));
         setValues({
           ...values,
@@ -91,24 +84,6 @@ const OtpVerificationForm = () => {
           success: true,
           redirectToReferrer: true,
         });
-        // signin({ userId, password }).then((data) => {
-        //   if (data.error) {
-        //     setValues({ ...values, error: data.error, loading: false });
-        //   } else {
-        //     dispatch(setAuthenticate({ authenticate: data }));
-        //     dispatch(setUserId({ userId: "" }));
-        //     dispatch(setPassword({ password: "" }));
-        //     authenticate(data, () => {
-        //       setValues({
-        //         ...values,
-        //         error: "",
-        //         loading: false,
-        //         redirectToReferrer: true,
-        //         user: data,
-        //       });
-        //     });
-        //   }
-        // });
       }
     });
   };

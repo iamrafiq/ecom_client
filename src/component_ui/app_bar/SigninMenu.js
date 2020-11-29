@@ -11,8 +11,7 @@ import {
 import {
   selectLanguageSelection,
   selectDeviceTypeSelection,
-  selectAuthenticateSelection,
-  setAuthenticate,
+
 } from "../../redux/settingsSlice";
 import { selectUser, setToken, setUser } from "../../redux/authSlice";
 import "./navmenu.css";
