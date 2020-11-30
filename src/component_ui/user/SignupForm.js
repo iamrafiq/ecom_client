@@ -53,18 +53,12 @@ const SignupForm = () => {
     setValues({ ...values, error: false });
     name.trim();
     userId.trim();
+    // let sendOtp =true;
     signup({ name, userId, password }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
       } else {
-        setValues({
-          ...values,
-          error: "",
-          userId: "",
-          password: "",
-          success: true,
-          redirectToReferrer: false,
-        });
+       
         signin({ userId, password }).then((data) => {
           if (data.error) {
             setValues({ ...values, error: data.error, loading: false });
@@ -74,7 +68,14 @@ const SignupForm = () => {
             // dispatch(setAuthenticate({ authenticate: data }));
             dispatch(setToken({token:data.token}));
             dispatch(setUser({user:data.user, encrypt:true}));
-
+            setValues({
+              ...values,
+              error: "",
+              userId: "",
+              password: "",
+              success: true,
+              redirectToReferrer: true,
+            });
             // authenticate(data, () => {
             //   setValues({
             //     ...values,

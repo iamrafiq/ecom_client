@@ -92,7 +92,7 @@ const OtpVerificationForm = () => {
       {language === "en" ? (
         <h3 className="form__box--h3">
           A One Time Password has been sent to {userId}{" "}
-          <br> Please enter the OTP bellow to verify your account</br>
+          <br/> Please enter the OTP bellow to verify your account
         </h3>
       ) : (
         <h3 className="form__box--h3">
