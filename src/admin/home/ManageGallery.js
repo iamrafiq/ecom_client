@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import Layout from "../../core/Layout";
-import { isAuthenticated } from "../../auth";
+import { useSelector } from "react-redux";
+
+import { selectUser, selectToken } from "../../redux/authSlice";
 import { Link, Redirect } from "react-router-dom";
 import { createOrUpdateHome, getHome } from "./apiHome";
 import Select from "react-select";
@@ -9,8 +11,9 @@ import Select from "react-select";
 var slugify = require("slugify");
 
 const ManageGallery = () => {
-  const { user, token } = isAuthenticated();
-  const [photoG, setPhotoG] = useState(null);
+  const user = useSelector(selectUser);
+  const token = useSelector(selectToken);
+    const [photoG, setPhotoG] = useState(null);
   const [values, setValues] = useState({
     titleG: "",
     shortDescriptionG: "",

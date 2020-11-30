@@ -1,8 +1,11 @@
 import React, {Fragment} from "react";
 import { Link, withRouter } from "react-router-dom";
 import "../App.css";
-import { signout, isAuthenticated } from "../auth/index";
+import { signout } from "../auth/index";
+import { useSelector } from "react-redux";
+
 import { itemTotal } from "./cartHelper";
+import { selectUser } from "../redux/authSlice";
 const isActive = (history, path) => {
   console.log("is active called");
   if (history.location.pathname === path) {
@@ -21,8 +24,10 @@ const mystyle = {
  * props come from react-router-dom
  * becaue we are using withRouter
  */
-const Menu = (props) => (
-  <div className="">
+const Menu = (props) => {
+  const user = useSelector(selectUser);
+
+   return <div className="">
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <ul className="navbar-nav mr-auto">
         <li className="nav-item">
@@ -52,7 +57,7 @@ const Menu = (props) => (
             Cart <sup ><small className="cart-badge">{itemTotal()}</small></sup>
           </Link>
         </li> 
-        {isAuthenticated() && isAuthenticated().user.role === 0 &&(
+        { user && user.role === 0 &&(
            <li className="nav-item">
            <Link
              className="nav-link"
@@ -63,7 +68,7 @@ const Menu = (props) => (
            </Link>
          </li>
         )}
-         {isAuthenticated() && isAuthenticated().user.role === 1 &&(
+         {user && user.role === 1 &&(
            <li className="nav-item">
            <Link
              className="nav-link"
@@ -74,7 +79,7 @@ const Menu = (props) => (
            </Link>
          </li>
         )}
-        {!isAuthenticated() && (
+        {!user && (
           <Fragment>
             <li className="nav-item">
               <Link
@@ -96,7 +101,7 @@ const Menu = (props) => (
             </li>
           </Fragment>
         )}
-       {isAuthenticated() && (
+       {user && (
           <li className="nav-item">
           <span
             className="nav-link"
@@ -114,6 +119,6 @@ const Menu = (props) => (
       </ul>
     </nav>
   </div>
-);
+};
 
 export default withRouter(Menu);

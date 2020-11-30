@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../core/Layout";
-import { isAuthenticated } from "../auth";
+import { useSelector } from "react-redux";
+
+import { selectUser, selectToken } from "../redux/authSlice";
 import { Link } from "react-router-dom";
 import { createCategory, getCategories } from "./apiAdmin";
 import MultiSelect from "react-multi-select-component";
 
 const AddCategorytemp = () => {
-  const { user, token } = isAuthenticated();
+  const user = useSelector(selectUser);
+  const token = useSelector(selectToken);
   const [values, setValues] = useState({
     name: "",
     order: "",

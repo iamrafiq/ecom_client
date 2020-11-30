@@ -1,13 +1,16 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Layout from "../core/Layout";
-import { isAuthenticated } from "../auth";
+import { useSelector } from "react-redux";
+
+import { selectUser, selectToken } from "../redux/authSlice";
 import { Link } from "react-router-dom";
 import { getCategories, deleteCategory } from "./apiAdmin";
 const ManageCategory = () => {
   const [cagegories, setCategories] = useState([]);
   const [error, setError] = useState("");
-  const { user, token } = isAuthenticated();
-  const loadCategories = () => {
+  const user = useSelector(selectUser);
+  const token = useSelector(selectToken);
+    const loadCategories = () => {
     getCategories().then((data) => {
       if (data.error) {
         console.log(data.error);

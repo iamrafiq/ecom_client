@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../core/Layout";
-import { isAuthenticated } from "../auth";
+import { useSelector } from "react-redux";
+
+import { selectUser, selectToken } from "../redux/authSlice";
 import { Link, Redirect } from "react-router-dom";
 import { getCategory, getCategories, updateCategory } from "./apiAdmin";
 import Select from "react-select";
@@ -8,8 +10,9 @@ import Select from "react-select";
 var slugify = require("slugify");
 
 const UpdateCategory = ({ match }) => {
-  const { user, token } = isAuthenticated();
-  const [iconMenu, setIconMenu] = useState(null);
+  const user = useSelector(selectUser);
+  const token = useSelector(selectToken);
+    const [iconMenu, setIconMenu] = useState(null);
 
   const [icon, setIcon] = useState(null);
   const [thumbnail, setThumbnail] = useState(null);

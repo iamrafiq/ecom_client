@@ -1,11 +1,14 @@
 import React from "react";
 import Layout from "../core/Layout";
-import { isAuthenticated } from "../auth";
+import { useSelector } from "react-redux";
+
+import { selectUser, selectToken } from "../redux/authSlice";
 import { Link } from "react-router-dom";
 const AdminDashboard = () => {
-  const {
-    user: { _id, name, email, role },
-  } = isAuthenticated();
+  const user = useSelector(selectUser);
+  const token = useSelector(selectToken);
+
+  const { _id, name, email, role } = user;
 
   const adminLinks = () => {
     return (

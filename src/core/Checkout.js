@@ -10,10 +10,13 @@ import { emptyCart } from "./cartHelper";
 import { useEffect, useState } from "react";
 import Card from "./Card";
 import { Link } from "react-router-dom";
-import { isAuthenticated } from "./../auth/index";
+import { useSelector } from "react-redux";
+import { selectUser, selectToken } from "../redux/authSlice";
 import "braintree-web";
 import DropIn from "braintree-web-drop-in-react";
 const Checkout = ({ products, changeEffectCallBack }) => {
+  const user = useSelector(selectUser);
+  const token = useSelector(selectToken);
   const [data, setData] = useState({
     loading: false,
     paymentSuccess: false,
@@ -22,8 +25,7 @@ const Checkout = ({ products, changeEffectCallBack }) => {
     instance: {},
     address: "",
   });
-  const userId = isAuthenticated() && isAuthenticated().user._id;
-  const token = isAuthenticated() && isAuthenticated().token;
+  const userId = user && user._id;
 
   const getToken = (userId, token) => {
     getBraintreeClientToken(userId, token).then((data) => {
@@ -48,7 +50,7 @@ const Checkout = ({ products, changeEffectCallBack }) => {
     }, 0);
   };
   const showCheckout = () => {
-    return isAuthenticated() ? (
+    return user ? (
       <div className="">{showDropIn()}</div>
     ) : (
       <Link to="/signin">

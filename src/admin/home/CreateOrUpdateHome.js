@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import Layout from "../../core/Layout";
-import { isAuthenticated } from "../../auth";
+import { useSelector } from "react-redux";
+
+import { selectUser, selectToken } from "../../redux/authSlice";
 import { Link, Redirect } from "react-router-dom";
 import { createOrUpdateHome, getHome } from "./apiHome";
 import Select from "react-select";
@@ -9,7 +11,8 @@ import Select from "react-select";
 var slugify = require("slugify");
 
 const CreateOrUpdateHome = () => {
-  const { user, token } = isAuthenticated();
+  const user = useSelector(selectUser);
+  const token = useSelector(selectToken);
   const [photoLanding, setPhotoLanding] = useState(null);
   const [logo, setLogo] = useState(null);
 
@@ -68,9 +71,9 @@ const CreateOrUpdateHome = () => {
       setPhotoLanding(event.target.files[0]);
     } else if (name == "photoTutorial") {
       setPhotoTutorial(event.target.files);
-    }else if (name == "photoTutorialBengali") {
+    } else if (name == "photoTutorialBengali") {
       setPhotoTutorialBengali(event.target.files);
-    }else if (name == "logo") {
+    } else if (name == "logo") {
       setLogo(event.target.files[0]);
     }
   };
@@ -128,7 +131,7 @@ const CreateOrUpdateHome = () => {
 
   const newPostFrom = () => (
     <form className="mb-3" onSubmit={clickSubmit} id="form1">
-       <h4>Logo</h4>
+      <h4>Logo</h4>
       <div className="form-group">
         <label htmlFor="" className="btn btn-secondary">
           <input
@@ -213,7 +216,7 @@ const CreateOrUpdateHome = () => {
       {/* <button type="button" className="btn btn-outline-primary">
         Back to dashboard
       </button> */}
-            {home&&(manageGallery())}
+      {home && manageGallery()}
 
       {goBack()}
     </form>
@@ -242,14 +245,14 @@ const CreateOrUpdateHome = () => {
         <h2>Loading...</h2>
       </div>
     );
-    const manageGallery = () => (
-      <Link
-        to="/admin/managegallery"
-        className="text-warning btn btn-outline-primary"
-      >
-        Manage Gallery
-      </Link>
-    );
+  const manageGallery = () => (
+    <Link
+      to="/admin/managegallery"
+      className="text-warning btn btn-outline-primary"
+    >
+      Manage Gallery
+    </Link>
+  );
   const goBack = () => (
     <Link
       to="/admin/dashboard"

@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import Layout from "../core/Layout";
 import {Redirect} from "react-router-dom";
-import { signin, authenticate, isAuthenticated } from "../auth/index";
+import { signin, authenticate } from "../auth/index";
+import { useSelector } from "react-redux";
+
+import { selectUser, selectToken } from "../redux/authSlice";
 
 const Signin = () => {
+  const user = useSelector(selectUser);
+  const token = useSelector(selectToken);
+
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -13,7 +19,6 @@ const Signin = () => {
   });
 
   const { email, password, loading, error, redirectToReferrer } = values;
-  const {user} = isAuthenticated();
  
   const handleChange = (field) => {
     return (event) => {

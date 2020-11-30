@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { Redirect, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { signin, authenticate, isAuthenticated } from "../../auth/index";
+import { signin, authenticate } from "../../auth/index";
 import {
   selectLanguageSelection,
-  setAuthenticate,
 } from "../../redux/settingsSlice";
+import {
+  setToken,
+  setUser,
+  selectUser
+} from "../../redux/authSlice";
 import "./user-forms.css";
 import googleImg from "../../images/google_icon.svg";
 import facebookImg from "../../images/facebook.svg";
@@ -14,6 +18,7 @@ import Footer from "../footer/Footer";
 const SigninForm = () => {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
+  const user = useSelector(selectUser);
 
   const [values, setValues] = useState({
     userId: "",
@@ -24,7 +29,6 @@ const SigninForm = () => {
   });
 
   const { userId, password, loading, error, redirectToReferrer } = values;
-  const { user } = isAuthenticated();
 
   const handleChange = (field) => {
     return (event) => {
@@ -40,7 +44,10 @@ const SigninForm = () => {
       if (data.error) {
         setValues({ ...values, error: data.error, loading: false });
       } else {
-        dispatch(setAuthenticate({ authenticate: data }));
+        console.log("sign in data:", data)
+        // dispatch(setAuthenticate({ authenticate: data }));
+        dispatch(setToken({token:data.token}));
+        dispatch(setUser({user:data.user, encrypt:true}));
         authenticate(data, () => {
           setValues({
             ...values,

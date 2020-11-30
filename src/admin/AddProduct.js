@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../core/Layout";
-import { isAuthenticated } from "../auth";
+import { useSelector } from "react-redux";
+
+import { selectUser, selectToken } from "../redux/authSlice";
 import { Link } from "react-router-dom";
 import { createProduct, getCategories } from "./apiAdmin";
 import DatePicker from "react-datepicker";
@@ -25,7 +27,8 @@ const AddProduct = () => {
   const [offerPhoto3Url, setOfferPhoto3Url] = useState();
   const [offerPhoto4Url, setOfferPhoto4Url] = useState();
 
-  const { user, token } = isAuthenticated();
+  const user = useSelector(selectUser);
+  const token = useSelector(selectToken);
   const [values, setValues] = useState({
     productCode: "",
     name: "",
@@ -160,32 +163,32 @@ const AddProduct = () => {
     if (relatedProducts.length > 0) {
       formData.set("relatedProducts", relatedProducts);
     }
-    if (photo1Url){
+    if (photo1Url) {
       formData.set("photo1Url", photo1Url);
     }
-    if (photo2Url){
+    if (photo2Url) {
       formData.set("photo2Url", photo2Url);
     }
-    if (photo3Url){
+    if (photo3Url) {
       formData.set("photo3Url", photo3Url);
     }
-    if (photo4Url){
+    if (photo4Url) {
       formData.set("photo4Url", photo4Url);
     }
 
-    if (offerPhoto1Url){
+    if (offerPhoto1Url) {
       formData.set("offerPhoto1Url", offerPhoto1Url);
     }
-    if (offerPhoto2Url){
+    if (offerPhoto2Url) {
       formData.set("offerPhoto2Url", offerPhoto2Url);
     }
-    if (offerPhoto3Url){
+    if (offerPhoto3Url) {
       formData.set("offerPhoto3Url", offerPhoto3Url);
     }
-    if (offerPhoto4Url){
+    if (offerPhoto4Url) {
       formData.set("offerPhoto4Url", offerPhoto4Url);
     }
-   
+
     createProduct(user._id, token, formData).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
@@ -202,7 +205,7 @@ const AddProduct = () => {
           price: "",
           cropPrice: "",
           applyDiscounts: "",
-          applyOffer:"",
+          applyOffer: "",
           blockSale: "",
           shortDesc: "",
           longDesc: "",
@@ -506,7 +509,7 @@ const AddProduct = () => {
           value={preferredStock}
         />
       </div>
-      
+
       <div className="form-group">
         <label htmlFor="" className="text-muted">
           Apply Discounts

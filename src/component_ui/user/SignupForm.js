@@ -6,7 +6,6 @@ import {
   signin,
   signup,
   authenticate,
-  isAuthenticated,
 } from "../../auth/index";
 import {
   selectLanguageSelection,

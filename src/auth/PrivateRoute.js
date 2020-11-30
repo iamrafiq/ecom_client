@@ -1,24 +1,26 @@
 import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
-import { isAuthenticated } from "./index";
+import { useSelector } from "react-redux";
+import { selectUser } from "../redux/authSlice";
 
 //https://reactrouter.com/web/example/auth-workflow
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route
+const PrivateRoute = ({ component: Component, ...rest }) => {
+  const user = useSelector(selectUser);
+  return <Route
     {...rest}
     render={(props) =>
-      isAuthenticated() ? (
+      user ? (
         <Component {...props} />
       ) : (
         <Redirect
           to={{
-            pathname: "/signin",
+            pathname: "/user/signin",
             state: { from: props.location },
           }}
         />
       )
     }
   />
-);
+  };
 
 export default PrivateRoute;

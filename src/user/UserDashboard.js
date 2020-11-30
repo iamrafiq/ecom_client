@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../core/Layout";
-import { isAuthenticated } from "../auth";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectToken, selectUser } from "../redux/authSlice";
 import { getPurchaseHistory } from "./apiUser";
 import moment from "moment";
 
 const UserDashboard = () => {
-  const {
-    user: { _id, name, email, role },
-  } = isAuthenticated();
+  const token = useSelector(selectToken);
+  const user = useSelector(selectUser);
+  const { _id, name, email, role } = user;
 
+  // const {     
+  //   user: { _id, name, email, role },
+  // } = isAuthenticated();
+  // const token = isAuthenticated().token;
   const [history, setHistory] = useState([]);
-  const token = isAuthenticated().token;
 
   const init = (userId, token) => {
     getPurchaseHistory(userId, token).then((data) => {
@@ -19,7 +23,7 @@ const UserDashboard = () => {
       setHistory(data);
     });
   };
-
+    
   useEffect(() => {
     init(_id, token);
   }, []);
@@ -92,7 +96,6 @@ const UserDashboard = () => {
       title="Dashboard"
       description={`G'day ${name}`}
       className="container"
-      
     >
       <div className="row">
         <div className="col-3">{userLinks()}</div>

@@ -1,12 +1,16 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Layout from "../../core/Layout";
-import { isAuthenticated } from "../../auth";
+import { useSelector } from "react-redux";
+
+import { selectUser, selectToken } from "../../redux/authSlice";
+
 import { Link } from "react-router-dom";
 import { getAdvertisements, deleteAdvertisement } from "./apiAdvertisement";
 const ManageAdvertisement = () => {
   const [advertisements, setAdvertisements] = useState([]);
   const [error, setError] = useState("");
-  const { user, token } = isAuthenticated();
+  const user = useSelector(selectUser);
+  const token = useSelector(selectToken);
   const loadAdvertisements = () => {
     getAdvertisements().then((data) => {
       if (data.error) {

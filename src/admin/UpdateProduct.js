@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../core/Layout";
-import { isAuthenticated } from "../auth";
+import { useSelector } from "react-redux";
+
+import { selectUser, selectToken } from "../redux/authSlice";
 import { Link, Redirect } from "react-router-dom";
 import { getProduct, getCategories, updateProduct } from "./apiAdmin";
 import DatePicker from "react-datepicker";
@@ -24,8 +26,9 @@ const UpdateProduct = ({ match }) => {
   const [offerPhoto3Url, setOfferPhoto3Url] = useState();
   const [offerPhoto4Url, setOfferPhoto4Url] = useState();
 
-  const { user, token } = isAuthenticated();
-  const [values, setValues] = useState({
+  const user = useSelector(selectUser);
+  const token = useSelector(selectToken);
+    const [values, setValues] = useState({
     productCode: "",
     name: "",
     slug: "",

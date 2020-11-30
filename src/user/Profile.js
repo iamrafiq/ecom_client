@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../core/Layout";
-import { isAuthenticated } from "../auth";
+import { useSelector } from "react-redux";
+
+import { selectUser, selectToken } from "../redux/authSlice";
 import { Link, Redirect } from "react-router-dom";
 import { read, update, updateUserInLocalStorage } from "./apiUser";
 const Profile = (props) => {
@@ -12,7 +14,8 @@ const Profile = (props) => {
     success: false,
   });
 
-  const { token } = isAuthenticated();
+  const user = useSelector(selectUser);
+  const token = useSelector(selectToken);
   const { name, email, password, error, success } = values;
 
   const init = (userId) => {
