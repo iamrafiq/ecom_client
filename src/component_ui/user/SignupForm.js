@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   signin,
   signup,
-  authenticate,
 } from "../../auth/index";
 import {
   selectLanguageSelection,
@@ -76,17 +75,17 @@ const SignupForm = () => {
             dispatch(setToken({token:data.token}));
             dispatch(setUser({user:data.user, encrypt:true}));
 
-            authenticate(data, () => {
-              setValues({
-                ...values,
-                userId: "",
-                password: "",
-                error: "",
-                loading: false,
-                redirectToReferrer: true,
-                user: data,
-              });
-            });
+            // authenticate(data, () => {
+            //   setValues({
+            //     ...values,
+            //     userId: "",
+            //     password: "",
+            //     error: "",
+            //     loading: false,
+            //     redirectToReferrer: true,
+            //     user: data,
+            //   });
+            // });
           }
         });
       }

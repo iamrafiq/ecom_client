@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Redirect, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { signin, authenticate } from "../../auth/index";
+import { signin } from "../../auth/index";
 import {
   selectLanguageSelection,
 } from "../../redux/settingsSlice";
@@ -48,16 +48,16 @@ const SigninForm = () => {
         // dispatch(setAuthenticate({ authenticate: data }));
         dispatch(setToken({token:data.token}));
         dispatch(setUser({user:data.user, encrypt:true}));
-        authenticate(data, () => {
-          setValues({
-            ...values,
-            userId: "",
-            password: "",
-            error: "",
-            loading: false,
-            redirectToReferrer: true,
-          });
-        });
+        // authenticate(data, () => {
+        //   setValues({
+        //     ...values,
+        //     userId: "",
+        //     password: "",
+        //     error: "",
+        //     loading: false,
+        //     redirectToReferrer: true,
+        //   });
+        // });
       }
     });
   };

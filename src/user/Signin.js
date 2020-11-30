@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Layout from "../core/Layout";
 import {Redirect} from "react-router-dom";
-import { signin, authenticate } from "../auth/index";
+import { signin } from "../auth/index";
 import { useSelector } from "react-redux";
 
 import { selectUser, selectToken } from "../redux/authSlice";
@@ -32,10 +32,10 @@ const Signin = () => {
       if (data.error) {
         setValues({ ...values, error: data.error, loading: false });
       } else {
-        authenticate(data,
-          ()=>{
-            setValues({ ...values,  email: "", password:"", error: "", loading: false, redirectToReferrer: true });
-          })
+        // authenticate(data,
+        //   ()=>{
+        //     setValues({ ...values,  email: "", password:"", error: "", loading: false, redirectToReferrer: true });
+        //   })
       }
     });
   };
