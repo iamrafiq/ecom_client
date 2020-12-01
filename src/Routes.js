@@ -29,6 +29,7 @@ import ManageGallery from "./admin/home/ManageGallery";
 import SigninForm from "./component_ui/user/SigninForm";
 import SignupForm from "./component_ui/user/SignupForm";
 import OtpVerificationForm from "./component_ui/user/OtpVerificationForm";
+import Checkout from "./component_ui/checkout/Checkout";
 
 const AnyComponent = (props) => {
   return <CategoryItems id={props.match.params.any_slug} />;
@@ -77,6 +78,8 @@ const Routes = () =>{
     <Route exact path="/user/signin" component={SigninForm} />
     <Route exact path="/user/signup" component={SignupForm} />
     <Route exact path="/user/otp-v" component={OtpVerificationForm} />
+    <Route exact path="/user/checkout" component={Checkout} />
+
     <PrivateRoute path="/user/dashboard" exact component={UserDashboard} />
     <AdminRoute path="/admin/dashboard" exact component={AdminDashboard} />
     <AdminRoute path="/create/category" exact component={AddCategory} />

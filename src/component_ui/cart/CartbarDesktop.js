@@ -1,5 +1,6 @@
 import "../sidebar/bar.css";
 import React from "react";
+
 import { CART_BAR_WIDTH } from "../../config";
 import CartbarContent from "./CartbarContent";
 import { MOBIEL_DEVICE_RESOLUTION } from "../../config";
@@ -10,6 +11,8 @@ import { Navigation } from "react-minimal-side-navigation";
 
 import "react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css";
 const CartbarDesktop = ({ height, children }) => {
+
+
   const devicType = useSelector(selectDeviceTypeSelection);
 
   let width = 0;

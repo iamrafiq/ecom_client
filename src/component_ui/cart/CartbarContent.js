@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import PropTypes from "prop-types";
 import { SIDE_BAR_WIDTH } from "../../config";
@@ -37,6 +37,7 @@ import {
 import { CART_BAR_WIDTH } from "../../config";
 
 const SidebarContent = (props) => {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const resolutionSelector = useSelector(selectResolutionSelection);
@@ -162,11 +163,11 @@ const SidebarContent = (props) => {
                 )}
 
                 {language === "en" ? (
-                  <div className="cart__footer--placeorder btn__all  app__btn--filled ">
+                  <div className="cart__footer--placeorder btn__all  app__btn--filled " onClick={()=>history.push(`/user/checkout`)}>
                     Place Order
                   </div>
                 ) : (
-                  <div className="cart__footer--placeorder btn__all  app__btn--filled ">
+                  <div className="cart__footer--placeorder btn__all  app__btn--filled " onClick={()=>history.push(`/user/checkout`)}>
                     অর্ডার স্থাপন করুন
                   </div>
                 )}
