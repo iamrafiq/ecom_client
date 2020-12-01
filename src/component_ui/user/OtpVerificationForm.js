@@ -39,7 +39,7 @@ const OtpVerificationForm = () => {
   });
 
   const { otp, success, error, redirectToReferrer, user } = values;
-  const {userId} = userUnverified;
+  const {phoneNumber} = userUnverified;
   useEffect(() => {
     if (!timeLeft) return;
     const intervalId = setInterval(() => {
@@ -47,7 +47,7 @@ const OtpVerificationForm = () => {
     }, 1000);
     return () => clearInterval(intervalId);
   }, [timeLeft]);
-  // setValues({ ...values, userId: 1238, password:123 });
+  // setValues({ ...values, phoneNumber: 1238, password:123 });
 
   const handleChange = (field) => {
     return (event) => {
@@ -62,7 +62,7 @@ const OtpVerificationForm = () => {
       error: "",
       success: true,
     });
-    resendOtp({ userId }).then((data) => {
+    resendOtp({ phoneNumber }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
       }
@@ -72,7 +72,7 @@ const OtpVerificationForm = () => {
     event.preventDefault();
     setValues({ ...values, error: false });
     otp.trim();
-    verifyOtp({ userId, otp }).then((data) => {
+    verifyOtp({ phoneNumber, otp }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
       } else {
@@ -91,12 +91,12 @@ const OtpVerificationForm = () => {
     <div className="form__box">
       {language === "en" ? (
         <h3 className="form__box--h3">
-          A One Time Password has been sent to {userId}{" "}
+          A One Time Password has been sent to {phoneNumber}{" "}
           <br/> Please enter the OTP bellow to verify your account
         </h3>
       ) : (
         <h3 className="form__box--h3">
-          আমরা {userId} নাম্বারে ৪ সংখ্যার পিন পাঠিয়েছি, অনুগ্রহ করে পিন
+          আমরা {phoneNumber} নাম্বারে ৪ সংখ্যার পিন পাঠিয়েছি, অনুগ্রহ করে পিন
           ব্যাবহার করে আপনার একাউন্ট ভেরিফাই করে নিন।
         </h3>
       )}
@@ -161,8 +161,8 @@ const OtpVerificationForm = () => {
       New account is created. Signing ...Please wait
     </div>
   );
-  const noUserIdGoToHome = () => {
-    if (!userId) {
+  const noPhoneNumberGoToHome = () => {
+    if (!phoneNumber) {
       return <Redirect to="/" />;
     }
   };
@@ -181,7 +181,7 @@ const OtpVerificationForm = () => {
       {showError()}
       {otpForm()}
       {redirectUser()}
-      {noUserIdGoToHome()}
+      {noPhoneNumberGoToHome()}
       <Footer></Footer>
     </div>
   );

@@ -14,7 +14,6 @@ import {
   setToken,
   setUser
 } from "../../redux/authSlice";
-import { setUserId, setPassword } from "../../redux/globalSlice";
 import "./user-forms.css";
 import googleImg from "../../images/google_icon.svg";
 import facebookImg from "../../images/facebook.svg";
@@ -25,7 +24,7 @@ const SignupForm = () => {
 
   const [values, setValues] = useState({
     name: "",
-    userId: "",
+    phoneNumber: "",
     password: "",
     error: "",
     success: false,
@@ -35,7 +34,7 @@ const SignupForm = () => {
 
   const {
     name,
-    userId,
+    phoneNumber,
     password,
     success,
     error,
@@ -52,14 +51,14 @@ const SignupForm = () => {
     event.preventDefault();
     setValues({ ...values, error: false });
     name.trim();
-    userId.trim();
+    phoneNumber.trim();
     // let sendOtp =true;
-    signup({ name, userId, password }).then((data) => {
+    signup({ name, phoneNumber, password }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
       } else {
        
-        signin({ userId, password }).then((data) => {
+        signin({ phoneNumber, password }).then((data) => {
           if (data.error) {
             setValues({ ...values, error: data.error, loading: false });
           } else {
@@ -71,7 +70,7 @@ const SignupForm = () => {
             setValues({
               ...values,
               error: "",
-              userId: "",
+              phoneNumber: "",
               password: "",
               success: true,
               redirectToReferrer: true,
@@ -134,10 +133,10 @@ const SignupForm = () => {
         />
         <input
           placeholder={language === "en" ? "Phone number" : "ফোন নাম্বার"}
-          onChange={handleChange("userId")}
+          onChange={handleChange("phoneNumber")}
           type="text"
           className="form--input"
-          value={userId}
+          value={phoneNumber}
           required
         />
         <input
@@ -182,7 +181,6 @@ const SignupForm = () => {
       // } else {
       //   return <Redirect to="/" />;
       // }
-      console.log("user id signup:", userId);
       return <Redirect to={`/user/otp-v`} />;
     }
   };

@@ -58,7 +58,7 @@ export default function SigninMenu({ mobile = false }) {
                 <span className="sigin__text">
                   {user ? (
                     <span className="sigin__text--siginin">
-                      {user.name ? user.name : user.userId}{" "}
+                      {user.name ? user.name : user.phoneNumber}{" "}
                     </span>
                   ) : language === "en" ? (
                     <span className="sigin__text--siginin">

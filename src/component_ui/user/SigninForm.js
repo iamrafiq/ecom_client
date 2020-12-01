@@ -15,14 +15,14 @@ const SigninForm = () => {
   const user = useSelector(selectUser);
 
   const [values, setValues] = useState({
-    userId: "",
+    phoneNumber: "",
     password: "",
     error: "",
     loading: false,
     redirectToReferrer: false,
   });
 
-  const { userId, password, loading, error, redirectToReferrer } = values;
+  const { phoneNumber, password, loading, error, redirectToReferrer } = values;
 
   const handleChange = (field) => {
     return (event) => {
@@ -33,8 +33,8 @@ const SigninForm = () => {
     event.preventDefault();
     console.log("submit....");
     setValues({ ...values, error: false, loading: true });
-    userId.trim();
-    signin({ userId, password }).then((data) => {
+    phoneNumber.trim();
+    signin({ phoneNumber, password }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, loading: false });
       } else {
@@ -44,7 +44,7 @@ const SigninForm = () => {
         dispatch(setUser({ user: data.user, encrypt: true }));
           setValues({
             ...values,
-            userId: "",
+            phoneNumber: "",
             password: "",
             error: "",
             loading: false,
@@ -53,7 +53,7 @@ const SigninForm = () => {
         // authenticate(data, () => {
         //   setValues({
         //     ...values,
-        //     userId: "",
+        //     phoneNumber: "",
         //     password: "",
         //     error: "",
         //     loading: false,
@@ -98,10 +98,10 @@ const SigninForm = () => {
       <form className="user__form" onSubmit={clickSubmit}>
         <input
           placeholder={language === "en" ? "Phone number" : "ফোন নাম্বার"}
-          onChange={handleChange("userId")}
+          onChange={handleChange("phoneNumber")}
           type="tex"
           className="form--input"
-          value={userId}
+          value={phoneNumber}
           required
         />
         <input
