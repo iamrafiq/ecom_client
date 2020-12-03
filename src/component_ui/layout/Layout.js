@@ -11,11 +11,7 @@ import UAParser from "ua-parser-js";
 
 import "./Layout.css";
 import { useState, useEffect } from "react";
-import {
-  selectTree,
-  loadHome,
-  selectHomeLoaded,
-} from "../../redux/homeSlice";
+import { selectTree, loadHome, selectHomeLoaded } from "../../redux/homeSlice";
 import {
   setResolution,
   setDeviceType,
@@ -24,9 +20,9 @@ import {
   selectCartBarDesktop,
   setLanguage,
 } from "../../redux/settingsSlice";
+// import { createAiUser } from "../../auth/index";
 import { loadCartFromLocalstroage } from "../../redux/cartSlice";
-import { setToken, setUser } from "../../redux/authSlice";
-
+import { setToken, setUser, initAiUser } from "../../redux/authSlice";
 
 import { useSelector, useDispatch } from "react-redux";
 import { MOBIEL_DEVICE_RESOLUTION, TAB_DEVICE_RESOLUTION } from "../../config";
@@ -59,13 +55,30 @@ const Layout = (props) => {
     dispatch(setResolution({ resolution: "medium" }));
   }
 
-  if(localStorage.getItem("AuthT")){
-    dispatch(setToken({token:JSON.parse(localStorage.getItem("AuthT"))}));
+  if (localStorage.getItem("AuthT")) {
+    dispatch(setToken({ token: JSON.parse(localStorage.getItem("AuthT")) }));
   }
-  if (localStorage.getItem("AuthU")){
-    dispatch(setUser({AuthU:JSON.parse(localStorage.getItem("AuthU")), decrypt:true}));
 
+  if (localStorage.getItem("AuthU")) {
+    dispatch(
+      setUser({
+        AuthU: localStorage.getItem("AuthU"),
+        decrypt: true,
+      })
+    );
+  } else {
+    dispatch(initAiUser());
+    // createAiUser().then((data) => {
+    //   if (data.error) {
+    //   } else {
+    //     console.log("data user", data);
+    //     if (data.user) {
+    //       dispatch(setUser({ user: data.user, encrypt: true }));
+    //     }
+    //   }
+    // });
   }
+
   if (localStorage.getItem("cart")) {
     dispatch(
       loadCartFromLocalstroage({

@@ -13,12 +13,8 @@ import {
   selectLanguageSelection,
   setAuthenticate,
 } from "../../redux/settingsSlice";
-import {
-  selectUser
-} from "../../redux/authSlice";
-import {
-  setUser
-} from "../../redux/authSlice";
+import { selectUser } from "../../redux/authSlice";
+import { setUser } from "../../redux/authSlice";
 import "./user-forms.css";
 
 import Footer from "../footer/Footer";
@@ -39,7 +35,7 @@ const OtpVerificationForm = () => {
   });
 
   const { otp, success, error, redirectToReferrer, user } = values;
-  const {phoneNumber} = userUnverified;
+  const { phoneNumber } = userUnverified;
   useEffect(() => {
     if (!timeLeft) return;
     const intervalId = setInterval(() => {
@@ -76,7 +72,9 @@ const OtpVerificationForm = () => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
       } else {
-            dispatch(setUser({user:data.user, encrypt:true}));
+        if (data.user) {
+          dispatch(setUser({ user: data.user, encrypt: true }));
+        }
         setValues({
           ...values,
           otp: "",
@@ -91,8 +89,8 @@ const OtpVerificationForm = () => {
     <div className="form__box">
       {language === "en" ? (
         <h3 className="form__box--h3">
-          A One Time Password has been sent to {phoneNumber}{" "}
-          <br/> Please enter the OTP bellow to verify your account
+          A One Time Password has been sent to {phoneNumber} <br /> Please enter
+          the OTP bellow to verify your account
         </h3>
       ) : (
         <h3 className="form__box--h3">

@@ -10,7 +10,7 @@ import {
   selectDeviceTypeSelection,
 
 } from "../../redux/settingsSlice";
-import { selectUser, setToken, setUser } from "../../redux/authSlice";
+import { selectUser, setToken, setUser, initAiUser } from "../../redux/authSlice";
 import "./navmenu.css";
 import { imageUrlConverter } from "../../util/ImageUrlConverter";
 import Popup from "reactjs-popup";
@@ -30,6 +30,7 @@ export default function SigninMenu({ mobile = false }) {
   const language = useSelector(selectLanguageSelection);
   const deviceType = useSelector(selectDeviceTypeSelection);
   const user = useSelector(selectUser);
+  console.log("uuuuuuuuuuuuuser...", user)
   const [overlay, setOverlay] = useState(false);
 
   const closeModal = () => setOverlay(false);
@@ -56,7 +57,7 @@ export default function SigninMenu({ mobile = false }) {
                 />
               ) : (
                 <span className="sigin__text">
-                  {user ? (
+                  { user && user.status>0 ? (
                     <span className="sigin__text--siginin">
                       {user.name ? user.name : user.phoneNumber}{" "}
                     </span>
@@ -96,7 +97,7 @@ export default function SigninMenu({ mobile = false }) {
       >
         {(close) => (
           <div className="menu--signin">
-            {user ? (
+            {user && user.status ? (
               <div className="signin__btn">
                 <Link
                   className="btn__all app__btn200 app__btn--filled  react__link--colorless"
@@ -108,6 +109,7 @@ export default function SigninMenu({ mobile = false }) {
                     });
                     dispatch(setToken({ token: undefined, signout:true }));
                     dispatch(setUser({ user: undefined, signout:true }));
+                    dispatch(initAiUser());
                     // dispatch(
                     //   setAuthenticate({
                     //     authenticate: undefined,

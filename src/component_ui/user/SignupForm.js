@@ -11,7 +11,7 @@ import {
   setAuthenticate,
 } from "../../redux/settingsSlice";
 import {
-  setToken,
+  selectUser,
   setUser
 } from "../../redux/authSlice";
 import "./user-forms.css";
@@ -21,25 +21,24 @@ import Footer from "../footer/Footer";
 const SignupForm = () => {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
+  const user = useSelector(selectUser);
 
   const [values, setValues] = useState({
-    name: "",
+    // name: "",
     phoneNumber: "",
     password: "",
     error: "",
     success: false,
-    user: "",
     redirectToReferrer: false,
   });
 
   const {
-    name,
+    // name,
     phoneNumber,
-    password,
+    // password,
     success,
     error,
     redirectToReferrer,
-    user,
   } = values;
 
   const handleChange = (field) => {
@@ -50,42 +49,39 @@ const SignupForm = () => {
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: false });
-    name.trim();
+    // name.trim();
     phoneNumber.trim();
     // let sendOtp =true;
-    signup({ name, phoneNumber, password }).then((data) => {
+    let aiId = user.aiId;
+    console.log("user.........aid",user)
+    let status = 1;
+    signup({ aiId, phoneNumber, status }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
       } else {
        
-        signin({ phoneNumber, password }).then((data) => {
+        // setValues({
+        //   ...values,
+        //   error: "",
+        //   phoneNumber: "",
+        //   success: true,
+        //   redirectToReferrer: true,
+        // });
+        dispatch(setUser({user:data.user, encrypt:true}));
+        signin({ aiId, phoneNumber }).then((data) => {
           if (data.error) {
             setValues({ ...values, error: data.error, loading: false });
           } else {
-            // dispatch(setUserId({ userId: userId }));
-            // dispatch(setPassword({ password: password }));
-            // dispatch(setAuthenticate({ authenticate: data }));
-            dispatch(setToken({token:data.token}));
-            dispatch(setUser({user:data.user, encrypt:true}));
+
+            // dispatch(setToken({token:data.token}));
+            // dispatch(setUser({user:data.user, encrypt:true}));
             setValues({
               ...values,
               error: "",
               phoneNumber: "",
-              password: "",
               success: true,
               redirectToReferrer: true,
             });
-            // authenticate(data, () => {
-            //   setValues({
-            //     ...values,
-            //     userId: "",
-            //     password: "",
-            //     error: "",
-            //     loading: false,
-            //     redirectToReferrer: true,
-            //     user: data,
-            //   });
-            // });
           }
         });
       }
@@ -124,22 +120,22 @@ const SignupForm = () => {
       )}
 
       <form className="user__form" onSubmit={clickSubmit}>
-        <input
+        {/* <input
           placeholder={language === "en" ? "name (optional)" : "নাম (অপসনাল)"}
           onChange={handleChange("name")}
           type="text"
           className="form--input"
           value={name}
-        />
+        /> */}
         <input
           placeholder={language === "en" ? "Phone number" : "ফোন নাম্বার"}
           onChange={handleChange("phoneNumber")}
-          type="text"
+          type="number"
           className="form--input"
           value={phoneNumber}
           required
         />
-        <input
+        {/* <input
           type="text"
           placeholder={language === "en" ? "password" : "পাসওয়ার্ড"}
           className="form--input"
@@ -147,7 +143,7 @@ const SignupForm = () => {
           type="password"
           value={password}
           required
-        />
+        /> */}
         <input
           className="submit__btn margin__bottom20px"
           type="submit"

@@ -10,38 +10,74 @@ import googleImg from "../../images/google_icon.svg";
 import facebookImg from "../../images/facebook.svg";
 import cashOnDeliveryImg from "../../images/cash-on-delivery.png";
 import oneHourImg from "../../images/1-hour.png";
-import { selectCartTotalAmount } from "../../redux/cartSlice";
+import { selectCartTotalAmount, selectCartProducts } from "../../redux/cartSlice";
 
 import { englishToBangla } from "../../util/utils";
 import Footer from "../footer/Footer";
+import { useEffect } from "react";
 const Checkout = () => {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
-  const cartTotal = useSelector(selectCartTotalAmount);
+  const totalAmount = useSelector(selectCartTotalAmount);
+  const products = useSelector(selectCartProducts);
 
   const user = useSelector(selectUser);
 
   const [values, setValues] = useState({
-    userId: "",
-    password: "",
+    name: "",
+    phoneNumber: "",
+    address: "",
     error: "",
     loading: false,
     redirectToReferrer: false,
   });
 
-  const { userId, password, loading, error, redirectToReferrer } = values;
+  const {
+    address,
+    phoneNumber,
+    loading,
+    error,
+    redirectToReferrer,
+    name,
+  } = values;
+
+  const checkoutProducts = ()=>{
+    const cartProducts = products.map((ele, index)=>{
+      return ({
+        _id:ele.product._id,
+        productCode:ele.product.productCode,
+        name:ele.product.name,
+        qty:ele.qtyCart
+      })
+    });
+   
+  }
+  useEffect(() => {
+    if (user) {
+      setValues({
+        ...values,
+        name: user.name,
+        phoneNumber: user.phoneNumber,
+        address: user.address,
+      });
+    }
+  }, []);
 
   const handleChange = (field) => {
     return (event) => {
       setValues({ ...values, error: false, [field]: event.target.value });
     };
   };
+
+  
   const clickSubmit = (event) => {
     event.preventDefault();
     console.log("submit....");
     setValues({ ...values, error: false, loading: true });
-    userId.trim();
-    signin({ userId, password }).then((data) => {
+    phoneNumber.trim();
+    name.trim();
+    address.trim();
+    signin({ name, phoneNumber, address, products:JSON.stringify(checkoutProducts()), totalAmount  }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, loading: false });
       } else {
@@ -51,8 +87,7 @@ const Checkout = () => {
         dispatch(setUser({ user: data.user, encrypt: true }));
         setValues({
           ...values,
-          userId: "",
-          password: "",
+          phoneNumber: "",
           error: "",
           loading: false,
           redirectToReferrer: true,
@@ -73,28 +108,39 @@ const Checkout = () => {
   const signInFrom = () => (
     <div className="checkout--container">
       <span className="text--checkout">Checkout</span>
-      <form>
+      <form onSubmit={clickSubmit}>
         <div className="checkout-form">
           <div className="checkout-form--input">
             <div className="checkout--row">
-              <label for="fname">Name</label>
+              <label for="name">{language === "en" ? "Name" : "নাম"}</label>
               <input
+                // type="text"
+                // id="fname"
+                // name="firstname"
+                // className="checkout__input"
+                id="name"
+                placeholder={
+                  language === "en" ? "name (optional)" : "নাম (অপসনাল)"
+                }
+                onChange={handleChange("name")}
                 type="text"
-                id="fname"
-                name="firstname"
-                placeholder="Your name.."
                 className="checkout__input"
+                value={name}
               />
             </div>
 
             <div className="checkout--row">
-              <label for="lname">Mobile Number</label>
+              <label for="phoneNumber">
+                {language === "en" ? "Phone number" : "ফোন নাম্বার"}
+              </label>
               <input
-                type="text"
-                id="lname"
-                name="lastname"
-                placeholder="Your mobile number"
+                id="phoneNumber"
+                placeholder={language === "en" ? "Phone number" : "ফোন নাম্বার"}
+                onChange={handleChange("phoneNumber")}
+                type="number"
                 className="checkout__input"
+                value={phoneNumber}
+                required
               />
             </div>
             <div className="checkout--row">
@@ -106,13 +152,15 @@ const Checkout = () => {
               </select>
             </div>
             <div className="checkout--row">
-              <label for="lname">Address</label>
+              <label for="address">Address</label>
               <textarea
+                id="address"
+                placeholder={language === "en" ? "Address" : "ঠিকানা"}
+                onChange={handleChange("address")}
                 type="textarea"
-                id="lname"
-                name="lastname"
-                placeholder="Delivery address"
                 className="checkout__input"
+                value={address}
+                required
               />
             </div>
           </div>
@@ -134,28 +182,28 @@ const Checkout = () => {
               </div>
               <div className="checkout--text--space--between cart--total">
                 <span>Cart total</span>
-                <span>{cartTotal}</span>
+                <span>{totalAmount}</span>
               </div>
               <hr className="hr--padding-left" />
               <div className="checkout--text--space--between cart--total">
                 <span>Sub total</span>
-                <span>{cartTotal}</span>
+                <span>{totalAmount}</span>
               </div>
             </div>
           ) : (
             <div className="chekout-form--total">
               <div className="checkout--text--space--between deliver--charge">
                 <span>ডেলিভারি চার্জ </span>
-          <span>{englishToBangla(0)}</span>
+                <span>{englishToBangla(0)}</span>
               </div>
               <div className="checkout--text--space--between cart--total">
                 <span>পণ্যে সমূহের মূল্য</span>
-                <span>{englishToBangla(cartTotal)}</span>
+                <span>{englishToBangla(totalAmount)}</span>
               </div>
               <hr className="hr--padding-left" />
               <div className="checkout--text--space--between cart--total">
                 <span>মোট মূল্য</span>
-                <span>{englishToBangla(cartTotal)}</span>
+                <span>{englishToBangla(totalAmount)}</span>
               </div>
             </div>
           )}
@@ -163,7 +211,7 @@ const Checkout = () => {
           <div className="checkout--row">
             <input
               type="submit"
-              value="Checkout"
+              value={language === "en" ? "Checkout" : "ক্রয় করুন"}
               className="checkout__input--submit"
             />
           </div>

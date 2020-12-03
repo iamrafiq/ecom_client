@@ -13,35 +13,80 @@ const SigninForm = () => {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
   const user = useSelector(selectUser);
-
+  const [otpSent, setOtpSent] = useState(false);
   const [values, setValues] = useState({
     phoneNumber: "",
     password: "",
+    confirmPassword: "",
     error: "",
     loading: false,
     redirectToReferrer: false,
+    passwordMismatch: false,
   });
 
-  const { phoneNumber, password, loading, error, redirectToReferrer } = values;
+  const {
+    phoneNumber,
+    confirmPassword,
+    password,
+    loading,
+    error,
+    passwordMismatch,
+    redirectToReferrer,
+  } = values;
 
   const handleChange = (field) => {
     return (event) => {
-      setValues({ ...values, error: false, [field]: event.target.value });
+      setValues({
+        ...values,
+        error: false,
+        passwordMismatch: false,
+        [field]: event.target.value,
+      });
     };
   };
   const clickSubmit = (event) => {
     event.preventDefault();
-    console.log("submit....");
-    setValues({ ...values, error: false, loading: true });
-    phoneNumber.trim();
-    signin({ phoneNumber, password }).then((data) => {
-      if (data.error) {
-        setValues({ ...values, error: data.error, loading: false });
+    if (user) {
+      if (user.passwordProtected) {
+        if (user.password !== user.confirmPassword) {
+          setValues({
+            ...values,
+            passwordMismatch: true,
+            error: false,
+          });
+        }
+      }
+       
+      let newMachine;
+      if (user.status === 0) {
+        // ai user or new machine, 
+        // step 1: sigin in user then send otp
+        newMachine = true;
       } else {
-        console.log("sign in data:", data);
-        // dispatch(setAuthenticate({ authenticate: data }));
-        dispatch(setToken({ token: data.token }));
-        dispatch(setUser({ user: data.user, encrypt: true }));
+        // registerd user , 
+        // call to signed in then check if user is not verified then send otp
+        newMachine = false;
+       
+      }
+    
+      setValues({ ...values, error: false, loading: true });
+      phoneNumber.trim();
+      const {aiId} = user;
+      signin({ phoneNumber, password, aiId, newMachine }).then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error, loading: false });
+        } else {
+          console.log("sign in data:", data);
+          // dispatch(setAuthenticate({ authenticate: data }));
+          if (data.token) {
+            dispatch(setToken({ token: data.token }));
+          }
+          if (data.user) {
+            dispatch(setUser({ user: data.user, encrypt: true }));
+          }
+          if (data.otpSent){
+            setOtpSent(true);
+          }
           setValues({
             ...values,
             phoneNumber: "",
@@ -50,18 +95,9 @@ const SigninForm = () => {
             loading: false,
             redirectToReferrer: true,
           });
-        // authenticate(data, () => {
-        //   setValues({
-        //     ...values,
-        //     phoneNumber: "",
-        //     password: "",
-        //     error: "",
-        //     loading: false,
-        //     redirectToReferrer: true,
-        //   });
-        // });
-      }
-    });
+        }
+      });
+    }
   };
   const signInFrom = () => (
     <div className="form__box">
@@ -104,15 +140,31 @@ const SigninForm = () => {
           value={phoneNumber}
           required
         />
-        <input
-          className="form--input"
-          type="text"
-          placeholder={language === "en" ? "password" : "পাসওয়ার্ড"}
-          onChange={handleChange("password")}
-          type="password"
-          value={password}
-          required
-        />
+        {user.passwordProtected && (
+          <React.Fragment>
+            <input
+              className="form--input"
+              type="text"
+              placeholder={language === "en" ? "password" : "পাসওয়ার্ড"}
+              onChange={handleChange("password")}
+              type="password"
+              value={password}
+              required
+            />
+            <input
+              className="form--input"
+              type="text"
+              placeholder={
+                language === "en" ? "confirm password" : "কনফার্ম পাসওয়ার্ড"
+              }
+              onChange={handleChange("confirmPassword")}
+              type="password"
+              value={confirmPassword}
+              required
+            />
+          </React.Fragment>
+        )}
+
         <input
           className="submit__btn"
           type="submit"
@@ -159,6 +211,18 @@ const SigninForm = () => {
     </div>
   );
 
+  const showPasswordMismatchError = () => (
+    <div
+      className="alert__box alert--failure"
+      style={{ display: passwordMismatch ? "" : "none" }}
+    >
+      {language === "en" ? (
+        <span>password and confirm password dose not matched</span>
+      ) : (
+        <span>পাসওয়ার্ড এবং কনফার্ম পাসওয়ার্ড ম্যাচ করেনি</span>
+      )}
+    </div>
+  );
   const showLoading = () =>
     loading && (
       <div className="alert-box warning">
@@ -169,12 +233,15 @@ const SigninForm = () => {
   const redirectUser = () => {
     if (redirectToReferrer) {
       if (user.verified === 1) {
-        if (user && user.role === 1) {
+        if (otpSent){
+          return <Redirect to={`/user/otp-v`} />;
+        }
+        else if (user && user.role === 1) {
           return <Redirect to="/admin/dashboard" />;
         } else {
           return <Redirect to="/user/dashboard" />;
         }
-      }else{
+      } else {
         return <Redirect to={`/user/otp-v`} />;
       }
     }
@@ -185,6 +252,7 @@ const SigninForm = () => {
       {showError()}
       {signInFrom()}
       {redirectUser()}
+      {showPasswordMismatchError()}
       <Footer></Footer>
     </div>
   );

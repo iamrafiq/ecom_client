@@ -6,4 +6,4 @@ export function imageUrlConverter(url) {
     return url.replace("ubuntu-Inspiron-5593", "127.0.0.1")
 
    // return url.replace("ubuntu-Inspiron-5593", "192.168.0.131") // home internet
-}
+} 

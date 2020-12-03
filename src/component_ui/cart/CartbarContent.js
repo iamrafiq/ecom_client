@@ -119,24 +119,6 @@ const SidebarContent = (props) => {
                   {products.map((ele, index) => (
                     <CartItem cartItem={ele}></CartItem>
                   ))}
-                  {products.map((ele, index) => (
-                    <CartItem cartItem={ele}></CartItem>
-                  ))}
-                  {products.map((ele, index) => (
-                    <CartItem cartItem={ele}></CartItem>
-                  ))}
-                  {products.map((ele, index) => (
-                    <CartItem cartItem={ele}></CartItem>
-                  ))}
-                  {products.map((ele, index) => (
-                    <CartItem cartItem={ele}></CartItem>
-                  ))}
-                  {products.map((ele, index) => (
-                    <CartItem cartItem={ele}></CartItem>
-                  ))}
-                  {products.map((ele, index) => (
-                    <CartItem cartItem={ele}></CartItem>
-                  ))}
                 </React.Fragment>
               ) : (
                 <React.Fragment>
@@ -163,11 +145,17 @@ const SidebarContent = (props) => {
                 )}
 
                 {language === "en" ? (
-                  <div className="cart__footer--placeorder btn__all  app__btn--filled " onClick={()=>history.push(`/user/checkout`)}>
+                  <div
+                    className="cart__footer--placeorder btn__all  app__btn--filled "
+                    onClick={() => history.push(`/user/checkout`)}
+                  >
                     Place Order
                   </div>
                 ) : (
-                  <div className="cart__footer--placeorder btn__all  app__btn--filled " onClick={()=>history.push(`/user/checkout`)}>
+                  <div
+                    className="cart__footer--placeorder btn__all  app__btn--filled "
+                    onClick={() => history.push(`/user/checkout`)}
+                  >
                     অর্ডার স্থাপন করুন
                   </div>
                 )}
