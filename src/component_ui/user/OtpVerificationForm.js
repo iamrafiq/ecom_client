@@ -14,7 +14,7 @@ import {
   setAuthenticate,
 } from "../../redux/settingsSlice";
 import { selectUser } from "../../redux/authSlice";
-import { setUser } from "../../redux/authSlice";
+import { setUser, setToken } from "../../redux/authSlice";
 import "./user-forms.css";
 
 import Footer from "../footer/Footer";
@@ -24,18 +24,18 @@ const OtpVerificationForm = () => {
   let resendTime = 5;
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
-  const userUnverified = useSelector(selectUser);
+  const user = useSelector(selectUser);
   const [timeLeft, setTimeLeft] = useState(resendTime);
   const [values, setValues] = useState({
     otp: "",
     error: "",
     success: false,
-    user: "",
     redirectToReferrer: false,
   });
 
-  const { otp, success, error, redirectToReferrer, user } = values;
-  const { phoneNumber } = userUnverified;
+  const { otp, success, error, redirectToReferrer } = values;
+  console.log("ussssser", user)
+  const { phoneNumber, aiId } = user;
   useEffect(() => {
     if (!timeLeft) return;
     const intervalId = setInterval(() => {
@@ -68,12 +68,16 @@ const OtpVerificationForm = () => {
     event.preventDefault();
     setValues({ ...values, error: false });
     otp.trim();
-    verifyOtp({ phoneNumber, otp }).then((data) => {
+    verifyOtp({ aiId, phoneNumber, otp }).then((data) => {
+      console.log("otp verify data:", data)
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
       } else {
         if (data.user) {
           dispatch(setUser({ user: data.user, encrypt: true }));
+        }
+        if(data.token){
+          dispatch(setToken({ token: data.token, encrypt: true }));
         }
         setValues({
           ...values,

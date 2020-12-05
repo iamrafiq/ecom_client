@@ -57,22 +57,11 @@ const SigninForm = () => {
         }
       }
        
-      let newMachine;
-      if (user.status === 0) {
-        // ai user or new machine, 
-        // step 1: sigin in user then send otp
-        newMachine = true;
-      } else {
-        // registerd user , 
-        // call to signed in then check if user is not verified then send otp
-        newMachine = false;
-       
-      }
     
       setValues({ ...values, error: false, loading: true });
       phoneNumber.trim();
       const {aiId} = user;
-      signin({ phoneNumber, password, aiId, newMachine }).then((data) => {
+      signin({ phoneNumber, password, aiId }).then((data) => {
         if (data.error) {
           setValues({ ...values, error: data.error, loading: false });
         } else {
