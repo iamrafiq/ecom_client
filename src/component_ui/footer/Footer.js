@@ -20,6 +20,8 @@ import twitterImg from "../../images/twitter.png";
 import youtubeImg from "../../images/Youtube.png";
 import instagramImg from "../../images/Instagram.png";
 import appstoreImg from "../../images/app_store.png";
+import {CONTACT_PHONE_NUMBER } from "../../config";
+import { englishToBangla } from "../../util/utils";
 
 export default function Footer(props) {
   const resulationSelector = useSelector(selectResolutionSelection);
@@ -149,9 +151,9 @@ export default function Footer(props) {
             <div className="phone-number">
               <img src={phoneIcon} alt="Phone Icon" />
               {language === "en" ? (
-                <span>0176-8567184</span>
+                <span>{CONTACT_PHONE_NUMBER}</span>
               ) : (
-                <span>০১৭৬-৮৫৬৭১৮৪</span>
+              <span>{englishToBangla(CONTACT_PHONE_NUMBER)}</span>
               )}
             </div>
             <div className="email">

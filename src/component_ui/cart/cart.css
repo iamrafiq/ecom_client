@@ -126,6 +126,9 @@
  padding: var(--gap-small);
 }
 
+.phone--number--cart{
+  color: var(--font-color-secondary);
+}
 /* .cart__bar__content--desktop {
   width: 100%;
   height: 100vh;

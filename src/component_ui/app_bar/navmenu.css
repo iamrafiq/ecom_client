@@ -131,6 +131,7 @@
 .text__signup{
   font-size: var(--font-size-very-small);
   color: var(--font-color-primary);
+  cursor: pointer;
 
 }
 /* .signup--link{

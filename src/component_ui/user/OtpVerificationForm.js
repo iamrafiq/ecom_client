@@ -20,6 +20,7 @@ import "./user-forms.css";
 import Footer from "../footer/Footer";
 import { useEffect } from "react";
 import { englishToBangla } from "../../util/utils";
+import { setOtpDialog } from "../../redux/globalSlice";
 const OtpVerificationForm = () => {
   let resendTime = 5;
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ const OtpVerificationForm = () => {
   });
 
   const { otp, success, error, redirectToReferrer } = values;
-  console.log("ussssser", user)
+  console.log("ussssser", user);
   const { phoneNumber, aiId } = user;
   useEffect(() => {
     if (!timeLeft) return;
@@ -69,16 +70,19 @@ const OtpVerificationForm = () => {
     setValues({ ...values, error: false });
     otp.trim();
     verifyOtp({ aiId, phoneNumber, otp }).then((data) => {
-      console.log("otp verify data:", data)
+      console.log("otp verify data:", data);
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
       } else {
         if (data.user) {
           dispatch(setUser({ user: data.user, encrypt: true }));
         }
-        if(data.token){
+        if (data.token) {
           dispatch(setToken({ token: data.token, encrypt: true }));
         }
+        
+        dispatch(setOtpDialog({ otpDialog: false }));
+
         setValues({
           ...values,
           otp: "",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import PropTypes from "prop-types";
@@ -34,11 +34,18 @@ import {
   faShoppingBag,
   faCommentDots,
 } from "@fortawesome/fontawesome-free-solid";
-import { CART_BAR_WIDTH } from "../../config";
+import { CART_BAR_WIDTH, CONTACT_PHONE_NUMBER } from "../../config";
+import {
+  selectUser,
+  setToken,
+  setUser,
+  initAiUser,
+} from "../../redux/authSlice";
 
 const SidebarContent = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const user = useSelector(selectUser);
 
   const resolutionSelector = useSelector(selectResolutionSelection);
   const deviceType = useSelector(selectDeviceTypeSelection);
@@ -76,7 +83,40 @@ const SidebarContent = (props) => {
   //   return totalAmount;
   // };
   useEffect(() => {}, []);
+ const onClickPlaceOrder = () =>{
+   if (deviceType !== "desktop"){
+    dispatch(
+      setCartBarMobile({
+        cartBarMobile: { open: !cartBarMobile.open },
+      })
+    )
+   }
+  history.push(`/user/checkout`);
+ }
+  const placeOrder = () => (
+    <React.Fragment>
+      {language === "en" ? (
+        <div className="cart__footer--totalamount ">
+          <span> &#2547;{` ${totalAmount}`}</span>
+        </div>
+      ) : (
+        <div className="cart__footer--totalamount ">
+          <span> &#2547;{` ${englishToBangla(totalAmount)}`}</span>
+        </div>
+      )}
 
+      <div
+        className="cart__footer--placeorder btn__all  app__btn--filled "
+        onClick={() => onClickPlaceOrder()}
+      >
+        {language === "en" ? (
+          <span>Place Order</span>
+        ) : (
+          <span> অর্ডার স্থাপন করুন</span>
+        )}
+      </div>
+    </React.Fragment>
+  );
   return (
     <React.Fragment>
       {deviceType === "desktop" ? (
@@ -134,30 +174,12 @@ const SidebarContent = (props) => {
             </div>
             <div className="pannel--footer--desktop">
               <div className="cart__footer--top">
-                {language === "en" ? (
-                  <div className="cart__footer--totalamount ">
-                    <span> &#2547;{` ${totalAmount}`}</span>
-                  </div>
+                {products.length > 0 ? (
+                  <React.Fragment>{placeOrder()}</React.Fragment>
                 ) : (
-                  <div className="cart__footer--totalamount ">
-                    <span> &#2547;{` ${englishToBangla(totalAmount)}`}</span>
-                  </div>
-                )}
-
-                {language === "en" ? (
-                  <div
-                    className="cart__footer--placeorder btn__all  app__btn--filled "
-                    onClick={() => history.push(`/user/checkout`)}
-                  >
-                    Place Order
-                  </div>
-                ) : (
-                  <div
-                    className="cart__footer--placeorder btn__all  app__btn--filled "
-                    onClick={() => history.push(`/user/checkout`)}
-                  >
-                    অর্ডার স্থাপন করুন
-                  </div>
+                  <React.Fragment>
+                    <span className="phone--number--cart">{`Phone: ${CONTACT_PHONE_NUMBER}`}</span>
+                  </React.Fragment>
                 )}
               </div>
               {language === "en" ? (
@@ -230,23 +252,35 @@ const SidebarContent = (props) => {
             </div>
             <div className="pannel--footer--mobile">
               <div className="cart__footer--top">
-                {language === "en" ? (
-                  <div className="cart__footer--totalamount ">
-                    <span> &#2547;{` ${totalAmount}`}</span>
-                  </div>
+                {products.length > 0 ? (
+                  <React.Fragment>{placeOrder()}</React.Fragment>
                 ) : (
-                  <div className="cart__footer--totalamount ">
-                    <span> &#2547;{` ${englishToBangla(totalAmount)}`}</span>
-                  </div>
-                )}
-                {language === "en" ? (
-                  <div className="cart__footer--placeorder btn__all  app__btn--filled ">
-                    Place Order
-                  </div>
-                ) : (
-                  <div className="cart__footer--placeorder btn__all  app__btn--filled ">
-                    অর্ডার স্থাপন করুন
-                  </div>
+                  // <React.Fragment>
+                  //   {language === "en" ? (
+                  //     <div className="cart__footer--totalamount ">
+                  //       <span> &#2547;{` ${totalAmount}`}</span>
+                  //     </div>
+                  //   ) : (
+                  //     <div className="cart__footer--totalamount ">
+                  //       <span>
+                  //         {" "}
+                  //         &#2547;{` ${englishToBangla(totalAmount)}`}
+                  //       </span>
+                  //     </div>
+                  //   )}
+                  //   {language === "en" ? (
+                  //     <div className="cart__footer--placeorder btn__all  app__btn--filled ">
+                  //       Place Order
+                  //     </div>
+                  //   ) : (
+                  //     <div className="cart__footer--placeorder btn__all  app__btn--filled ">
+                  //       অর্ডার স্থাপন করুন
+                  //     </div>
+                  //   )}
+                  // </React.Fragment>
+                  <React.Fragment>
+                    <span className="phone--number--cart">{`Phone: ${CONTACT_PHONE_NUMBER}`}</span>
+                  </React.Fragment>
                 )}
               </div>
             </div>

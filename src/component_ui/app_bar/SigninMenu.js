@@ -1,16 +1,27 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  signout,
-} from "../../auth/index";
+import { signout } from "../../auth/index";
 
 import {
   selectLanguageSelection,
   selectDeviceTypeSelection,
-
 } from "../../redux/settingsSlice";
-import { selectUser, setToken, setUser, initAiUser } from "../../redux/authSlice";
+import {
+  setSigninDialog,
+  selectSigninDialog,
+  setOtpDialog,
+  selectOtpDialog,
+  selectSignupDialog,
+  setSignupDialog,
+} from "../../redux/globalSlice";
+
+import {
+  selectUser,
+  setToken,
+  setUser,
+  initAiUser,
+} from "../../redux/authSlice";
 import "./navmenu.css";
 import { imageUrlConverter } from "../../util/ImageUrlConverter";
 import Popup from "reactjs-popup";
@@ -23,14 +34,26 @@ import {
   faSortDown,
   faCheckCircle,
 } from "@fortawesome/fontawesome-free-solid";
+import PureModal from "react-pure-modal";
+import "../pure-modal.css";
+import SignupForm from "../user/SignupForm";
+
+import SigninForm from "../user/SigninForm";
+import OtpVerificationForm from "../user/OtpVerificationForm";
+
 var FontAwesome = require("react-fontawesome");
 
 export default function SigninMenu({ mobile = false }) {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
+  const signinDialog = useSelector(selectSigninDialog);
+  const signupDialog = useSelector(selectSignupDialog);
+
+  const otpDialog = useSelector(selectOtpDialog);
+
   const deviceType = useSelector(selectDeviceTypeSelection);
   const user = useSelector(selectUser);
-  console.log("uuuuuuuuuuuuuser...", user)
+  console.log("uuuuuuuuuuuuuser...", user);
   const [overlay, setOverlay] = useState(false);
 
   const closeModal = () => setOverlay(false);
@@ -40,6 +63,66 @@ export default function SigninMenu({ mobile = false }) {
 
   return (
     <div>
+      {signupDialog && (
+        <div>
+          <PureModal
+            header={""}
+            scrollable={false}
+            // footer="Buttons?"
+            //  closeButtonPosition="bottom"
+            // closeButtonPosition="bottom"
+            // portal
+            // closeButton={<div>&#10007;</div>}
+            isOpen={signupDialog}
+            onClose={() => {
+              dispatch(setSigninDialog({ signupDialog: false }));
+              return true;
+            }}
+          >
+            <SignupForm></SignupForm>
+          </PureModal>
+        </div>
+      )}
+      {signinDialog && (
+        <div>
+          <PureModal
+            header={""}
+            scrollable={false}
+            // footer="Buttons?"
+            //  closeButtonPosition="bottom"
+            // closeButtonPosition="bottom"
+            // portal
+            // closeButton={<div>&#10007;</div>}
+            isOpen={signinDialog}
+            onClose={() => {
+              dispatch(setSigninDialog({ signinDialog: false }));
+              return true;
+            }}
+          >
+            <SigninForm></SigninForm>
+          </PureModal>
+        </div>
+      )}
+      {otpDialog && (
+        <div>
+          <PureModal
+            header={""}
+            scrollable={false}
+            // footer="Buttons?"
+            //  closeButtonPosition="bottom"
+            // closeButtonPosition="bottom"
+            // portal
+            // closeButton={<div>&#10007;</div>}
+            isOpen={otpDialog}
+            onClose={() => {
+              dispatch(setOtpDialog({ otpDialog: false }));
+              return true;
+            }}
+          >
+            <OtpVerificationForm></OtpVerificationForm>
+          </PureModal>
+        </div>
+      )}
       <Popup
         trigger={
           <div className="menu-item">
@@ -57,7 +140,7 @@ export default function SigninMenu({ mobile = false }) {
                 />
               ) : (
                 <span className="sigin__text">
-                  { user && user.status>0 ? (
+                  {user && user.status > 0 ? (
                     <span className="sigin__text--siginin">
                       {user.name ? user.name : user.phoneNumber}{" "}
                     </span>
@@ -107,14 +190,9 @@ export default function SigninMenu({ mobile = false }) {
                     signout(() => {
                       // props.history.push("/");
                     });
-                    dispatch(setToken({ token: undefined, signout:true }));
-                    dispatch(setUser({ user: undefined, signout:true }));
+                    dispatch(setToken({ token: undefined, signout: true }));
+                    dispatch(setUser({ user: undefined, signout: true }));
                     dispatch(initAiUser());
-                    // dispatch(
-                    //   setAuthenticate({
-                    //     authenticate: undefined,
-                    //   })
-                    //);
                   }}
                 >
                   Signout
@@ -122,11 +200,12 @@ export default function SigninMenu({ mobile = false }) {
               </div>
             ) : (
               <div className="signin__btn">
-                <Link
+                <div
                   className="btn__all app__btn200 app__btn--filled  react__link--colorless"
-                  to="/user/signin"
+                  //  to="/user/signin"
                   onClick={() => {
                     close();
+                    dispatch(setSigninDialog({ signinDialog: true }));
                   }}
                 >
                   {language === "en" ? (
@@ -134,24 +213,29 @@ export default function SigninMenu({ mobile = false }) {
                   ) : (
                     <span>সাইন ইন</span>
                   )}
-                </Link>
-                <span className="text__signup">
+                </div>
+                <span
+                  className="text__signup"
+                  onClick={() => {
+                    close();
+                    dispatch(setSignupDialog({ signupDialog: true }));
+                  }}
+                >
                   {language === "en" ? (
                     <span>New customer</span>
                   ) : (
                     <span>নতুন কাস্টমার</span>
                   )}
-                  <Link
+                  <span
                     className="react__link--colored"
-                    to="/user/signup"
-                    onClick={() => close()}
+                    // to="/user/signup"
                   >
                     {language === "en" ? (
                       <span>&nbsp;Sign Up</span>
                     ) : (
                       <span>&nbsp;সাইন আপ</span>
                     )}
-                  </Link>
+                  </span>
                 </span>
               </div>
             )}

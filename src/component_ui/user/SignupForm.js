@@ -2,18 +2,13 @@ import React, { useState } from "react";
 import { Redirect, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import {
-  signin,
-  signup,
-} from "../../auth/index";
+import { signin, signup } from "../../auth/index";
 import {
   selectLanguageSelection,
   setAuthenticate,
 } from "../../redux/settingsSlice";
-import {
-  selectUser,
-  setUser
-} from "../../redux/authSlice";
+import { selectUser, setUser } from "../../redux/authSlice";
+import { setSignupDialog, setOtpDialog } from "../../redux/globalSlice";
 import "./user-forms.css";
 import googleImg from "../../images/google_icon.svg";
 import facebookImg from "../../images/facebook.svg";
@@ -53,13 +48,12 @@ const SignupForm = () => {
     phoneNumber.trim();
     // let sendOtp =true;
     let aiId = user.aiId;
-    console.log("user.........aid",user)
+    console.log("user.........aid", user);
     let status = 1;
     signup({ aiId, phoneNumber, status }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
       } else {
-       
         // setValues({
         //   ...values,
         //   error: "",
@@ -67,20 +61,24 @@ const SignupForm = () => {
         //   success: true,
         //   redirectToReferrer: true,
         // });
-        dispatch(setUser({user:data.user, encrypt:true}));
+        dispatch(setUser({ user: data.user, encrypt: true }));
         signin({ aiId, phoneNumber }).then((data) => {
           if (data.error) {
             setValues({ ...values, error: data.error, loading: false });
           } else {
-
             // dispatch(setToken({token:data.token}));
             // dispatch(setUser({user:data.user, encrypt:true}));
+            dispatch(setSignupDialog({ signinDialog: false }));
+            if (data.otpSent) {
+              // setOtpSent(true);
+              dispatch(setOtpDialog({ otpDialog: true }));
+            }
             setValues({
               ...values,
               error: "",
               phoneNumber: "",
               success: true,
-              redirectToReferrer: true,
+              redirectToReferrer: false,
             });
           }
         });
