@@ -24,6 +24,7 @@ import {
   selectCartCount,
   selectCartTotalAmount,
 } from "../../redux/cartSlice";
+import { setOtpDialog, setSignupDialog } from "../../redux/globalSlice";
 
 import { selectOfferProducts } from "../../redux/homeSlice";
 import "./cart.css";
@@ -41,6 +42,10 @@ import {
   setUser,
   initAiUser,
 } from "../../redux/authSlice";
+
+import {
+  resendOtp,
+} from "../../auth/index";
 
 const SidebarContent = (props) => {
   const history = useHistory();
@@ -83,16 +88,40 @@ const SidebarContent = (props) => {
   //   return totalAmount;
   // };
   useEffect(() => {}, []);
- const onClickPlaceOrder = () =>{
-   if (deviceType !== "desktop"){
-    dispatch(
-      setCartBarMobile({
-        cartBarMobile: { open: !cartBarMobile.open },
-      })
-    )
-   }
-  history.push(`/user/checkout`);
- }
+  const onClickPlaceOrder = () => {
+    if (deviceType !== "desktop") {
+      dispatch(
+        setCartBarMobile({
+          cartBarMobile: { open: !cartBarMobile.open },
+        })
+      );
+    }
+    console.log("user status ...........", user.status)
+    if (user.status === 0) {
+      dispatch(
+        setSignupDialog({
+          signupDialog: true,
+        })
+      );
+    } else {
+      if (user.verified === 1) {
+        history.push(`/user/checkout`);
+      } else {
+        const phoneNumber = user.phoneNumber;
+        resendOtp({ phoneNumber }).then((data) => {
+          if (data.error) {
+            // setValues({ ...values, error: data.error, success: false });
+          }
+          dispatch(
+            setOtpDialog({
+              otpDialog: true,
+            })
+          );
+        });
+       
+      }
+    }
+  };
   const placeOrder = () => (
     <React.Fragment>
       {language === "en" ? (
