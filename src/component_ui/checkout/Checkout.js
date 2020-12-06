@@ -4,17 +4,26 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { signin } from "../../auth/index";
 import { selectLanguageSelection } from "../../redux/settingsSlice";
-import { setToken, setUser, selectUser } from "../../redux/authSlice";
+import {
+  setToken,
+  setUser,
+  selectUser,
+  selectToken,
+} from "../../redux/authSlice";
 import "./checkout.css";
 import googleImg from "../../images/google_icon.svg";
 import facebookImg from "../../images/facebook.svg";
 import cashOnDeliveryImg from "../../images/cash-on-delivery.png";
 import oneHourImg from "../../images/1-hour.png";
-import { selectCartTotalAmount, selectCartProducts } from "../../redux/cartSlice";
+import {
+  selectCartTotalAmount,
+  selectCartProducts,
+} from "../../redux/cartSlice";
 
 import { englishToBangla } from "../../util/utils";
 import Footer from "../footer/Footer";
 import { useEffect } from "react";
+import { createOrder } from "../../core/apiCore";
 const Checkout = () => {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
@@ -22,11 +31,13 @@ const Checkout = () => {
   const products = useSelector(selectCartProducts);
 
   const user = useSelector(selectUser);
+  const token = useSelector(selectToken);
 
   const [values, setValues] = useState({
     name: "",
     phoneNumber: "",
     address: "",
+    area: "",
     error: "",
     loading: false,
     redirectToReferrer: false,
@@ -39,19 +50,23 @@ const Checkout = () => {
     error,
     redirectToReferrer,
     name,
+    area,
   } = values;
 
-  const checkoutProducts = ()=>{
-    const cartProducts = products.map((ele, index)=>{
-      return ({
-        _id:ele.product._id,
-        productCode:ele.product.productCode,
-        name:ele.product.name,
-        qty:ele.qtyCart
-      })
+  const checkoutProducts = () => {
+    return products.map((ele, index) => {
+      
+      return {
+        _id: ele.product._id,
+        productCode: ele.product.productCode,
+        name: ele.product.name,
+        count: ele.qtyCart,
+        price: ele.product.applyDiscounts
+        ? ele.product.cropPrice
+        : ele.product.mrp
+      };
     });
-   
-  }
+  };
   useEffect(() => {
     if (user) {
       setValues({
@@ -59,6 +74,7 @@ const Checkout = () => {
         name: user.name,
         phoneNumber: user.phoneNumber,
         address: user.address,
+        area: "Uttara",
       });
     }
   }, []);
@@ -69,39 +85,30 @@ const Checkout = () => {
     };
   };
 
-  
   const clickSubmit = (event) => {
     event.preventDefault();
     console.log("submit....");
     setValues({ ...values, error: false, loading: true });
     phoneNumber.trim();
-    name.trim();
     address.trim();
-    signin({ name, phoneNumber, address, products:JSON.stringify(checkoutProducts()), totalAmount  }).then((data) => {
+    const userId = user._id;
+    const createOrderData = {
+      products: checkoutProducts(),
+      amount: totalAmount,
+      address,
+      area,
+      phoneNumber,
+      name,
+    };
+
+    console.log("user id:", userId);
+
+    console.log(checkoutProducts());
+    createOrder(userId, token, createOrderData).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, loading: false });
       } else {
         console.log("sign in data:", data);
-        // dispatch(setAuthenticate({ authenticate: data }));
-        dispatch(setToken({ token: data.token }));
-        dispatch(setUser({ user: data.user, encrypt: true }));
-        setValues({
-          ...values,
-          phoneNumber: "",
-          error: "",
-          loading: false,
-          redirectToReferrer: true,
-        });
-        // authenticate(data, () => {
-        //   setValues({
-        //     ...values,
-        //     userId: "",
-        //     password: "",
-        //     error: "",
-        //     loading: false,
-        //     redirectToReferrer: true,
-        //   });
-        // });
       }
     });
   };
@@ -131,7 +138,9 @@ const Checkout = () => {
 
             <div className="checkout--row">
               <label for="phoneNumber">
-                {language === "en" ? "Phone number" : "ফোন নাম্বার"}
+                {language === "en"
+                  ? "Contact Phone number"
+                  : "যোগাযোগের ফোন নাম্বার"}
               </label>
               <input
                 id="phoneNumber"

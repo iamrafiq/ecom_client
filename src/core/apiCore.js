@@ -130,7 +130,7 @@ export const createOrder = (userId, token, createOrderData) => {
         return responce.json()
     })
     .catch(err => console.log(err))
-}
+}  
 
 
 export const getAdvertisementsBySlug = (slug) => {

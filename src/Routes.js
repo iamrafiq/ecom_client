@@ -26,9 +26,9 @@ import UpdateAdvertisement from "./admin/advertisement/UpdateAdvertisement";
 import ManageAdvertisement from "./admin/advertisement/ManageAdvertisement";
 import CreateOrUpdateHome from "./admin/home/CreateOrUpdateHome";
 import ManageGallery from "./admin/home/ManageGallery";
-import SigninForm from "./component_ui/user/SigninForm";
-import SignupForm from "./component_ui/user/SignupForm";
-import OtpVerificationForm from "./component_ui/user/OtpVerificationForm";
+// import SigninForm from "./component_ui/user/SigninForm";
+// import SignupForm from "./component_ui/user/SignupForm";
+// import OtpVerificationForm from "./component_ui/user/OtpVerificationForm";
 import Checkout from "./component_ui/checkout/Checkout";
 
 const AnyComponent = (props) => {
@@ -75,9 +75,9 @@ const Routes = () =>{
     <Route path="/shop" exact component={Shop} />
     {/* <Route path="/category/children" exact component={CategoryChildren} />
       <Route path="/category/products" exact component={CategoryProducts} /> */}
-    <Route exact path="/user/signin" component={SigninForm} />
+    {/* <Route exact path="/user/signin" component={SigninForm} />
     <Route exact path="/user/signup" component={SignupForm} />
-    <Route exact path="/user/otp-v" component={OtpVerificationForm} />
+    <Route exact path="/user/otp-v" component={OtpVerificationForm} /> */}
     <Route exact path="/user/checkout" component={Checkout} />
 
     <PrivateRoute path="/user/dashboard" exact component={UserDashboard} />
