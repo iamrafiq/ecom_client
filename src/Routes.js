@@ -29,6 +29,7 @@ import ManageGallery from "./admin/home/ManageGallery";
 // import SigninForm from "./component_ui/user/SigninForm";
 // import SignupForm from "./component_ui/user/SignupForm";
 // import OtpVerificationForm from "./component_ui/user/OtpVerificationForm";
+import OrderDetails from "./admin/OrderDetails";
 import Checkout from "./component_ui/checkout/Checkout";
 
 const AnyComponent = (props) => {
@@ -92,6 +93,8 @@ const Routes = () =>{
     <Route path="/product/:productId" exact component={Product} />
     <Route path="/cart" exact component={Cart} />
     <AdminRoute path="/admin/orders" exact component={Orders} />
+    <AdminRoute path="/admin/order/details/:userId/:orderId" exact component={OrderDetails} />
+
     <PrivateRoute path="/profile/:userId" exact component={Profile} />
     <PrivateRoute path="/admin/products" exact component={ManageProducts} />
     <PrivateRoute path="/admin/categories" exact component={ManageCategory} />

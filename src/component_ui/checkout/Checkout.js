@@ -35,7 +35,7 @@ const Checkout = () => {
 
   const [values, setValues] = useState({
     name: "",
-    phoneNumber: "",
+    contactNumber: "",
     address: "",
     area: "",
     error: "",
@@ -45,7 +45,7 @@ const Checkout = () => {
 
   const {
     address,
-    phoneNumber,
+    contactNumber,
     loading,
     error,
     redirectToReferrer,
@@ -72,7 +72,7 @@ const Checkout = () => {
       setValues({
         ...values,
         name: user.name,
-        phoneNumber: user.phoneNumber,
+        contactNumber: user.phoneNumber,
         address: user.address,
         area: "Uttara",
       });
@@ -89,7 +89,7 @@ const Checkout = () => {
     event.preventDefault();
     console.log("submit....");
     setValues({ ...values, error: false, loading: true });
-    phoneNumber.trim();
+    contactNumber.trim();
     address.trim();
     const userId = user._id;
     const createOrderData = {
@@ -97,7 +97,7 @@ const Checkout = () => {
       amount: totalAmount,
       address,
       area,
-      phoneNumber,
+      contactNumber,
       name,
     };
 
@@ -137,18 +137,18 @@ const Checkout = () => {
             </div>
 
             <div className="checkout--row">
-              <label for="phoneNumber">
+              <label for="contactNumber">
                 {language === "en"
                   ? "Contact Phone number"
                   : "যোগাযোগের ফোন নাম্বার"}
               </label>
               <input
-                id="phoneNumber"
+                id="contactNumber"
                 placeholder={language === "en" ? "Phone number" : "ফোন নাম্বার"}
-                onChange={handleChange("phoneNumber")}
+                onChange={handleChange("contactNumber")}
                 type="number"
                 className="checkout__input"
-                value={phoneNumber}
+                value={contactNumber}
                 required
               />
             </div>

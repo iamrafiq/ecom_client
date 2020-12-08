@@ -126,6 +126,19 @@ export const listOrders = (userId, token) => {
     })
     .catch((err) => console.log(err));
 };
+export const orderDetails = (userId, orderId, token) => {
+  return fetch(`${API}/order/details/${userId}/${orderId}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((responce) => {
+      return responce.json();
+    })
+    .catch((err) => console.log(err));
+};
 
 export const getStatusValues = (userId, token) => {
   return fetch(`${API}/order/status-values/${userId}`, {

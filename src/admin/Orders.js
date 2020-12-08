@@ -12,7 +12,7 @@ const Orders = () => {
 
   const user = useSelector(selectUser);
   const token = useSelector(selectToken);
-    const loadOrders = () => {
+  const loadOrders = () => {
     listOrders(user._id, token).then((data) => {
       if (data.error) {
         console.log(data.error);
@@ -56,16 +56,15 @@ const Orders = () => {
     </div>
   );
   const handleStatusChange = (e, orderId) => {
-    updateOrderStatus(user._id, token, orderId, e.target.value)
-    .then(data=>{
-      if (data.error){
-        console.log("status update falied")
-      }else{
-        console.log("status update success")
+    updateOrderStatus(user._id, token, orderId, e.target.value).then((data) => {
+      if (data.error) {
+        console.log("status update falied");
+      } else {
+        console.log("status update success");
 
         loadOrders();
       }
-    })
+    });
   };
   const showStatus = (o) => (
     <div className="form-group">
@@ -105,16 +104,30 @@ const Orders = () => {
                 <ul className="list-group mb-2">
                   <li className="list-group-item">{showStatus(o)}</li>
                   <li className="list-group-item">{o.transaction_id}</li>
-                  <li className="list-group-item">{o.amount}</li>
+                  <li className="list-group-item">Total Price: {o.amount}</li>
                   <li className="list-group-item">Ordered by: {o.user.name}</li>
+                  <li className="list-group-item">
+                    Verified Phone Number: {o.user.phoneNumber}
+                  </li>
+                  <li className="list-group-item">
+                    Contact Phone Number: {o.contactNumber}
+                  </li>
+
                   <li className="list-group-item">
                     Ordered on: {moment(o.createdAt).fromNow()}
                   </li>
                   <li className="list-group-item">
                     Delivery address: {o.address}
                   </li>
+                  <li className="list-group-item">
+                    <Link to={`/admin/order/details/${user._id}/${o._id}`}>
+                      <button className="btn btn-outline-primary">
+                        View Order
+                      </button>
+                    </Link>
+                  </li>
                 </ul>
-                <h3 className="mt-4 mb-4 font-italic">
+                {/* <h3 className="mt-4 mb-4 font-italic">
                   Total products in the order {o.products.length}
                 </h3>
                 {o.products.map((p, pIndex) => (
@@ -128,7 +141,7 @@ const Orders = () => {
                     {showInput("Product total", p.count)}
                     {showInput("Product Id", p._id)}
                   </div>
-                ))}
+                ))} */}
               </div>
             );
           })}
