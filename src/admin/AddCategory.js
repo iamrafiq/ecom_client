@@ -13,7 +13,7 @@ var slugify = require("slugify");
 const AddCategory = () => {
   const user = useSelector(selectUser);
   const token = useSelector(selectToken);
-    const [iconMenu, setIconMenu] = useState(null);
+  const [iconMenu, setIconMenu] = useState(null);
   const [icon, setIcon] = useState(null);
   const [thumbnail, setThumbnail] = useState(null);
   const [values, setValues] = useState({

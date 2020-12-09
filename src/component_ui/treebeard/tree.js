@@ -30,7 +30,7 @@ const TreeExample = ({ tree }) => {
       <div
         className=""
         onClick={(e) => {
-          history.push(`/${node.slug}`);
+          history.push(`/products/${node.slug}`);
           dispatch(setSideBar({ sideBar: { open: !sideBar.open } }));
         }}
       >

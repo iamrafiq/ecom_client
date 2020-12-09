@@ -80,11 +80,18 @@ export const cartSlice = createSlice({
       state.products = action.payload.cart.products;
       state.totalAmount = action.payload.cart.totalAmount;
 
+    },
+    emptyCart:(state, action) =>{
+      localStorage.removeItem("cart");
+      state.productCount = 0;
+      state.products = [];
+      state.totalAmount = 0;
+
     }
   },
 });
 
-export const { addItem, removeItem, deleteItem, loadCartFromLocalstroage } = cartSlice.actions;
+export const { addItem, removeItem, deleteItem, loadCartFromLocalstroage, emptyCart } = cartSlice.actions;
 export const selectCartProducts = (state) => state.cart.products;
 export const selectCartTotalAmount = (state) => state.cart.totalAmount;
 

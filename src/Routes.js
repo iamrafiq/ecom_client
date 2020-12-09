@@ -31,6 +31,8 @@ import ManageGallery from "./admin/home/ManageGallery";
 // import OtpVerificationForm from "./component_ui/user/OtpVerificationForm";
 import OrderDetails from "./admin/OrderDetails";
 import Checkout from "./component_ui/checkout/Checkout";
+import SearchContent from "./component_ui/search/SearchContent";
+
 
 const AnyComponent = (props) => {
   return <CategoryItems id={props.match.params.any_slug} />;
@@ -56,7 +58,12 @@ const Routes = () =>{
   // <BrowserRouter>
   <Switch>
     <Route path="/" exact component={Home} />
-    <Route exact path="/:slug" component={CategoryItems} />
+    <Route path="/products" exact component={Home} />
+
+    <Route exact path="/products/:slug" component={CategoryItems} />
+    <Route path="/search" exact component={SearchContent} />
+    <Route path="/search/:slug" exact component={SearchContent} />
+
     {/* <Route exact path="/products/:slug" component={CategoryProducts} /> */}
 
     {/* <Route

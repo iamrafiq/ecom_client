@@ -8,6 +8,8 @@
   --sidebar-width: 15rem; /*side bar width same in config file*/
   --cartbar-width: 20rem; /*cart bar width same in config file*/
 
+  --grid-item-max-width:12rem;
+
   --appbar-desktop-height:3.5rem;
   --appbar-mobile-height: 3.5rem;
   --sidebar-width-with-extra-padding: 2rem; /*side bar width + padding*/

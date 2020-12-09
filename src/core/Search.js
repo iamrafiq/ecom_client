@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Card from "./Card";
 
 const Search = (props) => {
-    console.log("Props",props);
+  console.log("Props",props);
   const [data, setData] = useState({
     categories: [],
     category: "",

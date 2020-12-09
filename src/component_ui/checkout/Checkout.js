@@ -18,6 +18,7 @@ import oneHourImg from "../../images/1-hour.png";
 import {
   selectCartTotalAmount,
   selectCartProducts,
+  emptyCart
 } from "../../redux/cartSlice";
 
 import { englishToBangla } from "../../util/utils";
@@ -109,6 +110,7 @@ const Checkout = () => {
         setValues({ ...values, error: data.error, loading: false });
       } else {
         console.log("sign in data:", data);
+        dispatch(emptyCart())
       }
     });
   };

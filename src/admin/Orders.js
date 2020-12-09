@@ -105,7 +105,9 @@ const Orders = () => {
                   <li className="list-group-item">{showStatus(o)}</li>
                   <li className="list-group-item">{o.transaction_id}</li>
                   <li className="list-group-item">Total Price: {o.amount}</li>
-                  <li className="list-group-item">Ordered by: {o.user.name}</li>
+                  {/* <li className="list-group-item">Ordered by: {o.user.name}</li> */}
+                  <li className="list-group-item">Ordered by: {o.name}</li>
+
                   <li className="list-group-item">
                     Verified Phone Number: {o.user.phoneNumber}
                   </li>
