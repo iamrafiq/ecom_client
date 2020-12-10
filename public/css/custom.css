@@ -171,6 +171,21 @@
   width: 100%;
 }
 
+/**loading**/
+.sweet-loading{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 1000;
+  transform: translate(-50%, -50%);
+}
+.sweet-loading-spinner{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-bottom: var(--gap-large);
+  transform: translate(-50%, -100%);
+}
 /*small phones from 0 to 480px*/
 @media only screen and (max-width: 700px) {
   .nav__left {

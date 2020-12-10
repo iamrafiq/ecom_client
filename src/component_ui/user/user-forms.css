@@ -3,10 +3,11 @@
   .form__box {
     width: 320px;
     height: auto;
-    margin: 0 auto;
+    min-height: 300px;
+    margin: var(--gap-large) auto;
     background: #fff;
-    border: thin solid #ededed;
-    margin-bottom: 35px;
+    /* border: thin solid #ededed; */
+    /* margin-bottom: 35px; */
   }
   
   .form__box--h3 {

@@ -22,10 +22,12 @@ import {
 } from "../../redux/settingsSlice";
 // import { createAiUser } from "../../auth/index";
 import { loadCartFromLocalstroage } from "../../redux/cartSlice";
+
 import { setToken, setUser, initAiUser } from "../../redux/authSlice";
 
 import { useSelector, useDispatch } from "react-redux";
 import { MOBIEL_DEVICE_RESOLUTION, TAB_DEVICE_RESOLUTION } from "../../config";
+import LoadingBar from "../../util/LoadingBar";
 
 const mql = window.matchMedia(`(min-width: ${MOBIEL_DEVICE_RESOLUTION}px)`);
 
@@ -37,7 +39,6 @@ const Layout = (props) => {
   const result = parser.getResult();
   const cartBarDesktop = useSelector(selectCartBarDesktop);
   const homeLoaded = useSelector(selectHomeLoaded);
-
   let deviceType = `desktop`;
   if (result.device && result.device.type) {
     deviceType = JSON.stringify(result.device.type);
@@ -101,6 +102,15 @@ const Layout = (props) => {
 
   return (
     <BrowserRouter>
+    {/* <div className="sweet-loading">
+        <PuffLoader
+           css={override}
+          size={100}
+          color={"#00ff00"}
+          loading={!homeLoaded}
+        />
+      </div> */}
+      <LoadingBar loading = {!homeLoaded}></LoadingBar>
       {homeLoaded && (
         <div className="layout">
           <AppBar

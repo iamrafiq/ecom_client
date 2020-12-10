@@ -13,6 +13,8 @@ import "./user-forms.css";
 import googleImg from "../../images/google_icon.svg";
 import facebookImg from "../../images/facebook.svg";
 import Footer from "../footer/Footer";
+import LoadingBar from "../../util/LoadingBar";
+
 const SignupForm = () => {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
@@ -24,6 +26,7 @@ const SignupForm = () => {
     password: "",
     error: "",
     success: false,
+    loading: false,
     redirectToReferrer: false,
   });
 
@@ -34,6 +37,7 @@ const SignupForm = () => {
     success,
     error,
     redirectToReferrer,
+    loading,
   } = values;
 
   const handleChange = (field) => {
@@ -43,7 +47,7 @@ const SignupForm = () => {
   };
   const clickSubmit = (event) => {
     event.preventDefault();
-    setValues({ ...values, error: false });
+    setValues({ ...values, error: false, loading: true });
     // name.trim();
     phoneNumber.trim();
     // let sendOtp =true;
@@ -79,6 +83,7 @@ const SignupForm = () => {
               phoneNumber: "",
               success: true,
               redirectToReferrer: false,
+              loading:false,
             });
           }
         });
@@ -87,53 +92,68 @@ const SignupForm = () => {
   };
   const signUpFrom = () => (
     <div className="form__box">
-      <div className="soc">
-        <div className="soc--btn facebook">
-          <img src={facebookImg} alt="facebook" />
-          {language === "en" ? (
-            <span>Sign up with Facebook</span>
-          ) : (
-            <span>ফেসবুক দিয়ে সাইন-আপ করুন </span>
-          )}
-        </div>
-        <div className="soc--btn google">
-          <img src={googleImg} alt="google" />
-          {language === "en" ? (
-            <span>Sign up with google</span>
-          ) : (
-            <span>গুগুল দিয়ে সাইন-আপ করুন</span>
-          )}
-        </div>
-      </div>
-      <div className="or__text">
-        <hr />
-        {language === "en" ? <span>OR</span> : <span>অথবা</span>}
-
-        <hr />
-      </div>
-      {language === "en" ? (
-        <h3 className="form__box--h3">Sign up using phone number</h3>
+      {loading ? (
+        <React.Fragment>
+          <React.Fragment>
+            <LoadingBar
+              loading={loading}
+              message={
+                language === "en"
+                  ? "Sending verification sms... please wait"
+                  : "ভেরিফিকেশন এসএমএস পাঠানো হচ্ছে ... অনুগ্রহ করে অপেক্ষা করুন "
+              }
+            ></LoadingBar>
+          </React.Fragment>
+        </React.Fragment>
       ) : (
-        <h3 className="form__box--h3">ফোন নাম্বার দিয়ে সাইন-আপ করুন</h3>
-      )}
+        <React.Fragment>
+          {/* <div className="soc">
+            <div className="soc--btn facebook">
+              <img src={facebookImg} alt="facebook" />
+              {language === "en" ? (
+                <span>Sign up with Facebook</span>
+              ) : (
+                <span>ফেসবুক দিয়ে সাইন-আপ করুন </span>
+              )}
+            </div>
+            <div className="soc--btn google">
+              <img src={googleImg} alt="google" />
+              {language === "en" ? (
+                <span>Sign up with google</span>
+              ) : (
+                <span>গুগুল দিয়ে সাইন-আপ করুন</span>
+              )}
+            </div>
+          </div> */}
+          {/* <div className="or__text">
+            <hr />
+            {language === "en" ? <span>OR</span> : <span>অথবা</span>}
 
-      <form className="user__form" onSubmit={clickSubmit}>
-        {/* <input
+            <hr />
+          </div> */}
+          {language === "en" ? (
+            <h3 className="form__box--h3">Sign up using phone number</h3>
+          ) : (
+            <h3 className="form__box--h3">ফোন নাম্বার দিয়ে সাইন-আপ করুন</h3>
+          )}
+
+          <form className="user__form" onSubmit={clickSubmit}>
+            {/* <input
           placeholder={language === "en" ? "name (optional)" : "নাম (অপসনাল)"}
           onChange={handleChange("name")}
           type="text"
           className="form--input"
           value={name}
         /> */}
-        <input
-          placeholder={language === "en" ? "Phone number" : "ফোন নাম্বার"}
-          onChange={handleChange("phoneNumber")}
-          type="number"
-          className="form--input"
-          value={phoneNumber}
-          required
-        />
-        {/* <input
+            <input
+              placeholder={language === "en" ? "Phone number" : "ফোন নাম্বার"}
+              onChange={handleChange("phoneNumber")}
+              type="number"
+              className="form--input"
+              value={phoneNumber}
+              required
+            />
+            {/* <input
           type="text"
           placeholder={language === "en" ? "password" : "পাসওয়ার্ড"}
           className="form--input"
@@ -142,12 +162,14 @@ const SignupForm = () => {
           value={password}
           required
         /> */}
-        <input
-          className="submit__btn margin__bottom20px"
-          type="submit"
-          value={language === "en" ? "Sign Up" : "সাইন-আপ"}
-        />
-      </form>
+            <input
+              className="submit__btn margin__bottom20px"
+              type="submit"
+              value={language === "en" ? "Sign Up" : "সাইন-আপ"}
+            />
+          </form>
+        </React.Fragment>
+      )}
     </div>
   );
 
@@ -184,7 +206,7 @@ const SignupForm = () => {
       {showError()}
       {signUpFrom()}
       {redirectUser()}
-      <Footer></Footer>
+      {/* <Footer></Footer> */}
     </div>
   );
 };

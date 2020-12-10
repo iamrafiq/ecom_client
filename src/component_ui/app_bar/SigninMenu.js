@@ -66,7 +66,7 @@ export default function SigninMenu({ mobile = false }) {
       {signupDialog && (
         <div>
           <PureModal
-            header={""}
+            header="Signup"
             scrollable={false}
             // footer="Buttons?"
             //  closeButtonPosition="bottom"
@@ -75,7 +75,7 @@ export default function SigninMenu({ mobile = false }) {
             // closeButton={<div>&#10007;</div>}
             isOpen={signupDialog}
             onClose={() => {
-              dispatch(setSigninDialog({ signupDialog: false }));
+              dispatch(setSignupDialog({ signupDialog: false }));
               return true;
             }}
           >
@@ -86,7 +86,7 @@ export default function SigninMenu({ mobile = false }) {
       {signinDialog && (
         <div>
           <PureModal
-            header={""}
+            header="Signin"
             scrollable={false}
             // footer="Buttons?"
             //  closeButtonPosition="bottom"
@@ -106,7 +106,7 @@ export default function SigninMenu({ mobile = false }) {
       {otpDialog && (
         <div>
           <PureModal
-            header={""}
+            header="One time password (OTP)"
             scrollable={false}
             // footer="Buttons?"
             //  closeButtonPosition="bottom"

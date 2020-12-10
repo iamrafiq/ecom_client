@@ -32,7 +32,7 @@ export default function Home(props) {
       if (item.showHome === 1) {
         return (
           <div className="content__cats--width">
-            <Link to={item.slug}>
+            <Link to={`/products/${item.slug}`}>
               <CategoryRect category={item} key={item._id}></CategoryRect>
             </Link>
           </div>

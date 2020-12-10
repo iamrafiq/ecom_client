@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 // import { getCategoryItems } from "../../admin/apiAdmin";
 
 // import ProductCard from "../product_card/ProductCard";
-import {Category} from "../category/Category";
+import { Category } from "../category/Category";
 import Product from "../product/Product";
 import OfferProduct from "../product/OfferProduct";
 
@@ -31,12 +31,17 @@ import {
 } from "../../redux/settingsSlice";
 import Grid from "../grid/Grid";
 import { imageUrlConverter } from "../../util/ImageUrlConverter";
-
+import {
+  selectLoadingSpinner,
+  setLoadingSpinner,
+} from "../../redux/globalSlice";
+import LoadingBar from "../../util/LoadingBar";
 import Footer from "../footer/Footer";
 import { list } from "../../core/apiCore";
 const CategoryItems = ({ match }) => {
   const resulationSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
+  const loadingSpinner = useSelector(selectLoadingSpinner);
 
   const dispatch = useDispatch();
 
@@ -48,24 +53,22 @@ const CategoryItems = ({ match }) => {
     searched: false,
   });
 
-
   useEffect(() => {
-    console.log("search slug:",  match.params.slug)
-    if (match.params.slug){
-      list({search:match.params.slug||undefined})
-      .then(responce =>{
-          if (responce.error){
-              console.log(responce.error)
-          }else{
-              setData({...data, results: responce, searched:true })
-              console.log("search data:",responce )
-          }
-      } )
-  }else{
-    console.log("search data: no product found" )
-
-  }
-    
+    console.log("search slug:", match.params.slug);
+    dispatch(setLoadingSpinner({ loadingSpinner: true }));
+    if (match.params.slug) {
+      list({ search: match.params.slug || undefined }).then((responce) => {
+        if (responce.error) {
+          console.log(responce.error);
+        } else {
+          setData({ ...data, results: responce, searched: true });
+          console.log("search data:", responce);
+        }
+        dispatch(setLoadingSpinner({ loadingSpinner: false }));
+      });
+    } else {
+      dispatch(setLoadingSpinner({ loadingSpinner: false }));
+    }
   }, [match.params.slug]);
 
   // const onCategorySelect = (slug) => {
@@ -88,27 +91,36 @@ const CategoryItems = ({ match }) => {
       <div>
         {/* <OfferProduct product={item} index={index}></OfferProduct> */}
         <Product product={item} index={index}></Product>
-
       </div>
     ));
   };
-  const getNothingFound = (items) => {};
+  const getNothingFound = () => (
+    <React.Fragment>
+      {language === "en" ? (
+        <span className="no-product-found">No products found</span>
+      ) : (
+        <span className="no-product-found">পণ্য পাওয়া যাইনি</span>
+      )}
+    </React.Fragment>
+  );
   return (
     <div className="content--area">
-      {false ? (
-        <h2>Loading....</h2>
-      ) : (
-        <div>
-          <Grid>
-            {data.results && data.results.length > 0
-              ? products(data.results)
-              : getNothingFound()}
-          </Grid>
-        </div>
-      )}
-      <div className="footer--area">
-      <Footer ></Footer>
+      <div className="content--body">
+        {loadingSpinner ? (
+          <LoadingBar loading={loadingSpinner}></LoadingBar>
+        ) : (
+          <div>
+            {data.results && data.results.length > 0 ? (
+              <Grid>{products(data.results)}</Grid>
+            ) : (
+              getNothingFound()
+            )}
+          </div>
+        )}
+      </div>
 
+      <div className="footer--area">
+        <Footer></Footer>
       </div>
     </div>
   );

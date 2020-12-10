@@ -12,10 +12,9 @@ import Footer from "../footer/Footer";
 import PureModal from "react-pure-modal";
 import "../pure-modal.css";
 import OtpVerificationForm from "../user/OtpVerificationForm";
-import {
-  setOtpDialog,
-  setSigninDialog,
-} from "../../redux/globalSlice";
+import { setOtpDialog, setSigninDialog, setSignupDialog } from "../../redux/globalSlice";
+import LoadingBar from "../../util/LoadingBar";
+
 const SigninForm = () => {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
@@ -67,6 +66,7 @@ const SigninForm = () => {
       setValues({ ...values, error: false, loading: true });
       phoneNumber.trim();
       const { aiId } = user;
+
       signin({ phoneNumber, password, aiId }).then((data) => {
         if (data.error) {
           setValues({ ...values, error: data.error, loading: false });
@@ -106,79 +106,92 @@ const SigninForm = () => {
   };
   const signInFrom = () => (
     <React.Fragment>
-     
       <div className="form__box">
-        <div className="soc">
-          <div className="soc--btn facebook">
-            <img src={facebookImg} alt="facebook" />
-            {language === "en" ? (
-              <span>Sign in with Facebook</span>
-            ) : (
-              <span>ফেসবুক দিয়ে সাইন-ইন করুন </span>
-            )}
-          </div>
-          <div className="soc--btn google">
-            <img src={googleImg} alt="google" />
-            {language === "en" ? (
-              <span>Sign in with google</span>
-            ) : (
-              <span>গুগুল দিয়ে সাইন-ইন করুন</span>
-            )}
-          </div>
-        </div>
-        <div className="or__text">
-          <hr />
-          {language === "en" ? <span>OR</span> : <span>অথবা</span>}
-
-          <hr />
-        </div>
-        {language === "en" ? (
-          <h3 className="form__box--h3">Sign in using phone number</h3>
+        {loading ? (
+          <React.Fragment>
+            <LoadingBar
+              loading={loading}
+              message={
+                language === "en"
+                  ? "Sending verification sms... please wait"
+                  : "ভেরিফিকেশন এসএমএস পাঠানো হচ্ছে ... অনুগ্রহ করে অপেক্ষা করুন "
+              }
+            ></LoadingBar>
+          </React.Fragment>
         ) : (
-          <h3 className="form__box--h3">ফোন নাম্বার দিয়ে সাইন-ইন করুন</h3>
-        )}
+          <React.Fragment>
+            {/* <div className="soc">
+              <div className="soc--btn facebook">
+                <img src={facebookImg} alt="facebook" />
+                {language === "en" ? (
+                  <span>Sign in with Facebook</span>
+                ) : (
+                  <span>ফেসবুক দিয়ে সাইন-ইন করুন </span>
+                )}
+              </div>
+              <div className="soc--btn google">
+                <img src={googleImg} alt="google" />
+                {language === "en" ? (
+                  <span>Sign in with google</span>
+                ) : (
+                  <span>গুগুল দিয়ে সাইন-ইন করুন</span>
+                )}
+              </div>
+            </div>
+            <div className="or__text">
+              <hr />
+              {language === "en" ? <span>OR</span> : <span>অথবা</span>}
 
-        <form className="user__form" onSubmit={clickSubmit}>
-          <input
-            placeholder={language === "en" ? "Phone number" : "ফোন নাম্বার"}
-            onChange={handleChange("phoneNumber")}
-            type="tex"
-            className="form--input"
-            value={phoneNumber}
-            required
-          />
-          {user.passwordProtected && (
-            <React.Fragment>
+              <hr />
+            </div> */}
+            {language === "en" ? (
+              <h3 className="form__box--h3">Sign in using phone number</h3>
+            ) : (
+              <h3 className="form__box--h3">ফোন নাম্বার দিয়ে সাইন-ইন করুন</h3>
+            )}
+
+            <form className="user__form" onSubmit={clickSubmit}>
               <input
+                placeholder={language === "en" ? "Phone number" : "ফোন নাম্বার"}
+                onChange={handleChange("phoneNumber")}
+                type="tex"
                 className="form--input"
-                type="text"
-                placeholder={language === "en" ? "password" : "পাসওয়ার্ড"}
-                onChange={handleChange("password")}
-                type="password"
-                value={password}
+                value={phoneNumber}
                 required
               />
+              {/* {user.passwordProtected && (
+                <React.Fragment>
+                  <input
+                    className="form--input"
+                    type="text"
+                    placeholder={language === "en" ? "password" : "পাসওয়ার্ড"}
+                    onChange={handleChange("password")}
+                    type="password"
+                    value={password}
+                    required
+                  />
+                  <input
+                    className="form--input"
+                    type="text"
+                    placeholder={
+                      language === "en"
+                        ? "confirm password"
+                        : "কনফার্ম পাসওয়ার্ড"
+                    }
+                    onChange={handleChange("confirmPassword")}
+                    type="password"
+                    value={confirmPassword}
+                    required
+                  />
+                </React.Fragment>
+              )} */}
               <input
-                className="form--input"
-                type="text"
-                placeholder={
-                  language === "en" ? "confirm password" : "কনফার্ম পাসওয়ার্ড"
-                }
-                onChange={handleChange("confirmPassword")}
-                type="password"
-                value={confirmPassword}
-                required
+                className="submit__btn"
+                type="submit"
+                value={language === "en" ? "Sign In" : "সাইন-ইন "}
               />
-            </React.Fragment>
-          )}
-
-          <input
-            className="submit__btn"
-            type="submit"
-            value={language === "en" ? "Sign In" : "সাইন-ইন "}
-          />
-        </form>
-        <Link
+            </form>
+            {/* <Link
           className="forgot"
           to="/user/forgot"
           style={{ textDecoration: "none" }}
@@ -188,24 +201,33 @@ const SigninForm = () => {
           ) : (
             <span> পাসওয়ার্ড ভুলে গেছেন ?</span>
           )}
-        </Link>
+        </Link> */}
 
-        <div class="signup">
-          <div className="signup__form">
-            {language === "en" ? (
-              <span> Not a member ?</span>
-            ) : (
-              <span> আপনি কি মেম্বার নন ?</span>
-            )}
-            <Link to="/user/signup" style={{ textDecoration: "none" }}>
-              {language === "en" ? (
-                <span className="signup--link"> Sign Up</span>
-              ) : (
-                <span className="signup--link"> সাইন-আপ</span>
-              )}
-            </Link>
-          </div>
-        </div>
+            <div
+              class="signup"
+              onClick={() => {
+                dispatch(setSigninDialog({ signinDialog: false }));
+                dispatch(setSignupDialog({ signupDialog: true }));
+              }}
+              style={{ cursor:"pointer"}}
+            >
+              <div className="signup__form">
+                {language === "en" ? (
+                  <span> Not a member ?</span>
+                ) : (
+                  <span> আপনি কি মেম্বার নন ?</span>
+                )}
+                <div  >
+                  {language === "en" ? (
+                    <span className="signup--link"> Sign Up</span>
+                  ) : (
+                    <span className="signup--link"> সাইন-আপ</span>
+                  )}
+                </div>
+              </div>
+            </div>
+          </React.Fragment>
+        )}
       </div>
     </React.Fragment>
   );
@@ -231,12 +253,6 @@ const SigninForm = () => {
       )}
     </div>
   );
-  const showLoading = () =>
-    loading && (
-      <div className="alert-box warning">
-        <h2>Loading...</h2>
-      </div>
-    );
 
   const redirectUser = () => {
     if (redirectToReferrer) {
@@ -255,12 +271,11 @@ const SigninForm = () => {
   };
   return (
     <div className="">
-      {showLoading()}
       {showError()}
       {signInFrom()}
       {redirectUser()}
       {showPasswordMismatchError()}
-      <Footer></Footer>
+      {/* <Footer></Footer> */}
     </div>
   );
 };

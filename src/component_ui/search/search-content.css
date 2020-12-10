@@ -3,6 +3,13 @@
    margin-left: var(--padding-right-extra); 
   margin-right: var(--padding-right-extra); 
 }
+.content--body{
+  min-height: 300px;
+}
+.no-product-found{
+  font-size: var(--font-size-large);
+  width: 100%;
+}
 .addvert-area{
   display: flex;
   flex-direction: row;

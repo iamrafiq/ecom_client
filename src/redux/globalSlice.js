@@ -6,6 +6,7 @@ export const globalSlice = createSlice({
     signinDialog: false, 
     signupDialog: false, 
     otpDialog: false,
+    loadingSpinner: false,
   },
   reducers: {
     setSigninDialog: (state, action) => {
@@ -17,10 +18,13 @@ export const globalSlice = createSlice({
     setOtpDialog: (state, action) => {
       state.otpDialog = action.payload.otpDialog;
     },
+    setLoadingSpinner: (state, action) => {
+      state.loadingSpinner = action.payload.loadingSpinner;
+    },
   },
 });
 
-export const {setSigninDialog, setSignupDialog, setOtpDialog} = globalSlice.actions;
+export const {setSigninDialog, setSignupDialog, setOtpDialog, setLoadingSpinner} = globalSlice.actions;
 
 
 export const selectSigninDialog = (state) => {
@@ -31,5 +35,8 @@ export const selectSignupDialog = (state) =>{
 }
 export const selectOtpDialog = (state) => {
   return state.global.otpDialog;
+};
+export const selectLoadingSpinner = (state) => {
+  return state.global.loadingSpinner;
 };
 export default globalSlice.reducer;
