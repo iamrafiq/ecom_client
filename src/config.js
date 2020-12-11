@@ -8,7 +8,7 @@ export const APP_BAR_HEIGHT_FULL_SCREEN = 4; // REM
 export const APP_BAR_HEIGHT_MOBILE_SCREEN = 5; // REM
 export const SECREAT = "F$h#4";
 export const CONTACT_PHONE_NUMBER = "+8801768567184"
-export const LAN_IP = "192.168.0.104";
+export const LAN_IP = "192.168.0.131";
 
 
 
