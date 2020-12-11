@@ -48,7 +48,7 @@ const CreateOrUpdateHome = () => {
         setValues({ ...values, create: true, error: data.error });
       } else {
         console.log("home data", data);
-        if (data !== undefined) {
+        if (data) {
           setValues({
             ...values,
             title: data.title,

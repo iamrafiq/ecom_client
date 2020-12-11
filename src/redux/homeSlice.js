@@ -13,7 +13,8 @@ export const homesSlice = createSlice({
   },
   reducers: {
     setHome: (state, action) => {
-      if (action.payload.data !== undefined) {
+      console.log("action.payload.data", action.payload.data)
+      if (action.payload.data) {
         let data = action.payload.data.categories;
         const idMapping = data.reduce((acc, el, i) => {
           acc[el._id] = i;
@@ -43,8 +44,6 @@ export const homesSlice = createSlice({
         state.categories = action.payload.data.categories;
         state.offerProducts = action.payload.data.offerProducts;
         state.advertisements = action.payload.data.advertisements;
-      }else{
-        state.data = undefined;
       }
       state.homeLoaded = true;
     },
