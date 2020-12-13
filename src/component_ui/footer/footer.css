@@ -89,22 +89,23 @@
   justify-content: center;
   align-items: center;
   margin-top: var(--gap-medium);
-  background-color: blue;
 }
 .footer-phone-number {
   font-style: bold;
   font-size: var(--font-size-extra-large);
-  background-color: azure;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 
 }
 .footer-phone-number-icon{
-  flex: 1;
-  width: auto;
-  height: auto;
+  object-fit: cover;
+  width: 25px;
+  height: 25;
+  
 }
 .footer-phone-number-text{
-  flex: 1;
-
 }
 .email-address {
   font-style: bold;
