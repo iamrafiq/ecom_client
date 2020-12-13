@@ -33,7 +33,6 @@
 .checkout--row {
   display: flex;
   flex-direction: column;
-  min-width: 400px;
   margin-top: var(--gap-medium);
 }
 
