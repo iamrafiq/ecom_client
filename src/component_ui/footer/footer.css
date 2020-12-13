@@ -89,19 +89,31 @@
   justify-content: center;
   align-items: center;
   margin-top: var(--gap-medium);
+  background-color: blue;
 }
-.phone-number {
+.footer-phone-number {
   font-style: bold;
   font-size: var(--font-size-extra-large);
-}
+  background-color: azure;
 
+}
+.footer-phone-number-icon{
+  flex: 1;
+  width: auto;
+  height: auto;
+}
+.footer-phone-number-text{
+  flex: 1;
+
+}
 .email-address {
   font-style: bold;
 }
 
 .social-networks {
-  display: block;
+  display: flex;
   text-align: center;
+  flex-direction: row;
   margin: auto;
   margin-top: var(--gap-extra-large);
 }

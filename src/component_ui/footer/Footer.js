@@ -148,12 +148,12 @@ export default function Footer(props) {
             </div>
           </div>
           <div className="contact-info">
-            <div className="phone-number">
-              <img src={phoneIcon} alt="Phone Icon" />
+            <div className="footer-phone-number">
+              <img className="footer-phone-number-icon" src={phoneIcon} alt="Phone Icon" />
               {language === "en" ? (
-                <span>{CONTACT_PHONE_NUMBER}</span>
+                <span className="footer-phone-number-text">{CONTACT_PHONE_NUMBER}</span>
               ) : (
-              <span>{englishToBangla(CONTACT_PHONE_NUMBER)}</span>
+              <span className="footer-phone-number-text">{englishToBangla(CONTACT_PHONE_NUMBER)}</span>
               )}
             </div>
             <div className="email">
