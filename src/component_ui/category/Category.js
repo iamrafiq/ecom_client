@@ -36,13 +36,13 @@ export function CategoryRect(props) {
   return (
     <div className="category__rect">
       <img src={`${imageUrlConverter(category.icon)}&res=${"low"}`} alt={category.name} />
-      <span className="rect__text">
+      <div className="rect__text">
         {language === "en" ? (
           <span className="text__name">{category.name}</span>
         ) : (
           <span className="text__name">{category.bengaliName}</span>
         )}
-      </span>
+      </div>
     </div>
   );
 }

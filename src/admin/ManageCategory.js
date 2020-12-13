@@ -60,7 +60,7 @@ const ManageCategory = () => {
                 className="list-group-item d-flex justify-content-between align-items-center"
               >
                 <strong>{c.name}</strong>
-                {c.name !== "root" && (
+                {c.slug !== "root" ? (
                   <Fragment>
                     <Link to={`/admin/category/update/${c._id}`}>
                       <span className="badge badge-warning badge-pill">
@@ -74,7 +74,19 @@ const ManageCategory = () => {
                       DELETE
                     </span>
                   </Fragment>
-                )}
+                ):(<Fragment>
+                  <Link to={`/admin/category/update/${c._id}`}>
+                    <span className="badge badge-warning badge-pill">
+                      Update
+                    </span>
+                  </Link>
+                  <span
+                    onClick={() => destroy(c._id)}
+                    className="badge badge-danger badge-pill"
+                  >
+                    DELETE
+                  </span>
+                </Fragment>)}
               </li>
             ))}
           </ul>
