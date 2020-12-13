@@ -17,6 +17,11 @@
     color: var(--font-color-secondary);
   }
 
+  .category__rect img{
+    width: 32px;
+    height: 32px;
+  }
+
 
   .rect__text{
    display: flex;
