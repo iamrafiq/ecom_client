@@ -5,6 +5,7 @@
   align-items: center;
 }
 
+
 .image-mag {
 }
 .thumbs {
@@ -12,9 +13,12 @@
   flex-wrap: nowrap;
   flex-direction: row;
   justify-content: center;
+
 }
 .thumbs img {
   cursor: pointer;
+  width: 80px;
+  height: auto;
 }
 .thumbs .group {
   margin: var(--gap-very-small);

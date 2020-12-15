@@ -36,7 +36,7 @@ const UpdateProduct = ({ match }) => {
     nameWithOutSubText: "",
     subText: "",
     mrp: "",
-    price: "",
+  
     cropPrice: "",
     applyDiscounts: "",
     applyOffer:"",
@@ -82,7 +82,7 @@ const UpdateProduct = ({ match }) => {
     nameWithOutSubText,
     subText,
     mrp,
-    price,
+   
     cropPrice,
     applyDiscounts,
     applyOffer,
@@ -121,7 +121,6 @@ const UpdateProduct = ({ match }) => {
       nameWithOutSubText: data.nameWithOutSubText,
       subText: data.subText,
       mrp: data.mrp,
-      price: data.price,
       cropPrice: data.cropPrice,
       applyDiscounts: data.applyDiscounts,
       applyOffer: data.applyOffer,
@@ -511,7 +510,7 @@ const UpdateProduct = ({ match }) => {
           required={true}
         />
       </div>
-      <div className="form-group">
+      {/* <div className="form-group">
         <label htmlFor="" className="text-muted">
           Body Price
         </label>
@@ -522,7 +521,7 @@ const UpdateProduct = ({ match }) => {
           value={price}
           required={true}
         />
-      </div>
+      </div> */}
       <div className="form-group">
         <label htmlFor="" className="text-muted">
           Crop Price
