@@ -137,7 +137,7 @@ const CategoryItems = ({ match }) => {
                     {language === "en" ? (
                       <span>{`${item.bengaliName}`}</span>
                     ) : (
-                      <span>{`${item.bengaliName}`}</span>
+                      <span>{`${item.name}`}</span>
                     )}
                   </Link>
                   &nbsp; {">"} &nbsp;
