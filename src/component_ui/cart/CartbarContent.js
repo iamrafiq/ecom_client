@@ -14,17 +14,20 @@ import {
   selectResolutionSelection,
   selectLanguageSelection,
   selectDeviceTypeSelection,
-  selectCartBarMobile,
-  setCartBarMobile,
-  selectCartBarDesktop,
-  setCartBarDesktop,
 } from "../../redux/settingsSlice";
 import {
   selectCartProducts,
   selectCartCount,
   selectCartTotalAmount,
 } from "../../redux/cartSlice";
-import { setOtpDialog, setSignupDialog } from "../../redux/globalSlice";
+import {
+  setOtpDialog,
+  setSignupDialog,
+  selectCartBarMobile,
+  setCartBarMobile,
+  selectCartBarDesktop,
+  setCartBarDesktop,
+} from "../../redux/globalSlice";
 
 import { selectOfferProducts } from "../../redux/homeSlice";
 import "./cart.css";
@@ -43,9 +46,7 @@ import {
   initAiUser,
 } from "../../redux/authSlice";
 
-import {
-  resendOtp,
-} from "../../auth/index";
+import { resendOtp } from "../../auth/index";
 
 const SidebarContent = (props) => {
   const history = useHistory();
@@ -96,7 +97,7 @@ const SidebarContent = (props) => {
         })
       );
     }
-    console.log("user status ...........", user.status)
+    console.log("user status ...........", user.status);
     if (user.status === 0) {
       dispatch(
         setSignupDialog({
@@ -118,7 +119,6 @@ const SidebarContent = (props) => {
             })
           );
         });
-       
       }
     }
   };

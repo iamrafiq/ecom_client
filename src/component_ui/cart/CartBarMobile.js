@@ -11,7 +11,7 @@ import { unmoveableAddressBar, defaultStyle } from "../../util/bodyStyle";
 import {
   selectCartBarMobile,
   setCartBarMobile,
-} from "../../redux/settingsSlice";
+} from "../../redux/globalSlice";
 const SideBar = (props) => {
   const dispatch = useDispatch();
 

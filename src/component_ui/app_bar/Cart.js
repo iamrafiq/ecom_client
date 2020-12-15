@@ -4,13 +4,15 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   selectResolutionSelection,
   selectLanguageSelection,
+  selectDeviceTypeSelection,
+  setLanguage,
+} from "../../redux/settingsSlice";
+import {
   selectCartBarDesktop,
   setCartBarDesktop,
   setCartBarMobile,
   selectCartBarMobile,
-  selectDeviceTypeSelection,
-  setLanguage,
-} from "../../redux/settingsSlice";
+} from "../../redux/globalSlice";
 import { selectCartCount } from "../../redux/cartSlice";
 import "./navmenu.css";
 import { imageUrlConverter } from "../../util/ImageUrlConverter";

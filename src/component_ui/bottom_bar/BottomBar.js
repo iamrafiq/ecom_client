@@ -9,14 +9,13 @@ import { selectHomeSelection } from "../../redux/homeSlice";
 import {
   selectResolutionSelection,
   selectLanguageSelection,
-  selectSideBar,
-  setLanguage,
-  setCartBar,
-  setSideBar,
-  setCartBarMobile,
-  selectCartBarMobile,
   selectDeviceTypeSelection,
 } from "../../redux/settingsSlice";
+import {
+  selectSideBar,
+  setCartBarMobile,
+  selectCartBarMobile,
+} from "../../redux/globalSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCommentDots,

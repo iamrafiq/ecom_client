@@ -2,7 +2,7 @@ import React, { Fragment, useCallback } from "react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ProductDetails from "./ProductDetails";
-import {imageUrlConverter} from "../../util/ImageUrlConverter";
+import { imageUrlConverter } from "../../util/ImageUrlConverter";
 
 import {
   setSlug,
@@ -22,15 +22,14 @@ import {
 import OuterClickHandler from "../../util/OuterClickHandler";
 
 import PureModal from "react-pure-modal";
-import  "../pure-modal.css";
+import "../pure-modal.css";
 import { englishToBangla } from "../../util/utils";
 import "./product.css";
 import "./regular-product.css";
 
-
 var FontAwesome = require("react-fontawesome");
 
-function Product({regularProduct,offerProduct, product }) {
+function Product({ regularProduct, offerProduct, product }) {
   const resulationSelector = useSelector(selectResolutionSelection);
   const [openDetailsView, setOpenDetailsView] = useState(false);
   const [modal, setModal] = useState(false);
@@ -57,8 +56,8 @@ function Product({regularProduct,offerProduct, product }) {
   } = product;
   const selectedHoverSlug = useSelector(selectProductHoverSelection);
   const productFromCart = useSelector(selectAcartProduct(product));
-  const resolution  = useSelector(selectResolutionSelection);
-  const language  = useSelector(selectLanguageSelection);
+  const resolution = useSelector(selectResolutionSelection);
+  const language = useSelector(selectLanguageSelection);
   const dispatch = useDispatch();
   //dispatch(setSlug({ slug: product.slug }));
   useEffect(() => {}, [selectedHoverSlug, openDetailsView]);
@@ -104,7 +103,12 @@ function Product({regularProduct,offerProduct, product }) {
                 return true;
               }}
             >
-              <ProductDetails product={product}></ProductDetails>
+              <ProductDetails
+                product={product}
+                closeModal={() => {
+                  setModalInnerScroll(false);
+                }}
+              ></ProductDetails>
             </PureModal>
           </div>
         )}
@@ -130,7 +134,9 @@ function Product({regularProduct,offerProduct, product }) {
               <img
                 src={
                   photosUrl && photosUrl.length > 0
-                    ? `${imageUrlConverter(photosUrl[0])}&res=${resulationSelector}`
+                    ? `${imageUrlConverter(
+                        photosUrl[0]
+                      )}&res=${resulationSelector}`
                     : ""
                 }
                 alt={name}
@@ -158,7 +164,7 @@ function Product({regularProduct,offerProduct, product }) {
                         <span className="price--mrp price--red">
                           &#2547; {cropPrice}
                         </span>
-                        <span >
+                        <span>
                           <del>&#2547; {mrp}</del>
                         </span>
                       </Fragment>
@@ -192,14 +198,16 @@ function Product({regularProduct,offerProduct, product }) {
               {productFromCart ? (
                 <div className="overly__cart">
                   {language === "en" ? (
-                    <div className="cart__amount--totla">&#2547; {totalPrice()}</div>
+                    <div className="cart__amount--totla">
+                      &#2547; {totalPrice()}
+                    </div>
                   ) : (
                     <div className="cart__amount--totla">
                       &#2547; {englishToBangla(totalPrice())}
                     </div>
                   )}
 
-                  <div className="cart__action">  
+                  <div className="cart__action">
                     <div className="actions">
                       <span
                         className="action--sub"

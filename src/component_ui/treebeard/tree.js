@@ -11,10 +11,12 @@ import { useEffect, useState } from "react";
 import {
   selectResolutionSelection,
   selectLanguageSelection,
+ 
+} from "../../redux/settingsSlice";
+import {
   selectSideBar,
   setSideBar,
-} from "../../redux/settingsSlice";
-
+} from "../../redux/globalSlice";
 const TreeExample = ({ tree }) => {
   const dispatch = useDispatch();
   const sideBar = useSelector(selectSideBar);

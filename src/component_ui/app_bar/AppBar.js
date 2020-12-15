@@ -10,12 +10,12 @@ import MoreMobile from "./MoreMobile";
 import {
   selectResolutionSelection,
   selectLanguageSelection,
-  selectSideBar,
-  setLanguage,
-  setCartBar,
-  setSideBar,
   selectDeviceTypeSelection,
 } from "../../redux/settingsSlice";
+import {
+  selectSideBar,
+  setSideBar
+} from "../../redux/globalSlice";
 import logo from "../../images/logo.svg";
 import SearchBoxMobile from "./SearchBoxMobile";
 import LanguageMenu from "./LanguageMenu";

@@ -2,7 +2,12 @@ import React, { Fragment } from "react";
 import { useEffect, useState } from "react";
 import "./product-details.css";
 import { useSelector, useDispatch } from "react-redux";
-import { selectLanguageSelection } from "../../redux/settingsSlice";
+import {
+  selectLanguageSelection,
+  selectDeviceTypeSelection,
+} from "../../redux/settingsSlice";
+import { setCartBarDesktop, setCartBarMobile, selectCartBarDesktop } from "../../redux/globalSlice";
+
 import { getAdvertisementsBySlug } from "../../admin/advertisement/apiAdvertisement";
 import {
   addItem,
@@ -14,16 +19,22 @@ import ProductPhotoViewer from "../../util/ProductPhotoViewer";
 import { englishToBangla, discountInPercentage } from "../../util/utils";
 import { selectResolutionSelection } from "../../redux/settingsSlice";
 import Footer from "../footer/Footer";
-import {imageUrlConverter} from "../../util/ImageUrlConverter";
+import { imageUrlConverter } from "../../util/ImageUrlConverter";
 
 var FontAwesome = require("react-fontawesome");
 
-function ProductDetails({ product }) {
+function ProductDetails({ product, closeModal }) {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
   const resulationSelector = useSelector(selectResolutionSelection);
+  const cartBarDesktop = useSelector(selectCartBarDesktop);
+
+  const deviceType = useSelector(selectDeviceTypeSelection);
+  const cartProducts = useSelector(selectCartProducts);
+
   const productFromCart = useSelector(selectAcartProduct(product));
   const [advertisments, setAdvertisiments] = useState("");
+
   const {
     photosUrl,
     name,
@@ -43,6 +54,21 @@ function ProductDetails({ product }) {
   };
   const onClickBuy = () => {
     console.log("on click buy");
+    closeModal();
+    const p = cartProducts.find(
+      (p) => p.product && p.product._id === product._id
+    );
+    if (!p) {
+      dispatch(addItem({ product: product }));
+    }
+    if (deviceType === "desktop") {
+      if (!cartBarDesktop.open){
+        dispatch(setCartBarDesktop({ cartBarDesktop: { open: true } }));
+
+      }
+    } else {
+      dispatch(setCartBarMobile({ cartBarMobile: { open: true } }));
+    }
   };
   const downloadAdvertisement = (slug) => {
     getAdvertisementsBySlug(slug).then((data) => {
@@ -62,7 +88,9 @@ function ProductDetails({ product }) {
             <Fragment>
               <span>Why shop in Sowdamart</span>
               <img
-                src={`${imageUrlConverter(advertisments[0].photo)}&res=${resulationSelector}`}
+                src={`${imageUrlConverter(
+                  advertisments[0].photo
+                )}&res=${resulationSelector}`}
                 alt="Sowdamart"
               />
             </Fragment>
@@ -70,7 +98,9 @@ function ProductDetails({ product }) {
             <Fragment>
               <span> সওদামার্ট এ কেন বাজার করবেন </span>
               <img
-                src={`${imageUrlConverter(advertisments[0].photoBangla)}&res=${resulationSelector}`}
+                src={`${imageUrlConverter(
+                  advertisments[0].photoBangla
+                )}&res=${resulationSelector}`}
                 alt="Sowdamart"
               />
             </Fragment>

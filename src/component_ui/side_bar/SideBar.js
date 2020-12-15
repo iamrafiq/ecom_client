@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   selectSideBar,
   setSideBar,
-} from "../../redux/settingsSlice";
+} from "../../redux/globalSlice";
 const SideBar = (props) => {
   const dispatch = useDispatch();
 

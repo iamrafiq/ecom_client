@@ -6,9 +6,7 @@ export const settingsSlice = createSlice({
     language: "bn", // for bangla value 'bn'
     resolution: "medium", // low, heigh, medium // used to
     deviceType: "desktop", //"tablet"/ "mobile"/ "desktop" // default should be desktop because UAParser set device type mobile only when it is in mobile
-    sideBar: {open:false},
-    cartBarDesktop: {open:false},
-    cartBarMobile:{open:false}
+    
   },
   reducers: {
     setLanguage: (state, action) => {
@@ -20,15 +18,7 @@ export const settingsSlice = createSlice({
     setDeviceType: (state, action) => {
       state.deviceType = action.payload.deviceType;
     },
-    setSideBar: (state, action) => {
-      state.sideBar = action.payload.sideBar;
-    },
-    setCartBarDesktop: (state, action) => {
-      state.cartBarDesktop = action.payload.cartBarDesktop;
-    },
-    setCartBarMobile:(state, action)=>{
-      state.cartBarMobile = action.payload.cartBarMobile;
-    }
+ 
   },
 });
 
@@ -37,13 +27,9 @@ export const {
   setResolution,
   setDeviceType,
   setAuthenticate,
-  setSideBar,
-  setCartBarDesktop,
-  setCartBarMobile
+
 } = settingsSlice.actions;
-export const selectSideBar = (state) => state.settings.sideBar;
-export const selectCartBarDesktop = (state) => state.settings.cartBarDesktop;
-export const selectCartBarMobile = (state) => state.settings.cartBarMobile;
+
 
 export const selectLanguageSelection = (state) => state.settings.language;
 export const selectResolutionSelection = (state) => state.settings.resolution;

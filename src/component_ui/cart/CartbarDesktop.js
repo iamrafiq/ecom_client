@@ -6,7 +6,9 @@ import CartbarContent from "./CartbarContent";
 import { MOBIEL_DEVICE_RESOLUTION } from "../../config";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectCartBarDesktop, setSideBar, selectDeviceTypeSelection } from "../../redux/settingsSlice";
+import { selectDeviceTypeSelection } from "../../redux/settingsSlice";
+import { selectCartBarDesktop} from "../../redux/globalSlice";
+
 import { Navigation } from "react-minimal-side-navigation";
 
 import "react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css";

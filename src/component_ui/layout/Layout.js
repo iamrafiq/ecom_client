@@ -17,9 +17,11 @@ import {
   setDeviceType,
   selectLanguageSelection,
   selectSideBar,
-  selectCartBarDesktop,
   setLanguage,
 } from "../../redux/settingsSlice";
+import {
+  selectCartBarDesktop,
+} from "../../redux/globalSlice";
 // import { createAiUser } from "../../auth/index";
 import { loadCartFromLocalstroage } from "../../redux/cartSlice";
 
