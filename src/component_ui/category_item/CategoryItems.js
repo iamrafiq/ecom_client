@@ -135,9 +135,9 @@ const CategoryItems = ({ match }) => {
                 <div key={Math.random().toString(10).slice(2)}>
                   <Link to={item.slug}>
                     {language === "en" ? (
-                      <span>{`${item.bengaliName}`}</span>
-                    ) : (
                       <span>{`${item.name}`}</span>
+                    ) : (
+                      <span>{`${item.bengaliName}`}</span>
                     )}
                   </Link>
                   &nbsp; {">"} &nbsp;

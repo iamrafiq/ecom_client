@@ -1,16 +1,15 @@
 import React from "react";
-import ReactImageMagnify from 'react-image-magnify';
 import { useEffect, useState } from "react";
 import { imageUrlConverter } from "./ImageUrlConverter";
 
+import 'react-inner-image-zoom/lib/InnerImageZoom/styles.min.css';
+import InnerImageZoom from 'react-inner-image-zoom';
 import "./productPhotoViewer.css";
 const ProductPhotoViewer = ({ photosUrl, alt }) => {
   const [active, setActive] = useState({
     url: photosUrl[0],
     index: 0,
   });
-
-
 
   useEffect(() => {}, []);
   const onClickThumb = (index) => {
@@ -19,54 +18,35 @@ const ProductPhotoViewer = ({ photosUrl, alt }) => {
   };
   return (
     <div className="main-container">
-        {active && (
-             <ReactImageMagnify
-             {...{
-               smallImage: {
-                 alt: { alt },
-                 isFluidWidth: true,
-                 src: `${imageUrlConverter(active.url)}&res=${"medium"}`,
-                 
-               },
-               largeImage: {
-                 src: `${imageUrlConverter(active.url)}&res=${"high"}`,
-                 width: 800,
-                 height: 1600,
-               },
-               lensStyle: { backgroundColor: "rgba(0,0,0,.6)" },
-               isHintEnabled: true,
-               shouldHideHintAfterFirstActivation: false,
-               enlargedImagePosition: "over",
-             }}
-           />
-         
-        )}
+      {active && (
+        <InnerImageZoom src={`${imageUrlConverter(active.url)}&res=${"medium"}`} zoomSrc={`${imageUrlConverter(active.url)}&res=${"high"}`}/>
+      )}
 
-        {photosUrl && photosUrl.length > 1 && (
-          <div className="thumbs">
-            {photosUrl.map((url, index) => {
-              if (active.index === index) {
-                return (
-                  <img
-                    className="group round-circle-border"
-                    src={`${imageUrlConverter(photosUrl[index])}&res=${"low"}`}
-                    alt={alt}
-                    onClick={() => onClickThumb(index)}
-                  />
-                );
-              } else {
-                return (
-                  <img
-                    className="group"
-                    src={`${imageUrlConverter(photosUrl[index])}&res=${"low"}`}
-                    alt={alt}
-                    onClick={() => onClickThumb(index)}
-                  />
-                );
-              }
-            })}
-          </div>
-        )}
+      {photosUrl && photosUrl.length > 1 && (
+        <div className="thumbs">
+          {photosUrl.map((url, index) => {
+            if (active.index === index) {
+              return (
+                <img
+                  className="group round-circle-border"
+                  src={`${imageUrlConverter(photosUrl[index])}&res=${"low"}`}
+                  alt={alt}
+                  onClick={() => onClickThumb(index)}
+                />
+              );
+            } else {
+              return (
+                <img
+                  className="group"
+                  src={`${imageUrlConverter(photosUrl[index])}&res=${"low"}`}
+                  alt={alt}
+                  onClick={() => onClickThumb(index)}
+                />
+              );
+            }
+          })}
+        </div>
+      )}
     </div>
   );
 };

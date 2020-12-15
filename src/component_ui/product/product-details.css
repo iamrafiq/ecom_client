@@ -177,9 +177,10 @@
   background: var(--theme-color-2-dark);
 }
 .container-top .right .divider {
-  height: 100px;
-  margin: 25px 20px;
-  margin-bottom: 20px;
+  height: 1px;
+  margin: var(--gap-large);
+  /* margin: 25px 20px; */
+  /* margin-bottom: 20px; */
 }
 .container-top .right .description {
   margin: 0px 10px;
