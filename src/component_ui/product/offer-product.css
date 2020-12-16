@@ -10,7 +10,7 @@
   position: relative;
   overflow: hidden;
   justify-content: space-around;
-  height: 9rem;
+  height: 7rem;
 }
 .offer__card--body{
   display: flex;
@@ -47,6 +47,7 @@
   display: flex;
   justify-content: center;
   margin: auto;
+  
 }
 .offer__content__text{
   /* padding: 0px;
@@ -91,7 +92,7 @@
 } */
 .offer__price--crop {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin-top: var(--gap-medium);
 
 }
@@ -182,15 +183,15 @@
 .offer__action--result {
   font-size: var(--font-size-extra-large);
   font-style: bold;
-  margin-top: var(--gap-medium);
+  margin-top: var(--gap-small);
 }
 .offer__action--add {
   cursor: pointer;
-  margin-top: var(--gap-medium);
+  margin-top: var(--gap-small);
 }
 .offer__cart--text {
   margin: 0 auto;
-  margin-top: var(--gap-large);
+  margin-top: var(--gap-small);
 }
 
 .icon-overly {

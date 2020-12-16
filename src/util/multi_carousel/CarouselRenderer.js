@@ -92,18 +92,7 @@ const CarouselRenderer = ({ deviceType, products }) => {
       {products.map((ele, index)=>(
       <OfferProduct product={ele}></OfferProduct>     
       ))}
-      {products.map((ele, index)=>(
-      <OfferProduct product={ele}></OfferProduct>     
-      ))}
-      {products.map((ele, index)=>(
-      <OfferProduct product={ele}></OfferProduct>     
-      ))}
-      {products.map((ele, index)=>(
-      <OfferProduct product={ele}></OfferProduct>     
-      ))}
-      {products.map((ele, index)=>(
-      <OfferProduct product={ele}></OfferProduct>     
-      ))}
+     
        {/* <OfferProduct product={product}></OfferProduct>
       <OfferProduct product={product}></OfferProduct>
       <OfferProduct product={product}></OfferProduct>

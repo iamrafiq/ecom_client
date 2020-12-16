@@ -213,7 +213,7 @@ function OfferProduct({ regularProduct, offerProduct, product }) {
               </div>
             
             <div className="offer__card--ic">
-              <div className="offer__content--image">
+              {/* <div className="offer__content--image">
                 <img
                   src={
                     photosUrl && photosUrl.length > 0
@@ -222,7 +222,7 @@ function OfferProduct({ regularProduct, offerProduct, product }) {
                   }
                   alt={name}
                 ></img>
-              </div>
+              </div> */}
               <div className="offer__content__text">
                 {subText && subText.length > 0 && (
                   <div className="offer__text--sub">

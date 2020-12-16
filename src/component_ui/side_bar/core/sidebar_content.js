@@ -15,26 +15,26 @@ import {
   selectLanguageSelection,
 } from "../../../redux/settingsSlice";
 import {
-  selectUser
-} from "../../../redux/authSlice";
+  setSigninDialog,
+} from "../../../redux/globalSlice";
+import { selectUser } from "../../../redux/authSlice";
 import { selectOfferProducts } from "../../../redux/homeSlice";
 import "./side-bar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { englishToBangla } from "../../../util/utils";
-import { faUserCircle } from "@fortawesome/fontawesome-free-solid";
-
+import { faUserCircle, faHome } from "@fortawesome/fontawesome-free-solid";
 const SidebarContent = (props) => {
+  const dispatch = useDispatch();
+
   const viewToBar = useSelector(selectSideBarViewToBarSelection);
   const resolutionSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
   const user = useSelector(selectUser);
   const offerProducts = useSelector(selectOfferProducts);
 
-
   const [state, setState] = useState({
     viewToBarChange: "",
   });
-  const dispatch = useDispatch();
 
   const selectedBar = (bar) => {
     dispatch(loadCategoryWithProduct(bar));
@@ -49,37 +49,53 @@ const SidebarContent = (props) => {
   return (
     <div className="sidebar__pannel">
       <div className="sidebar--header">
-        <FontAwesomeIcon size="2x" icon={faUserCircle} />
-        {user ? (
+        <div className="">
+          {user.status > 0 ? (
+            <Link
+              className="react__link--colorless sidebar__header--user"
+              to="/user/profile"
+              onClick={() => {props.toggleSideBar()}}
+            >
+              <FontAwesomeIcon size="1x" icon={faUserCircle} />
+              {language === "en" ? <span>Profile</span> : <span>প্রোফাইল</span>}
+            </Link>
+          ) : (
+            <div
+              className="react__link--colorless sidebar__header--user"
+              onClick={() => {props.toggleSideBar(); dispatch(setSigninDialog({signinDialog:true}))}}
+            >
+              <FontAwesomeIcon size="1x" icon={faUserCircle} />
+              {language === "en" ? <span>Sign in</span> : <span>সাইন ইন</span>}
+            </div>
+          )}
+        </div>
+        <div className="">
           <Link
-            className="react__link--colorless"
-            to="/user/profile"
+            className="react__link--colorless sidebar__header--home"
+            to="/"
             onClick={() => props.toggleSideBar()}
           >
-            {language === "en" ? <span>Profile</span> : <span>প্রোফাইল</span>}
+            <FontAwesomeIcon size="1x" icon={faHome} />
+            {language === "en" ? <span>Home</span> : <span>হোম</span>}
           </Link>
-        ) : (
-          <Link
-            className="react__link--colorless"
-            to="/user/signin"
-            onClick={() => props.toggleSideBar()}
-          >
-            {language === "en" ? (
-              <span>Hello, Sign in</span>
-            ) : (
-              <span>হ্যালো, সাইন ইন</span>
-            )}
-          </Link>
-        )}
+        </div>
       </div>
       <div className="sidebar--content">
         {language === "en" ? (
-          <Link className="offer__products react__link--colorless" to={"offer"}  onClick={() => props.toggleSideBar()}>
+          <Link
+            className="offer__products react__link--colorless"
+            to={"offer"}
+            onClick={() => props.toggleSideBar()}
+          >
             <span className="offer--text">Offer</span>
             <span className="offer--count">{offerProducts.length}</span>
           </Link>
         ) : (
-          <Link className="offer__products react__link--colorless" to={"offer"}  onClick={() => props.toggleSideBar()}>
+          <Link
+            className="offer__products react__link--colorless"
+            to={"offer"}
+            onClick={() => props.toggleSideBar()}
+          >
             <span className="offer--text">অফার</span>
             <span className="offer--count">
               {englishToBangla(offerProducts.length)}
@@ -109,6 +125,5 @@ const SidebarContent = (props) => {
     </div>
   );
 };
-
 
 export default SidebarContent;

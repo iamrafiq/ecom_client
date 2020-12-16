@@ -53,7 +53,6 @@ export default function SigninMenu({ mobile = false }) {
 
   const deviceType = useSelector(selectDeviceTypeSelection);
   const user = useSelector(selectUser);
-  console.log("uuuuuuuuuuuuuser...", user);
   const [overlay, setOverlay] = useState(false);
 
   const closeModal = () => setOverlay(false);
