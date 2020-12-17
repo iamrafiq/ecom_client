@@ -8,6 +8,7 @@ export function imageUrlConverter(url) {
     let def = abc.replace(":8000",'');
     let pp = def.replace("http",'https');
     console.log("aabbcc", pp);
+    console.log("aabbcc", pp);
 
     if (process.env.REACT_APP_BUILD_TYPE==="dev"){
         let rep = "";
