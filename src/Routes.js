@@ -57,8 +57,8 @@ const Routes = () =>{
   return (
   // <BrowserRouter>
   <Switch>
-    <Route path="/" exact component={Home} />
-    <Route path="/products" exact component={Home} />
+    <Route exact path="/" exact component={Home} />
+    <Route exact path="/products" exact component={Home} />
 
     <Route exact path="/products/:slug" component={CategoryItems} />
     <Route path="/search" exact component={SearchContent} />
