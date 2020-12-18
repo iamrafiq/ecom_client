@@ -57,7 +57,7 @@ export default function Footer(props) {
       </div>
       <div className="footer__bottom">
         <div className="footer__company">
-          <img src="http://sowdamart.com/images/logo.png" alt="Logo" />
+          <img src="https://sowdamart.com/images/logo.png" alt="Logo" />
           {language === "en" ? (
             <div className="company__goal">
               Sowdamart.com is an online shop in Dhaka, Bangladesh. We believe
