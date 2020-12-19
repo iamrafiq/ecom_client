@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Redirect, Link } from "react-router-dom";
+import { Redirect, Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-
 import { signin } from "../../auth/index";
-import { selectLanguageSelection } from "../../redux/settingsSlice";
+import {
+  selectLanguageSelection,
+  selectDeviceTypeSelection,
+} from "../../redux/settingsSlice";
 import {
   setToken,
   setUser,
@@ -26,14 +28,45 @@ import Footer from "../footer/Footer";
 import { useEffect } from "react";
 import { createOrder } from "../../core/apiCore";
 import { profileUpdate } from "../../auth/index";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import LoadingBar from "../../util/LoadingBar";
+
 const Checkout = () => {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
+  const deviceType = useSelector(selectDeviceTypeSelection);
+
   const totalAmount = useSelector(selectCartTotalAmount);
   const products = useSelector(selectCartProducts);
-
+  const history = useHistory();
   const user = useSelector(selectUser);
   const token = useSelector(selectToken);
+  const notifyAddProduct = () =>
+    toast.info(
+      `${
+        language === "en"
+          ? "Please add products in your cart."
+          : "আপনার ব্যাগে পণ্য যোগ করুন"
+      }`
+    );
+
+  const notifyPlaceOrderSuccess = () =>
+    toast.success(
+      `${
+        language === "en"
+          ? "Your order successfully placed"
+          : "আপনার অর্ডার সফলভবে স্থাপন করা  হইয়াছে "
+      }`
+    );
+  const notifyPlaceOrderFailed = () =>
+    toast.warn(
+      `${
+        language === "en"
+          ? "Failed to place your order, please try again"
+          : "আপনার অর্ডার স্থাপন বিফল হইয়াছে, আবার চেষ্টা করুন "
+      }`
+    );
 
   const [values, setValues] = useState({
     contactName: "",
@@ -41,20 +74,20 @@ const Checkout = () => {
     contactAddress: "",
     area: "",
     error: "",
-    loading: false,
     redirectToReferrer: false,
     updateProfile: false,
+    processing: false,
   });
 
   const {
     contactAddress,
     contactNumber,
-    loading,
     error,
     redirectToReferrer,
     contactName,
     area,
     updateProfile,
+    processing,
   } = values;
 
   const checkoutProducts = () => {
@@ -101,7 +134,7 @@ const Checkout = () => {
           contactAddress: contactAddress,
           area: area,
         });
-      }else{
+      } else {
         setValues({
           ...values,
           contactName: user.name,
@@ -125,7 +158,7 @@ const Checkout = () => {
   const clickSubmit = (event) => {
     event.preventDefault();
     if (products.length > 0) {
-      setValues({ ...values, error: false, loading: true });
+      setValues({ ...values, error: false, processing: true });
       // contactNumber.trim();
       contactAddress.trim();
       const userId = user._id;
@@ -143,10 +176,12 @@ const Checkout = () => {
       console.log(checkoutProducts());
       createOrder(userId, token, createOrderData).then((data) => {
         if (data.error) {
-          setValues({ ...values, error: data.error, loading: false });
+          setValues({ ...values, error: data.error, processing: false });
+          notifyPlaceOrderFailed();
         } else {
           console.log("sign in data:", data);
           dispatch(emptyCart());
+          notifyPlaceOrderSuccess();
           if (updateProfile) {
             let address = {
               contactName,
@@ -158,13 +193,18 @@ const Checkout = () => {
             let phoneNumber = user.phoneNumber;
             profileUpdate({ phoneNumber, verified, address }).then((data) => {
               if (data.error) {
-                console.log("checkout error", data);
-                setValues({ ...values, redirectToReferrer:true });
-
+                setValues({
+                  ...values,
+                  redirectToReferrer: true,
+                  processing: false,
+                });
               } else {
                 dispatch(setUser({ user: data.user, encrypt: true }));
-                setValues({ ...values, redirectToReferrer:true });
-
+                setValues({
+                  ...values,
+                  redirectToReferrer: true,
+                  processing: false,
+                });
               }
             });
           }
@@ -175,117 +215,142 @@ const Checkout = () => {
   };
   const checkoutFrom = () => (
     <div className="checkout--container">
-      <span className="text--checkout">Checkout</span>
-      <form onSubmit={clickSubmit}>
-        <div className="checkout-form">
-          <div className="checkout-form--input">
-            <div className="checkout--row">
-              <label for="name">{language === "en" ? "Name" : "নাম"}</label>
-              <input
-                // type="text"
-                // id="fname"
-                // name="firstname"
-                // className="checkout__input"
-                id="name"
-                placeholder={language === "en" ? "name" : "নাম"}
-                onChange={handleChange("contactName")}
-                type="text"
-                className="checkout__input"
-                value={contactName}
-                required
-              />
-            </div>
+      {processing ? (
+        <React.Fragment>
+          <React.Fragment>
+            <LoadingBar
+              loading={processing}
+              message={
+                language === "en"
+                  ? "Your order is processing... please wait"
+                  : "আপনার অর্ডার টি প্রসেস করা হচ্ছে... অনুগ্রহ করে অপেক্ষা করুন "
+              }
+            ></LoadingBar>
+          </React.Fragment>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          {" "}
+          <ToastContainer />
+          <span className="text--checkout">Checkout</span>
+          <form onSubmit={clickSubmit}>
+            <div className="checkout-form">
+              <div className="checkout-form--input">
+                <div className="checkout--row">
+                  <label for="name">{language === "en" ? "Name" : "নাম"}</label>
+                  <input
+                    // type="text"
+                    // id="fname"
+                    // name="firstname"
+                    // className="checkout__input"
+                    id="name"
+                    placeholder={language === "en" ? "name" : "নাম"}
+                    onChange={handleChange("contactName")}
+                    type="text"
+                    className="checkout__input"
+                    value={contactName}
+                    required
+                  />
+                </div>
 
-            <div className="checkout--row">
-              <label for="contactNumber">
-                {language === "en"
-                  ? "Contact Phone number"
-                  : "যোগাযোগের ফোন নাম্বার"}
-              </label>
-              <input
-                id="contactNumber"
-                placeholder={language === "en" ? "Phone number" : "ফোন নাম্বার"}
-                onChange={handleChange("contactNumber")}
-                type="number"
-                className="checkout__input"
-                value={contactNumber}
-                required
-              />
-            </div>
-            <div className="checkout--row">
-              <label for="country">Area</label>
-              <select id="country" name="country" className="checkout__input">
-                <option value="australia" className="checkout__input">
-                  Uttara
-                </option>
-              </select>
-            </div>
-            <div className="checkout--row">
-              <label for="address">Address</label>
-              <textarea
-                id="address"
-                placeholder={language === "en" ? "Address" : "ঠিকানা"}
-                onChange={handleChange("contactAddress")}
-                type="textarea"
-                className="checkout__input"
-                value={contactAddress}
-                required
-              />
-            </div>
-          </div>
-          <div className="chekout-form--info">
-            <div className="payment__method">
-              <img src={cashOnDeliveryImg} alt="" />
-              <span> Cash on delivery</span>
-            </div>
-            <div className="delivery__time">
-              <img src={oneHourImg} alt="Cash on delivery" />
-              <span>1 hour express delivery</span>
-            </div>
-          </div>
-          {language === "en" ? (
-            <div className="chekout-form--total">
-              <div className="checkout--text--space--between deliver--charge">
-                <span>Delivery charge</span>
-                <span>0</span>
+                <div className="checkout--row">
+                  <label for="contactNumber">
+                    {language === "en"
+                      ? "Contact Phone number"
+                      : "যোগাযোগের ফোন নাম্বার"}
+                  </label>
+                  <input
+                    id="contactNumber"
+                    placeholder={
+                      language === "en" ? "Phone number" : "ফোন নাম্বার"
+                    }
+                    onChange={handleChange("contactNumber")}
+                    type="number"
+                    className="checkout__input"
+                    value={contactNumber}
+                    required
+                  />
+                </div>
+                <div className="checkout--row">
+                  <label for="country">Area</label>
+                  <select
+                    id="country"
+                    name="country"
+                    className="checkout__input"
+                  >
+                    <option value="australia" className="checkout__input">
+                      Uttara
+                    </option>
+                  </select>
+                </div>
+                <div className="checkout--row">
+                  <label for="address">Address</label>
+                  <textarea
+                    id="address"
+                    placeholder={language === "en" ? "Address" : "ঠিকানা"}
+                    onChange={handleChange("contactAddress")}
+                    type="textarea"
+                    className="checkout__input"
+                    value={contactAddress}
+                    required
+                  />
+                </div>
               </div>
-              <div className="checkout--text--space--between cart--total">
-                <span>Cart total</span>
-                <span>{totalAmount}</span>
+              <div className="chekout-form--info">
+                <div className="payment__method">
+                  <img src={cashOnDeliveryImg} alt="" />
+                  <span> Cash on delivery</span>
+                </div>
+                <div className="delivery__time">
+                  <img src={oneHourImg} alt="Cash on delivery" />
+                  <span>1 hour express delivery</span>
+                </div>
               </div>
-              <hr className="hr--padding-left" />
-              <div className="checkout--text--space--between cart--total">
-                <span>Sub total</span>
-                <span>{totalAmount}</span>
-              </div>
-            </div>
-          ) : (
-            <div className="chekout-form--total">
-              <div className="checkout--text--space--between deliver--charge">
-                <span>ডেলিভারি চার্জ </span>
-                <span>{englishToBangla(0)}</span>
-              </div>
-              <div className="checkout--text--space--between cart--total">
-                <span>পণ্যে সমূহের মূল্য</span>
-                <span>{englishToBangla(totalAmount)}</span>
-              </div>
-              <hr className="hr--padding-left" />
-              <div className="checkout--text--space--between cart--total">
-                <span>মোট মূল্য</span>
-                <span>{englishToBangla(totalAmount)}</span>
-              </div>
-            </div>
-          )}
+              {language === "en" ? (
+                <div className="chekout-form--total">
+                  <div className="checkout--text--space--between deliver--charge">
+                    <span>Delivery charge</span>
+                    <span>0</span>
+                  </div>
+                  <div className="checkout--text--space--between cart--total">
+                    <span>Cart total</span>
+                    <span>{totalAmount}</span>
+                  </div>
+                  <hr className="hr--padding-left" />
+                  <div className="checkout--text--space--between cart--total">
+                    <span>Sub total</span>
+                    <span>{totalAmount}</span>
+                  </div>
+                </div>
+              ) : (
+                <div className="chekout-form--total">
+                  <div className="checkout--text--space--between deliver--charge">
+                    <span>ডেলিভারি চার্জ </span>
+                    <span>{englishToBangla(0)}</span>
+                  </div>
+                  <div className="checkout--text--space--between cart--total">
+                    <span>পণ্যে সমূহের মূল্য</span>
+                    <span>{englishToBangla(totalAmount)}</span>
+                  </div>
+                  <hr className="hr--padding-left" />
+                  <div className="checkout--text--space--between cart--total">
+                    <span>মোট মূল্য</span>
+                    <span>{englishToBangla(totalAmount)}</span>
+                  </div>
+                </div>
+              )}
 
-          <div className="checkout--row">
-            <input
-              type="submit"
-              value={language === "en" ? "Checkout" : "ক্রয় করুন"}
-              className="checkout__input--submit"
-            />
-          </div>
-        </div>
-      </form>
+              <div className="checkout--row">
+                <input
+                  type="submit"
+                  value={language === "en" ? "Checkout" : "ক্রয় করুন"}
+                  className="checkout__input--submit"
+                />
+              </div>
+            </div>
+          </form>
+        </React.Fragment>
+      )}
     </div>
   );
 
@@ -298,36 +363,31 @@ const Checkout = () => {
     </div>
   );
 
-  const showLoading = () =>
-    loading && (
-      <div className="alert-box warning">
-        <h2>Loading...</h2>
-      </div>
-    );
-
-  const showNoProducts = () =>
-    products.length <= 0 && (
-      <div className="alert__box alert--warning">
-        {language === "en" ? (
-          <h2>Please add products in your cart.</h2>
-        ) : (
-          <h2>আপনার ব্যাগে পণ্য যোগ করুন</h2>
-        )}
-      </div>
-    );
+  const showNoProducts = () => {
+    // if (notifyAddP){
+    //   setValues({ ...values, notifyAddP: false });
+    if (products.length <= 0) {
+      // notifyAddProduct();
+      return history.push("/");
+    }
+    //}
+  };
 
   const redirectUser = () => {
+    console.log("rediricting .............user to home", redirectToReferrer);
     if (redirectToReferrer) {
+      console.log("rediricting .............user to home, enter");
+
       return <Redirect to={`/`} />;
     }
   };
   return (
     <div className="">
-      {showLoading()}
       {showError()}
       {showNoProducts()}
       {checkoutFrom()}
       {redirectUser()}
+
       <Footer></Footer>
     </div>
   );
