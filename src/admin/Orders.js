@@ -106,11 +106,11 @@ const Orders = () => {
                   <li className="list-group-item">{o.transaction_id}</li>
                   <li className="list-group-item">Total Price: {o.amount}</li>
                   {/* <li className="list-group-item">Ordered by: {o.user.name}</li> */}
-                  <li className="list-group-item">Ordered by: {o.name}</li>
-
+                  <li className="list-group-item">Ordered by: {o.user.name}</li>
                   <li className="list-group-item">
                     Verified Phone Number: {o.user.phoneNumber}
                   </li>
+                  <li className="list-group-item">Contact Name: {o.contactName}</li>
                   <li className="list-group-item">
                     Contact Phone Number: {o.contactNumber}
                   </li>
@@ -119,7 +119,7 @@ const Orders = () => {
                     Ordered on: {moment(o.createdAt).fromNow()}
                   </li>
                   <li className="list-group-item">
-                    Delivery address: {o.address}
+                    Delivery address: {o.contactAddress}
                   </li>
                   <li className="list-group-item">
                     <Link to={`/admin/order/details/${user._id}/${o._id}`}>

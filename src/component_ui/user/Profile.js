@@ -10,9 +10,8 @@ import {
   selectUser,
   selectToken,
 } from "../../redux/authSlice";
-import "./checkout.css";
-import googleImg from "../../images/google_icon.svg";
-import facebookImg from "../../images/facebook.svg";
+import "./profile.css";
+
 import cashOnDeliveryImg from "../../images/cash-on-delivery.png";
 import oneHourImg from "../../images/1-hour.png";
 import {

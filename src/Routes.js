@@ -13,7 +13,6 @@ import Shop from "./core/Shop";
 import Product from "./core/Product";
 import Cart from "./core/Cart";
 import Orders from "./admin/Orders";
-import Profile from "./user/Profile";
 import ManageProducts from "./admin/ManageProducts";
 import ManageCategory from "./admin/ManageCategory";
 
@@ -31,6 +30,7 @@ import ManageGallery from "./admin/home/ManageGallery";
 // import OtpVerificationForm from "./component_ui/user/OtpVerificationForm";
 import OrderDetails from "./admin/OrderDetails";
 import Checkout from "./component_ui/checkout/Checkout";
+import Profile from "./component_ui/user/Profile";
 import SearchContent from "./component_ui/search/SearchContent";
 
 
@@ -87,6 +87,7 @@ const Routes = () =>{
     <Route exact path="/user/signup" component={SignupForm} />
     <Route exact path="/user/otp-v" component={OtpVerificationForm} /> */}
     <Route exact path="/user/checkout" component={Checkout} />
+    <Route exact path="/user/profile" component={Profile} />
 
     <PrivateRoute path="/user/dashboard" exact component={UserDashboard} />
     <AdminRoute path="/admin/dashboard" exact component={AdminDashboard} />
@@ -102,7 +103,7 @@ const Routes = () =>{
     <AdminRoute path="/admin/orders" exact component={Orders} />
     <AdminRoute path="/admin/order/details/:userId/:orderId" exact component={OrderDetails} />
 
-    <PrivateRoute path="/profile/:userId" exact component={Profile} />
+    {/* <PrivateRoute path="/user/profile/:userId" exact component={Profile} /> */}
     <PrivateRoute path="/admin/products" exact component={ManageProducts} />
     <PrivateRoute path="/admin/categories" exact component={ManageCategory} />
     <PrivateRoute

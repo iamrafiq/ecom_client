@@ -18,13 +18,14 @@ import oneHourImg from "../../images/1-hour.png";
 import {
   selectCartTotalAmount,
   selectCartProducts,
-  emptyCart
+  emptyCart,
 } from "../../redux/cartSlice";
 
 import { englishToBangla } from "../../util/utils";
 import Footer from "../footer/Footer";
 import { useEffect } from "react";
 import { createOrder } from "../../core/apiCore";
+import { profileUpdate } from "../../auth/index";
 const Checkout = () => {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
@@ -35,86 +36,144 @@ const Checkout = () => {
   const token = useSelector(selectToken);
 
   const [values, setValues] = useState({
-    name: "",
+    contactName: "",
     contactNumber: "",
-    address: "",
+    contactAddress: "",
     area: "",
     error: "",
     loading: false,
     redirectToReferrer: false,
+    updateProfile: false,
   });
 
   const {
-    address,
+    contactAddress,
     contactNumber,
     loading,
     error,
     redirectToReferrer,
-    name,
+    contactName,
     area,
+    updateProfile,
   } = values;
 
   const checkoutProducts = () => {
     return products.map((ele, index) => {
-      
       return {
         _id: ele.product._id,
         productCode: ele.product.productCode,
         name: ele.product.name,
         count: ele.qtyCart,
         price: ele.product.applyDiscounts
-        ? ele.product.cropPrice
-        : ele.product.mrp
+          ? ele.product.cropPrice
+          : ele.product.mrp,
       };
     });
   };
   useEffect(() => {
     if (user) {
-      setValues({
-        ...values,
-        name: user.name,
-        contactNumber: user.phoneNumber,
-        address: user.address,
-        area: "Uttara",
-      });
+      if (user.address && user.address.length > 0) {
+        let address = user.address[user.address.length - 1];
+        let cName = "";
+        if (address.contactName) {
+          cName = address.contactName;
+        } else {
+          cName = user.name;
+        }
+        let cNum;
+        if (address.contactNumber) {
+          cNum = address.contactNumber;
+        } else {
+          cNum = user.phoneNumber;
+        }
+        let contactAddress = "";
+        if (address.contactAddress) {
+          contactAddress = address.contactAddress;
+        }
+        let area = "Uttara";
+        if (address.area) {
+          area = address.area;
+        }
+        setValues({
+          ...values,
+          contactName: cName,
+          contactNumber: cNum,
+          contactAddress: contactAddress,
+          area: area,
+        });
+      }else{
+        setValues({
+          ...values,
+          contactName: user.name,
+          contactNumber: user.phoneNumber,
+        });
+      }
     }
   }, []);
 
   const handleChange = (field) => {
     return (event) => {
-      setValues({ ...values, error: false, [field]: event.target.value });
+      setValues({
+        ...values,
+        updateProfile: true,
+        error: false,
+        [field]: event.target.value,
+      });
     };
   };
 
   const clickSubmit = (event) => {
     event.preventDefault();
-    console.log("submit....");
-    setValues({ ...values, error: false, loading: true });
-    contactNumber.trim();
-    address.trim();
-    const userId = user._id;
-    const createOrderData = {
-      products: checkoutProducts(),
-      amount: totalAmount,
-      address,
-      area,
-      contactNumber,
-      name,
-    };
+    if (products.length > 0) {
+      setValues({ ...values, error: false, loading: true });
+      // contactNumber.trim();
+      contactAddress.trim();
+      const userId = user._id;
+      const createOrderData = {
+        products: checkoutProducts(),
+        amount: totalAmount,
+        contactAddress,
+        area,
+        contactNumber,
+        contactName,
+      };
 
-    console.log("user id:", userId);
+      console.log("user id:", userId);
 
-    console.log(checkoutProducts());
-    createOrder(userId, token, createOrderData).then((data) => {
-      if (data.error) {
-        setValues({ ...values, error: data.error, loading: false });
-      } else {
-        console.log("sign in data:", data);
-        dispatch(emptyCart())
-      }
-    });
+      console.log(checkoutProducts());
+      createOrder(userId, token, createOrderData).then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error, loading: false });
+        } else {
+          console.log("sign in data:", data);
+          dispatch(emptyCart());
+          if (updateProfile) {
+            let address = {
+              contactName,
+              contactNumber,
+              contactAddress,
+              area,
+            };
+            let verified = user.verified;
+            let phoneNumber = user.phoneNumber;
+            profileUpdate({ phoneNumber, verified, address }).then((data) => {
+              if (data.error) {
+                console.log("checkout error", data);
+                setValues({ ...values, redirectToReferrer:true });
+
+              } else {
+                dispatch(setUser({ user: data.user, encrypt: true }));
+                setValues({ ...values, redirectToReferrer:true });
+
+              }
+            });
+          }
+        }
+      });
+    } else {
+    }
   };
-  const signInFrom = () => (
+  const checkoutFrom = () => (
     <div className="checkout--container">
       <span className="text--checkout">Checkout</span>
       <form onSubmit={clickSubmit}>
@@ -128,13 +187,12 @@ const Checkout = () => {
                 // name="firstname"
                 // className="checkout__input"
                 id="name"
-                placeholder={
-                  language === "en" ? "name (optional)" : "নাম (অপসনাল)"
-                }
-                onChange={handleChange("name")}
+                placeholder={language === "en" ? "name" : "নাম"}
+                onChange={handleChange("contactName")}
                 type="text"
                 className="checkout__input"
-                value={name}
+                value={contactName}
+                required
               />
             </div>
 
@@ -167,10 +225,10 @@ const Checkout = () => {
               <textarea
                 id="address"
                 placeholder={language === "en" ? "Address" : "ঠিকানা"}
-                onChange={handleChange("address")}
+                onChange={handleChange("contactAddress")}
                 type="textarea"
                 className="checkout__input"
-                value={address}
+                value={contactAddress}
                 required
               />
             </div>
@@ -247,24 +305,28 @@ const Checkout = () => {
       </div>
     );
 
+  const showNoProducts = () =>
+    products.length <= 0 && (
+      <div className="alert__box alert--warning">
+        {language === "en" ? (
+          <h2>Please add products in your cart.</h2>
+        ) : (
+          <h2>আপনার ব্যাগে পণ্য যোগ করুন</h2>
+        )}
+      </div>
+    );
+
   const redirectUser = () => {
     if (redirectToReferrer) {
-      if (user.verified === 1) {
-        if (user && user.role === 1) {
-          return <Redirect to="/admin/dashboard" />;
-        } else {
-          return <Redirect to="/user/dashboard" />;
-        }
-      } else {
-        return <Redirect to={`/user/otp-v`} />;
-      }
+      return <Redirect to={`/`} />;
     }
   };
   return (
     <div className="">
       {showLoading()}
       {showError()}
-      {signInFrom()}
+      {showNoProducts()}
+      {checkoutFrom()}
       {redirectUser()}
       <Footer></Footer>
     </div>

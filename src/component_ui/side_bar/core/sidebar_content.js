@@ -50,7 +50,7 @@ const SidebarContent = (props) => {
     <div className="sidebar__pannel">
       <div className="sidebar--header">
         <div className="">
-          {user.status > 0 ? (
+          {user && user.status > 0 ? (
             <Link
               className="react__link--colorless sidebar__header--user"
               to="/user/profile"

@@ -32,6 +32,23 @@ export const signup = (user) => {
     });
 };
 
+export const profileUpdate = (user) => {
+  return fetch(`${API}/profile/update`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  })
+    .then((responce) => {
+      return responce.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 export const verifyOtp = (user) => {
   return fetch(`${API}/verfiy-otp`, {
     method: "POST",

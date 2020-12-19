@@ -54,6 +54,12 @@ const SignupForm = () => {
     let aiId = user.aiId;
     console.log("user.........aid", user);
     let status = 1;
+    // let address = {
+    //   area:"Uttara",
+    //   contactNumber:"1211211232",
+    //   contactName:"Abul",
+    //   contactAddress:"address uttara"
+    // }
     signup({ aiId, phoneNumber, status }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
