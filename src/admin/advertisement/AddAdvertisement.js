@@ -4,15 +4,19 @@ import Layout from "../../core/Layout";
 import { useSelector } from "react-redux";
 import { selectUser, selectToken } from "../../redux/authSlice";
 
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { getCategories } from "../apiAdmin";
 import { getAllProducts } from "../apiAdmin";
 
 import { createAdvertisement } from "./apiAdvertisement";
 import Select from "react-select";
+import LoadingBar from "../../util/LoadingBar";
+
 var slugify = require("slugify");
 
 const AddAvertisement = () => {
+  const history = useHistory();
+
   const user = useSelector(selectUser);
   const token = useSelector(selectToken);
 
@@ -24,7 +28,7 @@ const AddAvertisement = () => {
   // const { user, token } = isAuthenticated();
   const [values, setValues] = useState({
     name: "",
-    slug:"",
+    slug: "",
     slugPages: "",
     customSlug: "",
     categorySlugs: "",
@@ -57,7 +61,7 @@ const AddAvertisement = () => {
       } else {
         console.log("products...", data);
 
-        setProducts(data)
+        setProducts(data);
         setValues({
           ...values,
           loading: false,
@@ -74,7 +78,7 @@ const AddAvertisement = () => {
         console.log("cats...", data);
 
         const rootless = data.filter((e) => e.name !== "root");
-        setCategories(rootless)
+        setCategories(rootless);
         setValues({
           ...values,
           loading: false,
@@ -85,7 +89,6 @@ const AddAvertisement = () => {
     });
   };
   useEffect(() => {
-   
     downloadAllCategories();
     // if (products.length <= 0) {
     //   downloadAllProducts();
@@ -106,15 +109,14 @@ const AddAvertisement = () => {
   const handlePhotoChange = (name) => (event) => {
     if (name == "photo") {
       setPhoto(event.target.files[0]);
-    }else if (name == "photoBangla"){
+    } else if (name == "photoBangla") {
       setPhotoBangla(event.target.files[0]);
     }
-
   };
   const handleChange = (field) => (event) => {
     let value = event.target.value;
     if (field === "name") {
-      const nameClean = value.replace(/[^a-zA-Z0-9]/g, '-');
+      const nameClean = value.replace(/[^a-zA-Z0-9]/g, "-");
 
       const slugStr = slugify(nameClean, {
         replacement: "-", // replace spaces with replacement character, defaults to `-`
@@ -191,7 +193,7 @@ const AddAvertisement = () => {
           loading: false,
           createdProduct: data.name,
         });
-
+        history.push("/admin/dashboard");
         //init();
       }
     });
@@ -230,106 +232,119 @@ const AddAvertisement = () => {
     }
   };
   const newPostFrom = () => (
-    <form className="mb-3" onSubmit={clickSubmit} id="form1">
-      <h4>Upload Image</h4>
-      <div className="form-group">
-        <label htmlFor="" className="btn btn-secondary">
-          <input
-            onChange={handlePhotoChange("photo")}
-            type="file"
-            name="photo"
-            accept="image/*"
-          />
-        </label>
-      </div>
-      <h4>Upload Bangla Image</h4>
+    <React.Fragment>
+      {loading ? (
+        <React.Fragment>
+          <LoadingBar
+            loading={loading}
+            message={`Adding advertisiment.. please wait`}
+          ></LoadingBar>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <form className="mb-3" onSubmit={clickSubmit} id="form1">
+            <h4>Upload Image</h4>
+            <div className="form-group">
+              <label htmlFor="" className="btn btn-secondary">
+                <input
+                  onChange={handlePhotoChange("photo")}
+                  type="file"
+                  name="photo"
+                  accept="image/*"
+                />
+              </label>
+            </div>
+            <h4>Upload Bangla Image</h4>
 
-      <div className="form-group">
-        <label htmlFor="" className="btn btn-secondary">
-          <input
-            onChange={handlePhotoChange("photoBangla")}
-            type="file"
-            name="photoBangla"
-            accept="image/*"
-          />
-        </label>
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Name
-        </label>
-        <input
-          onChange={handleChange("name")}
-          type="text"
-          className="form-control"
-          value={name}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Cust Page Slug: (Coma separeted value)
-        </label>
-        <input
-          onChange={handleChange("customSlug")}
-          type="text"
-          className="form-control"
-          value={customSlug}
-        />
-      </div>
+            <div className="form-group">
+              <label htmlFor="" className="btn btn-secondary">
+                <input
+                  onChange={handlePhotoChange("photoBangla")}
+                  type="file"
+                  name="photoBangla"
+                  accept="image/*"
+                />
+              </label>
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Name
+              </label>
+              <input
+                onChange={handleChange("name")}
+                type="text"
+                className="form-control"
+                value={name}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Cust Page Slug: (Coma separeted value)
+              </label>
+              <input
+                onChange={handleChange("customSlug")}
+                type="text"
+                className="form-control"
+                value={customSlug}
+              />
+            </div>
 
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Select Categori Pages:
-        </label>
-        {categories.length > 0 && (
-          <Select
-            onChange={handleChangeCategoris}
-            closeMenuOnSelect={false}
-            // defaultValue={[colourOptions[0], colourOptions[1]]}
-            isMulti
-            options={categories.map((cat, index) => {
-              return {
-                value: cat.name,
-                label: cat.name,
-                obj: cat,
-              };
-            })}
-          />
-        )}
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Select Product Pages:
-        </label>
-        {products.length > 0 && (
-          <Select
-            onChange={handleChangeProducts}
-            closeMenuOnSelect={false}
-            // defaultValue={[colourOptions[0], colourOptions[1]]}
-            isMulti
-            options={products.map((p, index) => {
-              return {
-                value: p.name,
-                label: p.name,
-                obj: p,
-              };
-            })}
-          />
-        )}
-      </div>
-      <button
-        type="submit"
-        form="form1"
-        value="Submit"
-        className="btn btn-outline-primary mr-5"
-      >
-        Create a new Category
-      </button>
-      {/* <button type="button" className="btn btn-outline-primary">
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Select Categori Pages:
+              </label>
+              {categories.length > 0 && (
+                <Select
+                  onChange={handleChangeCategoris}
+                  closeMenuOnSelect={false}
+                  // defaultValue={[colourOptions[0], colourOptions[1]]}
+                  isMulti
+                  options={categories.map((cat, index) => {
+                    return {
+                      value: cat.name,
+                      label: cat.name,
+                      obj: cat,
+                    };
+                  })}
+                />
+              )}
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Select Product Pages:
+              </label>
+              {products.length > 0 && (
+                <Select
+                  onChange={handleChangeProducts}
+                  closeMenuOnSelect={false}
+                  // defaultValue={[colourOptions[0], colourOptions[1]]}
+                  isMulti
+                  options={products.map((p, index) => {
+                    return {
+                      value: p.name,
+                      label: p.name,
+                      obj: p,
+                    };
+                  })}
+                />
+              )}
+            </div>
+            <button
+              type="submit"
+              form="form1"
+              value="Submit"
+              className="btn btn-outline-primary mr-5"
+            >
+              Create a new Category
+            </button>
+            {/* <button type="button" className="btn btn-outline-primary">
         Back to dashboard
       </button> */}
-      {goBack()}
-    </form>
+            {goBack()}
+          </form>
+        </React.Fragment>
+      )}
+    </React.Fragment>
   );
 
   const showError = () => (

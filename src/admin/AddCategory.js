@@ -4,13 +4,16 @@ import Layout from "../core/Layout";
 import { useSelector } from "react-redux";
 
 import { selectUser, selectToken } from "../redux/authSlice";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { createCategory, getCategories } from "./apiAdmin";
 import Select from "react-select";
+import LoadingBar from "../util/LoadingBar";
 
 var slugify = require("slugify");
 
 const AddCategory = () => {
+  const history = useHistory();
+
   const user = useSelector(selectUser);
   const token = useSelector(selectToken);
   const [iconMenu, setIconMenu] = useState(null);
@@ -75,6 +78,7 @@ const AddCategory = () => {
           parents: data,
           formData: new FormData(),
         });
+        history.push("/admin/dashboard");
       }
     });
   };
@@ -96,8 +100,7 @@ const AddCategory = () => {
     let value = event.target.value;
     formData.set(field, value);
     if (field === "name") {
-      const nameClean = value.replace(/[^a-zA-Z0-9]/g, '-');
-
+      const nameClean = value.replace(/[^a-zA-Z0-9]/g, "-");
       const slugStr = slugify(nameClean, {
         replacement: "-", // replace spaces with replacement character, defaults to `-`
         remove: undefined, // remove characters that match regex, defaults to `undefined`
@@ -186,149 +189,165 @@ const AddCategory = () => {
   };
 
   const newPostFrom = () => (
-    <form className="mb-3" onSubmit={clickSubmit} id="form1">
-      <h4>Upload Menu Icon</h4>
-      <div className="form-group">
-        <label htmlFor="" className="btn btn-secondary">
-          <input
-            onChange={handleImageChange("iconMenu")}
-            type="file"
-            name="iconMenu"
-            accept="image/webp"
-          />
-        </label>
-      </div>
-      <h4>Upload Icon</h4>
-      <div className="form-group">
-        <label htmlFor="" className="btn btn-secondary">
-          <input
-            onChange={handleImageChange("icon")}
-            type="file"
-            name="icon"
-            accept="image/webp"
-          />
-        </label>
-      </div>
-      <h4>Upload Thumbnail</h4>
-      <div className="form-group">
-        <label htmlFor="" className="btn btn-secondary">
-          <input
-            onChange={handleImageChange("thumbnail")}
-            type="file"
-            name="thumbnail"
-            accept="image/webp"
-          />
-        </label>
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Name
-        </label>
-        <input
-          onChange={handleChange("name")}
-          type="text"
-          className="form-control"
-          value={name}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Bengali Name
-        </label>
-        <input
-          onChange={handleChange("bengaliName")}
-          type="text"
-          className="form-control"
-          value={bengaliName}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Name Full
-        </label>
-        <input
-          onChange={handleChange("nameFull")}
-          type="text"
-          className="form-control"
-          value={nameFull}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Bengali Name Full
-        </label>
-        <input
-          onChange={handleChange("bengaliNameFull")}
-          type="text"
-          className="form-control"
-          value={bengaliNameFull}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Slug
-        </label>
-        <input
-          onChange={handleChange("slug")}
-          type="text"
-          className="form-control"
-          value={slug}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Order
-        </label>
-        <input
-          onChange={handleChange("order")}
-          type="number"
-          className="form-control"
-          value={order}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Parent
-        </label>
-        <select onChange={handleChange("parent")} className="form-control">
-          <option>Select a parent</option>
-          {parents &&
-            parents.map((cat, index) => (
-              <option key={index} value={JSON.stringify(cat)}>
-                {cat.name}
-              </option>
-            ))}
-        </select>
-      </div>
+    <React.Fragment>
+      {loading ? (
+        <React.Fragment>
+          <LoadingBar
+            loading={loading}
+            message={`Adding category.. please wait`}
+          ></LoadingBar>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <form className="mb-3" onSubmit={clickSubmit} id="form1">
+            <h4>Upload Menu Icon</h4>
+            <div className="form-group">
+              <label htmlFor="" className="btn btn-secondary">
+                <input
+                  onChange={handleImageChange("iconMenu")}
+                  type="file"
+                  name="iconMenu"
+                  accept="image/webp"
+                />
+              </label>
+            </div>
+            <h4>Upload Icon</h4>
+            <div className="form-group">
+              <label htmlFor="" className="btn btn-secondary">
+                <input
+                  onChange={handleImageChange("icon")}
+                  type="file"
+                  name="icon"
+                  accept="image/webp"
+                />
+              </label>
+            </div>
+            <h4>Upload Thumbnail</h4>
+            <div className="form-group">
+              <label htmlFor="" className="btn btn-secondary">
+                <input
+                  onChange={handleImageChange("thumbnail")}
+                  type="file"
+                  name="thumbnail"
+                  accept="image/webp"
+                />
+              </label>
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Name
+              </label>
+              <input
+                onChange={handleChange("name")}
+                type="text"
+                className="form-control"
+                value={name}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Bengali Name
+              </label>
+              <input
+                onChange={handleChange("bengaliName")}
+                type="text"
+                className="form-control"
+                value={bengaliName}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Name Full
+              </label>
+              <input
+                onChange={handleChange("nameFull")}
+                type="text"
+                className="form-control"
+                value={nameFull}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Bengali Name Full
+              </label>
+              <input
+                onChange={handleChange("bengaliNameFull")}
+                type="text"
+                className="form-control"
+                value={bengaliNameFull}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Slug
+              </label>
+              <input
+                onChange={handleChange("slug")}
+                type="text"
+                className="form-control"
+                value={slug}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Order
+              </label>
+              <input
+                onChange={handleChange("order")}
+                type="number"
+                className="form-control"
+                value={order}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Parent
+              </label>
+              <select
+                onChange={handleChange("parent")}
+                className="form-control"
+              >
+                <option>Select a parent</option>
+                {parents &&
+                  parents.map((cat, index) => (
+                    <option key={index} value={JSON.stringify(cat)}>
+                      {cat.name}
+                    </option>
+                  ))}
+              </select>
+            </div>
 
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Show In Home Screen
-        </label>
-        <Select
-          onChange={handleOptionChange}
-          options={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            op.field = "showHome";
-            return op;
-          })}
-        />
-      </div>
-      <button
-        type="submit"
-        form="form1"
-        value="Submit"
-        className="btn btn-outline-primary mr-5"
-      >
-        Create a new Category
-      </button>
-      {/* <button type="button" className="btn btn-outline-primary">
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Show In Home Screen
+              </label>
+              <Select
+                onChange={handleOptionChange}
+                options={[
+                  { value: 0, label: "No", field: "" },
+                  { value: 1, label: "Yes", field: "" },
+                ].map((op, index) => {
+                  op.field = "showHome";
+                  return op;
+                })}
+              />
+            </div>
+            <button
+              type="submit"
+              form="form1"
+              value="Submit"
+              className="btn btn-outline-primary mr-5"
+            >
+              Create a new Category
+            </button>
+            {/* <button type="button" className="btn btn-outline-primary">
         Back to dashboard
       </button> */}
-      {goBack()}
-    </form>
+            {goBack()}
+          </form>
+        </React.Fragment>
+      )}
+    </React.Fragment>
   );
 
   const showError = () => (

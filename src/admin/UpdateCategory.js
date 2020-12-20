@@ -3,16 +3,19 @@ import Layout from "../core/Layout";
 import { useSelector } from "react-redux";
 
 import { selectUser, selectToken } from "../redux/authSlice";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { getCategory, getCategories, updateCategory } from "./apiAdmin";
 import Select from "react-select";
+import LoadingBar from "../util/LoadingBar";
 
 var slugify = require("slugify");
 
 const UpdateCategory = ({ match }) => {
+  const history = useHistory();
+
   const user = useSelector(selectUser);
   const token = useSelector(selectToken);
-    const [iconMenu, setIconMenu] = useState(null);
+  const [iconMenu, setIconMenu] = useState(null);
 
   const [icon, setIcon] = useState(null);
   const [thumbnail, setThumbnail] = useState(null);
@@ -117,7 +120,7 @@ const UpdateCategory = ({ match }) => {
       formData.set(field, value);
     }
     if (field === "name") {
-      const nameClean = value.replace(/[^a-zA-Z0-9]/g, '-');
+      const nameClean = value.replace(/[^a-zA-Z0-9]/g, "-");
       const slugStr = slugify(nameClean, {
         replacement: "-", // replace spaces with replacement character, defaults to `-`
         remove: undefined, // remove characters that match regex, defaults to `undefined`
@@ -190,170 +193,187 @@ const UpdateCategory = ({ match }) => {
             redirectToProfile: true,
             createdProduct: data.name,
           });
+          history.push("/admin/dashboard");
         }
       }
     );
   };
   const newPostFrom = () => (
-    <form className="mb-3" onSubmit={clickSubmit} id="form1">
-      <h4>Upload Icon Menu</h4>
-      <div className="form-group">
-        <label htmlFor="" className="btn btn-secondary">
-          <input
-            onChange={handleImageChange("iconMenu")}
-            type="file"
-            name="icon"
-            accept="image/webp"
-          />
-        </label>
-      </div>
-      <h4>Upload Icon</h4>
-      <div className="form-group">
-        <label htmlFor="" className="btn btn-secondary">
-          <input
-            onChange={handleImageChange("icon")}
-            type="file"
-            name="icon"
-            accept="image/webp"
-          />
-        </label>
-      </div>
-      <h4>Upload Thumbnail</h4>
-      <div className="form-group">
-        <label htmlFor="" className="btn btn-secondary">
-          <input
-            onChange={handleImageChange("thumbnail")}
-            type="file"
-            name="thumbnail"
-            accept="image/webp"
-          />
-        </label>
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Name
-        </label>
-        <input
-          onChange={handleChange("name")}
-          type="text"
-          className="form-control"
-          value={name}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Slug
-        </label>
-        <input
-          onChange={handleChange("slug")}
-          type="text"
-          className="form-control"
-          value={slug}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Bengali Name
-        </label>
-        <input
-          onChange={handleChange("bengaliName")}
-          type="text"
-          className="form-control"
-          value={bengaliName}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Order
-        </label>
-        <input
-          onChange={handleChange("order")}
-          type="number"
-          className="form-control"
-          value={order}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Parent
-        </label>
-        <select onChange={handleChange("parent")} className="form-control">
-          <option>Select a parent</option>
-          {/* {setSpinner(categories)} */}
-          {categories &&
-            categories.map((cat, index) =>
-              cat._id !== match.params.categoryId ? (
-                parent._id === cat._id ? (
-                  <option
-                    key={index}
-                    value={JSON.stringify(cat)}
-                    selected={true}
-                  >
-                    {cat.name}
-                  </option>
-                ) : (
-                  <option key={index} value={JSON.stringify(cat)}>
-                    {cat.name}
-                  </option>
-                )
+    <React.Fragment>
+      {loading ? (
+        <React.Fragment>
+          <LoadingBar
+            loading={loading}
+            message={`Updating category.. please wait`}
+          ></LoadingBar>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <form className="mb-3" onSubmit={clickSubmit} id="form1">
+            <h4>Upload Icon Menu</h4>
+            <div className="form-group">
+              <label htmlFor="" className="btn btn-secondary">
+                <input
+                  onChange={handleImageChange("iconMenu")}
+                  type="file"
+                  name="icon"
+                  accept="image/webp"
+                />
+              </label>
+            </div>
+            <h4>Upload Icon</h4>
+            <div className="form-group">
+              <label htmlFor="" className="btn btn-secondary">
+                <input
+                  onChange={handleImageChange("icon")}
+                  type="file"
+                  name="icon"
+                  accept="image/webp"
+                />
+              </label>
+            </div>
+            <h4>Upload Thumbnail</h4>
+            <div className="form-group">
+              <label htmlFor="" className="btn btn-secondary">
+                <input
+                  onChange={handleImageChange("thumbnail")}
+                  type="file"
+                  name="thumbnail"
+                  accept="image/webp"
+                />
+              </label>
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Name
+              </label>
+              <input
+                onChange={handleChange("name")}
+                type="text"
+                className="form-control"
+                value={name}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Slug
+              </label>
+              <input
+                onChange={handleChange("slug")}
+                type="text"
+                className="form-control"
+                value={slug}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Bengali Name
+              </label>
+              <input
+                onChange={handleChange("bengaliName")}
+                type="text"
+                className="form-control"
+                value={bengaliName}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Order
+              </label>
+              <input
+                onChange={handleChange("order")}
+                type="number"
+                className="form-control"
+                value={order}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Parent
+              </label>
+              <select
+                onChange={handleChange("parent")}
+                className="form-control"
+              >
+                <option>Select a parent</option>
+                {/* {setSpinner(categories)} */}
+                {categories &&
+                  categories.map((cat, index) =>
+                    cat._id !== match.params.categoryId ? (
+                      parent._id === cat._id ? (
+                        <option
+                          key={index}
+                          value={JSON.stringify(cat)}
+                          selected={true}
+                        >
+                          {cat.name}
+                        </option>
+                      ) : (
+                        <option key={index} value={JSON.stringify(cat)}>
+                          {cat.name}
+                        </option>
+                      )
+                    ) : (
+                      ""
+                    )
+                  )}
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Show In Home Screen
+              </label>
+              {showHome !== "" ? (
+                <Select
+                  onChange={handleOptionChange}
+                  defaultValue={[
+                    { value: 0, label: "No", field: "" },
+                    { value: 1, label: "Yes", field: "" },
+                  ].map((op, index) => {
+                    if (op.value === showHome) return op;
+                  })}
+                  options={[
+                    { value: 0, label: "No", field: "" },
+                    { value: 1, label: "Yes", field: "" },
+                  ].map((op, index) => {
+                    op.field = "showHome";
+                    return op;
+                  })}
+                />
               ) : (
-                ""
-              )
-            )}
-        </select>
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Show In Home Screen
-        </label>
-        {showHome !== "" ? (
-          <Select
-            onChange={handleOptionChange}
-            defaultValue={[
-              { value: 0, label: "No", field: "" },
-              { value: 1, label: "Yes", field: "" },
-            ].map((op, index) => {
-              if (op.value === showHome) return op;
-            })}
-            options={[
-              { value: 0, label: "No", field: "" },
-              { value: 1, label: "Yes", field: "" },
-            ].map((op, index) => {
-              op.field = "showHome";
-              return op;
-            })}
-          />
-        ) : (
-          <Select
-            onChange={handleOptionChange}
-            options={[
-              { value: 0, label: "No", field: "" },
-              { value: 1, label: "Yes", field: "" },
-            ].map((op, index) => {
-              op.field = "showHome";
-              return op;
-            })}
-          />
-        )}
-      </div>
-      <div className="form-group">
-        <input
-          onChange={handleChange("trash")}
-          type="checkbox"
-          className="form-check-input"
-        />
-        <label className="form-check-label text-danger">Trash</label>
-      </div>
-      <button
-        type="submit"
-        form="form1"
-        value="Submit"
-        className="btn btn-outline-primary mr-5"
-      >
-        Update
-      </button>
-      {goBack()}
-    </form>
+                <Select
+                  onChange={handleOptionChange}
+                  options={[
+                    { value: 0, label: "No", field: "" },
+                    { value: 1, label: "Yes", field: "" },
+                  ].map((op, index) => {
+                    op.field = "showHome";
+                    return op;
+                  })}
+                />
+              )}
+            </div>
+            <div className="form-group">
+              <input
+                onChange={handleChange("trash")}
+                type="checkbox"
+                className="form-check-input"
+              />
+              <label className="form-check-label text-danger">Trash</label>
+            </div>
+            <button
+              type="submit"
+              form="form1"
+              value="Submit"
+              className="btn btn-outline-primary mr-5"
+            >
+              Update
+            </button>
+            {goBack()}
+          </form>
+        </React.Fragment>
+      )}
+    </React.Fragment>
   );
 
   const goBack = () => (

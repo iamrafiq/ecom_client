@@ -441,7 +441,7 @@ const UpdateProduct = ({ match }) => {
         <React.Fragment>
           <LoadingBar
             loading={loading}
-            message={`Adding product.. please wait`}
+            message={`Updating product.. please wait`}
           ></LoadingBar>
         </React.Fragment>
       ) : (

@@ -483,7 +483,7 @@ const AddProduct = () => {
             </div>
             <div className="form-group">
               <label htmlFor="" className="text-muted">
-                Name with out sub text
+                Name without sub text
               </label>
               <input
                 onChange={handleChange("nameWithOutSubText")}
