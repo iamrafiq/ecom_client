@@ -3,16 +3,18 @@ import Layout from "../core/Layout";
 import { useSelector } from "react-redux";
 
 import { selectUser, selectToken } from "../redux/authSlice";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { createProduct, getCategories } from "./apiAdmin";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
 import { getProductsByCategoryId } from "../core/apiCore";
+import LoadingBar from "../util/LoadingBar";
 
 var slugify = require("slugify");
 
 const AddProduct = () => {
+  const history = useHistory();
   const options = [
     { value: 0, label: "No", field: "" },
     { value: 1, label: "Yes", field: "" },
@@ -127,29 +129,56 @@ const AddProduct = () => {
   const handleChange = (field) => (event) => {
     let value = event.target.value;
     formData.set(field, value);
-    if (field === "name") {
-      const slugStr = slugify(value, {
-        replacement: "-", // replace spaces with replacement character, defaults to `-`
-        remove: undefined, // remove characters that match regex, defaults to `undefined`
-        lower: false, // convert to lower case, defaults to `false`
-        strict: false, // strip special characters except replacement, defaults to `false`
-        locale: "vi", // language code of the locale to use
-      });
-      setValues({
-        ...values,
-        slug: slugStr,
-      });
+    // if (field === "name") {
+    //   const slugStr = slugify(value, {
+    //     replacement: "-", // replace spaces with replacement character, defaults to `-`
+    //     remove: undefined, // remove characters that match regex, defaults to `undefined`
+    //     lower: false, // convert to lower case, defaults to `false`
+    //     strict: false, // strip special characters except replacement, defaults to `false`
+    //     locale: "vi", // language code of the locale to use
+    //   });
+    //   setValues({
+    //     ...values,
+    //     slug: slugStr,
+    //   });
 
-      formData.set("slug", slugStr);
-    }
+    //   formData.set("slug", slugStr);
+    // }
 
     setValues({ ...values, [field]: value });
   };
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: "", loading: true });
-    console.log("from data:", selectedCategories);
-    console.log("from data:", recursiveCategories);
+    if (enableCustomSlug && slug) {
+      const slugClean = slug.replace(/[^a-zA-Z0-9]/g, "-");
+      formData.set("slug", slugClean);
+    } else {
+      const nameClean = name.replace(/[^a-zA-Z0-9]/g, "-");
+      const slugNameStr = slugify(nameClean, {
+        replacement: "-", // replace spaces with replacement character, defaults to `-`
+        remove: undefined, // remove characters that match regex, defaults to `undefined`
+        lower: true, // convert to lower case, defaults to `false`
+        strict: false, // strip special characters except replacement, defaults to `false`
+        locale: "vi", // language code of the locale to use
+      });
+
+      const subClean = subText.replace(/[^a-zA-Z0-9]/g, "-");
+
+      const slugSubTextStr = slugify(subClean, {
+        replacement: "-", // replace spaces with replacement character, defaults to `-`
+        remove: undefined, // remove characters that match regex, defaults to `undefined`
+        lower: true, // convert to lower case, defaults to `false`
+        strict: false, // strip special characters except replacement, defaults to `false`
+        locale: "vi", // language code of the locale to use
+      });
+      let slugStr = `${slugNameStr}-${slugSubTextStr}`;
+      setValues({
+        ...values,
+        slug: slugStr,
+      });
+      formData.set("slug", slugStr);
+    }
 
     formData.set("arr", [{ name: "aaa" }, { name: "bbb" }].toString());
 
@@ -228,6 +257,7 @@ const AddProduct = () => {
           createdProduct: data.name,
           todaysDate: new Date(),
         });
+        history.push("/admin/dashboard");
       }
     });
   };
@@ -365,371 +395,388 @@ const AddProduct = () => {
     }
   };
   const newPostFrom = () => (
-    <form className="mb-3" onSubmit={clickSubmit}>
-      <div className="form-group">
-        <h4>Upload Photos (Max 4 Photo Allowed)</h4>
-        <div className="form-group">
-          <label htmlFor="" className="btn btn-secondary">
+    <React.Fragment>
+      {loading ? (
+        <React.Fragment>
+          <LoadingBar
+            loading={loading}
+            message={`Adding product.. please wait`}
+          ></LoadingBar>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <form className="mb-3" onSubmit={clickSubmit}>
+            <div className="form-group">
+              <h4>Upload Photos (Max 4 Photo Allowed)</h4>
+              <div className="form-group">
+                <label htmlFor="" className="btn btn-secondary">
+                  <input
+                    onChange={handleImageChange("photosUrl")}
+                    type="file"
+                    name="photosUrl"
+                    accept="image"
+                    multiple
+                  />
+                </label>
+              </div>
+              <h4>Upload Offer Photos (Max 4 Photo Allowed)</h4>
+              <div className="form-group">
+                <label htmlFor="" className="btn btn-secondary">
+                  <input
+                    onChange={handleImageChange("offerPhotosUrl")}
+                    type="file"
+                    name="offerPhotosUrl"
+                    accept="image"
+                    multiple
+                  />
+                </label>
+              </div>
+              <label htmlFor="" className="text-muted">
+                Product Code
+              </label>
+              <input
+                onChange={handleChange("productCode")}
+                type="text"
+                className="form-control"
+                required="true"
+                value={productCode}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Name
+              </label>
+              <input
+                onChange={handleChange("name")}
+                type="text"
+                className="form-control"
+                value={name}
+                required="true"
+              />
+            </div>
             <input
-              onChange={handleImageChange("photosUrl")}
-              type="file"
-              name="photosUrl"
-              accept="image"
-              multiple
+              onChange={handleSlugChange(enableCustomSlug)}
+              type="checkbox"
+              className="form-check-input"
             />
-          </label>
-        </div>
-        <h4>Upload Offer Photos (Max 4 Photo Allowed)</h4>
-        <div className="form-group">
-          <label htmlFor="" className="btn btn-secondary">
-            <input
-              onChange={handleImageChange("offerPhotosUrl")}
-              type="file"
-              name="offerPhotosUrl"
-              accept="image"
-              multiple
-            />
-          </label>
-        </div>
-        <label htmlFor="" className="text-muted">
-          Product Code
-        </label>
-        <input
-          onChange={handleChange("productCode")}
-          type="text"
-          className="form-control"
-          required="true"
-          value={productCode}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Name
-        </label>
-        <input
-          onChange={handleChange("name")}
-          type="text"
-          className="form-control"
-          value={name}
-          required="true"
-        />
-      </div>
-      <input
-        onChange={handleSlugChange(enableCustomSlug)}
-        type="checkbox"
-        className="form-check-input"
-      />
-      <label className="form-check-label">Custom slug</label>
-      <div className="form-group">
-        <input
-          onChange={handleChange("slug")}
-          type="text"
-          className="form-control"
-          value={slug}
-          disabled={enableCustomSlug ? false : true}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Bengali Name
-        </label>
-        <input
-          onChange={handleChange("bengaliName")}
-          type="text"
-          className="form-control"
-          required="true"
-          value={bengaliName}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Name with out sub text
-        </label>
-        <input
-          onChange={handleChange("nameWithOutSubText")}
-          type="text"
-          className="form-control"
-          value={nameWithOutSubText}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Sub Text
-        </label>
-        <input
-          onChange={handleChange("subText")}
-          type="text"
-          className="form-control"
-          value={subText}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          MRP
-        </label>
-        <input
-          onChange={handleChange("mrp")}
-          type="number"
-          className="form-control"
-          value={mrp}
-          required="true"
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Crop Price
-        </label>
-        <input
-          onChange={handleChange("cropPrice")}
-          type="number"
-          className="form-control"
-          value={cropPrice}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Common Stock
-        </label>
-        <input
-          onChange={handleChange("commonStock")}
-          type="number"
-          className="form-control"
-          value={commonStock}
-          required="true"
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Preferred Stock
-        </label>
-        <input
-          onChange={handleChange("preferredStock")}
-          type="number"
-          className="form-control"
-          value={preferredStock}
-        />
-      </div>
+            <label className="form-check-label">Custom slug</label>
+            <div className="form-group">
+              <input
+                onChange={handleChange("slug")}
+                type="text"
+                className="form-control"
+                value={slug}
+                disabled={enableCustomSlug ? false : true}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Bengali Name
+              </label>
+              <input
+                onChange={handleChange("bengaliName")}
+                type="text"
+                className="form-control"
+                required="true"
+                value={bengaliName}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Name with out sub text
+              </label>
+              <input
+                onChange={handleChange("nameWithOutSubText")}
+                type="text"
+                className="form-control"
+                value={nameWithOutSubText}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Sub Text
+              </label>
+              <input
+                onChange={handleChange("subText")}
+                type="text"
+                className="form-control"
+                value={subText}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                MRP
+              </label>
+              <input
+                onChange={handleChange("mrp")}
+                type="number"
+                className="form-control"
+                value={mrp}
+                required="true"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Crop Price
+              </label>
+              <input
+                onChange={handleChange("cropPrice")}
+                type="number"
+                className="form-control"
+                value={cropPrice}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Common Stock
+              </label>
+              <input
+                onChange={handleChange("commonStock")}
+                type="number"
+                className="form-control"
+                value={commonStock}
+                required="true"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Preferred Stock
+              </label>
+              <input
+                onChange={handleChange("preferredStock")}
+                type="number"
+                className="form-control"
+                value={preferredStock}
+              />
+            </div>
 
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Apply Discounts
-        </label>
-        <Select
-          onChange={handleOptionChange}
-          options={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            op.field = "applyDiscounts";
-            return op;
-          })}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Apply Offer
-        </label>
-        <Select
-          onChange={handleOptionChange}
-          options={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            op.field = "applyOffer";
-            return op;
-          })}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Block Sale
-        </label>
-        <Select
-          onChange={handleOptionChange}
-          options={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            op.field = "blockSale";
-            return op;
-          })}
-        />
-      </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Apply Discounts
+              </label>
+              <Select
+                onChange={handleOptionChange}
+                options={[
+                  { value: 0, label: "No", field: "" },
+                  { value: 1, label: "Yes", field: "" },
+                ].map((op, index) => {
+                  op.field = "applyDiscounts";
+                  return op;
+                })}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Apply Offer
+              </label>
+              <Select
+                onChange={handleOptionChange}
+                options={[
+                  { value: 0, label: "No", field: "" },
+                  { value: 1, label: "Yes", field: "" },
+                ].map((op, index) => {
+                  op.field = "applyOffer";
+                  return op;
+                })}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Block Sale
+              </label>
+              <Select
+                onChange={handleOptionChange}
+                options={[
+                  { value: 0, label: "No", field: "" },
+                  { value: 1, label: "Yes", field: "" },
+                ].map((op, index) => {
+                  op.field = "blockSale";
+                  return op;
+                })}
+              />
+            </div>
 
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Availablity
-        </label>
-        <Select
-          onChange={handleOptionChange}
-          options={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            op.field = "isAlwaysAvailable";
-            return op;
-          })}
-        />
-      </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Availablity
+              </label>
+              <Select
+                onChange={handleOptionChange}
+                options={[
+                  { value: 0, label: "No", field: "" },
+                  { value: 1, label: "Yes", field: "" },
+                ].map((op, index) => {
+                  op.field = "isAlwaysAvailable";
+                  return op;
+                })}
+              />
+            </div>
 
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Block At Warehouse
-        </label>
-        <Select
-          onChange={handleOptionChange}
-          options={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            op.field = "blockAtWarehouse";
-            return op;
-          })}
-        />
-      </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Block At Warehouse
+              </label>
+              <Select
+                onChange={handleOptionChange}
+                options={[
+                  { value: 0, label: "No", field: "" },
+                  { value: 1, label: "Yes", field: "" },
+                ].map((op, index) => {
+                  op.field = "blockAtWarehouse";
+                  return op;
+                })}
+              />
+            </div>
 
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Is Perishable
-        </label>
-        <Select
-          onChange={handleOptionChange}
-          options={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            op.field = "isPerishable";
-            return op;
-          })}
-        />
-      </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Is Perishable
+              </label>
+              <Select
+                onChange={handleOptionChange}
+                options={[
+                  { value: 0, label: "No", field: "" },
+                  { value: 1, label: "Yes", field: "" },
+                ].map((op, index) => {
+                  op.field = "isPerishable";
+                  return op;
+                })}
+              />
+            </div>
 
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Third Party Item
-        </label>
-        <Select
-          onChange={handleOptionChange}
-          options={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            op.field = "thirdPartyItem";
-            return op;
-          })}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Earliest Availability Time
-        </label>
-        <DatePicker
-          selected={earliestAvailabilityTime}
-          dateFormat="dd MM y"
-          onChange={(date) =>
-            handleDateChange("earliestAvailabilityTime", date)
-          }
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Availability Cut Off Time
-        </label>
-        <DatePicker
-          selected={availabilityCutOffTime}
-          dateFormat="dd MM y"
-          onChange={(date) => handleDateChange("availabilityCutOffTime", date)}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Short Description
-        </label>
-        <textarea
-          onChange={handleChange("shortDesc")}
-          className="form-control"
-          value={shortDesc}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Long Description
-        </label>
-        <textarea
-          onChange={handleChange("longDesc")}
-          className="form-control"
-          value={longDesc}
-        />
-      </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Third Party Item
+              </label>
+              <Select
+                onChange={handleOptionChange}
+                options={[
+                  { value: 0, label: "No", field: "" },
+                  { value: 1, label: "Yes", field: "" },
+                ].map((op, index) => {
+                  op.field = "thirdPartyItem";
+                  return op;
+                })}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Earliest Availability Time
+              </label>
+              <DatePicker
+                selected={earliestAvailabilityTime}
+                dateFormat="dd MM y"
+                onChange={(date) =>
+                  handleDateChange("earliestAvailabilityTime", date)
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Availability Cut Off Time
+              </label>
+              <DatePicker
+                selected={availabilityCutOffTime}
+                dateFormat="dd MM y"
+                onChange={(date) =>
+                  handleDateChange("availabilityCutOffTime", date)
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Short Description
+              </label>
+              <textarea
+                onChange={handleChange("shortDesc")}
+                className="form-control"
+                value={shortDesc}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Long Description
+              </label>
+              <textarea
+                onChange={handleChange("longDesc")}
+                className="form-control"
+                value={longDesc}
+              />
+            </div>
 
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Categories
-        </label>
-        <Select
-          onChange={handleChangeCategoris}
-          closeMenuOnSelect={false}
-          // defaultValue={[colourOptions[0], colourOptions[1]]}
-          isMulti
-          options={categories.map((cat, index) => {
-            return {
-              value: cat.name,
-              label: cat.name,
-              obj: cat,
-            };
-          })}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Related Products (Select category)
-        </label>
-        <Select
-          options={categories.map((cat, index) => {
-            return {
-              value: cat.name,
-              label: cat.name,
-              obj: cat,
-            };
-          })}
-          onChange={loadProducts}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Related Products (Select products)
-        </label>
-        <Select
-          options={categoryProducts.map((prod, index) => {
-            return {
-              value: prod.name,
-              label: prod.name,
-              obj: prod,
-            };
-          })}
-          isMulti
-          onChange={onProductSelect}
-        />
-      </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Categories
+              </label>
+              <Select
+                onChange={handleChangeCategoris}
+                closeMenuOnSelect={false}
+                // defaultValue={[colourOptions[0], colourOptions[1]]}
+                isMulti
+                options={categories.map((cat, index) => {
+                  return {
+                    value: cat.name,
+                    label: cat.name,
+                    obj: cat,
+                  };
+                })}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Related Products (Select category)
+              </label>
+              <Select
+                options={categories.map((cat, index) => {
+                  return {
+                    value: cat.name,
+                    label: cat.name,
+                    obj: cat,
+                  };
+                })}
+                onChange={loadProducts}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Related Products (Select products)
+              </label>
+              <Select
+                options={categoryProducts.map((prod, index) => {
+                  return {
+                    value: prod.name,
+                    label: prod.name,
+                    obj: prod,
+                  };
+                })}
+                isMulti
+                onChange={onProductSelect}
+              />
+            </div>
 
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Shipping
-        </label>
-        <Select
-          onChange={handleOptionChange}
-          options={[
-            { value: 0, label: "No", field: "" },
-            { value: 1, label: "Yes", field: "" },
-          ].map((op, index) => {
-            op.field = "shipping";
-            return op;
-          })}
-        />
-      </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Shipping
+              </label>
+              <Select
+                onChange={handleOptionChange}
+                options={[
+                  { value: 0, label: "No", field: "" },
+                  { value: 1, label: "Yes", field: "" },
+                ].map((op, index) => {
+                  op.field = "shipping";
+                  return op;
+                })}
+              />
+            </div>
 
-      <button className="btn btn-outline-primary">Create a new product</button>
-    </form>
+            <button className="btn btn-outline-primary">
+              Create a new product
+            </button>
+          </form>
+        </React.Fragment>
+      )}
+    </React.Fragment>
   );
 
   const showError = () => (

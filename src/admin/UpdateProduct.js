@@ -3,15 +3,18 @@ import Layout from "../core/Layout";
 import { useSelector } from "react-redux";
 
 import { selectUser, selectToken } from "../redux/authSlice";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { getProduct, getCategories, updateProduct } from "./apiAdmin";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
 import { getProductsByCategoryId } from "../core/apiCore";
+import LoadingBar from "../util/LoadingBar";
 
 var slugify = require("slugify");
 const UpdateProduct = ({ match }) => {
+  const history = useHistory();
+
   const options = [
     { value: 0, label: "No", field: "" },
     { value: 1, label: "Yes", field: "" },
@@ -28,7 +31,7 @@ const UpdateProduct = ({ match }) => {
 
   const user = useSelector(selectUser);
   const token = useSelector(selectToken);
-    const [values, setValues] = useState({
+  const [values, setValues] = useState({
     productCode: "",
     name: "",
     slug: "",
@@ -36,10 +39,10 @@ const UpdateProduct = ({ match }) => {
     nameWithOutSubText: "",
     subText: "",
     mrp: "",
-  
+
     cropPrice: "",
     applyDiscounts: "",
-    applyOffer:"",
+    applyOffer: "",
     blockSale: "",
     shortDesc: "",
     longDesc: "",
@@ -82,7 +85,7 @@ const UpdateProduct = ({ match }) => {
     nameWithOutSubText,
     subText,
     mrp,
-   
+
     cropPrice,
     applyDiscounts,
     applyOffer,
@@ -146,6 +149,7 @@ const UpdateProduct = ({ match }) => {
       manufacturers: data.manufacturers,
       shipping: data.shipping,
       createdProduct: data.name,
+      loading:false,
       formData: new FormData(),
     });
   };
@@ -209,21 +213,21 @@ const UpdateProduct = ({ match }) => {
   const handleChange = (field) => (event) => {
     let value = event.target.value;
     formData.set(field, value);
-    if (field === "name") {
-      const slugStr = slugify(value, {
-        replacement: "-", // replace spaces with replacement character, defaults to `-`
-        remove: undefined, // remove characters that match regex, defaults to `undefined`
-        lower: false, // convert to lower case, defaults to `false`
-        strict: false, // strip special characters except replacement, defaults to `false`
-        locale: "vi", // language code of the locale to use
-      });
-      setValues({
-        ...values,
-        slug: slugStr,
-      });
+    // if (field === "name") {
+    //   const slugStr = slugify(value, {
+    //     replacement: "-", // replace spaces with replacement character, defaults to `-`
+    //     remove: undefined, // remove characters that match regex, defaults to `undefined`
+    //     lower: false, // convert to lower case, defaults to `false`
+    //     strict: false, // strip special characters except replacement, defaults to `false`
+    //     locale: "vi", // language code of the locale to use
+    //   });
+    //   setValues({
+    //     ...values,
+    //     slug: slugStr,
+    //   });
 
-      formData.set("slug", slugStr);
-    }
+    //   formData.set("slug", slugStr);
+    // }
 
     setValues({ ...values, [field]: value });
   };
@@ -232,6 +236,36 @@ const UpdateProduct = ({ match }) => {
     setValues({ ...values, error: "", loading: true });
     // console.log("from data:", selectedCategories);
     // console.log("from data:", recursiveCategories);
+
+    if (enableCustomSlug && slug) {
+      const slugClean = slug.replace(/[^a-zA-Z0-9]/g, "-");
+      formData.set("slug", slugClean);
+    } else {
+      const nameClean = name.replace(/[^a-zA-Z0-9]/g, "-");
+      const slugNameStr = slugify(nameClean, {
+        replacement: "-", // replace spaces with replacement character, defaults to `-`
+        remove: undefined, // remove characters that match regex, defaults to `undefined`
+        lower: true, // convert to lower case, defaults to `false`
+        strict: false, // strip special characters except replacement, defaults to `false`
+        locale: "vi", // language code of the locale to use
+      });
+
+      const subClean = subText.replace(/[^a-zA-Z0-9]/g, "-");
+
+      const slugSubTextStr = slugify(subClean, {
+        replacement: "-", // replace spaces with replacement character, defaults to `-`
+        remove: undefined, // remove characters that match regex, defaults to `undefined`
+        lower: true, // convert to lower case, defaults to `false`
+        strict: false, // strip special characters except replacement, defaults to `false`
+        locale: "vi", // language code of the locale to use
+      });
+      let slugStr = `${slugNameStr}-${slugSubTextStr}`;
+      setValues({
+        ...values,
+        slug: slugStr,
+      });
+      formData.set("slug", slugStr);
+    }
 
     formData.set("cats", selectedCategories);
     formData.set("rc", recursiveCategories);
@@ -276,6 +310,8 @@ const UpdateProduct = ({ match }) => {
           setValues({ ...values, error: data.error });
         } else {
           setDefaultState(data);
+          history.push("/admin/dashboard");
+
         }
       }
     );
@@ -400,117 +436,127 @@ const UpdateProduct = ({ match }) => {
     }
   };
   const newPostFrom = () => (
-    <form className="mb-3" onSubmit={clickSubmit}>
-      <h4>Upload Photos</h4>
-      <div className="form-group">
-        <label htmlFor="" className="btn btn-secondary">
-          <input
-            onChange={handleImageChange("photosUrl")}
-            type="file"
-            name="photosUrl"
-            accept="image"
-            multiple
-          />
-        </label>
-      </div>
-      <h4>Upload Offer Photos</h4>
-      <div className="form-group">
-        <label htmlFor="" className="btn btn-secondary">
-          <input
-            onChange={handleImageChange("offerPhotosUrl")}
-            type="file"
-            name="offerPhotosUrl"
-            accept="image"
-            multiple
-          />
-        </label>
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Product Code
-        </label>
-        <input
-          onChange={handleChange("productCode")}
-          type="text"
-          className="form-control"
-          required={true}
-          value={productCode}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Name
-        </label>
-        <input
-          onChange={handleChange("name")}
-          type="text"
-          className="form-control"
-          value={name}
-          required={true}
-        />
-      </div>
-      <input
-        onChange={handleSlugChange(enableCustomSlug)}
-        type="checkbox"
-        className="form-check-input"
-      />
-      <label className="form-check-label">Custom slug</label>
-      <div className="form-group">
-        <input
-          onChange={handleChange("slug")}
-          type="text"
-          className="form-control"
-          value={slug}
-          disabled={enableCustomSlug ? false : true}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Bengali Name
-        </label>
-        <input
-          onChange={handleChange("bengaliName")}
-          type="text"
-          className="form-control"
-          required={true}
-          value={bengaliName}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Name with out sub text
-        </label>
-        <input
-          onChange={handleChange("nameWithOutSubText")}
-          type="text"
-          className="form-control"
-          value={nameWithOutSubText}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Sub Text
-        </label>
-        <input
-          onChange={handleChange("subText")}
-          type="text"
-          className="form-control"
-          value={subText}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          MRP
-        </label>
-        <input
-          onChange={handleChange("mrp")}
-          type="number"
-          className="form-control"
-          value={mrp}
-          required={true}
-        />
-      </div>
-      {/* <div className="form-group">
+    <React.Fragment>
+      {loading ? (
+        <React.Fragment>
+          <LoadingBar
+            loading={loading}
+            message={`Adding product.. please wait`}
+          ></LoadingBar>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <form className="mb-3" onSubmit={clickSubmit}>
+            <h4>Upload Photos</h4>
+            <div className="form-group">
+              <label htmlFor="" className="btn btn-secondary">
+                <input
+                  onChange={handleImageChange("photosUrl")}
+                  type="file"
+                  name="photosUrl"
+                  accept="image"
+                  multiple
+                />
+              </label>
+            </div>
+            <h4>Upload Offer Photos</h4>
+            <div className="form-group">
+              <label htmlFor="" className="btn btn-secondary">
+                <input
+                  onChange={handleImageChange("offerPhotosUrl")}
+                  type="file"
+                  name="offerPhotosUrl"
+                  accept="image"
+                  multiple
+                />
+              </label>
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Product Code
+              </label>
+              <input
+                onChange={handleChange("productCode")}
+                type="text"
+                className="form-control"
+                required={true}
+                value={productCode}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Name
+              </label>
+              <input
+                onChange={handleChange("name")}
+                type="text"
+                className="form-control"
+                value={name}
+                required={true}
+              />
+            </div>
+            <input
+              onChange={handleSlugChange(enableCustomSlug)}
+              type="checkbox"
+              className="form-check-input"
+            />
+            <label className="form-check-label">Custom slug</label>
+            <div className="form-group">
+              <input
+                onChange={handleChange("slug")}
+                type="text"
+                className="form-control"
+                value={slug}
+                disabled={enableCustomSlug ? false : true}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Bengali Name
+              </label>
+              <input
+                onChange={handleChange("bengaliName")}
+                type="text"
+                className="form-control"
+                required={true}
+                value={bengaliName}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Name with out sub text
+              </label>
+              <input
+                onChange={handleChange("nameWithOutSubText")}
+                type="text"
+                className="form-control"
+                value={nameWithOutSubText}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Sub Text
+              </label>
+              <input
+                onChange={handleChange("subText")}
+                type="text"
+                className="form-control"
+                value={subText}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                MRP
+              </label>
+              <input
+                onChange={handleChange("mrp")}
+                type="number"
+                className="form-control"
+                value={mrp}
+                required={true}
+              />
+            </div>
+            {/* <div className="form-group">
         <label htmlFor="" className="text-muted">
           Body Price
         </label>
@@ -522,355 +568,362 @@ const UpdateProduct = ({ match }) => {
           required={true}
         />
       </div> */}
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Crop Price
-        </label>
-        <input
-          onChange={handleChange("cropPrice")}
-          type="number"
-          className="form-control"
-          value={cropPrice}
-          required={true}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Common Stock
-        </label>
-        <input
-          onChange={handleChange("commonStock")}
-          type="number"
-          className="form-control"
-          value={commonStock}
-          required={true}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Preferred Stock
-        </label>
-        <input
-          onChange={handleChange("preferredStock")}
-          type="number"
-          className="form-control"
-          value={preferredStock}
-        />
-      </div>
-      
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Apply Discounts
-        </label>
-        {applyDiscounts !== "" && (
-          <Select
-            onChange={handleOptionChange}
-            defaultValue={[
-              { value: 0, label: "No", field: "" },
-              { value: 1, label: "Yes", field: "" },
-            ].map((op, index) => {
-              if (op.value === applyDiscounts) return op;
-            })}
-            options={[
-              { value: 0, label: "No", field: "" },
-              { value: 1, label: "Yes", field: "" },
-            ].map((op, index) => {
-              op.field = "applyDiscounts";
-              return op;
-            })}
-          />
-        )}
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Apply Offer
-        </label>
-        {applyOffer !== "" && (
-          <Select
-            onChange={handleOptionChange}
-            defaultValue={[
-              { value: 0, label: "No", field: "" },
-              { value: 1, label: "Yes", field: "" },
-            ].map((op, index) => {
-              if (op.value === applyOffer) return op;
-            })}
-            options={[
-              { value: 0, label: "No", field: "" },
-              { value: 1, label: "Yes", field: "" },
-            ].map((op, index) => {
-              op.field = "applyOffer";
-              return op;
-            })}
-          />
-        )}
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Block Sale
-        </label>
-        {blockSale !== "" && (
-          <Select
-            onChange={handleOptionChange}
-            defaultValue={[
-              { value: 0, label: "No", field: "" },
-              { value: 1, label: "Yes", field: "" },
-            ].map((op, index) => {
-              if (op.value === blockSale) return op;
-            })}
-            options={[
-              { value: 0, label: "No", field: "" },
-              { value: 1, label: "Yes", field: "" },
-            ].map((op, index) => {
-              op.field = "blockSale";
-              return op;
-            })}
-          />
-        )}
-      </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Crop Price
+              </label>
+              <input
+                onChange={handleChange("cropPrice")}
+                type="number"
+                className="form-control"
+                value={cropPrice}
+                required={true}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Common Stock
+              </label>
+              <input
+                onChange={handleChange("commonStock")}
+                type="number"
+                className="form-control"
+                value={commonStock}
+                required={true}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Preferred Stock
+              </label>
+              <input
+                onChange={handleChange("preferredStock")}
+                type="number"
+                className="form-control"
+                value={preferredStock}
+              />
+            </div>
 
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Availablity
-        </label>
-        {isAlwaysAvailable !== "" && (
-          <Select
-            onChange={handleOptionChange}
-            defaultValue={[
-              { value: 0, label: "No", field: "" },
-              { value: 1, label: "Yes", field: "" },
-            ].map((op, index) => {
-              if (op.value === isAlwaysAvailable) return op;
-            })}
-            options={[
-              { value: 0, label: "No", field: "" },
-              { value: 1, label: "Yes", field: "" },
-            ].map((op, index) => {
-              op.field = "isAlwaysAvailable";
-              return op;
-            })}
-          />
-        )}
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Block At Warehouse
-        </label>
-        {blockAtWarehouse !== "" && (
-          <Select
-            onChange={handleOptionChange}
-            defaultValue={[
-              { value: 0, label: "No", field: "" },
-              { value: 1, label: "Yes", field: "" },
-            ].map((op, index) => {
-              if (op.value === blockAtWarehouse) return op;
-            })}
-            options={[
-              { value: 0, label: "No", field: "" },
-              { value: 1, label: "Yes", field: "" },
-            ].map((op, index) => {
-              op.field = "blockAtWarehouse";
-              return op;
-            })}
-          />
-        )}
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Is Perishable
-        </label>
-        {isPerishable !== "" && (
-          <Select
-            onChange={handleOptionChange}
-            defaultValue={[
-              { value: 0, label: "No", field: "" },
-              { value: 1, label: "Yes", field: "" },
-            ].map((op, index) => {
-              if (op.value === isPerishable) return op;
-            })}
-            options={[
-              { value: 0, label: "No", field: "" },
-              { value: 1, label: "Yes", field: "" },
-            ].map((op, index) => {
-              op.field = "isPerishable";
-              return op;
-            })}
-          />
-        )}
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Third Party Item
-        </label>
-        {thirdPartyItem !== "" && (
-          <Select
-            onChange={handleOptionChange}
-            defaultValue={options.map((op, index) => {
-              if (op.value === thirdPartyItem) return op;
-            })}
-            options={options.map((op, index) => {
-              op.field = "thirdPartyItem";
-              return op;
-            })}
-          />
-        )}
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Earliest Availability Time
-        </label>
-        <DatePicker
-          selected={earliestAvailabilityTime}
-          dateFormat="dd MM y"
-          onChange={(date) =>
-            handleDateChange("earliestAvailabilityTime", date)
-          }
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Availability Cut Off Time
-        </label>
-        <DatePicker
-          selected={availabilityCutOffTime}
-          dateFormat="dd MM y"
-          onChange={(date) => handleDateChange("availabilityCutOffTime", date)}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Short Description
-        </label>
-        <textarea
-          onChange={handleChange("shortDesc")}
-          className="form-control"
-          value={shortDesc}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Long Description
-        </label>
-        <textarea
-          onChange={handleChange("longDesc")}
-          className="form-control"
-          value={longDesc}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Categories:
-        </label>
-        {defaultCategoriesForSpinner.length > 0 && (
-          <Select
-            onChange={handleChangeCategoris}
-            closeMenuOnSelect={false}
-            defaultValue={defaultCategoriesForSpinner.map((cat, index) => {
-              return cat;
-            })}
-            isMulti
-            options={categories.map((cat, index) => {
-              return {
-                value: cat.name,
-                label: cat.name,
-                obj: cat,
-              };
-            })}
-          />
-          // ):(
-          //   <Select
-          //     onChange={handleChangeCategoris}
-          //     closeMenuOnSelect={false}
-          //     isMulti
-          //     options={categories.map((cat, index) => {
-          //       return {
-          //         value: cat,
-          //         label: cat.name,
-          //       };
-          //     })}
-          //   />
-        )}
-        <div className="form-group">
-          <label htmlFor="" className="text-muted">
-            Related Products (Select category)
-          </label>
-          <Select
-            options={categories.map((cat, index) => {
-              return {
-                value: cat.name,
-                label: cat.name,
-                obj: cat,
-              };
-            })}
-            onChange={loadProducts}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="" className="text-muted">
-            Related Products (Select products)
-          </label>
-          {defaultRelatedProductForSpinner.length > 0 && (
-            <Select
-              defaultValue={defaultRelatedProductForSpinner.map(
-                (prod, index) => {
-                  return prod;
-                }
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Apply Discounts
+              </label>
+              {applyDiscounts !== "" && (
+                <Select
+                  onChange={handleOptionChange}
+                  defaultValue={[
+                    { value: 0, label: "No", field: "" },
+                    { value: 1, label: "Yes", field: "" },
+                  ].map((op, index) => {
+                    if (op.value === applyDiscounts) return op;
+                  })}
+                  options={[
+                    { value: 0, label: "No", field: "" },
+                    { value: 1, label: "Yes", field: "" },
+                  ].map((op, index) => {
+                    op.field = "applyDiscounts";
+                    return op;
+                  })}
+                />
               )}
-              options={categoryProducts.map((prod, index) => {
-                return {
-                  value: prod.name,
-                  label: prod.name,
-                  obj: prod,
-                };
-              })}
-              isMulti
-              onChange={onProductSelect}
-            />
-          )}
-          {defaultRelatedProductForSpinner.length === 0 && (
-            <Select
-              options={categoryProducts.map((prod, index) => {
-                return {
-                  value: prod.name,
-                  label: prod.name,
-                  obj: prod,
-                };
-              })}
-              isMulti
-              onChange={onProductSelect}
-            />
-          )}
-        </div>
-      </div>
-      <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Shipping
-        </label>
-        {shipping !== "" && (
-          <Select
-            onChange={handleOptionChange}
-            defaultValue={[
-              { value: 0, label: "No", field: "" },
-              { value: 1, label: "Yes", field: "" },
-            ].map((op, index) => {
-              if (op.value === shipping) return op;
-            })}
-            options={[
-              { value: 0, label: "No", field: "" },
-              { value: 1, label: "Yes", field: "" },
-            ].map((op, index) => {
-              op.field = "shipping";
-              return op;
-            })}
-          />
-        )}
-      </div>
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Apply Offer
+              </label>
+              {applyOffer !== "" && (
+                <Select
+                  onChange={handleOptionChange}
+                  defaultValue={[
+                    { value: 0, label: "No", field: "" },
+                    { value: 1, label: "Yes", field: "" },
+                  ].map((op, index) => {
+                    if (op.value === applyOffer) return op;
+                  })}
+                  options={[
+                    { value: 0, label: "No", field: "" },
+                    { value: 1, label: "Yes", field: "" },
+                  ].map((op, index) => {
+                    op.field = "applyOffer";
+                    return op;
+                  })}
+                />
+              )}
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Block Sale
+              </label>
+              {blockSale !== "" && (
+                <Select
+                  onChange={handleOptionChange}
+                  defaultValue={[
+                    { value: 0, label: "No", field: "" },
+                    { value: 1, label: "Yes", field: "" },
+                  ].map((op, index) => {
+                    if (op.value === blockSale) return op;
+                  })}
+                  options={[
+                    { value: 0, label: "No", field: "" },
+                    { value: 1, label: "Yes", field: "" },
+                  ].map((op, index) => {
+                    op.field = "blockSale";
+                    return op;
+                  })}
+                />
+              )}
+            </div>
 
-      <button className="btn btn-outline-primary">Create a new product</button>
-    </form>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Availablity
+              </label>
+              {isAlwaysAvailable !== "" && (
+                <Select
+                  onChange={handleOptionChange}
+                  defaultValue={[
+                    { value: 0, label: "No", field: "" },
+                    { value: 1, label: "Yes", field: "" },
+                  ].map((op, index) => {
+                    if (op.value === isAlwaysAvailable) return op;
+                  })}
+                  options={[
+                    { value: 0, label: "No", field: "" },
+                    { value: 1, label: "Yes", field: "" },
+                  ].map((op, index) => {
+                    op.field = "isAlwaysAvailable";
+                    return op;
+                  })}
+                />
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Block At Warehouse
+              </label>
+              {blockAtWarehouse !== "" && (
+                <Select
+                  onChange={handleOptionChange}
+                  defaultValue={[
+                    { value: 0, label: "No", field: "" },
+                    { value: 1, label: "Yes", field: "" },
+                  ].map((op, index) => {
+                    if (op.value === blockAtWarehouse) return op;
+                  })}
+                  options={[
+                    { value: 0, label: "No", field: "" },
+                    { value: 1, label: "Yes", field: "" },
+                  ].map((op, index) => {
+                    op.field = "blockAtWarehouse";
+                    return op;
+                  })}
+                />
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Is Perishable
+              </label>
+              {isPerishable !== "" && (
+                <Select
+                  onChange={handleOptionChange}
+                  defaultValue={[
+                    { value: 0, label: "No", field: "" },
+                    { value: 1, label: "Yes", field: "" },
+                  ].map((op, index) => {
+                    if (op.value === isPerishable) return op;
+                  })}
+                  options={[
+                    { value: 0, label: "No", field: "" },
+                    { value: 1, label: "Yes", field: "" },
+                  ].map((op, index) => {
+                    op.field = "isPerishable";
+                    return op;
+                  })}
+                />
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Third Party Item
+              </label>
+              {thirdPartyItem !== "" && (
+                <Select
+                  onChange={handleOptionChange}
+                  defaultValue={options.map((op, index) => {
+                    if (op.value === thirdPartyItem) return op;
+                  })}
+                  options={options.map((op, index) => {
+                    op.field = "thirdPartyItem";
+                    return op;
+                  })}
+                />
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Earliest Availability Time
+              </label>
+              <DatePicker
+                selected={earliestAvailabilityTime}
+                dateFormat="dd MM y"
+                onChange={(date) =>
+                  handleDateChange("earliestAvailabilityTime", date)
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Availability Cut Off Time
+              </label>
+              <DatePicker
+                selected={availabilityCutOffTime}
+                dateFormat="dd MM y"
+                onChange={(date) =>
+                  handleDateChange("availabilityCutOffTime", date)
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Short Description
+              </label>
+              <textarea
+                onChange={handleChange("shortDesc")}
+                className="form-control"
+                value={shortDesc}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Long Description
+              </label>
+              <textarea
+                onChange={handleChange("longDesc")}
+                className="form-control"
+                value={longDesc}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Categories:
+              </label>
+              {defaultCategoriesForSpinner.length > 0 && (
+                <Select
+                  onChange={handleChangeCategoris}
+                  closeMenuOnSelect={false}
+                  defaultValue={defaultCategoriesForSpinner.map(
+                    (cat, index) => {
+                      return cat;
+                    }
+                  )}
+                  isMulti
+                  options={categories.map((cat, index) => {
+                    return {
+                      value: cat.name,
+                      label: cat.name,
+                      obj: cat,
+                    };
+                  })}
+                />
+                // ):(
+                //   <Select
+                //     onChange={handleChangeCategoris}
+                //     closeMenuOnSelect={false}
+                //     isMulti
+                //     options={categories.map((cat, index) => {
+                //       return {
+                //         value: cat,
+                //         label: cat.name,
+                //       };
+                //     })}
+                //   />
+              )}
+              <div className="form-group">
+                <label htmlFor="" className="text-muted">
+                  Related Products (Select category)
+                </label>
+                <Select
+                  options={categories.map((cat, index) => {
+                    return {
+                      value: cat.name,
+                      label: cat.name,
+                      obj: cat,
+                    };
+                  })}
+                  onChange={loadProducts}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="" className="text-muted">
+                  Related Products (Select products)
+                </label>
+                {defaultRelatedProductForSpinner.length > 0 && (
+                  <Select
+                    defaultValue={defaultRelatedProductForSpinner.map(
+                      (prod, index) => {
+                        return prod;
+                      }
+                    )}
+                    options={categoryProducts.map((prod, index) => {
+                      return {
+                        value: prod.name,
+                        label: prod.name,
+                        obj: prod,
+                      };
+                    })}
+                    isMulti
+                    onChange={onProductSelect}
+                  />
+                )}
+                {defaultRelatedProductForSpinner.length === 0 && (
+                  <Select
+                    options={categoryProducts.map((prod, index) => {
+                      return {
+                        value: prod.name,
+                        label: prod.name,
+                        obj: prod,
+                      };
+                    })}
+                    isMulti
+                    onChange={onProductSelect}
+                  />
+                )}
+              </div>
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Shipping
+              </label>
+              {shipping !== "" && (
+                <Select
+                  onChange={handleOptionChange}
+                  defaultValue={[
+                    { value: 0, label: "No", field: "" },
+                    { value: 1, label: "Yes", field: "" },
+                  ].map((op, index) => {
+                    if (op.value === shipping) return op;
+                  })}
+                  options={[
+                    { value: 0, label: "No", field: "" },
+                    { value: 1, label: "Yes", field: "" },
+                  ].map((op, index) => {
+                    op.field = "shipping";
+                    return op;
+                  })}
+                />
+              )}
+            </div>
+
+            <button className="btn btn-outline-primary">Update</button>
+          </form>
+        </React.Fragment>
+      )}
+    </React.Fragment>
   );
 
   const showError = () => (
@@ -906,13 +959,13 @@ const UpdateProduct = ({ match }) => {
     );
   return (
     <Layout
-      title=" Add a new product"
+      title=" Update a product"
       description={`G'day ${user.name}, ready to add a new product?`}
     >
       <div className="row">
         <div className="col-md-8 offset-md-2">
           {showLoading()}
-          {showSuccess()}
+          {/* {showSuccess()} */}
           {showError()}
           {newPostFrom()}
           {redirectUser()}
