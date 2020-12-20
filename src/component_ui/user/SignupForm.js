@@ -8,7 +8,14 @@ import {
   setAuthenticate,
 } from "../../redux/settingsSlice";
 import { selectUser, setUser } from "../../redux/authSlice";
-import { setSignupDialog, setOtpDialog } from "../../redux/globalSlice";
+import {
+  setSignupDialog,
+  setOtpDialog,
+  setSigninDialog,
+  setCustomDialog,
+  selectCustomDialog,
+} from "../../redux/globalSlice";
+
 import "./user-forms.css";
 import googleImg from "../../images/google_icon.svg";
 import facebookImg from "../../images/facebook.svg";
@@ -19,6 +26,7 @@ const SignupForm = () => {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
   const user = useSelector(selectUser);
+  const customDialog = useSelector(selectCustomDialog);
 
   const [values, setValues] = useState({
     // name: "",
@@ -60,9 +68,29 @@ const SignupForm = () => {
     //   contactName:"Abul",
     //   contactAddress:"address uttara"
     // }
+    dispatch(
+      setCustomDialog({
+        customDialog: {
+          open: true,
+          englishMsg: "Sending verification sms... please wait",
+          banglaMsg:
+            "ভেরিফিকেশন এসএমএস পাঠানো হচ্ছে ... অনুগ্রহ করে অপেক্ষা করুন ",
+        },
+      })
+    );
+
     signup({ aiId, phoneNumber, status }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
+        dispatch(
+          setCustomDialog({
+            customDialog: {
+              open: false,
+              englishMsg: "",
+              banglaMsg: "",
+            },
+          })
+        );
       } else {
         // setValues({
         //   ...values,
@@ -73,6 +101,15 @@ const SignupForm = () => {
         // });
         dispatch(setUser({ user: data.user, encrypt: true }));
         signin({ aiId, phoneNumber }).then((data) => {
+          dispatch(
+            setCustomDialog({
+              customDialog: {
+                open: false,
+                englishMsg: "",
+                banglaMsg: "",
+              },
+            })
+          );
           if (data.error) {
             setValues({ ...values, error: data.error, loading: false });
           } else {
@@ -89,7 +126,7 @@ const SignupForm = () => {
               phoneNumber: "",
               success: true,
               redirectToReferrer: false,
-              loading:false,
+              loading: false,
             });
           }
         });
@@ -98,7 +135,7 @@ const SignupForm = () => {
   };
   const signUpFrom = () => (
     <div className="form__box">
-      {loading ? (
+      {false ? (
         <React.Fragment>
           <React.Fragment>
             <LoadingBar
@@ -174,6 +211,30 @@ const SignupForm = () => {
               value={language === "en" ? "Sign Up" : "সাইন-আপ"}
             />
           </form>
+
+          <div
+            class="signup"
+            onClick={() => {
+              dispatch(setSigninDialog({ signinDialog: true }));
+              dispatch(setSignupDialog({ signupDialog: false }));
+            }}
+            style={{ cursor: "pointer" }}
+          >
+            <div className="signup__form">
+              {language === "en" ? (
+                <span> Already a member ?</span>
+              ) : (
+                <span> আপনি কি আমাদের মেম্বার?</span>
+              )}
+              <div>
+                {language === "en" ? (
+                  <span className="signup--link"> Sign In</span>
+                ) : (
+                  <span className="signup--link"> সাইন-ইন</span>
+                )}
+              </div>
+            </div>
+          </div>
         </React.Fragment>
       )}
     </div>

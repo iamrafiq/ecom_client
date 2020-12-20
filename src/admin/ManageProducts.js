@@ -48,7 +48,7 @@ const ManageProducts = () => {
                 key={i}
                 className="list-group-item d-flex justify-content-between align-items-center"
               >
-                <strong>{p.name}</strong>
+                <strong>{`${p.name} - ${p.subText}`}</strong>
                 <Link to={`/admin/product/update/${p._id}`}>
                   <span className="badge badge-warning badge-pill">Update</span>
                 </Link>

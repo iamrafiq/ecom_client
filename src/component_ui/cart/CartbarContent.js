@@ -27,7 +27,10 @@ import {
   setCartBarMobile,
   selectCartBarDesktop,
   setCartBarDesktop,
+  setCustomDialog,
+  selectCustomDialog,
 } from "../../redux/globalSlice";
+import LoadingBar from "../../util/LoadingBar";
 
 import { selectOfferProducts } from "../../redux/homeSlice";
 import "./cart.css";
@@ -63,6 +66,7 @@ const SidebarContent = (props) => {
   const products = useSelector(selectCartProducts);
   const cartBarDesktop = useSelector(selectCartBarDesktop);
   const cartBarMobile = useSelector(selectCartBarMobile);
+  const customDialog = useSelector(selectCustomDialog);
 
   let width;
   if (deviceType === "desktop") {
@@ -108,11 +112,26 @@ const SidebarContent = (props) => {
       if (user.verified === 1) {
         history.push(`/user/checkout`);
       } else {
+        dispatch(
+          setCustomDialog({
+            customDialog: {
+              open: true,
+              englishMsg: "Sending verification sms... please wait",
+              banglaMsg:
+                "ভেরিফিকেশন এসএমএস পাঠানো হচ্ছে ... অনুগ্রহ করে অপেক্ষা করুন ",
+            },
+          })
+        );
         const phoneNumber = user.phoneNumber;
         resendOtp({ phoneNumber }).then((data) => {
           if (data.error) {
             // setValues({ ...values, error: data.error, success: false });
           }
+          dispatch(
+            setCustomDialog({
+              customDialog: { open: false, englishMsg: "", banglaMsg: "" },
+            })
+          );
           dispatch(
             setOtpDialog({
               otpDialog: true,

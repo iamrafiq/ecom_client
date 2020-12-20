@@ -42,18 +42,22 @@ import {
   selectOtpDialog,
   selectSignupDialog,
   setSignupDialog,
+  setCustomDialog,
+  selectCustomDialog,
 } from "../../redux/globalSlice";
 import PureModal from "react-pure-modal";
 import "../pure-modal.css";
 import SigninForm from "../user/SigninForm";
 import OtpVerificationForm from "../user/OtpVerificationForm";
 import SignupForm from "../user/SignupForm";
+import CustomLoadingDialog from "../user/CustomLoadingDialog";
 
 export default function MoreMobile({ mobile = false }) {
   const dispatch = useDispatch();
   const signinDialog = useSelector(selectSigninDialog);
   const otpDialog = useSelector(selectOtpDialog);
   const signupDialog = useSelector(selectSignupDialog);
+  const customDialog = useSelector(selectCustomDialog);
 
   const language = useSelector(selectLanguageSelection);
   const deviceType = useSelector(selectDeviceTypeSelection);
@@ -136,6 +140,34 @@ export default function MoreMobile({ mobile = false }) {
           </PureModal>
         </div>
       )}
+       {customDialog.open && (
+        <div>
+          <PureModal
+            // header="Sending one time password (OTP)"
+            scrollable={false}
+            // footer="Buttons?"
+            //  closeButtonPosition="bottom"
+            // closeButtonPosition="bottom"
+            // portal
+            // closeButton={<div>&#10007;</div>}
+            isOpen={customDialog.open}
+            onClose={() => {
+              dispatch(
+                setCustomDialog({
+                  customDialog: { open: false, englishMsg: "", banglaMsg: "" },
+                })
+              );
+              return true;
+            }}
+          >
+            <CustomLoadingDialog
+              englishMsg={customDialog.englishMsg}
+              banglaMsg={customDialog.banglaMsg}
+            ></CustomLoadingDialog>
+          </PureModal>
+        </div>
+      )}
+
       <Popup
         trigger={
           <button className="button">

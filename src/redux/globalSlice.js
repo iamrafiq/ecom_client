@@ -6,11 +6,11 @@ export const globalSlice = createSlice({
     signinDialog: false,
     signupDialog: false,
     otpDialog: false,
+    customDialog: {open:false, englishMsg:"", banglaMsg:""},
     loadingSpinner: false,
-    sideBar: {open:false},
-    cartBarDesktop: {open:false},
-    cartBarMobile:{open:false}
-
+    sideBar: { open: false },
+    cartBarDesktop: { open: false },
+    cartBarMobile: { open: false },
   },
   reducers: {
     setSigninDialog: (state, action) => {
@@ -25,7 +25,9 @@ export const globalSlice = createSlice({
     setOtpDialog: (state, action) => {
       state.otpDialog = action.payload.otpDialog;
     },
-
+    setCustomDialog: (state, action) => {
+      state.customDialog = action.payload.customDialog;
+    },
     setLoadingSpinner: (state, action) => {
       state.loadingSpinner = action.payload.loadingSpinner;
     },
@@ -45,6 +47,7 @@ export const {
   setSigninDialog,
   setSignupDialog,
   setOtpDialog,
+  setCustomDialog,
   setLoadingSpinner,
   setSideBar,
   setCartBarDesktop,
@@ -61,6 +64,9 @@ export const selectOtpDialog = (state) => {
   return state.global.otpDialog;
 };
 
+export const selectCustomDialog = (state) => {
+  return state.global.customDialog;
+};
 export const selectLoadingSpinner = (state) => {
   return state.global.loadingSpinner;
 };

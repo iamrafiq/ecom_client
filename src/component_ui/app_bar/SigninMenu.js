@@ -14,6 +14,8 @@ import {
   selectOtpDialog,
   selectSignupDialog,
   setSignupDialog,
+  setCustomDialog,
+  selectCustomDialog,
 } from "../../redux/globalSlice";
 
 import {
@@ -40,6 +42,7 @@ import SignupForm from "../user/SignupForm";
 
 import SigninForm from "../user/SigninForm";
 import OtpVerificationForm from "../user/OtpVerificationForm";
+import CustomLoadingDialog from "../user/CustomLoadingDialog";
 
 var FontAwesome = require("react-fontawesome");
 
@@ -47,6 +50,8 @@ export default function SigninMenu({ mobile = false }) {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
   const signinDialog = useSelector(selectSigninDialog);
+  const customDialog = useSelector(selectCustomDialog);
+
   const signupDialog = useSelector(selectSignupDialog);
 
   const otpDialog = useSelector(selectOtpDialog);
@@ -119,6 +124,33 @@ export default function SigninMenu({ mobile = false }) {
             }}
           >
             <OtpVerificationForm></OtpVerificationForm>
+          </PureModal>
+        </div>
+      )}
+      {customDialog.open && (
+        <div>
+          <PureModal
+            // header="Sending one time password (OTP)"
+            scrollable={false}
+            // footer="Buttons?"
+            //  closeButtonPosition="bottom"
+            // closeButtonPosition="bottom"
+            // portal
+            // closeButton={<div>&#10007;</div>}
+            isOpen={customDialog.open}
+            onClose={() => {
+              dispatch(
+                setCustomDialog({
+                  customDialog: { open: false, englishMsg: "", banglaMsg: "" },
+                })
+              );
+              return true;
+            }}
+          >
+            <CustomLoadingDialog
+              englishMsg={customDialog.englishMsg}
+              banglaMsg={customDialog.banglaMsg}
+            ></CustomLoadingDialog>
           </PureModal>
         </div>
       )}
