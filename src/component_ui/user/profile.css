@@ -1,0 +1,4 @@
+.profile__phone--number{
+  display: flex;
+  flex-direction: row;  
+}

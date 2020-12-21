@@ -78,7 +78,6 @@ const AddCategory = () => {
           parents: data,
           formData: new FormData(),
         });
-        history.push("/admin/dashboard");
       }
     });
   };
@@ -182,6 +181,7 @@ const AddCategory = () => {
           loading: false,
           createdProduct: data.name,
         });
+        history.push("/admin/dashboard");
 
         //init();
       }

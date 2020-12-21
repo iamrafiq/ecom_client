@@ -1,33 +1,8 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-
-import {
-  setSigninDialog,
-  selectSigninDialog,
-  setOtpDialog,
-  selectOtpDialog,
-  selectSignupDialog,
-  setSignupDialog,
-  setCustomDialog,
-  selectCustomDialog,
-} from "../../redux/globalSlice";
-import PureModal from "react-pure-modal";
-import "../pure-modal.css";
-import SigninForm from "../user/SigninForm";
-import OtpVerificationForm from "../user/OtpVerificationForm";
-import SignupForm from "../user/SignupForm";
-import CustomLoadingDialog from "../user/CustomLoadingDialog";
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Toast() {
-  const dispatch = useDispatch();
-  const signinDialog = useSelector(selectSigninDialog);
-  const otpDialog = useSelector(selectOtpDialog);
-  const signupDialog = useSelector(selectSignupDialog);
-  const customDialog = useSelector(selectCustomDialog);
-
   return (
     <div>
       <ToastContainer />

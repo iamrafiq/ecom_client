@@ -17,7 +17,7 @@ import oneHourImg from "../../images/1-hour.png";
 import {
   selectCartTotalAmount,
   selectCartProducts,
-  emptyCart
+  emptyCart,
 } from "../../redux/cartSlice";
 
 import { englishToBangla } from "../../util/utils";
@@ -55,15 +55,14 @@ const Profile = () => {
 
   const checkoutProducts = () => {
     return products.map((ele, index) => {
-      
       return {
         _id: ele.product._id,
         productCode: ele.product.productCode,
         name: ele.product.name,
         count: ele.qtyCart,
         price: ele.product.applyDiscounts
-        ? ele.product.cropPrice
-        : ele.product.mrp
+          ? ele.product.cropPrice
+          : ele.product.mrp,
       };
     });
   };
@@ -109,14 +108,54 @@ const Profile = () => {
         setValues({ ...values, error: data.error, loading: false });
       } else {
         console.log("sign in data:", data);
-        dispatch(emptyCart())
+        dispatch(emptyCart());
       }
     });
   };
   const signInFrom = () => (
     <div className="checkout--container">
-      <span className="text--checkout">Checkout</span>
       <form onSubmit={clickSubmit}>
+        <div className="checkout--row">
+          <label for="name">{language === "en" ? "Name" : "নাম"}</label>
+          <input
+            // type="text"
+            // id="fname"
+            // name="firstname"
+            // className="checkout__input"
+            id="name"
+            placeholder={language === "en" ? "name" : "নাম "}
+            onChange={handleChange("name")}
+            type="text"
+            className="checkout__input"
+            value={name}
+          />
+        </div>
+        <div className="profile__phone--number">
+          <div className="checkout--row">
+            <label for="contactNumber">
+              {language === "en"
+                ? "Contact Phone number"
+                : "যোগাযোগের ফোন নাম্বার"}
+            </label>
+            <input
+              id="contactNumber"
+              placeholder={language === "en" ? "Phone number" : "ফোন নাম্বার"}
+              onChange={handleChange("contactNumber")}
+              type="number"
+              className="checkout__input"
+              value={contactNumber}
+              required
+            />
+          </div>
+          <div className="checkout--row">
+            <input
+              type="submit"
+              value={language === "en" ? "Checkout" : "ক্রয় করুন"}
+              className="checkout__input--submit"
+            />
+          </div>
+        </div>
+        <span className="text--checkout">Address Book</span>
         <div className="checkout-form">
           <div className="checkout-form--input">
             <div className="checkout--row">
@@ -127,9 +166,7 @@ const Profile = () => {
                 // name="firstname"
                 // className="checkout__input"
                 id="name"
-                placeholder={
-                  language === "en" ? "name (optional)" : "নাম (অপসনাল)"
-                }
+                placeholder={language === "en" ? "name" : "নাম "}
                 onChange={handleChange("name")}
                 type="text"
                 className="checkout__input"
@@ -174,49 +211,6 @@ const Profile = () => {
               />
             </div>
           </div>
-          <div className="chekout-form--info">
-            <div className="payment__method">
-              <img src={cashOnDeliveryImg} alt="" />
-              <span> Cash on delivery</span>
-            </div>
-            <div className="delivery__time">
-              <img src={oneHourImg} alt="Cash on delivery" />
-              <span>1 hour express delivery</span>
-            </div>
-          </div>
-          {language === "en" ? (
-            <div className="chekout-form--total">
-              <div className="checkout--text--space--between deliver--charge">
-                <span>Delivery charge</span>
-                <span>0</span>
-              </div>
-              <div className="checkout--text--space--between cart--total">
-                <span>Cart total</span>
-                <span>{totalAmount}</span>
-              </div>
-              <hr className="hr--padding-left" />
-              <div className="checkout--text--space--between cart--total">
-                <span>Sub total</span>
-                <span>{totalAmount}</span>
-              </div>
-            </div>
-          ) : (
-            <div className="chekout-form--total">
-              <div className="checkout--text--space--between deliver--charge">
-                <span>ডেলিভারি চার্জ </span>
-                <span>{englishToBangla(0)}</span>
-              </div>
-              <div className="checkout--text--space--between cart--total">
-                <span>পণ্যে সমূহের মূল্য</span>
-                <span>{englishToBangla(totalAmount)}</span>
-              </div>
-              <hr className="hr--padding-left" />
-              <div className="checkout--text--space--between cart--total">
-                <span>মোট মূল্য</span>
-                <span>{englishToBangla(totalAmount)}</span>
-              </div>
-            </div>
-          )}
 
           <div className="checkout--row">
             <input
