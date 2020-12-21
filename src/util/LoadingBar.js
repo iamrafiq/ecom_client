@@ -7,7 +7,7 @@ import {
 import { imageUrlConverter } from "./ImageUrlConverter";
 
 import { css } from "@emotion/core";
-import PuffLoader from "react-spinners/PuffLoader";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 export default function LoadingBar({ loading, message = "" }) {
   const override = css`
@@ -20,17 +20,15 @@ export default function LoadingBar({ loading, message = "" }) {
 
   return (
     <div className="sweet-loading">
-      <div className="sweet-loading-spinner">
-        <PuffLoader
-          css={override}
-          size={100}
-          color={"#00ff00"}
-          loading={loading}
-        />
-      </div>
+      <ScaleLoader
+        css={override}
+        size={100}
+        color={"#00ff00"}
+        loading={loading}
+      />
 
       {loading && (
-        <div>
+        <div  className="sweet-loading-text">
           <span>{message}</span>
         </div>
       )}

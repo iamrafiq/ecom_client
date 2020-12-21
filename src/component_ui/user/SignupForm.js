@@ -17,10 +17,7 @@ import {
 } from "../../redux/globalSlice";
 
 import "./user-forms.css";
-import googleImg from "../../images/google_icon.svg";
-import facebookImg from "../../images/facebook.svg";
-import Footer from "../footer/Footer";
-import LoadingBar from "../../util/LoadingBar";
+
 
 const SignupForm = () => {
   const dispatch = useDispatch();
@@ -135,22 +132,8 @@ const SignupForm = () => {
   };
   const signUpFrom = () => (
     <div className="form__box">
-      {false ? (
-        <React.Fragment>
-          <React.Fragment>
-            <LoadingBar
-              loading={loading}
-              message={
-                language === "en"
-                  ? "Sending verification sms... please wait"
-                  : "ভেরিফিকেশন এসএমএস পাঠানো হচ্ছে ... অনুগ্রহ করে অপেক্ষা করুন "
-              }
-            ></LoadingBar>
-          </React.Fragment>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          {/* <div className="soc">
+      <React.Fragment>
+        {/* <div className="soc">
             <div className="soc--btn facebook">
               <img src={facebookImg} alt="facebook" />
               {language === "en" ? (
@@ -168,35 +151,35 @@ const SignupForm = () => {
               )}
             </div>
           </div> */}
-          {/* <div className="or__text">
+        {/* <div className="or__text">
             <hr />
             {language === "en" ? <span>OR</span> : <span>অথবা</span>}
 
             <hr />
           </div> */}
-          {language === "en" ? (
-            <h3 className="form__box--h3">Sign up using phone number</h3>
-          ) : (
-            <h3 className="form__box--h3">ফোন নাম্বার দিয়ে সাইন-আপ করুন</h3>
-          )}
+        {language === "en" ? (
+          <h3 className="form__box--h3">Sign up using phone number</h3>
+        ) : (
+          <h3 className="form__box--h3">ফোন নাম্বার দিয়ে সাইন-আপ করুন</h3>
+        )}
 
-          <form className="user__form" onSubmit={clickSubmit}>
-            {/* <input
+        <form className="user__form" onSubmit={clickSubmit}>
+          {/* <input
           placeholder={language === "en" ? "name (optional)" : "নাম (অপসনাল)"}
           onChange={handleChange("name")}
           type="text"
           className="form--input"
           value={name}
         /> */}
-            <input
-              placeholder={language === "en" ? "Phone number" : "ফোন নাম্বার"}
-              onChange={handleChange("phoneNumber")}
-              type="number"
-              className="form--input"
-              value={phoneNumber}
-              required
-            />
-            {/* <input
+          <input
+            placeholder={language === "en" ? "Phone number" : "ফোন নাম্বার"}
+            onChange={handleChange("phoneNumber")}
+            type="number"
+            className="form--input"
+            value={phoneNumber}
+            required
+          />
+          {/* <input
           type="text"
           placeholder={language === "en" ? "password" : "পাসওয়ার্ড"}
           className="form--input"
@@ -205,38 +188,37 @@ const SignupForm = () => {
           value={password}
           required
         /> */}
-            <input
-              className="submit__btn margin__bottom20px"
-              type="submit"
-              value={language === "en" ? "Sign Up" : "সাইন-আপ"}
-            />
-          </form>
+          <input
+            className="submit__btn margin__bottom20px"
+            type="submit"
+            value={language === "en" ? "Sign Up" : "সাইন-আপ"}
+          />
+        </form>
 
-          <div
-            class="signup"
-            onClick={() => {
-              dispatch(setSigninDialog({ signinDialog: true }));
-              dispatch(setSignupDialog({ signupDialog: false }));
-            }}
-            style={{ cursor: "pointer" }}
-          >
-            <div className="signup__form">
+        <div
+          class="signup"
+          onClick={() => {
+            dispatch(setSigninDialog({ signinDialog: true }));
+            dispatch(setSignupDialog({ signupDialog: false }));
+          }}
+          style={{ cursor: "pointer" }}
+        >
+          <div className="signup__form">
+            {language === "en" ? (
+              <span> Already a member ?</span>
+            ) : (
+              <span> আপনি কি আমাদের মেম্বার?</span>
+            )}
+            <div>
               {language === "en" ? (
-                <span> Already a member ?</span>
+                <span className="signup--link"> Sign In</span>
               ) : (
-                <span> আপনি কি আমাদের মেম্বার?</span>
+                <span className="signup--link"> সাইন-ইন</span>
               )}
-              <div>
-                {language === "en" ? (
-                  <span className="signup--link"> Sign In</span>
-                ) : (
-                  <span className="signup--link"> সাইন-ইন</span>
-                )}
-              </div>
             </div>
           </div>
-        </React.Fragment>
-      )}
+        </div>
+      </React.Fragment>
     </div>
   );
 

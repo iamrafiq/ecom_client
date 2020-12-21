@@ -45,12 +45,15 @@ import {
   setCustomDialog,
   selectCustomDialog,
 } from "../../redux/globalSlice";
-import PureModal from "react-pure-modal";
-import "../pure-modal.css";
-import SigninForm from "../user/SigninForm";
-import OtpVerificationForm from "../user/OtpVerificationForm";
-import SignupForm from "../user/SignupForm";
-import CustomLoadingDialog from "../user/CustomLoadingDialog";
+// import PureModal from "react-pure-modal";
+// import "../pure-modal.css";
+// import SigninForm from "../user/SigninForm";
+// import OtpVerificationForm from "../user/OtpVerificationForm";
+// import SignupForm from "../user/SignupForm";
+// import CustomLoadingDialog from "../user/CustomLoadingDialog";
+
+import Dialogs from "../dialog/Dialogs";
+import Toast from "../dialog/Toast";
 
 export default function MoreMobile({ mobile = false }) {
   const dispatch = useDispatch();
@@ -80,7 +83,7 @@ export default function MoreMobile({ mobile = false }) {
 
   return (
     <div>
-      {signupDialog && (
+      {/* {signupDialog && (
         <div>
           <PureModal
             header={""}
@@ -166,8 +169,9 @@ export default function MoreMobile({ mobile = false }) {
             ></CustomLoadingDialog>
           </PureModal>
         </div>
-      )}
-
+      )} */}
+    <Toast></Toast>
+     <Dialogs></Dialogs>
       <Popup
         trigger={
           <button className="button">

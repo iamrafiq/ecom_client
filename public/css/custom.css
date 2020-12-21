@@ -178,13 +178,18 @@
   left: 50%;
   z-index: 1000;
   transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: var(--gap-large);
 }
-.sweet-loading-spinner{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-bottom: var(--gap-large);
-  transform: translate(-50%, -100%);
+.sweet-loading-text{
+  color: var(--font-color-secondary);
+  word-break: break-word;
+  font-size: var(--font-size-medium);
+
 }
 /*small phones from 0 to 480px*/
 @media only screen and (max-width: 700px) {

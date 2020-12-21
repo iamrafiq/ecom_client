@@ -36,25 +36,26 @@ import {
   faSortDown,
   faCheckCircle,
 } from "@fortawesome/fontawesome-free-solid";
-import PureModal from "react-pure-modal";
-import "../pure-modal.css";
-import SignupForm from "../user/SignupForm";
+// import PureModal from "react-pure-modal";
+// import "../pure-modal.css";
+// import SignupForm from "../user/SignupForm";
 
-import SigninForm from "../user/SigninForm";
-import OtpVerificationForm from "../user/OtpVerificationForm";
-import CustomLoadingDialog from "../user/CustomLoadingDialog";
-
+// import SigninForm from "../user/SigninForm";
+// import OtpVerificationForm from "../user/OtpVerificationForm";
+// import CustomLoadingDialog from "../user/CustomLoadingDialog";
+import Dialogs from "../dialog/Dialogs";
+import Toast from "../dialog/Toast";
 var FontAwesome = require("react-fontawesome");
 
 export default function SigninMenu({ mobile = false }) {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
-  const signinDialog = useSelector(selectSigninDialog);
-  const customDialog = useSelector(selectCustomDialog);
+  // const signinDialog = useSelector(selectSigninDialog);
+  // const customDialog = useSelector(selectCustomDialog);
 
-  const signupDialog = useSelector(selectSignupDialog);
+  // const signupDialog = useSelector(selectSignupDialog);
 
-  const otpDialog = useSelector(selectOtpDialog);
+  // const otpDialog = useSelector(selectOtpDialog);
 
   const deviceType = useSelector(selectDeviceTypeSelection);
   const user = useSelector(selectUser);
@@ -67,7 +68,7 @@ export default function SigninMenu({ mobile = false }) {
 
   return (
     <div>
-      {signupDialog && (
+      {/* {signupDialog && (
         <div>
           <PureModal
             header="Signup"
@@ -153,7 +154,9 @@ export default function SigninMenu({ mobile = false }) {
             ></CustomLoadingDialog>
           </PureModal>
         </div>
-      )}
+      )} */}
+      <Toast></Toast>
+      <Dialogs></Dialogs>
       <Popup
         trigger={
           <div className="menu-item">

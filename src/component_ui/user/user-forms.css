@@ -12,9 +12,11 @@
   
   .form__box--h3 {
     text-align: center;
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-medium);
     color: var(--font-color-secondary);
     padding: var(--gap-medium);
+    word-break: break-word;
+
   }
   .or__text{
       display: flex;
@@ -49,6 +51,7 @@
     border: 1.5px solid var(--border-color-dark);
     -webkit-transition: all 0.2s ease;
     transition: all 0.2s ease;
+    color: var(--font-color-primary);
   }
   
   .form--input:focus {

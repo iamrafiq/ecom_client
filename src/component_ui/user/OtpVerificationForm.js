@@ -20,7 +20,11 @@ import "./user-forms.css";
 import Footer from "../footer/Footer";
 import { useEffect } from "react";
 import { englishToBangla } from "../../util/utils";
-import { setOtpDialog } from "../../redux/globalSlice";
+import {
+  setOtpDialog,
+  setCustomDialog,
+  selectCustomDialog,
+} from "../../redux/globalSlice";
 import LoadingBar from "../../util/LoadingBar";
 
 const OtpVerificationForm = () => {
@@ -28,6 +32,8 @@ const OtpVerificationForm = () => {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
   const user = useSelector(selectUser);
+  const customDialog = useSelector(selectCustomDialog);
+
   const [timeLeft, setTimeLeft] = useState(resendTime);
   const [values, setValues] = useState({
     otp: "",
@@ -35,8 +41,7 @@ const OtpVerificationForm = () => {
     success: false,
     redirectToReferrer: false,
     loading: false,
-    otpSendingMessage: "",
-    otpSendingMessageBengali: "",
+    msgWrongOtp: false,
   });
 
   const {
@@ -45,10 +50,8 @@ const OtpVerificationForm = () => {
     error,
     redirectToReferrer,
     loading,
-    otpSendingMessage,
-    otpSendingMessageBengali,
+    msgWrongOtp,
   } = values;
-  console.log("ussssser", user);
   const { phoneNumber, aiId } = user;
   useEffect(() => {
     if (!timeLeft) return;
@@ -72,14 +75,33 @@ const OtpVerificationForm = () => {
       error: "",
       success: true,
       loading: true,
-      otpSendingMessage: "New OTP is on the way ...Please wait",
-      otpSendingMessageBengali:
-        "নতুন OTP পাঠানো হইয়াছে... অনুগ্রহ করে অপেক্ষা করুন",
+      msgWrongOtp: false,
     });
+    dispatch(setOtpDialog({ otpDialog: false }));
+    dispatch(
+      setCustomDialog({
+        customDialog: {
+          open: true,
+          englishMsg: "New OTP is on the way ...Please wait",
+          banglaMsg: "নতুন OTP পাঠানো হচ্ছে... অনুগ্রহ করে অপেক্ষা করুন",
+        },
+      })
+    );
     resendOtp({ phoneNumber }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
       } else {
+        dispatch(
+          setCustomDialog({
+            customDialog: {
+              open: false,
+              englishMsg: "",
+              banglaMsg: "",
+            },
+          })
+        );
+        dispatch(setOtpDialog({ otpDialog: true }));
+
         setValues({
           ...values,
           loading: false,
@@ -93,15 +115,41 @@ const OtpVerificationForm = () => {
       ...values,
       error: false,
       loading: true,
-      otpSendingMessage: "Verifying your phone number... please wait.",
-      otpSendingMessageBengali:
-        "আপনার ফোন নাম্বার ভেরিফাই করা হচ্ছে ... অনুগ্রহ করে অপেক্ষা করুন",
+      msgWrongOtp: false,
     });
+    // dispatch(setOtpDialog({ otpDialog: false }));
+
+    dispatch(
+      setCustomDialog({
+        customDialog: {
+          open: true,
+          englishMsg: "Verifying your phone number... please wait.",
+          banglaMsg:
+            "আপনার ফোন নাম্বার ভেরিফাই করা হচ্ছে ... অনুগ্রহ করে অপেক্ষা করুন",
+        },
+      })
+    );
+
     otp.trim();
     verifyOtp({ aiId, phoneNumber, otp }).then((data) => {
       console.log("otp verify data:", data);
+      dispatch(
+        setCustomDialog({
+          customDialog: {
+            open: false,
+            englishMsg: "",
+            banglaMsg: "",
+          },
+        })
+      );
       if (data.error) {
-        setValues({ ...values, error: data.error, success: false });
+        setTimeLeft(0);
+        setValues({
+          ...values,
+          error: data.error,
+          success: false,
+          msgWrongOtp: true,
+        });
       } else {
         if (data.user) {
           dispatch(setUser({ user: data.user, encrypt: true }));
@@ -125,119 +173,80 @@ const OtpVerificationForm = () => {
   };
   const otpForm = () => (
     <div className="form__box">
-      {loading ? (
-        <React.Fragment>
-          <LoadingBar
-            loading={loading}
-            message={
-              language === "en" ? otpSendingMessage : otpSendingMessageBengali
+      <React.Fragment>
+        {language === "en" ? (
+          <h3 className="form__box--h3">
+            {msgWrongOtp ? (
+              <span style={{ color: "red" }}>
+                Please write correct OTP or press on Resend button.
+              </span>
+            ) : (
+              ` A One Time Password has been sent to ${phoneNumber} <br /> Please
+              enter the OTP bellow to verify your account`
+            )}
+          </h3>
+        ) : (
+          <h3 className="form__box--h3">
+            {msgWrongOtp ? (
+              <span style={{ color: "red" }}>
+                অনুগ্রহ করে সঠিক OTP প্রদান করুন অথবা আবার পাঠান এ ক্লিক করুন।
+              </span>
+            ) : (
+              `আমরা ${phoneNumber} নাম্বারে ৪ সংখ্যার পিন পাঠিয়েছি, অনুগ্রহ করে
+              পিন ব্যাবহার করে আপনার একাউন্ট ভেরিফাই করে নিন।`
+            )}
+          </h3>
+        )}
+
+        <form className="user__form" onSubmit={clickSubmit}>
+          <input
+            placeholder={
+              language === "en"
+                ? "Enter 4 digit pin"
+                : "৪ সংখ্যার পিন এখানে দিন"
             }
-          ></LoadingBar>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          {language === "en" ? (
-            <h3 className="form__box--h3">
-              A One Time Password has been sent to {phoneNumber} <br /> Please
-              enter the OTP bellow to verify your account
-            </h3>
-          ) : (
-            <h3 className="form__box--h3">
-              আমরা {phoneNumber} নাম্বারে ৪ সংখ্যার পিন পাঠিয়েছি, অনুগ্রহ করে
-              পিন ব্যাবহার করে আপনার একাউন্ট ভেরিফাই করে নিন।
-            </h3>
-          )}
-
-          <form className="user__form" onSubmit={clickSubmit}>
+            onChange={handleChange("otp")}
+            type="text"
+            className="form--input"
+            value={otp}
+            required
+          />
+          <div className="otp__btns">
+            {timeLeft ? (
+              <div className="submit__btn resend--inactive">
+                <span>
+                  {language == "en" ? (
+                    <span>{timeLeft}</span>
+                  ) : (
+                    <span>{englishToBangla(timeLeft)}</span>
+                  )}
+                </span>
+                <span>&nbsp; {language === "en" ? "" : "আবার পাঠান"}</span>
+              </div>
+            ) : (
+              <div
+                className="submit__btn resend--active"
+                onClick={() => onClickResend()}
+              >
+                <span>
+                  &nbsp; {language === "en" ? "Send Again" : "আবার পাঠান"}
+                </span>
+              </div>
+            )}
             <input
-              placeholder={
-                language === "en"
-                  ? "Enter 4 digit pin"
-                  : "৪ সংখ্যার পিন এখানে দিন"
-              }
-              onChange={handleChange("otp")}
-              type="text"
-              className="form--input"
-              value={otp}
-              required
+              className="submit__btn margin__bottom20px"
+              type="submit"
+              value={language === "en" ? "Verify" : "ভেরিফাই"}
             />
-            <div className="otp__btns">
-              <input
-                className="submit__btn margin__bottom20px"
-                type="submit"
-                value={language === "en" ? "Verify" : "ভেরিফাই"}
-              />
-              {timeLeft ? (
-                <div className="submit__btn resend--inactive">
-                  <span>
-                    {language == "en" ? (
-                      <span>{timeLeft}</span>
-                    ) : (
-                      <span>{englishToBangla(timeLeft)}</span>
-                    )}
-                  </span>
-                  <span>&nbsp; {language === "en" ? "" : "আবার পাঠান"}</span>
-                </div>
-              ) : (
-                <div
-                  className="submit__btn resend--active"
-                  onClick={() => onClickResend()}
-                >
-                  <span>
-                    &nbsp; {language === "en" ? "Send Again" : "আবার পাঠান"}
-                  </span>
-                </div>
-              )}
-            </div>
-          </form>
-        </React.Fragment>
-      )}
+          </div>
+        </form>
+      </React.Fragment>
     </div>
   );
 
-  const showError = () => (
-    <div
-      className="alert__box alert--failure"
-      style={{ display: error ? "" : "none" }}
-    >
-      {error}
-    </div>
-  );
-
-  const showSuccess = () => (
-    <div
-      className="alert__box alert--success"
-      style={{ display: success ? "" : "none" }}
-    >
-      {language === "en" ? (
-        <span>{otpSendingMessage}</span>
-      ) : (
-        <span>{otpSendingMessageBengali}</span>
-      )}
-    </div>
-  );
-  const noPhoneNumberGoToHome = () => {
-    if (!phoneNumber) {
-      return <Redirect to="/" />;
-    }
-  };
-  const redirectUser = () => {
-    if (redirectToReferrer) {
-      if (user && user.role === 1) {
-        return <Redirect to="/admin/dashboard" />;
-      } else {
-        return <Redirect to="/" />;
-      }
-    }
-  };
   return (
     <div className="">
-      {showSuccess()}
-      {showError()}
       {otpForm()}
-      {redirectUser()}
-      {noPhoneNumberGoToHome()}
-      {/* <Footer></Footer> */}
     </div>
   );
 };
