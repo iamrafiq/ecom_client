@@ -25,6 +25,8 @@ import {
   setCustomDialog,
   selectCustomDialog,
 } from "../../redux/globalSlice";
+import { notifyWarn, notifySuccess } from "../dialog/Toast";
+
 import LoadingBar from "../../util/LoadingBar";
 
 const OtpVerificationForm = () => {
@@ -90,6 +92,12 @@ const OtpVerificationForm = () => {
     resendOtp({ phoneNumber }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
+        if (language === "en"){
+          notifyWarn("Failed to send OTP please try again.")
+        }else{
+          notifyWarn("ভেরিফিকেশন এসএমএস পাঠানো বিফল হইয়াছে, আবার চেষ্টা করুন.")
+
+        }
       } else {
         dispatch(
           setCustomDialog({
@@ -160,6 +168,12 @@ const OtpVerificationForm = () => {
 
         dispatch(setOtpDialog({ otpDialog: false }));
 
+        if (language === "en"){
+          notifySuccess("Verification successfull.")
+        }else{
+          notifySuccess("ভেরিফিকেশন সফল হইয়াছে।")
+
+        }
         setValues({
           ...values,
           otp: "",

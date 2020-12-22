@@ -29,7 +29,7 @@ import { useEffect } from "react";
 import { createOrder } from "../../core/apiCore";
 import { profileUpdate } from "../../auth/index";
 import { ToastContainer, toast } from "react-toastify";
-import { notifyPlaceOrderFailed, notifyPlaceOrderSuccess } from "../dialog/Toast";
+import { notifySuccess, notifyError } from "../dialog/Toast";
 import "react-toastify/dist/ReactToastify.css";
 
 const Checkout = () => {
@@ -43,7 +43,6 @@ const Checkout = () => {
   const history = useHistory();
   const user = useSelector(selectUser);
   const token = useSelector(selectToken);
-  
 
   const [values, setValues] = useState({
     contactName: "",
@@ -172,10 +171,18 @@ const Checkout = () => {
             })
           );
           setValues({ ...values, error: data.error });
-          notifyPlaceOrderFailed(language);
+          if (language === "en") {
+            notifyError(`Failed to place your order, please try again`);
+          } else {
+            notifyError(`আপনার অর্ডার স্থাপন বিফল হইয়াছে, আবার চেষ্টা করুন`);
+          }
         } else {
           dispatch(emptyCart());
-          notifyPlaceOrderSuccess(language);
+          if (language === "en") {
+            notifySuccess(`Your order successfully placed.`);
+          } else {
+            notifySuccess(`আপনার অর্ডার সফলভবে স্থাপন করা  হইয়াছে `);
+          }
           if (updateProfile) {
             let address = {
               contactName,

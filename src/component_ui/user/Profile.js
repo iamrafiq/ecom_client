@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Redirect, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { signin } from "../../auth/index";
 import { selectLanguageSelection } from "../../redux/settingsSlice";
 import {
   setToken,
@@ -11,14 +10,26 @@ import {
   selectToken,
 } from "../../redux/authSlice";
 import "./profile.css";
+import {
+  signin,
+  authenticate,
+  verifyOtp,
+  isAuthenticated,
+  resendOtp,
+} from "../../auth/index";
 
-import cashOnDeliveryImg from "../../images/cash-on-delivery.png";
-import oneHourImg from "../../images/1-hour.png";
+import { notifyWarn } from "../dialog/Toast";
+
 import {
   selectCartTotalAmount,
   selectCartProducts,
   emptyCart,
 } from "../../redux/cartSlice";
+
+import {
+  setCustomDialog,
+  setOtpDialog,
+} from "../../redux/globalSlice";
 
 import { englishToBangla } from "../../util/utils";
 import Footer from "../footer/Footer";
@@ -34,50 +45,112 @@ const Profile = () => {
   const token = useSelector(selectToken);
 
   const [values, setValues] = useState({
-    name: "",
+    name:"",
+    contactName: "",
     contactNumber: "",
-    address: "",
+    contactAddress: "",
     area: "",
     error: "",
-    loading: false,
     redirectToReferrer: false,
+    updateProfile: false,
   });
 
   const {
-    address,
+    name,
+    contactAddress,
     contactNumber,
-    loading,
     error,
     redirectToReferrer,
-    name,
+    contactName,
     area,
+    updateProfile,
   } = values;
 
-  const checkoutProducts = () => {
-    return products.map((ele, index) => {
-      return {
-        _id: ele.product._id,
-        productCode: ele.product.productCode,
-        name: ele.product.name,
-        count: ele.qtyCart,
-        price: ele.product.applyDiscounts
-          ? ele.product.cropPrice
-          : ele.product.mrp,
-      };
-    });
-  };
+
   useEffect(() => {
     if (user) {
-      setValues({
-        ...values,
-        name: user.name,
-        contactNumber: user.phoneNumber,
-        address: user.address,
-        area: "Uttara",
-      });
+      if (user.address && user.address.length > 0) {
+        let address = user.address[user.address.length - 1];
+        let cName = "";
+        if (address.contactName) {
+          cName = address.contactName;
+        } else {
+          cName = user.name;
+        }
+        let cNum;
+        if (address.contactNumber) {
+          cNum = address.contactNumber;
+        } else {
+          cNum = user.phoneNumber;
+        }
+        let contactAddress = "";
+        if (address.contactAddress) {
+          contactAddress = address.contactAddress;
+        }
+        let area = "Uttara";
+        if (address.area) {
+          area = address.area;
+        }
+        setValues({
+          ...values,
+          contactName: cName,
+          contactNumber: cNum,
+          contactAddress: contactAddress,
+          area: area,
+        });
+      } else {
+        setValues({
+          ...values,
+          contactName: user.name,
+          contactNumber: user.phoneNumber,
+        });
+      }
     }
   }, []);
 
+  const onClickVerify = () =>{
+    dispatch(
+      setCustomDialog({
+        customDialog: {
+          open: true,
+          englishMsg: "Sending verification sms... please wait",
+          banglaMsg:
+            "ভেরিফিকেশন এসএমএস পাঠানো হচ্ছে ... অনুগ্রহ করে অপেক্ষা করুন ",
+        },
+      })
+    );
+
+    let phoneNumber = user.phoneNumber;
+
+    resendOtp({ phoneNumber }).then((data) => {
+      dispatch(
+        setCustomDialog({
+          customDialog: {
+            open: false,
+            englishMsg: "",
+            banglaMsg:
+              "",
+          },
+        })
+      );
+      if (data.error) {
+        setValues({ ...values, error: data.error, success: false });
+        if (language === "en"){
+          notifyWarn("Failed to send OTP please try again.")
+        }else{
+          notifyWarn("ভেরিফিকেশন এসএমএস পাঠানো বিফল হইয়াছে, আবার চেষ্টা করুন.")
+
+        }
+      
+      } else {
+        dispatch(setOtpDialog({ otpDialog: true }));
+        setValues({
+          ...values,
+          loading: false,
+        });
+      }
+    });
+  }
   const handleChange = (field) => {
     return (event) => {
       setValues({ ...values, error: false, [field]: event.target.value });
@@ -89,28 +162,20 @@ const Profile = () => {
     console.log("submit....");
     setValues({ ...values, error: false, loading: true });
     contactNumber.trim();
-    address.trim();
     const userId = user._id;
-    const createOrderData = {
-      products: checkoutProducts(),
-      amount: totalAmount,
-      address,
-      area,
-      contactNumber,
-      name,
-    };
+   
 
-    console.log("user id:", userId);
+    // console.log("user id:", userId);
 
-    console.log(checkoutProducts());
-    createOrder(userId, token, createOrderData).then((data) => {
-      if (data.error) {
-        setValues({ ...values, error: data.error, loading: false });
-      } else {
-        console.log("sign in data:", data);
-        dispatch(emptyCart());
-      }
-    });
+    // console.log(checkoutProducts());
+    // createOrder(userId, token, createOrderData).then((data) => {
+    //   if (data.error) {
+    //     setValues({ ...values, error: data.error, loading: false });
+    //   } else {
+    //     console.log("sign in data:", data);
+    //     dispatch(emptyCart());
+    //   }
+    // });
   };
   const signInFrom = () => (
     <div className="checkout--container">
@@ -131,29 +196,16 @@ const Profile = () => {
           />
         </div>
         <div className="profile__phone--number">
-          <div className="checkout--row">
-            <label for="contactNumber">
-              {language === "en"
-                ? "Contact Phone number"
-                : "যোগাযোগের ফোন নাম্বার"}
-            </label>
-            <input
-              id="contactNumber"
-              placeholder={language === "en" ? "Phone number" : "ফোন নাম্বার"}
-              onChange={handleChange("contactNumber")}
-              type="number"
-              className="checkout__input"
-              value={contactNumber}
-              required
-            />
-          </div>
-          <div className="checkout--row">
-            <input
-              type="submit"
-              value={language === "en" ? "Checkout" : "ক্রয় করুন"}
-              className="checkout__input--submit"
-            />
-          </div>
+          <div className="contact__number">{user.phoneNumber}</div>
+          {user.verified === 1 ? (
+            <div type="submit" className="profile__verify--btn--inactive">
+              {language === "en" ? "Verified" : "ভেরিফাইড"}
+            </div>
+          ) : (
+            <div type="submit" className="checkout__input--submit" onClick = {()=>onClickVerify()}>
+              {language === "en" ? "Verify" : "ভেরিফাই"}
+            </div>
+          )}
         </div>
         <span className="text--checkout">Address Book</span>
         <div className="checkout-form">
@@ -167,10 +219,10 @@ const Profile = () => {
                 // className="checkout__input"
                 id="name"
                 placeholder={language === "en" ? "name" : "নাম "}
-                onChange={handleChange("name")}
+                onChange={handleChange("contactName")}
                 type="text"
                 className="checkout__input"
-                value={name}
+                value={contactName}
               />
             </div>
 
@@ -203,10 +255,10 @@ const Profile = () => {
               <textarea
                 id="address"
                 placeholder={language === "en" ? "Address" : "ঠিকানা"}
-                onChange={handleChange("address")}
+                onChange={handleChange("contactAddress")}
                 type="textarea"
                 className="checkout__input"
-                value={address}
+                value={contactAddress}
                 required
               />
             </div>
@@ -233,13 +285,6 @@ const Profile = () => {
     </div>
   );
 
-  const showLoading = () =>
-    loading && (
-      <div className="alert-box warning">
-        <h2>Loading...</h2>
-      </div>
-    );
-
   const redirectUser = () => {
     if (redirectToReferrer) {
       if (user.verified === 1) {
@@ -255,7 +300,6 @@ const Profile = () => {
   };
   return (
     <div className="">
-      {showLoading()}
       {showError()}
       {signInFrom()}
       {redirectUser()}
