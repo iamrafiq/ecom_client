@@ -51,7 +51,7 @@ const Profile = () => {
     error: "",
     redirectToReferrer: false,
     updateProfile: false,
-    noContactName:false,
+    noContactName: false,
   });
 
   const {
@@ -78,7 +78,7 @@ const Profile = () => {
           cName = user.name;
           noCName = true;
         }
-        console.log("noCName", noCName)
+        console.log("noCName", noCName);
         let cNum;
         if (address.contactNumber) {
           cNum = address.contactNumber;
@@ -158,16 +158,16 @@ const Profile = () => {
   };
   const handleChange = (field) => {
     return (event) => {
-      console.log("noContactName", noContactName)
-      if (field === "name" && noContactName){
+      console.log("noContactName", noContactName);
+      if (field === "name" && noContactName) {
         setValues({
           ...values,
           error: false,
           updateProfile: true,
           [field]: event.target.value,
-          contactName: event.target.value
+          contactName: event.target.value,
         });
-      }else{
+      } else {
         setValues({
           ...values,
           error: false,
@@ -175,7 +175,6 @@ const Profile = () => {
           [field]: event.target.value,
         });
       }
-     
     };
   };
 
@@ -253,6 +252,7 @@ const Profile = () => {
             onChange={handleChange("name")}
             type="text"
             className="checkout__input"
+            maxlength="32"
             required
             value={name}
           />
@@ -333,11 +333,19 @@ const Profile = () => {
           </div>
 
           <div className="checkout--row">
-            <input
-              type="submit"
-              value={language === "en" ? "Checkout" : "ক্রয় করুন"}
-              className="checkout__input--submit"
-            />
+            {updateProfile ? (
+              <input
+                type="submit"
+                value={language === "en" ? "Confirm" : "নিশ্চিত করুন"}
+                className="checkout__input--submit"
+              />
+            ) : (
+              <input
+                type="submit"
+                value={language === "en" ? "Confirm" : "নিশ্চিত করুন"}
+                className="profile__input--submit--inactive"
+              />
+            )}
           </div>
         </div>
       </form>
