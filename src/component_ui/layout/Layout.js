@@ -30,6 +30,7 @@ import { setToken, setUser, initAiUser } from "../../redux/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { MOBIEL_DEVICE_RESOLUTION, TAB_DEVICE_RESOLUTION } from "../../config";
 import LoadingBar from "../../util/LoadingBar";
+import FullScreenLoadingBar from "../../util/FullScreenLoadingBar";
 
 const mql = window.matchMedia(`(min-width: ${MOBIEL_DEVICE_RESOLUTION}px)`);
 
@@ -120,6 +121,7 @@ const Layout = (props) => {
               state.menuClickCallBack();
             }}
           />
+
 
           {cats.length > 0 && (
             <SideBar tree={JSON.parse(JSON.stringify(cats))}></SideBar>

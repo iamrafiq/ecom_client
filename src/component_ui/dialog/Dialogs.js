@@ -39,7 +39,7 @@ export default function Dialogs() {
             // closeButton={<div>&#10007;</div>}
             isOpen={signupDialog}
             onClose={() => {
-              dispatch(setSigninDialog({ signupDialog: false }));
+              dispatch(setSignupDialog({ signupDialog: false }));
               return true;
             }}
           >

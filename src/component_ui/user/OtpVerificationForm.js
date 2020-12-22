@@ -195,7 +195,7 @@ const OtpVerificationForm = () => {
                 Please write correct OTP or press on Resend button.
               </span>
             ) : (
-              ` A One Time Password has been sent to ${phoneNumber} <br /> Please
+              ` A One Time Password has been sent to ${phoneNumber} Please
               enter the OTP bellow to verify your account`
             )}
           </h3>

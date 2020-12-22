@@ -16,8 +16,6 @@ export default function LoadingBar({ loading, message = "" }) {
     justify-content: center;
     align-items: center;
   `;
-  const language = useSelector(selectLanguageSelection);
-
   return (
     <div className="sweet-loading">
       <ScaleLoader

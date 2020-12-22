@@ -268,15 +268,16 @@ function Product({ regularProduct, offerProduct, product }) {
               >
                 <FontAwesome className="" name="minus" />
               </div>
-              {language === "en" ? (
-                <span className="btn__bag--text">
-                  {productFromCart.qtyCart} {"in bag"}
-                </span>
-              ) : (
-                <span className="btn__bag--text">
-                  {englishToBangla(productFromCart.qtyCart)} {"টি ব্যাগে"}
-                </span>
-              )}
+              <span
+                className="btn__bag--text"
+                onClick={() => onClickAddToCart()}
+              >
+                {language === "en"
+                  ? ` ${productFromCart.qtyCart} ${"in bag"}`
+                  : `${englishToBangla(
+                      productFromCart.qtyCart
+                    )} ${"টি ব্যাগে"}`}
+              </span>
 
               <div className="btn__bag--p" onClick={() => onClickAddToCart()}>
                 <FontAwesome className="" name="plus" />
