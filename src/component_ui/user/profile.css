@@ -33,12 +33,13 @@
     border-radius: 4px;
 }
   .contact__number {
-    padding: 14px 30px;
+    padding: 14px 20px;
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
     color: var(--font-color-secondary);
+    margin-right: var(--gap-small);
 
   }

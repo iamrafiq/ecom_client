@@ -16,9 +16,10 @@ import {
   verifyOtp,
   isAuthenticated,
   resendOtp,
+  profileUpdate,
 } from "../../auth/index";
 
-import { notifyWarn } from "../dialog/Toast";
+import { notifyWarn, notifyError, notifySuccess } from "../dialog/Toast";
 
 import {
   selectCartTotalAmount,
@@ -26,10 +27,7 @@ import {
   emptyCart,
 } from "../../redux/cartSlice";
 
-import {
-  setCustomDialog,
-  setOtpDialog,
-} from "../../redux/globalSlice";
+import { setCustomDialog, setOtpDialog } from "../../redux/globalSlice";
 
 import { englishToBangla } from "../../util/utils";
 import Footer from "../footer/Footer";
@@ -45,7 +43,7 @@ const Profile = () => {
   const token = useSelector(selectToken);
 
   const [values, setValues] = useState({
-    name:"",
+    name: "",
     contactName: "",
     contactNumber: "",
     contactAddress: "",
@@ -53,6 +51,7 @@ const Profile = () => {
     error: "",
     redirectToReferrer: false,
     updateProfile: false,
+    noContactName:false,
   });
 
   const {
@@ -64,19 +63,22 @@ const Profile = () => {
     contactName,
     area,
     updateProfile,
+    noContactName,
   } = values;
-
 
   useEffect(() => {
     if (user) {
       if (user.address && user.address.length > 0) {
         let address = user.address[user.address.length - 1];
         let cName = "";
+        let noCName = false;
         if (address.contactName) {
           cName = address.contactName;
         } else {
           cName = user.name;
+          noCName = true;
         }
+        console.log("noCName", noCName)
         let cNum;
         if (address.contactNumber) {
           cNum = address.contactNumber;
@@ -93,22 +95,26 @@ const Profile = () => {
         }
         setValues({
           ...values,
+          name: user.name,
           contactName: cName,
           contactNumber: cNum,
           contactAddress: contactAddress,
           area: area,
+          noContactName: noCName,
         });
       } else {
         setValues({
           ...values,
+          name: user.name,
           contactName: user.name,
           contactNumber: user.phoneNumber,
+          noContactName: true,
         });
       }
     }
   }, []);
 
-  const onClickVerify = () =>{
+  const onClickVerify = () => {
     dispatch(
       setCustomDialog({
         customDialog: {
@@ -128,20 +134,19 @@ const Profile = () => {
           customDialog: {
             open: false,
             englishMsg: "",
-            banglaMsg:
-              "",
+            banglaMsg: "",
           },
         })
       );
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
-        if (language === "en"){
-          notifyWarn("Failed to send OTP please try again.")
-        }else{
-          notifyWarn("ভেরিফিকেশন এসএমএস পাঠানো বিফল হইয়াছে, আবার চেষ্টা করুন.")
-
+        if (language === "en") {
+          notifyError("Failed to send OTP, please try again.");
+        } else {
+          notifyError(
+            "ভেরিফিকেশন এসএমএস পাঠানো বিফল হইয়াছে, অনুগ্রহ করে আবার চেষ্টা করুন."
+          );
         }
-      
       } else {
         dispatch(setOtpDialog({ otpDialog: true }));
         setValues({
@@ -150,34 +155,90 @@ const Profile = () => {
         });
       }
     });
-  }
+  };
   const handleChange = (field) => {
     return (event) => {
-      setValues({ ...values, error: false, [field]: event.target.value });
+      console.log("noContactName", noContactName)
+      if (field === "name" && noContactName){
+        setValues({
+          ...values,
+          error: false,
+          updateProfile: true,
+          [field]: event.target.value,
+          contactName: event.target.value
+        });
+      }else{
+        setValues({
+          ...values,
+          error: false,
+          updateProfile: true,
+          [field]: event.target.value,
+        });
+      }
+     
     };
   };
 
   const clickSubmit = (event) => {
     event.preventDefault();
-    console.log("submit....");
-    setValues({ ...values, error: false, loading: true });
-    contactNumber.trim();
-    const userId = user._id;
-   
+    if (updateProfile) {
+      dispatch(
+        setCustomDialog({
+          customDialog: {
+            open: true,
+            englishMsg: "Updating your profile.. please wait.",
+            banglaMsg:
+              "আপনার প্রোফাইল আপডেট করা হচ্ছে... অনুগ্রহ করে অপেক্ষা করুন।",
+          },
+        })
+      );
 
-    // console.log("user id:", userId);
+      const userId = user._id;
 
-    // console.log(checkoutProducts());
-    // createOrder(userId, token, createOrderData).then((data) => {
-    //   if (data.error) {
-    //     setValues({ ...values, error: data.error, loading: false });
-    //   } else {
-    //     console.log("sign in data:", data);
-    //     dispatch(emptyCart());
-    //   }
-    // });
+      let address = {
+        contactName,
+        contactNumber,
+        contactAddress: contactAddress.trim(),
+        area,
+      };
+
+      let verified = user.verified;
+      let phoneNumber = user.phoneNumber;
+      profileUpdate({ name, phoneNumber, verified, address }).then((data) => {
+        dispatch(
+          setCustomDialog({
+            customDialog: {
+              open: false,
+              englishMsg: "",
+              banglaMsg: "",
+            },
+          })
+        );
+        if (data.error) {
+          if (language === "en") {
+            notifyError("Failed to update profile, please try again.");
+          } else {
+            notifyError(
+              "প্রোফাইল আপডেট বিফল হইয়াছে, অনুগ্রহ করে আবার চেষ্টা করুন."
+            );
+          }
+        } else {
+          if (language === "en") {
+            notifySuccess("Successfully updated your profile");
+          } else {
+            notifySuccess("আপনার প্রোফাইল সফলভাবে আপডেট হইয়াছে");
+          }
+          dispatch(setUser({ user: data.user, encrypt: true }));
+
+          setValues({
+            ...values,
+            redirectToReferrer: true,
+          });
+        }
+      });
+    }
   };
-  const signInFrom = () => (
+  const profileForm = () => (
     <div className="checkout--container">
       <form onSubmit={clickSubmit}>
         <div className="checkout--row">
@@ -192,6 +253,7 @@ const Profile = () => {
             onChange={handleChange("name")}
             type="text"
             className="checkout__input"
+            required
             value={name}
           />
         </div>
@@ -202,7 +264,11 @@ const Profile = () => {
               {language === "en" ? "Verified" : "ভেরিফাইড"}
             </div>
           ) : (
-            <div type="submit" className="checkout__input--submit" onClick = {()=>onClickVerify()}>
+            <div
+              type="submit"
+              className="checkout__input--submit"
+              onClick={() => onClickVerify()}
+            >
               {language === "en" ? "Verify" : "ভেরিফাই"}
             </div>
           )}
@@ -211,13 +277,15 @@ const Profile = () => {
         <div className="checkout-form">
           <div className="checkout-form--input">
             <div className="checkout--row">
-              <label for="name">{language === "en" ? "Name" : "নাম"}</label>
+              <label for="contactName">
+                {language === "en" ? "Contact Name" : "যোগাযোগের নাম"}
+              </label>
               <input
                 // type="text"
                 // id="fname"
                 // name="firstname"
                 // className="checkout__input"
-                id="name"
+                id="contactName"
                 placeholder={language === "en" ? "name" : "নাম "}
                 onChange={handleChange("contactName")}
                 type="text"
@@ -286,22 +354,13 @@ const Profile = () => {
   );
 
   const redirectUser = () => {
-    if (redirectToReferrer) {
-      if (user.verified === 1) {
-        if (user && user.role === 1) {
-          return <Redirect to="/admin/dashboard" />;
-        } else {
-          return <Redirect to="/user/dashboard" />;
-        }
-      } else {
-        return <Redirect to={`/user/otp-v`} />;
-      }
+    if (user.status === 0) {
+      return <Redirect to="/" />;
     }
   };
   return (
     <div className="">
-      {showError()}
-      {signInFrom()}
+      {profileForm()}
       {redirectUser()}
       <Footer></Footer>
     </div>

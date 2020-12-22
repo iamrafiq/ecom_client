@@ -174,7 +174,7 @@ const Checkout = () => {
           if (language === "en") {
             notifyError(`Failed to place your order, please try again`);
           } else {
-            notifyError(`আপনার অর্ডার স্থাপন বিফল হইয়াছে, আবার চেষ্টা করুন`);
+            notifyError(`আপনার অর্ডার স্থাপন বিফল হইয়াছে, অনুগ্রহ করে আবার চেষ্টা করুন`);
           }
         } else {
           dispatch(emptyCart());
