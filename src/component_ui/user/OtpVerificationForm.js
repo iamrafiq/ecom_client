@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Redirect, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-
+import { useHistory } from "react-router-dom";
 import {
   signin,
   authenticate,
@@ -24,19 +24,22 @@ import {
   setOtpDialog,
   setCustomDialog,
   selectCustomDialog,
+  selectOtpDialog,
 } from "../../redux/globalSlice";
 import { notifyWarn, notifySuccess } from "../dialog/Toast";
 
 import LoadingBar from "../../util/LoadingBar";
 
 const OtpVerificationForm = () => {
+  const history = useHistory();
   let resendTime = 30;
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
   const user = useSelector(selectUser);
   const customDialog = useSelector(selectCustomDialog);
-
+  const otpDialog = useSelector(selectOtpDialog);
   const [timeLeft, setTimeLeft] = useState(resendTime);
+
   const [values, setValues] = useState({
     otp: "",
     error: "",
@@ -79,7 +82,7 @@ const OtpVerificationForm = () => {
       loading: true,
       msgWrongOtp: false,
     });
-    dispatch(setOtpDialog({ otpDialog: false }));
+    dispatch(setOtpDialog({ otpDialog: { open: false, redirectTo: "" } }));
     dispatch(
       setCustomDialog({
         customDialog: {
@@ -92,11 +95,10 @@ const OtpVerificationForm = () => {
     resendOtp({ phoneNumber }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
-        if (language === "en"){
-          notifyWarn("Failed to send OTP please try again.")
-        }else{
-          notifyWarn("ভেরিফিকেশন এসএমএস পাঠানো বিফল হইয়াছে, আবার চেষ্টা করুন.")
-
+        if (language === "en") {
+          notifyWarn("Failed to send OTP please try again.");
+        } else {
+          notifyWarn("ভেরিফিকেশন এসএমএস পাঠানো বিফল হইয়াছে, আবার চেষ্টা করুন.");
         }
       } else {
         dispatch(
@@ -108,7 +110,11 @@ const OtpVerificationForm = () => {
             },
           })
         );
-        dispatch(setOtpDialog({ otpDialog: true }));
+        dispatch(
+          setOtpDialog({
+            otpDialog: { open: true, redirectTo: otpDialog.redirectTo },
+          })
+        );
 
         setValues({
           ...values,
@@ -166,13 +172,15 @@ const OtpVerificationForm = () => {
           dispatch(setToken({ token: data.token, encrypt: true }));
         }
 
-        dispatch(setOtpDialog({ otpDialog: false }));
+        let redirectTo = otpDialog.redirectTo;
+        console.log("redirectTo",redirectTo)
+        dispatch(setOtpDialog({ otpDialog: { open: false, redirectTo: "" } }));
+        console.log("redirectTo",redirectTo)
 
-        if (language === "en"){
-          notifySuccess("Verification successfull.")
-        }else{
-          notifySuccess("ভেরিফিকেশন সফল হইয়াছে।")
-
+        if (language === "en") {
+          notifySuccess("Verification successfull.");
+        } else {
+          notifySuccess("ভেরিফিকেশন সফল হইয়াছে।");
         }
         setValues({
           ...values,
@@ -182,6 +190,10 @@ const OtpVerificationForm = () => {
           redirectToReferrer: true,
           loading: false,
         });
+
+        if (redirectTo && redirectTo.length > 0) {
+          history.push(redirectTo);
+        }
       }
     });
   };
@@ -258,11 +270,7 @@ const OtpVerificationForm = () => {
     </div>
   );
 
-  return (
-    <div className="">
-      {otpForm()}
-    </div>
-  );
+  return <div className="">{otpForm()}</div>;
 };
 
 export default OtpVerificationForm;

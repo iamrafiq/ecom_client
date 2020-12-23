@@ -148,7 +148,7 @@ const Profile = () => {
           );
         }
       } else {
-        dispatch(setOtpDialog({ otpDialog: true }));
+        dispatch(setOtpDialog({ otpDialog: {open:true, redirectTo:""} }));
         setValues({
           ...values,
           loading: false,

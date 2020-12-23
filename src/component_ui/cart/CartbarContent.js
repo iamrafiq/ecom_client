@@ -105,7 +105,7 @@ const SidebarContent = (props) => {
     if (user.status === 0) {
       dispatch(
         setSignupDialog({
-          signupDialog: true,
+          signupDialog: {open:true, redirectTo:"/user/checkout"},
         })
       );
     } else {
@@ -132,9 +132,10 @@ const SidebarContent = (props) => {
               customDialog: { open: false, englishMsg: "", banglaMsg: "" },
             })
           );
+          console.log("redirectTo cart bar content:")
           dispatch(
             setOtpDialog({
-              otpDialog: true,
+              otpDialog: {open:true, redirectTo:"/user/checkout"},
             })
           );
         });

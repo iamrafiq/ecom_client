@@ -95,7 +95,7 @@ export default function MoreMobile({ mobile = false }) {
             // closeButton={<div>&#10007;</div>}
             isOpen={signupDialog}
             onClose={() => {
-              dispatch(setSigninDialog({ signupDialog: false }));
+              dispatch(setSigninDialog({ signinDialog: { open: false, redirectTo: "" } }));
               return true;
             }}
           >
@@ -115,7 +115,7 @@ export default function MoreMobile({ mobile = false }) {
             // closeButton={<div>&#10007;</div>}
             isOpen={signinDialog}
             onClose={() => {
-              dispatch(setSigninDialog({ signinDialog: false }));
+              dispatch(setSigninDialog({ signinDialog: { open: false, redirectTo: "" } }));
               return true;
             }}
           >
@@ -135,7 +135,7 @@ export default function MoreMobile({ mobile = false }) {
             // closeButton={<div>&#10007;</div>}
             isOpen={otpDialog}
             onClose={() => {
-              dispatch(setOtpDialog({ otpDialog: false }));
+              dispatch(setOtpDialog({ otpDialog: {open:false, redirectTo:""} }));
               return true;
             }}
           >
@@ -213,7 +213,7 @@ export default function MoreMobile({ mobile = false }) {
                   // to="/user/signin"
                   onClick={() => {
                     close();
-                    dispatch(setSigninDialog({ signinDialog: true }));
+                    dispatch(setSigninDialog({ signinDialog: { open: true, redirectTo: "" } }));
                   }}
                 >
                   {language === "en" ? (
@@ -226,7 +226,7 @@ export default function MoreMobile({ mobile = false }) {
                   className="text__signup"
                   onClick={() => {
                     close();
-                    dispatch(setSignupDialog({ signupDialog: true }));
+                    dispatch(setSignupDialog({ signupDialog: { open: true, redirectTo: "" } }));
                   }}
                 >
                   {language === "en" ? (

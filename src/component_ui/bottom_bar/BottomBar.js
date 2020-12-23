@@ -62,7 +62,7 @@ const BottomBar = (props) => {
   };
   const onClickOrder = () => {
     if (user.status === 0) {
-      dispatch(setSignupDialog({ signupDialog: true }));
+      dispatch(setSignupDialog({ signupDialog: {open:true, redirectTo:"/user/checkout"} }));
     }else{
       if (user.verified === 1){
         history.push("/user/checkout");
@@ -89,7 +89,7 @@ const BottomBar = (props) => {
           );
           dispatch(
             setOtpDialog({
-              otpDialog: true,
+              otpDialog: {open:true, redirectTo:"/user/checkout"},
             })
           );
         });

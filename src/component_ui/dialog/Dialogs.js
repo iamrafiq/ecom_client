@@ -37,9 +37,9 @@ export default function Dialogs() {
             // closeButtonPosition="bottom"
             // portal
             // closeButton={<div>&#10007;</div>}
-            isOpen={signupDialog}
+            isOpen={signupDialog.open}
             onClose={() => {
-              dispatch(setSignupDialog({ signupDialog: false }));
+              dispatch(setSignupDialog({ signupDialog: { open: false, redirectTo: "" } }));
               return true;
             }}
           >
@@ -57,9 +57,9 @@ export default function Dialogs() {
             // closeButtonPosition="bottom"
             // portal
             // closeButton={<div>&#10007;</div>}
-            isOpen={signinDialog}
+            isOpen={signinDialog.open}
             onClose={() => {
-              dispatch(setSigninDialog({ signinDialog: false }));
+              dispatch(setSigninDialog({ signinDialog: { open: false, redirectTo: "" } }));
               return true;
             }}
           >
@@ -67,7 +67,7 @@ export default function Dialogs() {
           </PureModal>
         </div>
       )}
-      {otpDialog && (
+      {otpDialog.open && (
         <div>
           <PureModal
             header={""}
@@ -77,9 +77,9 @@ export default function Dialogs() {
             // closeButtonPosition="bottom"
             // portal
             // closeButton={<div>&#10007;</div>}
-            isOpen={otpDialog}
+            isOpen={otpDialog.open}
             onClose={() => {
-              dispatch(setOtpDialog({ otpDialog: false }));
+              dispatch(setOtpDialog({ otpDialog: {open:false, redirectTo:""} }));
               return true;
             }}
           >

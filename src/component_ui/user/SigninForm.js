@@ -12,13 +12,16 @@ import Footer from "../footer/Footer";
 import PureModal from "react-pure-modal";
 import "../pure-modal.css";
 import OtpVerificationForm from "../user/OtpVerificationForm";
-import { setOtpDialog, setSigninDialog, setSignupDialog } from "../../redux/globalSlice";
+import { setOtpDialog, setSigninDialog, setSignupDialog,  selectSignupDialog, selectSigninDialog, } from "../../redux/globalSlice";
 import LoadingBar from "../../util/LoadingBar";
 
 const SigninForm = () => {
   const dispatch = useDispatch();
   const language = useSelector(selectLanguageSelection);
+  const signinDialog = useSelector(selectSigninDialog);
   const user = useSelector(selectUser);
+
+  const redirectTo = signinDialog.redirectTo;
   const [otpSent, setOtpSent] = useState(false);
   const [values, setValues] = useState({
     phoneNumber: "",
@@ -79,14 +82,14 @@ const SigninForm = () => {
           if (data.user) {
             dispatch(setUser({ user: data.user, encrypt: true }));
           }
-          dispatch(setSigninDialog({ signinDialog: false }));
+          dispatch(setSigninDialog({ signinDialog: { open: false, redirectTo: "" } }));
           if (data.otpSent) {
             // setOtpSent(true);
-            dispatch(setOtpDialog({ otpDialog: true }));
+            dispatch(setOtpDialog({ otpDialog: {open:true, redirectTo:redirectTo} }));
           }
           // setValues({
           //   ...values,
-          //   phoneNumber: "",
+          //   phoneNumber: to"",
           //   password: "",
           //   error: "",
           //   loading: false,
@@ -206,8 +209,8 @@ const SigninForm = () => {
             <div
               class="signup"
               onClick={() => {
-                dispatch(setSigninDialog({ signinDialog: false }));
-                dispatch(setSignupDialog({ signupDialog: true }));
+                dispatch(setSigninDialog({ signinDialog: { open: false, redirectTo: "" } }));
+                dispatch(setSignupDialog({ signupDialog: { open: true, redirectTo: redirectTo } }));
               }}
               style={{ cursor:"pointer"}}
             >

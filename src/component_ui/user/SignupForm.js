@@ -14,6 +14,7 @@ import {
   setSigninDialog,
   setCustomDialog,
   selectCustomDialog,
+  selectSignupDialog,
 } from "../../redux/globalSlice";
 
 import "./user-forms.css";
@@ -24,7 +25,9 @@ const SignupForm = () => {
   const language = useSelector(selectLanguageSelection);
   const user = useSelector(selectUser);
   const customDialog = useSelector(selectCustomDialog);
+  const signupDialog = useSelector(selectSignupDialog);
 
+  const redirectTo = signupDialog.redirectTo;
   const [values, setValues] = useState({
     // name: "",
     phoneNumber: "",
@@ -112,17 +115,17 @@ const SignupForm = () => {
           } else {
             // dispatch(setToken({token:data.token}));
             // dispatch(setUser({user:data.user, encrypt:true}));
-            dispatch(setSignupDialog({ signinDialog: false }));
+            dispatch(setSignupDialog({ signupDialog: {open:false, redirectTo:""} }));
             if (data.otpSent) {
               // setOtpSent(true);
-              dispatch(setOtpDialog({ otpDialog: true }));
+              dispatch(setOtpDialog({ otpDialog: {open:true, redirectTo:redirectTo} }));
             }
             setValues({
               ...values,
               error: "",
               phoneNumber: "",
               success: true,
-              redirectToReferrer: false,
+              redirectredirectToReferrerToReferrer: false,
               loading: false,
             });
           }
@@ -198,8 +201,8 @@ const SignupForm = () => {
         <div
           class="signup"
           onClick={() => {
-            dispatch(setSigninDialog({ signinDialog: true }));
-            dispatch(setSignupDialog({ signupDialog: false }));
+            dispatch(setSigninDialog({ signinDialog: { open: true, redirectTo: redirectTo } }));
+            dispatch(setSignupDialog({ signupDialog: { open: false, redirectTo: "" } }));
           }}
           style={{ cursor: "pointer" }}
         >

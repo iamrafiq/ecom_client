@@ -3,10 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 export const globalSlice = createSlice({
   name: "global",
   initialState: {
-    signinDialog: false,
-    signupDialog: false,
-    otpDialog: false,
-    customDialog: {open:false, englishMsg:"", banglaMsg:""},
+    signinDialog: { open: false, redirectTo: "" },
+    signupDialog: { open: false, redirectTo: "" },
+    otpDialog: { open: false, redirectTo: "" },
+    customDialog: { open: false, englishMsg: "", banglaMsg: "" },
     loadingSpinner: false,
     sideBar: { open: false },
     cartBarDesktop: { open: false },
@@ -22,9 +22,7 @@ export const globalSlice = createSlice({
     setOtpDialog: (state, action) => {
       state.otpDialog = action.payload.otpDialog;
     },
-    setOtpDialog: (state, action) => {
-      state.otpDialog = action.payload.otpDialog;
-    },
+
     setCustomDialog: (state, action) => {
       state.customDialog = action.payload.customDialog;
     },

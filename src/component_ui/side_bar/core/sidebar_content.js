@@ -62,7 +62,7 @@ const SidebarContent = (props) => {
           ) : (
             <div
               className="react__link--colorless sidebar__header--user"
-              onClick={() => {props.toggleSideBar(); dispatch(setSigninDialog({signinDialog:true}))}}
+              onClick={() => {props.toggleSideBar(); dispatch(setSigninDialog({signinDialog:{ open: true, redirectTo: "" }}))}}
             >
               <FontAwesomeIcon size="1x" icon={faUserCircle} />
               {language === "en" ? <span>Sign in</span> : <span>সাইন ইন</span>}
