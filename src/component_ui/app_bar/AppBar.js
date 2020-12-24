@@ -60,8 +60,8 @@ const AppBar = (props) => {
               {home.logo && (
                 <img
                   src={`${imageUrlConverter(
-                    home.logo
-                  )}&res=${resulationSelector}`}
+                    `${home.logo}&res=${resulationSelector}`
+                  )}`}
                   alt="Sowdamart.com"
                 />
               )}

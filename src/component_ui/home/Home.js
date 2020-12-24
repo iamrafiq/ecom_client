@@ -44,7 +44,7 @@ export default function Home(props) {
     <section className="home">
       <section className="home__landing">
         <div className="landing__img">
-          <img src={`${imageUrlConverter(home.photoLanding)}&res=${resulationSelector}`} alt="" />
+          <img src={`${imageUrlConverter(`${home.photoLanding}&res=${resulationSelector}`)}`} alt="" />
         </div>
       </section>
       <section className="section_content">

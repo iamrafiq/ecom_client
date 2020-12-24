@@ -4,7 +4,6 @@ import {
   selectResolutionSelection,
   selectLanguageSelection,
 } from "../redux/settingsSlice";
-import { imageUrlConverter } from "./ImageUrlConverter";
 
 import { css } from "@emotion/core";
 import ScaleLoader from "react-spinners/ScaleLoader";

@@ -15,7 +15,6 @@ import {
 } from "../../redux/globalSlice";
 import { selectCartCount } from "../../redux/cartSlice";
 import "./navmenu.css";
-import { imageUrlConverter } from "../../util/ImageUrlConverter";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import cartImage from "../../images/addtocart.svg";

@@ -49,7 +49,7 @@ export default ({ photoTutorial, photoTutorialBengali }) => {
   const photos = (pt) => {
     return pt.map((ele, index) => (
       <div>
-        <img src={`${imageUrlConverter(ele)}&res=${resulationSelector}`} alt="sowdamart.com" />
+        <img src={`${imageUrlConverter(`${ele}&res=${resulationSelector}`)}`} alt="sowdamart.com" />
       </div>
     ));
   };

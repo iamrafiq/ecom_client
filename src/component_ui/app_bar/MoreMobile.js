@@ -21,7 +21,6 @@ import {
 } from "../../redux/authSlice";
 
 import "./navmenu.css";
-import { imageUrlConverter } from "../../util/ImageUrlConverter";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import userImage from "../../images/user.svg";

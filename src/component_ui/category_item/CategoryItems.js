@@ -122,8 +122,8 @@ const CategoryItems = ({ match }) => {
           <div className="addvert-area">
             <img
               src={`${imageUrlConverter(
-                category.advertisements[0].photo
-              )}&res=${resulationSelector}`}
+                `${category.advertisements[0].photo}&res=${resulationSelector}`
+              )}`}
               alt={category.advertisements[0].name}
             />
           </div>

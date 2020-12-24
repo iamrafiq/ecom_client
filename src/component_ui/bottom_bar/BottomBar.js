@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import FontAwesome from "react-fontawesome";
 // import SearchBox from "./SearchBox";
 import "./bottombar.css";
-import { imageUrlConverter } from "../../util/ImageUrlConverter";
 import { selectHomeSelection } from "../../redux/homeSlice";
 
 import {

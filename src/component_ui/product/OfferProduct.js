@@ -124,7 +124,7 @@ function OfferProduct({ regularProduct, offerProduct, product }) {
             <img
               src={
                 offerPhotosUrl && offerPhotosUrl.length > 0
-                  ? `${imageUrlConverter(offerPhotosUrl[0])}&res=${resulationSelector}`
+                  ? `${imageUrlConverter(`${offerPhotosUrl[0]}&res=${resulationSelector}`)}`
                   : ""
               }
               alt={name}

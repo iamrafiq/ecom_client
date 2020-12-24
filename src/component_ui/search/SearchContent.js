@@ -30,7 +30,6 @@ import {
   selectLanguageSelection,
 } from "../../redux/settingsSlice";
 import Grid from "../grid/Grid";
-import { imageUrlConverter } from "../../util/ImageUrlConverter";
 import {
   selectLoadingSpinner,
   setLoadingSpinner,

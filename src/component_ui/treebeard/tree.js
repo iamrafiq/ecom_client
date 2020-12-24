@@ -48,8 +48,8 @@ const TreeExample = ({ tree }) => {
                     marginRight: "5px",
                   }}
                   src={`${imageUrlConverter(
-                    node.iconMenu
-                  )}&res=${resulationSelector}`}
+                   `${ node.iconMenu}&res=${resulationSelector}`
+                  )}`}
                 ></img>
               )}
             </span>

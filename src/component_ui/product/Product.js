@@ -135,8 +135,8 @@ function Product({ regularProduct, offerProduct, product }) {
                 src={
                   photosUrl && photosUrl.length > 0
                     ? `${imageUrlConverter(
-                        photosUrl[0]
-                      )}&res=${resulationSelector}`
+                        `${photosUrl[0]}&res=${resulationSelector}`
+                      )}`
                     : ""
                 }
                 alt={name}

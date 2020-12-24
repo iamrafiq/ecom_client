@@ -7,7 +7,6 @@ import {
   setLanguage,
 } from "../../redux/settingsSlice";
 import "./navmenu.css";
-import { imageUrlConverter } from "../../util/ImageUrlConverter";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import orderImage from "../../images/order.svg";

@@ -7,7 +7,6 @@ import {
   selectLanguageSelection,
 } from "../../redux/settingsSlice";
 import "./search-box.css";
-import { imageUrlConverter } from "../../util/ImageUrlConverter";
 var FontAwesome = require("react-fontawesome");
 
 export default function SearchBox({ gallery }) {

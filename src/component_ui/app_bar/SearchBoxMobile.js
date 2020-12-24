@@ -5,7 +5,6 @@ import {
   selectLanguageSelection,
 } from "../../redux/settingsSlice";
 import "./search-box-mobile.css";
-import { imageUrlConverter } from "../../util/ImageUrlConverter";
 import { useHistory } from "react-router-dom";
 
 var FontAwesome = require("react-fontawesome");

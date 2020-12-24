@@ -15,7 +15,7 @@ export default function FeatureGallery({ gallery }) {
       {gallery.map((ele, index) => (
         <div className="gallery__item">
           <img
-            src={`${imageUrlConverter(ele.photoG)}&res=${resulationSelector}`}
+            src={`${imageUrlConverter(`${ele.photoG}&res=${resulationSelector}`)}`}
             alt={ele.titleG}
           />
           <div className="gallery__text">

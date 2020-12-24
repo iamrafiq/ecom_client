@@ -89,8 +89,8 @@ function ProductDetails({ product, closeModal }) {
               <span>Why shop in Sowdamart</span>
               <img
                 src={`${imageUrlConverter(
-                  advertisments[0].photo
-                )}&res=${resulationSelector}`}
+                  `${advertisments[0].photo}&res=${resulationSelector}`
+                )}`}
                 alt="Sowdamart"
               />
             </Fragment>
@@ -99,8 +99,8 @@ function ProductDetails({ product, closeModal }) {
               <span> সওদামার্ট এ কেন বাজার করবেন </span>
               <img
                 src={`${imageUrlConverter(
-                  advertisments[0].photoBangla
-                )}&res=${resulationSelector}`}
+                 `${ advertisments[0].photoBangla}&res=${resulationSelector}`
+                )}`}
                 alt="Sowdamart"
               />
             </Fragment>
