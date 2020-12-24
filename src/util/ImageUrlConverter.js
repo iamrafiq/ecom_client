@@ -17,7 +17,7 @@ export function imageUrlConverter(url) {
   //    let extStr = qStrings[1].split("=");
   //    let resStr = qStrings[2].split("=");
   //    let sURl = `https://sowdamart.com/sowdamart/images/${resStr[1]}/${pStr[1]}/${imName[imName.length-1]}.${extStr[1]}`
-//   console.log("new url", sURl);
+  //   console.log("new url", sURl);
 
   let def = abc.replace(":8000", "");
   let pp = def;
@@ -50,17 +50,30 @@ export function imageUrlConverter(url) {
       temUrl2 = temUrl1.replace("http", "https");
     }
     // return temUrl2;
-    console.log("ori url",temUrl2)
+    console.log("ori url", temUrl2);
     let strQArray = temUrl2.split("?");
     let imName = strQArray[0].split("/");
     let qStrings = strQArray[strQArray.length - 1].split("&");
     let pStr = qStrings[0].split("=");
     let extStr = qStrings[1].split("=");
-    let resStr = qStrings[2].split("=");
-    let sURl = `https://sowdamart.com/sowdamart/images/${resStr[1]}/${
-      pStr[1]
-    }/${imName[imName.length - 1]}.${extStr[1]}`;
-    console.log("mod url",sURl)
+
+    let resStr = undefined;
+
+    if (qStrings.length > 2) {
+      resStr = qStrings[2].split("=");
+    }
+    let sURl = "";
+    if (resStr === undefined) {
+      sURl = `https://sowdamart.com/sowdamart/images/${pStr[1]}/${
+        imName[imName.length - 1]
+      }.${extStr[1]}`;
+    } else {
+      sURl = `https://sowdamart.com/sowdamart/images/${resStr[1]}/${pStr[1]}/${
+        imName[imName.length - 1]
+      }.${extStr[1]}`;
+    }
+
+    console.log("mod url", sURl);
 
     return sURl;
   }
