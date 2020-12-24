@@ -57,7 +57,7 @@ export default function Footer(props) {
       </div>
       <div className="footer__bottom">
         <div className="footer__company">
-                    <img   src="http://192.168.0.109:8000/images/abc.webp" />
+                    <img   src="https://sowdamart.com/sowdamart/images/high/mi/food.png" />
 
         
           {/* <img   src="/images/order.png" /> */}

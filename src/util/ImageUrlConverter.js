@@ -49,7 +49,7 @@ export function imageUrlConverter(url) {
     if (!temUrl1.includes("https")) {
       temUrl2 = temUrl1.replace("http", "https");
     }
-    // return temUrl2;
+     return temUrl2;
     console.log("ori url", temUrl2);
     let strQArray = temUrl2.split("?");
     let imName = strQArray[0].split("/");
