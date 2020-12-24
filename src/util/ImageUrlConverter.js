@@ -50,7 +50,7 @@ export function imageUrlConverter(url) {
       temUrl2 = temUrl1.replace("http", "https");
     }
     // return temUrl2;
-
+    console.log("ori url",temUrl2)
     let strQArray = temUrl2.split("?");
     let imName = strQArray[0].split("/");
     let qStrings = strQArray[strQArray.length - 1].split("&");
@@ -60,6 +60,7 @@ export function imageUrlConverter(url) {
     let sURl = `https://sowdamart.com/sowdamart/images/${resStr[1]}/${
       pStr[1]
     }/${imName[imName.length - 1]}.${extStr[1]}`;
+    console.log("mod url",sURl)
 
     return sURl;
   }
