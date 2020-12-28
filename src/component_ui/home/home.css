@@ -157,7 +157,7 @@
   }
   .content--cats {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
     /* margin: 100px 100px; */

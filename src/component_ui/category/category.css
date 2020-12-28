@@ -7,21 +7,21 @@
 
   .category__rect{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     border: 1px solid var(--border-color-dark);
     border-radius: 5px;
-    /* width: 350px;
+    width: 250px;
     padding: var(--gap-large);
     margin: var(--gap-small);
-    color: var(--font-color-secondary); */
-    /* padding: var(--gap-large); */
-    margin: var(--gap-small);
     color: var(--font-color-secondary);
+    /* padding: var(--gap-large); */
+    /* margin: var(--gap-small);
+    color: var(--font-color-secondary); */
   }
 
   .category__rect img{
-    width: 100%;
-    height: auto;
+    width: 30px;
+    height: 30px;
   }
 
 

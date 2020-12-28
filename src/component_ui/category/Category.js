@@ -35,7 +35,7 @@ export function CategoryRect(props) {
   const { category, onClick } = props;
   return (
     <div className="category__rect">
-      <img src={`${imageUrlConverter(`${category.thumbnail}&res=${"medium"}`)}`} alt={category.name} />
+      <img src={`${imageUrlConverter(`${category.icon}&res=${"low"}`)}`} alt={category.name} />
       <div className="rect__text">
         {language === "en" ? (
           <span className="text__name">{category.name}</span>
