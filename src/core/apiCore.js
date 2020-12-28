@@ -20,6 +20,16 @@ export const getProducts = (sortBy) => {
     .catch(err => console.log(err))
 }
 
+export const getImage = () => {
+  return fetch(`http://192.168.0.109:8000/api/image/home-10?p=pfs&ext=png&res=high`, {
+      method:"GET"
+  })
+  .then(responce => {
+      return responce.json()
+  })
+  .catch(err => console.log(err))
+}
+
 export const getCategories = () => {
     return fetch(`${API}/categories`, {
         method:"GET"
@@ -162,3 +172,5 @@ export const getAdvertisementsBySlug = (slug) => {
       })
       .catch((err) => console.log(err));
   };
+
+

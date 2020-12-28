@@ -1,60 +1,74 @@
 import { API } from "../config";
 
 export const read = (userId, token) => {
-    return fetch(`${API}/user/${userId}`, {
-        method:"GET",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization:`Bearer ${token}`
-          },
+  return fetch(`${API}/user/${userId}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((responce) => {
+      return responce.json();
     })
-    .then(responce => {
-        return responce.json()
-    })
-    .catch(err => console.log(err))
-}
+    .catch((err) => console.log(err));
+};
 
+export const getOrderList = (userId, token) => {
+  return fetch(`${API}/user/order/list/${userId}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((responce) => {
+      return responce.json();
+    })
+    .catch((err) => console.log(err));
+};
 export const update = (userId, token, user) => {
-    return fetch(`${API}/user/${userId}`, {
-        method:"PUT",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization:`Bearer ${token}`
-          },
-          body: JSON.stringify({user})
+  return fetch(`${API}/user/${userId}`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ user }),
+  })
+    .then((responce) => {
+      return responce.json();
     })
-    .then(responce => {
-        return responce.json()
-    })
-    .catch(err => console.log(err))
-}
+    .catch((err) => console.log(err));
+};
 
-export const updateUserInLocalStorage = (user, next) =>{
-    if (typeof window !== 'undefined'){
-        if (localStorage.getItem('jwt')){
-            let auth =JSON.parse (localStorage.getItem('jwt'));
-            auth.user = user;
-            console.log(auth)
+export const updateUserInLocalStorage = (user, next) => {
+  if (typeof window !== "undefined") {
+    if (localStorage.getItem("jwt")) {
+      let auth = JSON.parse(localStorage.getItem("jwt"));
+      auth.user = user;
+      console.log(auth);
 
-            localStorage.setItem('jwt', JSON.stringify(auth));
-            next();
-        }
+      localStorage.setItem("jwt", JSON.stringify(auth));
+      next();
     }
-}
+  }
+};
 
 export const getPurchaseHistory = (userId, token) => {
-    return fetch(`${API}/orders/by/user/${userId}`, {
-        method:"GET",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization:`Bearer ${token}`
-          },
+  return fetch(`${API}/orders/by/user/${userId}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((responce) => {
+      return responce.json();
     })
-    .then(responce => {
-        return responce.json()
-    })
-    .catch(err => console.log(err))
-}
+    .catch((err) => console.log(err));
+};

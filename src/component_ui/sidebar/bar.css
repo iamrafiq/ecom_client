@@ -50,7 +50,7 @@
     background-color: var(--theme-color-1-dark);
     color: var(--font-color-primary-inverse);
     width: 100%;
-    height: var(--appbar-desktop-height);
+    height: var(--appbar-height);
     display: flex;
     flex-direction: row;
     align-items: center;

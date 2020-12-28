@@ -70,6 +70,8 @@ const Checkout = () => {
         _id: ele.product._id,
         productCode: ele.product.productCode,
         name: ele.product.name,
+        bengaliName:ele.product.bengaliName,
+        subText:ele.product.subText,
         count: ele.qtyCart,
         price: ele.product.applyDiscounts
           ? ele.product.cropPrice
@@ -138,6 +140,7 @@ const Checkout = () => {
       contactAddress.trim();
       const userId = user._id;
       const createOrderData = {
+        orderId:Math.floor(Math.random()*90000) + 10000,
         products: checkoutProducts(),
         amount: totalAmount,
         contactAddress,

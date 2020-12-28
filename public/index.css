@@ -10,8 +10,7 @@
 
   --grid-item-max-width:12rem;
 
-  --appbar-desktop-height:3.5rem;
-  --appbar-mobile-height: 3.5rem;
+  --appbar-height:3.5rem;
   --sidebar-width-with-extra-padding: 2rem; /*side bar width + padding*/
   --padding-right-extra: 0.2rem;
   /**color**/

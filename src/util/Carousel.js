@@ -28,19 +28,21 @@ import {imageUrlConverter} from "./ImageUrlConverter";
 //     transitionTime: Number('transitionTime', 150, {}, valuesGroupId),
 //     swipeScrollTolerance: Number('swipeScrollTolerance', 5, {}, valuesGroupId),
 // });
-const configProps = {
-  autoPlay: true,
-  infiniteLoop: true,
-  showThumbs: false,
-  showIndicators: true,
-  useKeyboardArrows: true,
-  stopOnHover: false,
-  swipeable: true,
-  interval: 2000,
-  dynamicHeight: false,
-  stopOnHover:true,
-};
-export default ({ photoTutorial, photoTutorialBengali }) => {
+// const configProps = {
+//   showArrows:true,
+//   showStatus:true,
+//   autoPlay: true,
+//   infiniteLoop: true,
+//   showThumbs: false,
+//   showIndicators: true,
+//   useKeyboardArrows: true,
+//   stopOnHover: false,
+//   swipeable: true,
+//   interval: 2000,
+//   dynamicHeight: false,
+//   stopOnHover:true,
+// };
+export default ({ photoEn, photoBengali, configProps }) => {
   const resulationSelector = useSelector(selectResolutionSelection);
   const language  = useSelector(selectLanguageSelection);
   console.log("language", language)
@@ -55,7 +57,7 @@ export default ({ photoTutorial, photoTutorialBengali }) => {
   };
   return (
     <Carousel {...configProps}>
-      {language === "en" ? photos(photoTutorial) : photos(photoTutorialBengali)}
+      {language === "en" ? photos(photoEn) : photos(photoBengali)}
     </Carousel>
   );
 };

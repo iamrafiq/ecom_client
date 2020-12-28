@@ -5,7 +5,7 @@
     left: 0;
     z-index: 1001; /*same z index for side bar*/
     background-color: var(--theme-color-1-dark);
-    height: var( --appbar-desktop-height); /*config.APP_BAR_HEIGHT_FULL_SCREEN*/
+    height: var( --appbar-height); /*config.APP_BAR_HEIGHT*/
     display: flex;
     flex-direction: row;
     align-items: center;

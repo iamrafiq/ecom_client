@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+
 import {
   selectResolutionSelection,
   selectLanguageSelection,
@@ -20,13 +21,31 @@ import twitterImg from "../../images/twitter.png";
 import youtubeImg from "../../images/Youtube.png";
 import instagramImg from "../../images/Instagram.png";
 import appstoreImg from "../../images/app_store.png";
-import {CONTACT_PHONE_NUMBER } from "../../config";
+import { CONTACT_PHONE_NUMBER } from "../../config";
 import { englishToBangla } from "../../util/utils";
-
+import { getImage } from "../../core/apiCore";
 export default function Footer(props) {
   const resulationSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
+  const [state, setState] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
+  const init = () => {
+    //setSelected(pre);
+    getImage().then((data) => {
+      setErrorMsg(data)
+      if (data) {
+        // setErrorMsg(JSON.parse(data))
+      } else {
+        // setValues({ ...values, childs: data.map((c, i)=>({ label: c.name, value: c._id})), formData: new FormData() });
+      }
+    });
+  };
+
+  useEffect(() => {
+    console.log("use effect");
+    init();
+  }, []);
   return (
     <div className="app__footer">
       <div className="footer__top">
@@ -35,7 +54,7 @@ export default function Footer(props) {
           {language === "en" ? (
             <span>1 hour delivery</span>
           ) : (
-            <span>১ ঘণ্টার মধ্যে বিতরণ</span>
+            <span>{true ? `${errorMsg}` : `১ ঘণ্টার মধ্যে বিতরণ`}</span>
           )}
 
           <img src={cashOnDeliveryImg} alt="Cash on delivery" />
@@ -57,9 +76,14 @@ export default function Footer(props) {
       </div>
       <div className="footer__bottom">
         <div className="footer__company">
-                    <img   src="https://sowdamart.com/sowdamart/images/high/mi/food.png" />
+          <img
+            onError={(e) => {
+              setState(true);
+              setErrorMsg(e.target)
+            }}
+            src="http://192.168.0.109:8000/api/image/home-10?p=pfs&ext=png&res=high"
+          />
 
-        
           {/* <img   src="/images/order.png" /> */}
           {language === "en" ? (
             <div className="company__goal">
@@ -152,11 +176,19 @@ export default function Footer(props) {
           </div>
           <div className="contact-info">
             <div className="footer-phone-number">
-              <img className="footer-phone-number-icon" src={phoneIcon} alt="Phone Icon" />
+              <img
+                className="footer-phone-number-icon"
+                src={phoneIcon}
+                alt="Phone Icon"
+              />
               {language === "en" ? (
-                <span className="footer-phone-number-text">{CONTACT_PHONE_NUMBER}</span>
+                <span className="footer-phone-number-text">
+                  {CONTACT_PHONE_NUMBER}
+                </span>
               ) : (
-              <span className="footer-phone-number-text">{englishToBangla(CONTACT_PHONE_NUMBER)}</span>
+                <span className="footer-phone-number-text">
+                  {englishToBangla(CONTACT_PHONE_NUMBER)}
+                </span>
               )}
             </div>
             <div className="email">

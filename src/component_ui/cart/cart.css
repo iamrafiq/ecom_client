@@ -12,7 +12,7 @@
   background-color: var(--background-color-cart);
 }
 .cart__pannel--desktop {
-  height: calc(100vh - var(--appbar-desktop-height)) !important;
+  height: calc(100vh - var(--appbar-height)) !important;
   max-height: 100%;
   width: 100%;
   background-color: var(--background-color-sidebar);
@@ -137,7 +137,7 @@
   background-color: var(--theme-color-1-dark);
   color: var(--font-color-primary-inverse);
   width: 100%;
-  height: var(--appbar-desktop-height);
+  height: var(--appbar-height);
   display: flex;
   flex-direction: row;
   align-items: center;

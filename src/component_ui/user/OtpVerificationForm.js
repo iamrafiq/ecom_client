@@ -232,7 +232,7 @@ const OtpVerificationForm = () => {
                 : "৪ সংখ্যার পিন এখানে দিন"
             }
             onChange={handleChange("otp")}
-            type="text"
+            type="number"
             className="form--input"
             value={otp}
             required

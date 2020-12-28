@@ -182,3 +182,17 @@
   width: 25px;
   height: 25px;
 }
+
+.menu__mobile{
+ padding: 5px 5px 0px 5px;
+}
+
+.mobile__language-menu{
+  display: flex;
+  flex-direction: row;
+}
+
+.mobile__menu--text{
+  font-size: var(--font-size-medium);
+  color: var(--font-color-primary);
+}

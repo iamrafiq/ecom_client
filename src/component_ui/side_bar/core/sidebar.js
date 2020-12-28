@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { APP_BAR_HEIGHT_MOBILE_SCREEN, APP_BAR_HEIGHT_FULL_SCREEN } from "../../../config";
 const CANCEL_DISTANCE_ON_SCROLL = 20;
 
 const defaultStyles = {
@@ -15,7 +14,7 @@ const defaultStyles = {
   sidebar: {
     zIndex: 1003,
     position: "fixed",
-     top: 0, //APP_BAR_HEIGHT_MOBILE_SCREEN * parseFloat(getComputedStyle(document.documentElement).fontSize),
+     top: 0, //APP_BAR_HEIGHT * parseFloat(getComputedStyle(document.documentElement).fontSize),
     bottom: 0,
     transition: "transform .3s ease-out",
     WebkitTransition: "-webkit-transform .3s ease-out",
@@ -25,7 +24,7 @@ const defaultStyles = {
   sidebar_full_screen: {
     zIndex: 5,
     position: "fixed",
-    top: 0, //APP_BAR_HEIGHT_FULL_SCREEN * parseFloat(getComputedStyle(document.documentElement).fontSize),
+    top: 0, //APP_BAR_HEIGHT * parseFloat(getComputedStyle(document.documentElement).fontSize),
     bottom: 0,
     transition: "transform .3s ease-out",
     WebkitTransition: "-webkit-transform .3s ease-out",

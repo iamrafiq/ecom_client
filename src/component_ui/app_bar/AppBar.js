@@ -12,18 +12,17 @@ import {
   selectLanguageSelection,
   selectDeviceTypeSelection,
 } from "../../redux/settingsSlice";
-import {
-  selectSideBar,
-  setSideBar
-} from "../../redux/globalSlice";
+import { selectSideBar, setSideBar } from "../../redux/globalSlice";
 import logo from "../../images/logo.svg";
 import SearchBoxMobile from "./SearchBoxMobile";
 import LanguageMenu from "./LanguageMenu";
 import SigninMenu from "./SigninMenu";
-import Orders from "./Orders";
+import OrderMenu from "./OrderMenu";
 import Cart from "./Cart";
 import Popup from "reactjs-popup";
 import "./more-menu.css";
+import Dialogs from "../dialog/Dialogs";
+import Toast from "../dialog/Toast";
 const AppBar = (props) => {
   const dispatch = useDispatch();
   const home = useSelector(selectHomeSelection);
@@ -42,6 +41,8 @@ const AppBar = (props) => {
   };
   return (
     <div className="nav__bar">
+      <Toast></Toast>
+      <Dialogs></Dialogs>
       {deviceType === "desktop" ? (
         <div className="nav__bar__main--desktop">
           <div className="nav--desktop">
@@ -77,7 +78,7 @@ const AppBar = (props) => {
                 <SigninMenu></SigninMenu>
               </div>
               <div className="desktop--menu--item">
-                <Orders></Orders>
+                <OrderMenu></OrderMenu>
               </div>
               <div className="desktop--menu--item">
                 <Cart></Cart>

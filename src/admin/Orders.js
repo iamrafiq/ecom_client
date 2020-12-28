@@ -17,6 +17,8 @@ const Orders = () => {
       if (data.error) {
         console.log(data.error);
       } else {
+        console.log("Order data:",data);
+
         setOrders(data);
       }
     });
@@ -27,6 +29,7 @@ const Orders = () => {
       if (data.error) {
         console.log(data.error);
       } else {
+
         setStatusValues(data);
       }
     });
@@ -91,7 +94,7 @@ const Orders = () => {
         <div className="col-md-8 offset-md-2">
           {showOrderLength()}
           {orders.map((o, oIndex) => {
-            console.log("order", o);
+            // console.log("order", o);
             return (
               <div
                 className="mt-5"

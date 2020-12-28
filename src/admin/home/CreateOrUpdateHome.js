@@ -14,6 +14,8 @@ const CreateOrUpdateHome = () => {
   const user = useSelector(selectUser);
   const token = useSelector(selectToken);
   const [photoLanding, setPhotoLanding] = useState(null);
+  const [photoLandingBengali, setPhotoLandingBengali] = useState(null);
+
   const [logo, setLogo] = useState(null);
 
   const [photoTutorial, setPhotoTutorial] = useState(null);
@@ -68,7 +70,9 @@ const CreateOrUpdateHome = () => {
   }, [createdProduct]);
   const handleImageChange = (name) => (event) => {
     if (name == "photoLanding") {
-      setPhotoLanding(event.target.files[0]);
+      setPhotoLanding(event.target.files);
+    } else if (name == "photoLandingBengali") {
+      setPhotoLandingBengali(event.target.files);
     } else if (name == "photoTutorial") {
       setPhotoTutorial(event.target.files);
     } else if (name == "photoTutorialBengali") {
@@ -91,7 +95,15 @@ const CreateOrUpdateHome = () => {
   const clickSubmit = (event) => {
     event.preventDefault();
     if (photoLanding !== null) {
-      formData.append("photoLanding", photoLanding);
+      for (let x = 0; x < photoLanding.length; x++) {
+        formData.append("photoLanding", photoLanding[x]);
+      }
+      // formData.append("photoLanding", photoLanding);
+    }
+    if (photoLandingBengali !== null) {
+      for (let x = 0; x < photoLandingBengali.length; x++) {
+        formData.append("photoLandingBengali", photoLandingBengali[x]);
+      }
     }
     if (logo !== null) {
       formData.append("logo", logo);
@@ -143,7 +155,7 @@ const CreateOrUpdateHome = () => {
           />
         </label>
       </div>
-      <h4>Upload Landing Image</h4>
+      <h4>Upload Landing Images</h4>
       <div className="form-group">
         <label htmlFor="" className="btn btn-secondary">
           <input
@@ -151,6 +163,20 @@ const CreateOrUpdateHome = () => {
             type="file"
             name="photoLanding"
             accept="image/*"
+            multiple
+            // required
+          />
+        </label>
+      </div>
+      <h4>Upload Bengali Landing Images</h4>
+      <div className="form-group">
+        <label htmlFor="" className="btn btn-secondary">
+          <input
+            onChange={handleImageChange("photoLandingBengali")}
+            type="file"
+            name="photoLandingBengali"
+            accept="image/*"
+            multiple
             // required
           />
         </label>

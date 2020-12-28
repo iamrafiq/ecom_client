@@ -28,9 +28,12 @@ export function imageUrlConverter(url) {
 
   if (process.env.REACT_APP_BUILD_TYPE === "dev") {
     let rep = "";
-    if (url) {
+    if (url.includes("ubuntu-Inspiron-5593:8001")){
       rep = url.replace("ubuntu-Inspiron-5593:8001", LAN_IP + ":8000");
+    }else{
+      rep = url.replace("ubuntu-Inspiron-5593:8000", LAN_IP + ":8000");
     }
+    
     console.log("rep...", rep);
     return rep;
   } else {

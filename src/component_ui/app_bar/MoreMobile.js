@@ -50,11 +50,15 @@ import {
 // import OtpVerificationForm from "../user/OtpVerificationForm";
 // import SignupForm from "../user/SignupForm";
 // import CustomLoadingDialog from "../user/CustomLoadingDialog";
+import { resendOtp } from "../../auth/index";
+import { useHistory } from "react-router-dom";
 
 import Dialogs from "../dialog/Dialogs";
 import Toast from "../dialog/Toast";
 
 export default function MoreMobile({ mobile = false }) {
+  const history = useHistory();
+
   const dispatch = useDispatch();
   const signinDialog = useSelector(selectSigninDialog);
   const otpDialog = useSelector(selectOtpDialog);
@@ -65,6 +69,7 @@ export default function MoreMobile({ mobile = false }) {
   const deviceType = useSelector(selectDeviceTypeSelection);
   const user = useSelector(selectUser);
   const [overlay, setOverlay] = useState(false);
+ 
   const handleLanguageChange = (value) => {
     if (value == "en") {
       dispatch(setLanguage({ language: "en" }));
@@ -79,98 +84,47 @@ export default function MoreMobile({ mobile = false }) {
   const menuOpen = () => {
     setOverlay(true);
   };
+  const onClickOrders = () =>{
+    if (user.status === 0) {
+      dispatch(setSignupDialog({ signupDialog: {open:true, redirectTo:"/user/order"} }));
+    }else{
+      if (user.verified === 1){
+        history.push("/user/order");
+      }else{
+        dispatch(
+          setCustomDialog({
+            customDialog: {
+              open: true,
+              englishMsg: "Sending verification sms... please wait",
+              banglaMsg:
+                "ভেরিফিকেশন এসএমএস পাঠানো হচ্ছে ... অনুগ্রহ করে অপেক্ষা করুন ",
+            },
+          })
+        );
+        const phoneNumber = user.phoneNumber;
+        resendOtp({ phoneNumber }).then((data) => {
+          if (data.error) {
+            // setValues({ ...values, error: data.error, success: false });
+          }
+          dispatch(
+            setCustomDialog({
+              customDialog: { open: false, englishMsg: "", banglaMsg: "" },
+            })
+          );
+          dispatch(
+            setOtpDialog({
+              otpDialog: {open:true, redirectTo:"/user/order"},
+            })
+          );
+        });
+      }
+    }
+  }
 
   return (
     <div>
-      {/* {signupDialog && (
-        <div>
-          <PureModal
-            header={""}
-            scrollable={false}
-            // footer="Buttons?"
-            //  closeButtonPosition="bottom"
-            // closeButtonPosition="bottom"
-            // portal
-            // closeButton={<div>&#10007;</div>}
-            isOpen={signupDialog}
-            onClose={() => {
-              dispatch(setSigninDialog({ signinDialog: { open: false, redirectTo: "" } }));
-              return true;
-            }}
-          >
-            <SignupForm></SignupForm>
-          </PureModal>
-        </div>
-      )}
-      {signinDialog && (
-        <div>
-          <PureModal
-            header={""}
-            scrollable={false}
-            // footer="Buttons?"
-            //  closeButtonPosition="bottom"
-            // closeButtonPosition="bottom"
-            // portal
-            // closeButton={<div>&#10007;</div>}
-            isOpen={signinDialog}
-            onClose={() => {
-              dispatch(setSigninDialog({ signinDialog: { open: false, redirectTo: "" } }));
-              return true;
-            }}
-          >
-            <SigninForm></SigninForm>
-          </PureModal>
-        </div>
-      )}
-      {otpDialog && (
-        <div>
-          <PureModal
-            header={""}
-            scrollable={false}
-            // footer="Buttons?"
-            //  closeButtonPosition="bottom"
-            // closeButtonPosition="bottom"
-            // portal
-            // closeButton={<div>&#10007;</div>}
-            isOpen={otpDialog}
-            onClose={() => {
-              dispatch(setOtpDialog({ otpDialog: {open:false, redirectTo:""} }));
-              return true;
-            }}
-          >
-            <OtpVerificationForm></OtpVerificationForm>
-          </PureModal>
-        </div>
-      )}
-       {customDialog.open && (
-        <div>
-          <PureModal
-            // header="Sending one time password (OTP)"
-            scrollable={false}
-            // footer="Buttons?"
-            //  closeButtonPosition="bottom"
-            // closeButtonPosition="bottom"
-            // portal
-            // closeButton={<div>&#10007;</div>}
-            isOpen={customDialog.open}
-            onClose={() => {
-              dispatch(
-                setCustomDialog({
-                  customDialog: { open: false, englishMsg: "", banglaMsg: "" },
-                })
-              );
-              return true;
-            }}
-          >
-            <CustomLoadingDialog
-              englishMsg={customDialog.englishMsg}
-              banglaMsg={customDialog.banglaMsg}
-            ></CustomLoadingDialog>
-          </PureModal>
-        </div>
-      )} */}
-    <Toast></Toast>
-     <Dialogs></Dialogs>
+      {/* <Toast></Toast>
+     <Dialogs></Dialogs> */}
       <Popup
         trigger={
           <button className="button">
@@ -212,7 +166,11 @@ export default function MoreMobile({ mobile = false }) {
                   // to="/user/signin"
                   onClick={() => {
                     close();
-                    dispatch(setSigninDialog({ signinDialog: { open: true, redirectTo: "" } }));
+                    dispatch(
+                      setSigninDialog({
+                        signinDialog: { open: true, redirectTo: "" },
+                      })
+                    );
                   }}
                 >
                   {language === "en" ? (
@@ -225,7 +183,11 @@ export default function MoreMobile({ mobile = false }) {
                   className="text__signup"
                   onClick={() => {
                     close();
-                    dispatch(setSignupDialog({ signupDialog: { open: true, redirectTo: "" } }));
+                    dispatch(
+                      setSignupDialog({
+                        signupDialog: { open: true, redirectTo: "" },
+                      })
+                    );
                   }}
                 >
                   {language === "en" ? (
@@ -245,8 +207,8 @@ export default function MoreMobile({ mobile = false }) {
             )}
 
             <hr className="line line--horizontal" />
-
-            <div className="menu">
+            <div className="menu__mobile">
+              <span className="mobile__menu--text">Select language</span>
               <RadioGroup
                 name="language"
                 selectedValue={language}
@@ -255,18 +217,24 @@ export default function MoreMobile({ mobile = false }) {
                   close();
                 }}
               >
-                <label className="radio--lang">
-                  <Radio value="bn" />
-                  <span>&nbsp; &nbsp; বাংলা</span> &nbsp; &nbsp; &nbsp; &nbsp;
-                  <img src={bnFlag} alt="flag" />
-                </label>
+                <div className="mobile__language-menu">
+                  <label className="radio--lang">
+                    <Radio value="bn" />
+                    <span>&nbsp; &nbsp; বাংলা</span> &nbsp; &nbsp; &nbsp; &nbsp;
+                    {/* <img src={bnFlag} alt="flag" /> */}
+                  </label>
 
-                <label className="radio--lang">
-                  <Radio value="en" />
-                  <span>&nbsp; &nbsp; English</span> &nbsp; &nbsp;
-                  <img src={enFlag} alt="flag" />
-                </label>
+                  <label className="radio--lang">
+                    <Radio value="en" />
+                    <span>&nbsp; &nbsp; English</span> &nbsp; &nbsp;
+                    {/* <img src={enFlag} alt="flag" /> */}
+                  </label>
+                </div>
               </RadioGroup>
+            </div>
+            <hr className="line line--horizontal" />
+            <div className="menu__mobile">
+              <span className="mobile__menu--text" onClick={()=>onClickOrders()}>Your Orders</span>
             </div>
           </div>
         )}

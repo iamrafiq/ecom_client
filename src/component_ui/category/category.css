@@ -7,18 +7,21 @@
 
   .category__rect{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     border: 1px solid var(--border-color-dark);
     border-radius: 5px;
-    width: 350px;
+    /* width: 350px;
     padding: var(--gap-large);
+    margin: var(--gap-small);
+    color: var(--font-color-secondary); */
+    /* padding: var(--gap-large); */
     margin: var(--gap-small);
     color: var(--font-color-secondary);
   }
 
   .category__rect img{
-    width: 32px;
-    height: 32px;
+    width: 100%;
+    height: auto;
   }
 
 

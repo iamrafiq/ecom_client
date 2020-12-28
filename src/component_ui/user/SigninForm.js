@@ -157,7 +157,7 @@ const SigninForm = () => {
               <input
                 placeholder={language === "en" ? "Phone number" : "ফোন নাম্বার"}
                 onChange={handleChange("phoneNumber")}
-                type="tex"
+                type="number"
                 className="form--input"
                 value={phoneNumber}
                 required

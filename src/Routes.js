@@ -32,6 +32,8 @@ import OrderDetails from "./admin/OrderDetails";
 import Checkout from "./component_ui/checkout/Checkout";
 import Profile from "./component_ui/user/Profile";
 import SearchContent from "./component_ui/search/SearchContent";
+import Order from "./component_ui/order/Order";
+
 
 
 const AnyComponent = (props) => {
@@ -88,7 +90,7 @@ const Routes = () =>{
     <Route exact path="/user/otp-v" component={OtpVerificationForm} /> */}
     <Route exact path="/user/checkout" component={Checkout} />
     <Route exact path="/user/profile" component={Profile} />
-
+    <Route exact path="/user/order" component={Order} />
     <PrivateRoute path="/user/dashboard" exact component={UserDashboard} />
     <AdminRoute path="/admin/dashboard" exact component={AdminDashboard} />
     <AdminRoute path="/create/category" exact component={AddCategory} />

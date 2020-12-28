@@ -7,6 +7,7 @@ import { CategoryRect } from "../category/Category";
 import {
   selectResolutionSelection,
   selectLanguageSelection,
+  selectDeviceTypeSelection
 } from "../../redux/settingsSlice";
 import { selectHomeSelection, selectHomeLoaded } from "../../redux/homeSlice";
 import Advertisiment from "../../util/Advertisiment";
@@ -16,14 +17,46 @@ import FeatureGallery from "./FeatureGallery";
 import Footer from "../footer/Footer";
 import "./home.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import {imageUrlConverter} from "../../util/ImageUrlConverter";
+import { imageUrlConverter } from "../../util/ImageUrlConverter";
+
 var FontAwesome = require("react-fontawesome");
 
 export default function Home(props) {
   const resulationSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
+  const deviceType = useSelector(selectDeviceTypeSelection);
+
   const home = useSelector(selectHomeSelection);
   const homeLoaded = useSelector(selectHomeLoaded);
+
+  const configPropsCarouselLanding = {
+    showArrows: false,
+    showStatus: false,
+    autoPlay: true,
+    infiniteLoop: true,
+    showThumbs: false,
+    showIndicators: true,
+    useKeyboardArrows: true,
+    stopOnHover: false,
+    swipeable: true,
+    interval: 5000,
+    dynamicHeight: false,
+    stopOnHover: false,
+  };
+  const configPropsCarouselTutorial = {
+    showArrows: true,
+    showStatus: true,
+    autoPlay: true,
+    infiniteLoop: true,
+    showThumbs: false,
+    showIndicators: true,
+    useKeyboardArrows: true,
+    stopOnHover: false,
+    swipeable: true,
+    interval: 2000,
+    dynamicHeight: false,
+    stopOnHover: true,
+  };
 
   console.log("home....", home);
   useEffect(() => {}, []);
@@ -41,11 +74,21 @@ export default function Home(props) {
     });
   };
   return (
-    <section className="home">
+    <section className={deviceType==="desktop"?('home-desktop'):('home-mobile')}>
       <section className="home__landing">
-        <div className="landing__img">
-          <img src={`${imageUrlConverter(`${home.photoLanding}&res=${resulationSelector}`)}`} alt="" />
-        </div>
+        {/* <div className="landing__img">
+          <img
+            src={`${imageUrlConverter(
+              `${home.photoLanding}&res=${resulationSelector}`
+            )}`}
+            alt=""
+          />
+        </div> */}
+        <Carousel
+          photoEn={home.photoLanding}
+          photoBengali={home.photoLandingBengali}
+          configProps={configPropsCarouselLanding}
+        ></Carousel>
       </section>
       <section className="section_content">
         {home.advertisements && (
@@ -80,8 +123,9 @@ export default function Home(props) {
             </div>
             <div className="content-carousel">
               <Carousel
-                photoTutorial={home.photoTutorial}
-                photoTutorialBengali={home.photoTutorialBengali}
+                photoEn={home.photoTutorial}
+                photoBengali={home.photoTutorialBengali}
+                configProps={configPropsCarouselTutorial}
               ></Carousel>
             </div>
           </section>
