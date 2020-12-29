@@ -50,8 +50,8 @@ export default function Order() {
       <div className="order--tab">
         <Tabs>
           <TabList>
-            <Tab>Track Your Order</Tab>
-            <Tab>All Order</Tab>
+  <Tab>{language==="en"?(`Track Your Order`):(`আপনার অর্ডার ট্র্যাক করুন`)}</Tab>
+  <Tab>{language==="en"?(`All Order`):(`সকল অর্ডার`)}</Tab>
           </TabList>
 
           <TabPanel>

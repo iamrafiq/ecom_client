@@ -64,6 +64,20 @@ export const deleteCategory = (categoryId, userId, token) => {
     })
     .catch((err) => console.log(err));
 };
+export const deleteHome = (homeId, userId, token) => {
+  return fetch(`${API}/home/delete/${homeId}/${userId}`, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((responce) => {
+      return responce.json();
+    })
+    .catch((err) => console.log(err));
+};
 
 export const getCategories = () => {
   return fetch(`${API}/categories`, {

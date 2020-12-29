@@ -42,7 +42,7 @@ export default function TrackOrder() {
 
   return (
     <div className="order">
-      <div className="order__title">Track Your orders</div>
+      <div className="order__title">{language==="en"?(`Track Your Order`):(`আপনার অর্ডার ট্র্যাক করুন`)}</div>
       <React.Fragment>
         {order && order.length > 0 ? (
           <div className="">

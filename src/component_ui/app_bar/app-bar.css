@@ -1,0 +1,7 @@
+.home__logo{
+    max-width: 150px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

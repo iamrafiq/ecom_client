@@ -7,7 +7,7 @@ import { CategoryRect } from "../category/Category";
 import {
   selectResolutionSelection,
   selectLanguageSelection,
-  selectDeviceTypeSelection
+  selectDeviceTypeSelection,
 } from "../../redux/settingsSlice";
 import { selectHomeSelection, selectHomeLoaded } from "../../redux/homeSlice";
 import Advertisiment from "../../util/Advertisiment";
@@ -74,7 +74,9 @@ export default function Home(props) {
     });
   };
   return (
-    <section className={deviceType==="desktop"?('home-desktop'):('home-mobile')}>
+    <section
+      className={deviceType === "desktop" ? "home-desktop" : "home-mobile"}
+    >
       <section className="home__landing">
         {/* <div className="landing__img">
           <img
@@ -84,11 +86,13 @@ export default function Home(props) {
             alt=""
           />
         </div> */}
-        <Carousel
-          photoEn={home.photoLanding}
-          photoBengali={home.photoLandingBengali}
-          configProps={configPropsCarouselLanding}
-        ></Carousel>
+        {home && home.photoLanding && (
+          <Carousel
+            photoEn={home.photoLanding}
+            photoBengali={home.photoLandingBengali}
+            configProps={configPropsCarouselLanding}
+          ></Carousel>
+        )}
       </section>
       <section className="section_content">
         {home.advertisements && (
@@ -122,11 +126,13 @@ export default function Home(props) {
               )}
             </div>
             <div className="content-carousel">
-              <Carousel
-                photoEn={home.photoTutorial}
-                photoBengali={home.photoTutorialBengali}
-                configProps={configPropsCarouselTutorial}
-              ></Carousel>
+              {home && home.photoTutorial && (
+                <Carousel
+                  photoEn={home.photoTutorial}
+                  photoBengali={home.photoTutorialBengali}
+                  configProps={configPropsCarouselTutorial}
+                ></Carousel>
+              )}
             </div>
           </section>
         )}

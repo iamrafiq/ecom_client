@@ -24,6 +24,8 @@ import AddAdvertisement from "./admin/advertisement/AddAdvertisement";
 import UpdateAdvertisement from "./admin/advertisement/UpdateAdvertisement";
 import ManageAdvertisement from "./admin/advertisement/ManageAdvertisement";
 import CreateOrUpdateHome from "./admin/home/CreateOrUpdateHome";
+import ManageHome from "./admin/home/ManageHome";
+
 import ManageGallery from "./admin/home/ManageGallery";
 // import SigninForm from "./component_ui/user/SigninForm";
 // import SignupForm from "./component_ui/user/SignupForm";
@@ -117,6 +119,11 @@ const Routes = () =>{
       path="/admin/createorupdatehome"
       exact
       component={CreateOrUpdateHome}
+    />
+     <PrivateRoute
+      path="/admin/delete/home"
+      exact
+      component={ManageHome}
     />
      <PrivateRoute
       path="/admin/managegallery"

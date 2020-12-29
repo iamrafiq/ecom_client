@@ -33,7 +33,7 @@ export default function Footer(props) {
   const init = () => {
     //setSelected(pre);
     getImage().then((data) => {
-      setErrorMsg(data)
+      setErrorMsg(data);
       if (data) {
         // setErrorMsg(JSON.parse(data))
       } else {
@@ -79,7 +79,7 @@ export default function Footer(props) {
           <img
             onError={(e) => {
               setState(true);
-              setErrorMsg(e.target)
+              setErrorMsg(e.target);
             }}
             src="http://192.168.0.109:8000/api/image/home-10?p=pfs&ext=png&res=high"
           />
@@ -87,22 +87,73 @@ export default function Footer(props) {
           {/* <img   src="/images/order.png" /> */}
           {language === "en" ? (
             <div className="company__goal">
-              Sowdamart.com is an online shop in Dhaka, Bangladesh. We believe
-              time is valuable to our fellow Dhaka residents, and that they
-              should not have to waste hours in traffic, brave bad weather and
-              wait in line just to buy basic necessities like eggs! This is why
-              Sowdamart delivers everything you need right at your door-step and
-              at no additional cost.
+              Did you ever imagine that the freshest of fruits and vegetables,
+              top quality pulses and food grains, dairy products and hundreds of
+              branded items could be handpicked and delivered to your home, all
+              at the click of a button? Bangladesh’s first comprehensive online
+              megastore, <strong>sowdamart.com</strong>, brings a whopping 7000+
+              products with more than 1000 brands, for you.
+              <br /> From household cleaning products to beauty and makeup,
+              sowdamart has everything you need for your daily needs.
+              sowdamart.com is convenience personified We’ve taken away all the
+              stress associated with shopping for daily essentials, and you can
+              now order all your household products and even buy groceries
+              online without travelling long distances or standing in serpentine
+              queues. Add to this the convenience of finding all your
+              requirements at one single source, along with great savings, and
+              you will realize that sowdamart- Banglades’s largest online
+              supermarket, has revolutionized the way Bangladesh shops for
+              groceries. <br />
+              Online grocery shopping has never been easier. Need things fresh?
+              Whether it’s fruits and vegetables or dairy and meat, we have this
+              covered as well! Get fresh eggs, meat, fish and more online at
+              your convenience. Hassle-free Home Delivery options We deliver to
+              all cities across Bangladesh and maintain excellent delivery
+              times, ensuring that all your products from groceries to snacks
+              branded foods reach you in time.
+              <br />
+              <strong> Slotted Delivery:</strong> Pick the most convenient
+              delivery slot to have your grocery delivered. From early morning
+              delivery for early birds, to late-night delivery for people who
+              work the late shift, sowdamart caters to every schedule. <br />
+              <strong>Express Delivery: </strong>This super useful service can
+              be availed by customers in Dhaka city, in which we deliver your
+              orders to your doorstep in 60 Minutes.
             </div>
           ) : (
             <div className="company__goal">
-              সওদামার্ট বাংলাদেশ এর সর্ব প্রথম অনলাইন ভিত্তিক শপ। বর্তমান সমাজের
-              ব্যস্তটায় ফাঁকে প্রত্যেকটি মানুষ তার নিত্য প্রয়োজনীয় জিনিস যেন ঘরে
-              বসে অনয়াসেই কেনাকাটা করতে পারে এমন লক্ষ্য নিয়েই সওদামার্ট এর
-              যাত্রা শুরু। “সময় বাঁচাও, খরচ বাঁচাও” এই স্লোগান নিয়েই সওদামার্ট
-              ঢাকাবাসীদের তাদের প্রাত্যহিক হয়রানি থেকে মুক্তি দেওয়ার চেষ্টায়
-              নিয়োজিত। যদিও আপাতত এই সেবাটি ঢাকা এর মাঝেই সীমাবদ্ধ, তবে আমরা আশা
-              করছি অচিরেই সারা বাংলাদেশে আমাদের এই সেবা ছড়িয়ে দেব।
+              Did you ever imagine that the freshest of fruits and vegetables,
+              top quality pulses and food grains, dairy products and hundreds of
+              branded items could be handpicked and delivered to your home, all
+              at the click of a button? Bangladesh’s first comprehensive online
+              megastore, <strong>sowdamart.com</strong>, brings a whopping 7000+
+              products with more than 1000 brands, for you.
+              <br /> From household cleaning products to beauty and makeup,
+              sowdamart has everything you need for your daily needs.
+              sowdamart.com is convenience personified We’ve taken away all the
+              stress associated with shopping for daily essentials, and you can
+              now order all your household products and even buy groceries
+              online without travelling long distances or standing in serpentine
+              queues. Add to this the convenience of finding all your
+              requirements at one single source, along with great savings, and
+              you will realize that sowdamart- Banglades’s largest online
+              supermarket, has revolutionized the way Bangladesh shops for
+              groceries. <br />
+              Online grocery shopping has never been easier. Need things fresh?
+              Whether it’s fruits and vegetables or dairy and meat, we have this
+              covered as well! Get fresh eggs, meat, fish and more online at
+              your convenience. Hassle-free Home Delivery options We deliver to
+              all cities across Bangladesh and maintain excellent delivery
+              times, ensuring that all your products from groceries to snacks
+              branded foods reach you in time.
+              <br />
+              <strong> Slotted Delivery:</strong> Pick the most convenient
+              delivery slot to have your grocery delivered. From early morning
+              delivery for early birds, to late-night delivery for people who
+              work the late shift, sowdamart caters to every schedule. <br />
+              <strong>Express Delivery: </strong>This super useful service can
+              be availed by customers in Dhaka city, in which we deliver your
+              orders to your doorstep in 60 Minutes.
             </div>
           )}
 

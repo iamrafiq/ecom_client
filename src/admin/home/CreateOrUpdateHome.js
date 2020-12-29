@@ -46,6 +46,7 @@ const CreateOrUpdateHome = () => {
   const init = () => {
     //setSelected(pre);
     getHome().then((data) => {
+      console.log("data home", data)
       if (data && data.error) {
         setValues({ ...values, create: true, error: data.error });
       } else {

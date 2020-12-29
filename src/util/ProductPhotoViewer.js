@@ -2,8 +2,8 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { imageUrlConverter } from "./ImageUrlConverter";
 
-import 'react-inner-image-zoom/lib/InnerImageZoom/styles.min.css';
-import InnerImageZoom from 'react-inner-image-zoom';
+import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
+import InnerImageZoom from "react-inner-image-zoom";
 import "./productPhotoViewer.css";
 const ProductPhotoViewer = ({ photosUrl, alt }) => {
   const [active, setActive] = useState({
@@ -19,7 +19,11 @@ const ProductPhotoViewer = ({ photosUrl, alt }) => {
   return (
     <div className="main-container">
       {active && (
-        <InnerImageZoom src={`${imageUrlConverter(`${active.url}&res=${"medium"}`)}`} zoomSrc={`${imageUrlConverter(`${active.url}&res=${"high"}`)}`}/>
+        <img
+          src={`${imageUrlConverter(`${active.url}&res=${"medium"}`)}`}
+          alt={alt}
+        />
+        // <InnerImageZoom src={`${imageUrlConverter(`${active.url}&res=${"medium"}`)}`} zoomSrc={`${imageUrlConverter(`${active.url}&res=${"high"}`)}`}/>
       )}
 
       {photosUrl && photosUrl.length > 1 && (
@@ -29,7 +33,9 @@ const ProductPhotoViewer = ({ photosUrl, alt }) => {
               return (
                 <img
                   className="group round-circle-border"
-                  src={`${imageUrlConverter(`${photosUrl[index]}&res=${"low"}`)}`}
+                  src={`${imageUrlConverter(
+                    `${photosUrl[index]}&res=${"low"}`
+                  )}`}
                   alt={alt}
                   onClick={() => onClickThumb(index)}
                 />
@@ -38,7 +44,9 @@ const ProductPhotoViewer = ({ photosUrl, alt }) => {
               return (
                 <img
                   className="group"
-                  src={`${imageUrlConverter(`${photosUrl[index]}&res=${"low"}`)}`}
+                  src={`${imageUrlConverter(
+                    `${photosUrl[index]}&res=${"low"}`
+                  )}`}
                   alt={alt}
                   onClick={() => onClickThumb(index)}
                 />

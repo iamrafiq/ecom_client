@@ -43,7 +43,7 @@ export default function AllOrder() {
 
   return (
     <div className="order">
-      <div className="order__title">Your orders</div>
+      <div className="order__title">{language==="en"?(`All Orders`):(`সকল অর্ডার`)}</div>
       <React.Fragment>
         {order && order.length > 0 ? (
           <Accordion>
