@@ -153,6 +153,16 @@ export const getAdvertisementsBySlug = (slug) => {
       .catch((err) => console.log(err));
   };
 
+    
+  export const getProductsByCatId = (id) => {
+    return fetch(`${API}/products/by/category/${id}`, {
+      method: "GET",
+    })
+      .then((responce) => {
+        return responce.json();
+      })
+      .catch((err) => console.log(err));
+  };
   export const getProductsByCategorySlug = (slug) => {
     return fetch(`${API}/category/products/byslug/${slug}`, {
       method: "GET",
