@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { CategoryRect } from "../category/Category";
 
@@ -22,6 +22,8 @@ import { imageUrlConverter } from "../../util/ImageUrlConverter";
 var FontAwesome = require("react-fontawesome");
 
 export default function Home(props) {
+  const history = useHistory();
+
   const resulationSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
   const deviceType = useSelector(selectDeviceTypeSelection);
@@ -64,10 +66,16 @@ export default function Home(props) {
     return items.map((item, index) => {
       if (item.showHome === 1) {
         return (
-          <div className="content__cats--width">
-            <Link to={`/products/${item.slug}`}>
-              <CategoryRect category={item} key={item._id}></CategoryRect>
-            </Link>
+          <div
+            className="content__cats--width"
+            onClick={() => {
+              history.push({
+                pathname: `/products/${item.slug}`,
+                state: { catId: item._id },
+              });
+            }}
+          >
+            <CategoryRect category={item} key={item._id}></CategoryRect>
           </div>
         );
       }

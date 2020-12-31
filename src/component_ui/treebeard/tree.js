@@ -11,12 +11,8 @@ import { useEffect, useState } from "react";
 import {
   selectResolutionSelection,
   selectLanguageSelection,
- 
 } from "../../redux/settingsSlice";
-import {
-  selectSideBar,
-  setSideBar,
-} from "../../redux/globalSlice";
+import { selectSideBar, setSideBar } from "../../redux/globalSlice";
 const TreeExample = ({ tree }) => {
   const dispatch = useDispatch();
   const sideBar = useSelector(selectSideBar);
@@ -32,7 +28,12 @@ const TreeExample = ({ tree }) => {
       <div
         className=""
         onClick={(e) => {
-          history.push(`/products/${node.slug}`);
+          console.log("nodddddde", node._id);
+          //  history.push(`/products/${node.slug}`);
+          history.push({
+            pathname: `/products/${node.slug}`,
+            state: { catId: node._id },
+          });
           dispatch(setSideBar({ sideBar: { open: !sideBar.open } }));
         }}
       >
@@ -48,7 +49,7 @@ const TreeExample = ({ tree }) => {
                     marginRight: "5px",
                   }}
                   src={`${imageUrlConverter(
-                   `${ node.iconMenu}&res=${resulationSelector}`
+                    `${node.iconMenu}&res=${resulationSelector}`
                   )}`}
                 ></img>
               )}

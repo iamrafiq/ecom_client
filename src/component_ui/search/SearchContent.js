@@ -13,7 +13,6 @@ import "../../common/common.css";
 import "./search-content.css";
 import { useSelector, useDispatch } from "react-redux";
 
-import { selectSideBarBarToViewSelection } from "../../redux/sideBarSlice";
 import {
   changeBar,
   setBarToView,

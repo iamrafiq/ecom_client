@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getProductsByCategorySlug } from "../core/apiCore";
+import {
+  getProductsByCategorySlug,
+  getProductsByCategoryId,
+} from "../core/apiCore";
 import { setLoadingSpinner } from "./globalSlice";
 export const categoryWithProductSlice = createSlice({
   name: "categoryWithProduct",
@@ -21,17 +24,29 @@ export const categoryWithProductSlice = createSlice({
 
 const { setCategoryWithProduct, setLoading } = categoryWithProductSlice.actions;
 
-export const loadCategoryWithProduct = (slug) => (dispatch) => {
+export const loadCategoryWithProduct = (slug, catId = undefined) => (
+  dispatch
+) => {
   dispatch(setLoading({ loading: true }));
-
-  getProductsByCategorySlug(slug).then((data) => {
-    if (data === undefined && data.error) {
-       dispatch(setLoading({ loading: false }));
-    } else {
-      dispatch(setCategoryWithProduct({ data }));
-       dispatch(setLoading({ loading: false }));
-    }
-  });
+  if (catId === undefined) {
+    getProductsByCategorySlug(slug).then((data) => {
+      if (data === undefined && data.error) {
+        dispatch(setLoading({ loading: false }));
+      } else {
+        dispatch(setCategoryWithProduct({ data }));
+        dispatch(setLoading({ loading: false }));
+      }
+    });
+  } else {
+    getProductsByCategoryId(catId).then((data) => {
+      if (data === undefined && data.error) {
+        dispatch(setLoading({ loading: false }));
+      } else {
+        dispatch(setCategoryWithProduct({ data }));
+        dispatch(setLoading({ loading: false }));
+      }
+    });
+  }
 };
 
 export const selectCategoryWithProduct = (state) => {

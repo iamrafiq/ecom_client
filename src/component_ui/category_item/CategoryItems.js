@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import Layout from "../../core/Layout";
 import { useEffect, useState } from "react";
 // import { getCategoryItems } from "../../admin/apiAdmin";
@@ -30,7 +30,10 @@ import {
   selectCategoryWithProduct,
   selectLoading,
 } from "../../redux/categoryWithProductSlice";
-import { loadCategoryWithProduct } from "../../redux/categoryWithProductSlice";
+import {
+  loadCategoryWithProduct,
+  loadProductByCatId,
+} from "../../redux/categoryWithProductSlice";
 import { loadActiveCategories } from "../../redux/homeSlice";
 import { setSlug } from "../../redux/productHoverSlice";
 import {
@@ -43,6 +46,9 @@ import LoadingBar from "../../util/LoadingBar";
 
 import Footer from "../footer/Footer";
 const CategoryItems = ({ match }) => {
+  const location = useLocation();
+  const history = useHistory();
+
   const bar = useSelector(selectSideBarBarToViewSelection);
   const category = useSelector(selectCategoryWithProduct);
   const loading = useSelector(selectLoading);
@@ -65,30 +71,15 @@ const CategoryItems = ({ match }) => {
     loadingComplete: false,
   });
 
-  console.log("bar and props out", bar, match.params.slug);
-  // if user reloading the page by using browser not using side bar menu then ditchpatch the slug to sidebar slice
-  // first checking the bar is not same as the props
-  if (!bar && !category) {
-    dispatch(loadCategoryWithProduct(match.params.slug));
-  } else if (bar && bar !== match.params.slug) {
-    dispatch(loadCategoryWithProduct(match.params.slug));
-  } else if (category && category.slug !== match.params.slug) {
-    dispatch(loadCategoryWithProduct(match.params.slug));
-  }
 
   useEffect(() => {
-    if (bar && bar !== match.params.slug) {
-      // dispatch(setBarToView({ barToView: match.params.slug }));
-      // dispatch(
-      //   setViewToBar({
-      //     viewToBar: {
-      //       key: Math.random().toString(10).slice(2),
-      //       value: match.params.slug,
-      //     },
-      //   })
-      // );
+    if (location.state) {
+      console.log("catitem cat id:", location.state.catId); // result: 'some_value'
+      dispatch(loadCategoryWithProduct(undefined, location.state.catId));
+    } else {
+      dispatch(loadCategoryWithProduct(match.params.slug));
     }
-  }, [category]);
+  }, [match.params.slug]);
 
   // const onCategorySelect = (slug) => {
   //   dispatch(setBarToView({ barToView: slug }));
@@ -98,10 +89,16 @@ const CategoryItems = ({ match }) => {
 
   const subcategories = (items) => {
     return items.map((item, index) => (
-      <div>
-        <Link to={item.slug}>
-          <Category category={item} key={item._id}></Category>
-        </Link>
+      <div
+        className="cat_item"
+        onClick={() => {
+          history.push({
+            pathname: `/products/${item.slug}`,
+            state: { catId: item._id },
+          });
+        }}
+      >
+        <Category category={item} key={item._id}></Category>
       </div>
     ));
   };

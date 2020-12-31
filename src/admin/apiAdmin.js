@@ -267,3 +267,13 @@ export const updateProduct = (productId, userId, token, product) => {
     .catch((err) => console.log(err));
 };
 
+   
+export const getProductsByCatId = (id) => {
+  return fetch(`${API}/products/by/category/${id}`, {
+    method: "GET",
+  })
+    .then((responce) => {
+      return responce.json();
+    })
+    .catch((err) => console.log(err));
+};

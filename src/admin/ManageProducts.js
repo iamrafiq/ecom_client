@@ -6,7 +6,7 @@ import Select from "react-select";
 import { selectUser, selectToken } from "../redux/authSlice";
 import { Link } from "react-router-dom";
 import { getProducts, deleteProduct } from "./apiAdmin";
-import { getProductsByCategorySlug , getProductsByCatId} from "../core/apiCore";
+import {  getProductsByCatId} from "../admin/apiAdmin";
 const ManageProducts = () => {
   const [cagegories, setCategories] = useState([]);
 

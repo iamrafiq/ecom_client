@@ -110,6 +110,7 @@
   margin-top: var(--gap-large);
 }
 .content__cats--width{
+  cursor: pointer;
   width: 20%;
 }
 /** search box**/
