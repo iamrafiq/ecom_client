@@ -33,6 +33,8 @@ const AddAvertisement = () => {
     customSlug: "",
     categorySlugs: "",
     productSlugs: "",
+    linkType: "",
+    linkSlug: "",
     loading: false,
     error: "",
     createdProduct: "",
@@ -47,6 +49,8 @@ const AddAvertisement = () => {
     customSlug,
     categorySlugs,
     productSlugs,
+    linkType,
+    linkSlug,
     loading,
     error,
     createdProduct,
@@ -105,7 +109,10 @@ const AddAvertisement = () => {
   //     downloadAllCategories();
   //   }
   // }, [products, categories]);
-
+  const handleOptionChange = (option) => {
+    formData.set(option.field, option.value);
+    setValues({ ...values, [option.field]: option.value, formData: formData });
+  };
   const handlePhotoChange = (name) => (event) => {
     if (name == "photo") {
       setPhoto(event.target.files[0]);
@@ -117,7 +124,6 @@ const AddAvertisement = () => {
     let value = event.target.value;
     if (field === "name") {
       const nameClean = value.replace(/[^a-zA-Z0-9]/g, "-");
-
       const slugStr = slugify(nameClean, {
         replacement: "-", // replace spaces with replacement character, defaults to `-`
         remove: undefined, // remove characters that match regex, defaults to `undefined`
@@ -172,6 +178,7 @@ const AddAvertisement = () => {
     if (slug.length > 0) {
       formData.set("slugPages", slug);
     }
+
     if (photo !== null) {
       formData.append("photo", photo);
     }
@@ -199,7 +206,7 @@ const AddAvertisement = () => {
     });
   };
 
-  const handleChangeCategoris = (selectedOption) => {
+  const handleChangeCategories = (selectedOption) => {
     console.log(`Option selected:`, selectedOption);
 
     if (selectedOption != null) {
@@ -213,6 +220,14 @@ const AddAvertisement = () => {
       });
     } else {
       setValues({ ...values, categorySlugs: "" });
+    }
+  };
+  const handleLinkCategory = (selectedOption) => {
+    console.log(`Option selected:`, selectedOption.obj.slug);
+    if (selectedOption) {
+      setValues({ ...values, linkSlug: selectedOption.obj.slug });
+      formData.set("linkSlug", selectedOption.obj.slug);
+
     }
   };
   const handleChangeProducts = (selectedOption) => {
@@ -295,7 +310,7 @@ const AddAvertisement = () => {
               </label>
               {categories.length > 0 && (
                 <Select
-                  onChange={handleChangeCategoris}
+                  onChange={handleChangeCategories}
                   closeMenuOnSelect={false}
                   // defaultValue={[colourOptions[0], colourOptions[1]]}
                   isMulti
@@ -329,13 +344,64 @@ const AddAvertisement = () => {
                 />
               )}
             </div>
+
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Link Type
+              </label>
+              <Select
+                onChange={handleOptionChange}
+                options={[
+                  { value: 0, label: "Category", field: "" },
+                  { value: 1, label: "Product", field: "" },
+                ].map((op, index) => {
+                  op.field = "linkType";
+                  return op;
+                })}
+              />
+            </div>
+            {linkType === 0 && (
+              <div className="form-group">
+                <label htmlFor="" className="text-muted">
+                  Select A Category:
+                </label>
+                {categories.length > 0 && (
+                  <Select
+                    onChange={handleLinkCategory}
+                    closeMenuOnSelect={false}
+                    // defaultValue={[colourOptions[0], colourOptions[1]]}
+                    options={categories.map((cat, index) => {
+                      return {
+                        value: cat.name,
+                        label: cat.name,
+                        obj: cat,
+                      };
+                    })}
+                  />
+                )}
+              </div>
+            )}
+            {linkType === 1 && (
+              <div className="form-group">
+                <label htmlFor="" className="text-muted">
+                  Write a product search text
+                </label>
+                <input
+                  onChange={handleChange("linkSlug")}
+                  type="text"
+                  className="form-control"
+                  value={linkSlug}
+                  required={true}
+                />
+              </div>
+            )}
             <button
               type="submit"
               form="form1"
               value="Submit"
               className="btn btn-outline-primary mr-5"
             >
-              Create a new Category
+              Create a new Advertisiment
             </button>
             {/* <button type="button" className="btn btn-outline-primary">
         Back to dashboard

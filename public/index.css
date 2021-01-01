@@ -230,6 +230,7 @@ body {
 .react__link--colored{
   color: #0000EE;
   text-decoration: inherit;
+  cursor: pointer;
 }
 
 /***color*****/

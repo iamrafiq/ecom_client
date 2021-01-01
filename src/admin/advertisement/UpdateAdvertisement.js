@@ -29,7 +29,8 @@ const UpdateAvertisement = ({ match }) => {
     name: "",
     slug: "",
     slugPages: "",
-
+    linkType: "",
+    linkSlug: "",
     advertisement: null,
     categories: [],
     products: [],
@@ -53,6 +54,8 @@ const UpdateAvertisement = ({ match }) => {
     name,
     slug,
     slugPages,
+    linkType,
+    linkSlug,
     advertisement,
     categories,
     products,
@@ -82,6 +85,8 @@ const UpdateAvertisement = ({ match }) => {
         setValues({
           ...values,
           name: data.name,
+          linkType: data.linkType,
+          linkSlug: data.linkSlug,
           advertisement: data,
           advertisementAPICalled: true,
           formData: new FormData(),
@@ -118,6 +123,18 @@ const UpdateAvertisement = ({ match }) => {
         });
       }
     });
+  };
+  const handleOptionChange = (option) => {
+    formData.set(option.field, option.value);
+    setValues({ ...values, [option.field]: option.value, formData: formData });
+  };
+  const handleLinkCategory = (selectedOption) => {
+    console.log(`Option selected:`, selectedOption.obj.slug);
+    if (selectedOption) {
+      setValues({ ...values, linkSlug: selectedOption.obj.slug });
+      formData.set("linkSlug", selectedOption.obj.slug);
+
+    }
   };
   useEffect(() => {
     if (advertisement === null) {
@@ -157,6 +174,7 @@ const UpdateAvertisement = ({ match }) => {
         productSlugs: prodSlug.map((prod, index) => prod.slug),
         customSlugDefault: otherSlugs,
         customSlug: otherSlugs,
+
         // productAPICalled: false,
         // categoryAPICalled: false,
         // advertisementAPICalled: false,
@@ -417,6 +435,62 @@ const UpdateAvertisement = ({ match }) => {
                 />
               }
             </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Link Type
+              </label>
+              <Select
+                onChange={handleOptionChange}
+                defaultValue={[
+                  { value: 0, label: "Category", field: "" },
+                  { value: 1, label: "Product", field: "" },
+                ].map((op, index) => {
+                  if (op.value === linkType) return op;
+                })}
+                options={[
+                  { value: 0, label: "Category", field: "" },
+                  { value: 1, label: "Product", field: "" },
+                ].map((op, index) => {
+                  op.field = "linkType";
+                  return op;
+                })}
+              />
+            </div>
+            {linkType === 0 && (
+              <div className="form-group">
+                <label htmlFor="" className="text-muted">
+                  Select A Category:
+                </label>
+                {categories.length > 0 && (
+                  <Select
+                    onChange={handleLinkCategory}
+                    closeMenuOnSelect={false}
+                    // defaultValue={[colourOptions[0], colourOptions[1]]}
+                    options={categories.map((cat, index) => {
+                      return {
+                        value: cat.name,
+                        label: cat.name,
+                        obj: cat,
+                      };
+                    })}
+                  />
+                )}
+              </div>
+            )}
+            {linkType === 1 && (
+              <div className="form-group">
+                <label htmlFor="" className="text-muted">
+                  Write a product search text
+                </label>
+                <input
+                  onChange={handleChange("linkSlug")}
+                  type="text"
+                  className="form-control"
+                  value={linkSlug}
+                  required={true}
+                />
+              </div>
+            )}
             <button
               type="submit"
               form="form1"

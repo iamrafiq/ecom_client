@@ -43,6 +43,7 @@ import {
 import Grid from "../grid/Grid";
 import { imageUrlConverter } from "../../util/ImageUrlConverter";
 import LoadingBar from "../../util/LoadingBar";
+import AdvertismentsFadeOut from "../slicks/AdvertismentsFadeOut";
 
 import Footer from "../footer/Footer";
 const CategoryItems = ({ match }) => {
@@ -59,6 +60,7 @@ const CategoryItems = ({ match }) => {
 
   const dispatch = useDispatch();
 
+  console.log("cccccc", category);
   const [rerendar, setRerendar] = useState(0);
   const [values, setValues] = useState({
     selectedCategory: null,
@@ -71,10 +73,9 @@ const CategoryItems = ({ match }) => {
     loadingComplete: false,
   });
 
-
   useEffect(() => {
     if (location.state) {
-      console.log("catitem cat id:", location.state.catId); // result: 'some_value'
+      // console.log("catitem cat id:", location.state.catId); // result: 'some_value'
       dispatch(loadCategoryWithProduct(undefined, location.state.catId));
     } else {
       dispatch(loadCategoryWithProduct(match.params.slug));
@@ -112,75 +113,88 @@ const CategoryItems = ({ match }) => {
   };
   const getNothingFound = (items) => {};
   return (
-    <div className="content--area">
-      <div>
-        <LoadingBar loading={loading}></LoadingBar>
-        {category.advertisements && category.advertisements.length > 0 && (
-          <div className="addvert-area">
-            <img
-              src={`${imageUrlConverter(
-                `${category.advertisements[0].photo}&res=${resulationSelector}`
-              )}`}
-              alt={category.advertisements[0].name}
-            />
-          </div>
-        )}
-
-        <div className="back-links">
-          {category.recursiveCategories
-            ? category.recursiveCategories.map((item, index) => (
-                <div key={Math.random().toString(10).slice(2)}>
-                  <Link to={item.slug}>
-                    {language === "en" ? (
-                      <span>{`${item.name}`}</span>
-                    ) : (
-                      <span>{`${item.bengaliName}`}</span>
-                    )}
-                  </Link>
-                  &nbsp; {">"} &nbsp;
-                </div>
-              ))
-            : ""}
-          {category ? (
-            <div>
-              <div>
-                {language === "en" ? (
-                  <div>{`${category.name}`}</div>
-                ) : (
-                  <div>{`${category.bengaliName}`}</div>
+    <React.Fragment>
+      <div className="content--area">
+        <div>
+          <LoadingBar loading={loading}></LoadingBar>
+          <div className="advert-area">
+            <div className="">
+              {category.advertisements &&
+                category.advertisements.length > 0 && (
+                  <AdvertismentsFadeOut
+                    advertisements={category.advertisements}
+                  ></AdvertismentsFadeOut>
                 )}
-              </div>
+            </div>
+          </div>
+
+          <div className="back-links">
+            {category.recursiveCategories
+              ? category.recursiveCategories.map((item, index) => (
+                  <div
+                    className="react__link--colored"
+                    key={Math.random().toString(10).slice(2)}
+                    onClick={() => {
+                      history.push({
+                        pathname: `/products/${item.slug}`,
+                        state: { catId: item._id },
+                      });
+                    }}
+                  >
+                    {/* <Link to={item.slug}>
+                    
+                  </Link> */}
+                    {language === "en" ? (
+                      <div>
+                        {index === category.recursiveCategories.length - 1 ? (
+                          <span>{item.name}</span>
+                        ) : (
+                          <span>{`${item.name} > `} &nbsp;</span>
+                        )}
+                      </div>
+                    ) : (
+                      <div>
+                        {index === category.recursiveCategories.length - 1
+                          ? `${item.bengaliName}`
+                          : `${item.bengaliName} > `}{" "}
+                        &nbsp;
+                      </div>
+                    )}
+                  </div>
+                ))
+              : ""}
+            {/* {category ? (
+            <div>
+              {language === "en"
+                ? `${category.name}`
+                : `${category.bengaliName}`}
             </div>
           ) : (
             ""
-          )}
-        </div>
-
-        <div className="horizontal-line">
-          <hr />
-          <div>
-            {category &&
-              (language === "en" ? (
-                <div>{category.name}</div>
-              ) : (
-                <div>{category.bengaliName}</div>
-              ))}
+          )} */}
           </div>
-          <hr />
-        </div>
-        <Grid>
-          {category.subcats && category.subcats.length > 0
-            ? subcategories(category.subcats)
-            : category.products && category.products.length > 0
-            ? products(category.products)
-            : getNothingFound()}
-        </Grid>
-      </div>
 
+          <div className="horizontal-line">
+            <hr />
+            <div>
+              {category &&
+                (language === "en" ? category.name : category.bengaliName)}
+            </div>
+            <hr />
+          </div>
+          <Grid>
+            {category.subcats && category.subcats.length > 0
+              ? subcategories(category.subcats)
+              : category.products && category.products.length > 0
+              ? products(category.products)
+              : getNothingFound()}
+          </Grid>
+        </div>
+      </div>
       <div className="footer--area">
         <Footer></Footer>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 

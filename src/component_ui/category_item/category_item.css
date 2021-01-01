@@ -1,12 +1,13 @@
 
 .content--area{
-   margin-left: var(--padding-right-extra); 
-  margin-right: var(--padding-right-extra); 
+  margin-left: var(--gap-double-extra-large); 
+  margin-right: var(--gap-double-extra-large);
 }
-.addvert-area{
-  display: flex;
+.advert-area{
+  /* display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: center; */
+ 
 }
 .addvert-area img {
   /* object-fit: contain;
@@ -18,12 +19,22 @@
 .back-links{
 display: flex;
 flex-direction: row;
+align-items: flex-start;
 margin: 0;
-padding:0;
+padding-top: var(--gap-large);
+font-size: var(--font-size-medium);
+/* background-color: orange; */
 }
+
+/* .back-links-item{
+  padding: var(--gap-medium);
+} */
 .horizontal-line{
   display: flex;
   flex-direction: row;
+  align-items: center;
+  padding-bottom: var(--gap-large);
+
 }
 
 .horizontal-line hr{
@@ -33,8 +44,11 @@ padding:0;
 
 .horizontal-line div{
   margin: auto;
-  padding-left: 50px;
-  padding-right: 50px;
+  /* padding-left: 50px;
+  padding-right: 50px; */
+  padding: 0px var(--gap-double-extra-large);
+  font-size: var(--font-size-medium);
+
 }
 
 .footer--area{
@@ -45,7 +59,7 @@ padding:0;
 }
 @media only screen and (max-width: 700px) {
   .content--area{
-    margin-left: var(--gap-medium); 
-   margin-right: var(--gap-medium); 
+    margin-left: var(--gap-large); 
+   margin-right: var(--gap-large); 
  }
 } 
