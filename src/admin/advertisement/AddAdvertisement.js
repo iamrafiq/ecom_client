@@ -11,6 +11,7 @@ import { getAllProducts } from "../apiAdmin";
 import { createAdvertisement } from "./apiAdvertisement";
 import Select from "react-select";
 import LoadingBar from "../../util/LoadingBar";
+import { getProductsByCatId } from "../apiAdmin";
 
 var slugify = require("slugify");
 
@@ -23,6 +24,10 @@ const AddAvertisement = () => {
   const [photo, setPhoto] = useState(null);
   const [photoBangla, setPhotoBangla] = useState(null);
   const [products, setProducts] = useState({});
+  const [productsForLinkCat, setProductsForLinkCat] = useState({});
+
+  //    const [products, setProducts] = useState([]);
+
   const [categories, setCategories] = useState({});
 
   // const { user, token } = isAuthenticated();
@@ -35,6 +40,7 @@ const AddAvertisement = () => {
     productSlugs: "",
     linkType: "",
     linkSlug: "",
+    linkProductSlug: "",
     loading: false,
     error: "",
     createdProduct: "",
@@ -51,6 +57,7 @@ const AddAvertisement = () => {
     productSlugs,
     linkType,
     linkSlug,
+    linkProductSlug,
     loading,
     error,
     createdProduct,
@@ -58,22 +65,22 @@ const AddAvertisement = () => {
     formData,
   } = values;
 
-  const downloadAllProducts = () => {
-    getAllProducts().then((data) => {
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        console.log("products...", data);
+  // const downloadAllProducts = () => {
+  //   getAllProducts().then((data) => {
+  //     if (data.error) {
+  //       setValues({ ...values, error: data.error });
+  //     } else {
+  //       console.log("products...", data);
 
-        setProducts(data);
-        setValues({
-          ...values,
-          loading: false,
-          formData: new FormData(),
-        });
-      }
-    });
-  };
+  //       setProducts(data);
+  //       setValues({
+  //         ...values,
+  //         loading: false,
+  //         formData: new FormData(),
+  //       });
+  //     }
+  //   });
+  // };
   const downloadAllCategories = () => {
     getCategories().then((data) => {
       if (data.error) {
@@ -88,7 +95,7 @@ const AddAvertisement = () => {
           loading: false,
           formData: new FormData(),
         });
-        downloadAllProducts();
+        // downloadAllProducts();
       }
     });
   };
@@ -109,6 +116,17 @@ const AddAvertisement = () => {
   //     downloadAllCategories();
   //   }
   // }, [products, categories]);
+  const handleChangeLoadProductsForSlug = (field) => (event) => {
+    let id = event.target.value;
+    getProductsByCatId(id).then((data) => {
+      if (data === undefined && data.error) {
+        console.log(data.error);
+      } else {
+        console.log("manage prod products,", data);
+        setProducts(data);
+      }
+    });
+  };
   const handleOptionChange = (option) => {
     formData.set(option.field, option.value);
     setValues({ ...values, [option.field]: option.value, formData: formData });
@@ -227,9 +245,33 @@ const AddAvertisement = () => {
     if (selectedOption) {
       setValues({ ...values, linkSlug: selectedOption.obj.slug });
       formData.set("linkSlug", selectedOption.obj.slug);
-
     }
   };
+
+  const handleLinkProduct = (selectedOption) => {
+    console.log(`Option selected:`, selectedOption.obj.slug);
+    if (selectedOption) {
+      setValues({ ...values, linkProductSlug: selectedOption.obj.slug });
+      formData.set("linkProductSlug", selectedOption.obj.slug);
+    }
+  };
+
+  const handleLinkCategoryForProduct = (selectedOption) => {
+    console.log(`Option selected For P:`, selectedOption);
+    if (selectedOption) {
+      getProductsByCatId(selectedOption.obj._id).then((data) => {
+        if (data === undefined && data.error) {
+          console.log(data.error);
+        } else {
+          console.log("Prod PPP,", data);
+          setProductsForLinkCat(data);
+        }
+      });
+      setValues({ ...values, linkSlug: selectedOption.obj.slug });
+      formData.set("linkSlug", selectedOption.obj.slug);
+    }
+  };
+
   const handleChangeProducts = (selectedOption) => {
     console.log(`Option selected:`, selectedOption);
 
@@ -324,26 +366,62 @@ const AddAvertisement = () => {
                 />
               )}
             </div>
+
             <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Select a Category For Product Pages
+              </label>
+              <select
+                onChange={handleChangeLoadProductsForSlug("parent")}
+                className="form-control"
+              >
+                <option>Select a category</option>
+                {categories.length > 0 &&
+                  categories.map((cat, index) => (
+                    <option key={index} value={cat._id}>
+                      {cat.name}
+                    </option>
+                  ))}
+              </select>
+            </div>
+
+            {products.length > 0 && (
+              <React.Fragment>
+                <div className="form-group">
+                  <label htmlFor="" className="text-muted">
+                    Select Products Pages:
+                  </label>
+                  <Select
+                    onChange={handleChangeProducts}
+                    closeMenuOnSelect={false}
+                    // defaultValue={[colourOptions[0], colourOptions[1]]}
+                    isMulti
+                    options={products.map((p, index) => {
+                      return {
+                        value: p.name,
+                        label: p.name,
+                        obj: p,
+                      };
+                    })}
+                  />
+                </div>
+              </React.Fragment>
+            )}
+
+            {/* <div className="form-group">
               <label htmlFor="" className="text-muted">
                 Select Product Pages:
               </label>
-              {products.length > 0 && (
+              {selectedProducts.length > 0 && (
                 <Select
                   onChange={handleChangeProducts}
                   closeMenuOnSelect={false}
-                  // defaultValue={[colourOptions[0], colourOptions[1]]}
+                  defaultValue={selectedProducts.map((item, index)=>item)}
                   isMulti
-                  options={products.map((p, index) => {
-                    return {
-                      value: p.name,
-                      label: p.name,
-                      obj: p,
-                    };
-                  })}
+                  options={selectedProducts.map((item, index)=>item)}
                 />
               )}
-            </div>
+            </div> */}
 
             <div className="form-group">
               <label htmlFor="" className="text-muted">
@@ -382,19 +460,50 @@ const AddAvertisement = () => {
               </div>
             )}
             {linkType === 1 && (
-              <div className="form-group">
-                <label htmlFor="" className="text-muted">
-                  Write a product search text
-                </label>
-                <input
-                  onChange={handleChange("linkSlug")}
-                  type="text"
-                  className="form-control"
-                  value={linkSlug}
-                  required={true}
-                />
-              </div>
+              <React.Fragment>
+                <div className="form-group">
+                  <label htmlFor="" className="text-muted">
+                    Select A Category For Product Linking:
+                  </label>
+                  {categories.length > 0 && (
+                    <Select
+                      onChange={handleLinkCategoryForProduct}
+                      closeMenuOnSelect={false}
+                      // defaultValue={[colourOptions[0], colourOptions[1]]}
+                      options={categories.map((cat, index) => {
+                        return {
+                          value: cat.name,
+                          label: cat.name,
+                          obj: cat,
+                        };
+                      })}
+                    />
+                  )}
+                </div>
+                <div className="form-group">
+                  {productsForLinkCat.length > 0 && (
+                    <React.Fragment>
+                      <label htmlFor="" className="text-muted">
+                        Select Products For Link:
+                      </label>
+                      <Select
+                        onChange={handleLinkProduct}
+                        closeMenuOnSelect={false}
+                        // defaultValue={[colourOptions[0], colourOptions[1]]}
+                        options={productsForLinkCat.map((p, index) => {
+                          return {
+                            value: p.name,
+                            label: p.name,
+                            obj: p,
+                          };
+                        })}
+                      />
+                    </React.Fragment>
+                  )}
+                </div>
+              </React.Fragment>
             )}
+
             <button
               type="submit"
               form="form1"
