@@ -1,4 +1,5 @@
 import { API } from "../config";
+import queryString from 'query-string'
 
 // export const createCategory = (userId, token, category) => {
 //   return fetch(`${API}/category/create/${userId}`, {
@@ -277,3 +278,4 @@ export const getProductsByCatId = (id) => {
     })
     .catch((err) => console.log(err));
 };
+

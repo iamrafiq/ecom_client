@@ -23,7 +23,7 @@ const AddAvertisement = () => {
 
   const [photo, setPhoto] = useState(null);
   const [photoBangla, setPhotoBangla] = useState(null);
-  const [products, setProducts] = useState({});
+  const [productsOfACat, setProductsOfACat] = useState({});
   const [productsForLinkCat, setProductsForLinkCat] = useState({});
 
   //    const [products, setProducts] = useState([]);
@@ -122,8 +122,7 @@ const AddAvertisement = () => {
       if (data === undefined && data.error) {
         console.log(data.error);
       } else {
-        console.log("manage prod products,", data);
-        setProducts(data);
+        setProductsOfACat(data);
       }
     });
   };
@@ -212,7 +211,6 @@ const AddAvertisement = () => {
           ...values,
           name: "",
           slugPages: "",
-          products: [],
           customSlug: "",
           trash: false,
           loading: false,
@@ -385,7 +383,7 @@ const AddAvertisement = () => {
               </select>
             </div>
 
-            {products.length > 0 && (
+            {productsOfACat.length > 0 && (
               <React.Fragment>
                 <div className="form-group">
                   <label htmlFor="" className="text-muted">
@@ -396,7 +394,7 @@ const AddAvertisement = () => {
                     closeMenuOnSelect={false}
                     // defaultValue={[colourOptions[0], colourOptions[1]]}
                     isMulti
-                    options={products.map((p, index) => {
+                    options={productsOfACat.map((p, index) => {
                       return {
                         value: p.name,
                         label: p.name,

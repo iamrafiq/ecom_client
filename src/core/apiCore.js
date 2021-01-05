@@ -175,5 +175,28 @@ export const getAdvertisementsBySlug = (slug) => {
       })
       .catch((err) => console.log(err));
   };
+ 
 
 
+  export const productsBySlugs = params => {
+    console.log("query slug pages", `${API}/products/slugs?slugs=${params}`);
+    return fetch(`${API}/products/slugs?slugs=${params}`, {
+        method:"GET"
+    })
+    .then(responce => {
+        return responce.json()
+    })
+    .catch(err => console.log(err))
+  }
+
+  export const productBySlug = params => {
+    console.log("query slug pages", `${API}/product/slug?slug=${params}`);
+    return fetch(`${API}/products/slugs?slugs=${params}`, {
+        method:"GET"
+    })
+    .then(responce => {
+        return responce.json()
+    })
+    .catch(err => console.log(err))
+  }
+  
