@@ -2,7 +2,7 @@
   /* background: var(--background-color-primary); */
   display: flex;
   flex-direction: column;
-  margin: 0px 300px 0px 300px;
+  margin: 0px var(--gap-large) 0px var(--gap-large);
 
 }
 .home-mobile {

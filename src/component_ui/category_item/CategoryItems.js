@@ -1,4 +1,6 @@
 import React from "react";
+import queryString from "query-string";
+
 import { Link, useLocation, useHistory } from "react-router-dom";
 import Layout from "../../core/Layout";
 import { useEffect, useState } from "react";
@@ -60,8 +62,10 @@ const CategoryItems = ({ match }) => {
 
   const dispatch = useDispatch();
 
-  console.log("cccccc", category);
+  console.log("match", match);
   const [rerendar, setRerendar] = useState(0);
+  const [advertProduct, setAdvertProduct] = useState(undefined);
+
   const [values, setValues] = useState({
     selectedCategory: null,
     subcats: [],
@@ -74,8 +78,14 @@ const CategoryItems = ({ match }) => {
   });
 
   useEffect(() => {
+    console.log("search location", location);
+
+    const search = queryString.parse(location.search);
+
+    if (search.advertProduct) {
+      setAdvertProduct(search.advertProduct);
+    }
     if (location.state) {
-      // console.log("catitem cat id:", location.state.catId); // result: 'some_value'
       dispatch(loadCategoryWithProduct(undefined, location.state.catId));
     } else {
       dispatch(loadCategoryWithProduct(match.params.slug));
@@ -107,7 +117,7 @@ const CategoryItems = ({ match }) => {
     return items.map((item, index) => (
       <div>
         {/* <OfferProduct product={item} index={index}></OfferProduct> */}
-        <Product product={item} index={index}></Product>
+        <Product product={item} index={index} advertProductSlug={advertProduct}></Product>
       </div>
     ));
   };

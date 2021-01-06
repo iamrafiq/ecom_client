@@ -29,7 +29,7 @@ import "./regular-product.css";
 
 var FontAwesome = require("react-fontawesome");
 
-function Product({ regularProduct, offerProduct, product }) {
+function Product({product, advertProductSlug }) {
   const resulationSelector = useSelector(selectResolutionSelection);
   const [openDetailsView, setOpenDetailsView] = useState(false);
   const [modal, setModal] = useState(false);
@@ -60,7 +60,11 @@ function Product({ regularProduct, offerProduct, product }) {
   const language = useSelector(selectLanguageSelection);
   const dispatch = useDispatch();
   //dispatch(setSlug({ slug: product.slug }));
-  useEffect(() => {}, [selectedHoverSlug, openDetailsView]);
+  useEffect(() => {
+    if (advertProductSlug&&advertProductSlug===product.slug){
+      setModalInnerScroll(true);
+    }
+  }, []);//selectedHoverSlug, openDetailsView
 
   const onClickAddToCart = () => {
     dispatch(addItem({ product: product }));
