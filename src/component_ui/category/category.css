@@ -10,7 +10,8 @@
     flex-direction: row;
     border: 1px solid var(--border-color-dark);
     border-radius: 5px;
-    /* width: 250px; */
+    width: 350px;
+    /* width: 100%; */
     padding: var(--gap-large);
     margin: var(--gap-small);
     color: var(--font-color-secondary);
