@@ -20,6 +20,7 @@ const ProductPhotoViewer = ({ photosUrl, alt }) => {
     <div className="main-container">
       {active && (
         <img
+        className="container-img"
           src={`${imageUrlConverter(`${active.url}&res=${"medium"}`)}`}
           alt={alt}
         />

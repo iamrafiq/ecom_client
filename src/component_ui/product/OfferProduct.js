@@ -24,7 +24,7 @@ import "../pure-modal.css";
 import { englishToBangla } from "../../util/utils";
 import "./product.css";
 import "./offer-product.css";
-import {imageUrlConverter} from "../../util/ImageUrlConverter";
+import { imageUrlConverter } from "../../util/ImageUrlConverter";
 
 var FontAwesome = require("react-fontawesome");
 
@@ -32,7 +32,7 @@ function OfferProduct({ regularProduct, offerProduct, product }) {
   const resulationSelector = useSelector(selectResolutionSelection);
   const [openDetailsView, setOpenDetailsView] = useState(false);
   const [modal, setModal] = useState(false);
-  const [modalInnerScroll, setModalInnerScroll] = useState(false);
+  const [modalProductDetails, setModalProductDetails] = useState(false);
   const [modalCenter, setModalCenter] = useState(false);
   const closeDetailsView = () => setOpenDetailsView(false);
   const {
@@ -87,7 +87,7 @@ function OfferProduct({ regularProduct, offerProduct, product }) {
   return (
     <div>
       <React.Fragment>
-        {modalInnerScroll && (
+        {modalProductDetails && (
           <div>
             <PureModal
               header={""}
@@ -97,9 +97,9 @@ function OfferProduct({ regularProduct, offerProduct, product }) {
               // closeButtonPosition="bottom"
               portal
               // closeButton={<div>&#10007;</div>}
-              isOpen={modalInnerScroll}
+              isOpen={modalProductDetails}
               onClose={() => {
-                setModalInnerScroll(false);
+                setModalProductDetails(false);
                 return true;
               }}
             >
@@ -107,36 +107,44 @@ function OfferProduct({ regularProduct, offerProduct, product }) {
             </PureModal>
           </div>
         )}
+        {/* */}
         <div className="offer__product-card">
-          <div
-            class="offer__details--btn offer__details--btn--full"
-            onClick={() => setModalInnerScroll(true)}
-          >
-            <div className="offer__btn__details">
-              {language === "en" ? (
-                <span>Show details</span>
-              ) : (
-                <span> বিস্তারিত দেখুন </span>
-              )}
+          <div className="offer__product-card--body" onClick={() => setModalProductDetails(true)}>
+            <div
+              class="offer__details--btn offer__details--btn--full"
+              // onClick={() => setModalProductDetails(true)}
+            >
+              <div className="offer__btn__details">
+                {language === "en" ? (
+                  <span>Show details</span>
+                ) : (
+                  <span> বিস্তারিত দেখুন </span>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="offer__image">
-            <img
-              src={
-                offerPhotosUrl && offerPhotosUrl.length > 0
-                  ? `${imageUrlConverter(`${offerPhotosUrl[0]}&res=${resulationSelector}`)}`
-                  : ""
-              }
-              alt={name}
-            ></img>
-          </div>
+            <div
+              className="offer__image"
+              // onClick={() => setModalProductDetails(true)}
+            >
+              <img
+                src={
+                  offerPhotosUrl && offerPhotosUrl.length > 0
+                    ? `${imageUrlConverter(
+                        `${offerPhotosUrl[0]}&res=${resulationSelector}`
+                      )}`
+                    : ""
+                }
+                alt={name}
+              ></img>
+            </div>
 
-          <div
-            className="offer__card__content"
-            onTouchStart={() => onHoverProduct()}
-            onMouseEnter={() => onHoverProduct()}
-          >
-            {selectedHoverSlug === slug ? (
+            <div
+              className="offer__card__content"
+              // onTouchStart={() => onHoverProduct()}
+              // onMouseEnter={() => onHoverProduct()}
+              // onClick={() => setModalProductDetails(true)}
+            >
+              {/* {selectedHoverSlug === slug ? (
               <div className="offer_content__overly" ref={innerClickRef}>
                 {productFromCart ? (
                   <div className="offer__overly__cart">
@@ -202,18 +210,18 @@ function OfferProduct({ regularProduct, offerProduct, product }) {
               </div>
             ) : (
               ""
-            )}
-            <div className="offer__card--body">
-              <div className="offer__text--title">
-                {language === "en" ? (
-                  <span>{name}</span>
-                ) : (
-                  <span>{bengaliName}</span>
-                )}
-              </div>
-            
-            <div className="offer__card--ic">
-              {/* <div className="offer__content--image">
+            )} */}
+              <div className="offer__card--body">
+                <div className="offer__text--title">
+                  {language === "en" ? (
+                    <span>{name}</span>
+                  ) : (
+                    <span>{bengaliName}</span>
+                  )}
+                </div>
+
+                <div className="offer__card--ic">
+                  {/* <div className="offer__content--image">
                 <img
                   src={
                     photosUrl && photosUrl.length > 0
@@ -223,61 +231,60 @@ function OfferProduct({ regularProduct, offerProduct, product }) {
                   alt={name}
                 ></img>
               </div> */}
-              <div className="offer__content__text">
-                {subText && subText.length > 0 && (
-                  <div className="offer__text--sub">
-                    {language === "en" ? (
-                      <span>{subText}</span>
-                    ) : (
-                      <p>{englishToBangla(subText)}</p>
+                  <div className="offer__content__text">
+                    {subText && subText.length > 0 && (
+                      <div className="offer__text--sub">
+                        {language === "en" ? (
+                          <span>{subText}</span>
+                        ) : (
+                          <p>{englishToBangla(subText)}</p>
+                        )}
+                      </div>
                     )}
-                  </div>
-                )}
 
-                <div className="offer__product__price">
-                  {applyDiscounts && cropPrice && cropPrice > 0 ? (
-                    <div className="offer__price--crop">
-                      {language === "en" ? (
-                        <Fragment>
-                          <span className="offer__price--mrp price--red">
-                            &#2547; {cropPrice}
-                          </span>
-                          <span>
-                            <del>&#2547; {mrp}</del>
-                          </span>
-                        </Fragment>
+                    <div className="offer__product__price">
+                      {applyDiscounts && cropPrice && cropPrice > 0 ? (
+                        <div className="offer__price--crop">
+                          {language === "en" ? (
+                            <Fragment>
+                              <span className="offer__price--mrp price--red">
+                                &#2547; {cropPrice}
+                              </span>
+                              <span>
+                                <del>&#2547; {mrp}</del>
+                              </span>
+                            </Fragment>
+                          ) : (
+                            <Fragment>
+                              <span className="offer__price--mrp price--red">
+                                &#2547; {englishToBangla(cropPrice)}
+                              </span>
+                              <span>
+                                <del>&#2547; {englishToBangla(mrp)}</del>
+                              </span>
+                            </Fragment>
+                          )}
+                        </div>
                       ) : (
                         <Fragment>
-                          <span className="offer__price--mrp price--red">
-                            &#2547; {englishToBangla(cropPrice)}
-                          </span>
-                          <span>
-                            <del>&#2547; {englishToBangla(mrp)}</del>
-                          </span>
+                          {language === "en" ? (
+                            <span className="offer__price--mrp">
+                              &#2547; {mrp}
+                            </span>
+                          ) : (
+                            <span className="offer__price--mrp">
+                              &#2547; {englishToBangla(mrp)}
+                            </span>
+                          )}
                         </Fragment>
                       )}
                     </div>
-                  ) : (
-                    <Fragment>
-                      {language === "en" ? (
-                        <span className="offer__price--mrp">&#2547; {mrp}</span>
-                      ) : (
-                        <span className="offer__price--mrp">
-                          &#2547; {englishToBangla(mrp)}
-                        </span>
-                      )}
-                    </Fragment>
-                  )}
+                  </div>
                 </div>
               </div>
             </div>
-            </div>
           </div>
-
-          <div
-            className="icon-overly"
-            onClick={() => setModalInnerScroll(true)}
-          >
+          <div className="icon-overly">
             <FontAwesome className="details-icon" name="info-circle" />
           </div>
 
@@ -289,39 +296,51 @@ function OfferProduct({ regularProduct, offerProduct, product }) {
               >
                 <FontAwesome className="" name="minus" />
               </div>
-              {language === "en" ? (
-                <span className="btn__bag--text">
-                  {productFromCart.qtyCart} {"in bag"}
+              <div className="btn__bag-text-box">
+                <span
+                  className="btn__bag--text"
+                  onClick={() => onClickAddToCart()}
+                >
+                  {language === "en"
+                    ? ` ${productFromCart.qtyCart} ${"in bag"}`
+                    : `${englishToBangla(
+                        productFromCart.qtyCart
+                      )} ${"টি ব্যাগে"}`}
                 </span>
-              ) : (
-                <span className="btn__bag--text">
-                  {englishToBangla(productFromCart.qtyCart)} {"টি ব্যাগে"}
+                <span
+                  className="btn__bag--text-price"
+                  onClick={() => onClickAddToCart()}
+                >
+                  <span>&#2547;</span>{" "}
+                  {language === "en"
+                    ? `   ${totalPrice()}`
+                    : `   ${englishToBangla(totalPrice())} `}
                 </span>
-              )}
+              </div>
+              {/* <span
+                className="btn__bag--text"
+                onClick={() => onClickAddToCart()}
+              >
+                {language === "en"
+                  ? ` ${productFromCart.qtyCart} ${"in bag"}`
+                  : `${englishToBangla(
+                      productFromCart.qtyCart
+                    )} ${"টি ব্যাগে"}`}
+              </span> */}
 
               <div className="btn__bag--p" onClick={() => onClickAddToCart()}>
                 <FontAwesome className="" name="plus" />
               </div>
             </div>
           ) : (
-            <div
-              class="product__card__btn product__card__btn--full"
-              onClick={() => onClickAddToCart()}
-            >
-              <div className="btn__add">
+            <div class="btn__all app__btn" onClick={() => onClickAddToCart()}>
+              <div>
                 {language === "en" ? (
                   <span>Add to cart</span>
                 ) : (
                   <span>ব্যাগে যোগ করুন</span>
                 )}
               </div>
-              {/* <div className="btn__add">
-                {language === "en" ? (
-                  <span>Add to cart</span>
-                ) : (
-                  <span>ব্যাগে যোগ করুন</span>
-                )}
-              </div> */}
             </div>
           )}
         </div>
