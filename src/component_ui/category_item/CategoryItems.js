@@ -101,7 +101,6 @@ const CategoryItems = ({ match }) => {
   const subcategories = (items) => {
     return items.map((item, index) => (
       <div
-        className="cat_item"
         onClick={() => {
           history.push({
             pathname: `/products/${item.slug}`,
@@ -117,7 +116,11 @@ const CategoryItems = ({ match }) => {
     return items.map((item, index) => (
       <div>
         {/* <OfferProduct product={item} index={index}></OfferProduct> */}
-        <Product product={item} index={index} advertProductSlug={advertProduct}></Product>
+        <Product
+          product={item}
+          index={index}
+          advertProductSlug={advertProduct}
+        ></Product>
       </div>
     ));
   };
@@ -187,8 +190,10 @@ const CategoryItems = ({ match }) => {
           <div className="horizontal-line">
             <hr />
             <div>
-              {category &&
-                (language === "en" ? category.name : category.bengaliName)}
+              <span className="horizontal-line--text">
+                {category &&
+                  (language === "en" ? category.name : category.bengaliName)}
+              </span>
             </div>
             <hr />
           </div>

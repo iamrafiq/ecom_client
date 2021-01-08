@@ -1,8 +1,17 @@
-.card {
+.card-subcategory {
     display: flex;
     flex-direction: column;
     max-width: var(--grid-item-max-width);
     border: 1px solid #ededed;
+    justify-content: center;
+    align-items: center;
+    padding: var(--gap-small);
+  
+  }
+
+  .card-subcategory--text{
+    font-size: var(--font-size-product-name);
+    margin: var(--gap-large) 0px;
   }
 
   .category__rect{

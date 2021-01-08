@@ -6,7 +6,11 @@ import {
   selectLanguageSelection,
   selectDeviceTypeSelection,
 } from "../../redux/settingsSlice";
-import { setCartBarDesktop, setCartBarMobile, selectCartBarDesktop } from "../../redux/globalSlice";
+import {
+  setCartBarDesktop,
+  setCartBarMobile,
+  selectCartBarDesktop,
+} from "../../redux/globalSlice";
 
 import { getAdvertisementsBySlug } from "../../admin/advertisement/apiAdvertisement";
 import {
@@ -62,12 +66,18 @@ function ProductDetails({ product, closeModal }) {
       dispatch(addItem({ product: product }));
     }
     if (deviceType === "desktop") {
-      if (!cartBarDesktop.open){
+      if (!cartBarDesktop.open) {
         dispatch(setCartBarDesktop({ cartBarDesktop: { open: true } }));
-
       }
     } else {
       dispatch(setCartBarMobile({ cartBarMobile: { open: true } }));
+    }
+  };
+  const totalPrice = () => {
+    if (applyDiscounts) {
+      return productFromCart.qtyCart * cropPrice;
+    } else {
+      return productFromCart.qtyCart * mrp;
     }
   };
   const downloadAdvertisement = (slug) => {
@@ -82,31 +92,19 @@ function ProductDetails({ product, closeModal }) {
   }, []);
   return (
     <div className="root-details">
-      {advertisments && advertisments.length > 0 && (
-        <div className="advert">
-          {language === "en" ? (
-            <Fragment>
-              <span>Why shop in Sowdamart</span>
-              <img
-                src={`${imageUrlConverter(
-                  `${advertisments[0].photo}&res=${resulationSelector}`
-                )}`}
-                alt="Sowdamart"
-              />
-            </Fragment>
-          ) : (
-            <Fragment>
-              <span> সওদামার্ট এ কেন বাজার করবেন </span>
-              <img
-                src={`${imageUrlConverter(
-                 `${ advertisments[0].photoBangla}&res=${resulationSelector}`
-                )}`}
-                alt="Sowdamart"
-              />
-            </Fragment>
-          )}
-        </div>
-      )}
+      <div className="advert">
+        {language === "en" ? (
+          <Fragment>
+            <span>Why shop in Sowdamart</span>
+            <img src={`/images/banner_why.webp`} alt="Sowdamart" />
+          </Fragment>
+        ) : (
+          <Fragment>
+            <span> সওদামার্ট এ কেন বাজার করবেন </span>
+            <img src={`/images/banner_why_bn.webp`} alt="Sowdamart" />
+          </Fragment>
+        )}
+      </div>
 
       <div className="root-container">
         <div className="container-top">
@@ -194,23 +192,39 @@ function ProductDetails({ product, closeModal }) {
                   {language == "en" ? (
                     <React.Fragment>
                       {productFromCart ? (
-                        <div className="top">{productFromCart.qtyCart}</div>
+                        <React.Fragment>
+                          {" "}
+                          <div className="top">
+                            {productFromCart.qtyCart} in bag
+                          </div>
+                          <div className="bottom">
+                            <span>&#2547;</span> {`${totalPrice()}`}
+                          </div>
+                        </React.Fragment>
                       ) : (
-                        <div className="top">{0}</div>
+                        <div className="top">{0} in bag</div>
                       )}
-                      <div className="bottom">in bag</div>
                     </React.Fragment>
                   ) : (
                     <React.Fragment>
                       {productFromCart ? (
-                        <div className="top">
-                          {englishToBangla(productFromCart.qtyCart)}
-                        </div>
+                        <React.Fragment>
+                          {" "}
+                          <div className="top">
+                            {englishToBangla(productFromCart.qtyCart)}
+                            {` টি ব্যাগে`}
+                          </div>{" "}
+                          <div className="bottom">
+                            <span>&#2547;</span>
+                            {`${englishToBangla(totalPrice())}`}
+                          </div>
+                        </React.Fragment>
                       ) : (
-                        <div className="top">{englishToBangla(0)}</div>
+                        <div className="top">
+                          {englishToBangla(0)}
+                          {` টি ব্যাগে`}{" "}
+                        </div>
                       )}
-
-                      <div className="bottom">{`টি ব্যাগে`}</div>
                     </React.Fragment>
                   )}
                 </div>

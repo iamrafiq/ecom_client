@@ -29,11 +29,11 @@ import "./regular-product.css";
 
 var FontAwesome = require("react-fontawesome");
 
-function Product({product, advertProductSlug }) {
+function Product({ product, advertProductSlug }) {
   const resulationSelector = useSelector(selectResolutionSelection);
   const [openDetailsView, setOpenDetailsView] = useState(false);
   const [modal, setModal] = useState(false);
-  const [modalInnerScroll, setModalInnerScroll] = useState(false);
+  const [modalProductDetails, setModalProductDetails] = useState(false);
   const [modalCenter, setModalCenter] = useState(false);
   const closeDetailsView = () => setOpenDetailsView(false);
   const {
@@ -61,10 +61,10 @@ function Product({product, advertProductSlug }) {
   const dispatch = useDispatch();
   //dispatch(setSlug({ slug: product.slug }));
   useEffect(() => {
-    if (advertProductSlug&&advertProductSlug===product.slug){
-      setModalInnerScroll(true);
+    if (advertProductSlug && advertProductSlug === product.slug) {
+      setModalProductDetails(true);
     }
-  }, []);//selectedHoverSlug, openDetailsView
+  }, []); //selectedHoverSlug, openDetailsView
 
   const onClickAddToCart = () => {
     dispatch(addItem({ product: product }));
@@ -91,7 +91,7 @@ function Product({product, advertProductSlug }) {
   return (
     <div>
       <React.Fragment>
-        {modalInnerScroll && (
+        {modalProductDetails && (
           <div>
             <PureModal
               header={""}
@@ -101,16 +101,16 @@ function Product({product, advertProductSlug }) {
               // closeButtonPosition="bottom"
               // portal
               // closeButton={<div>&#10007;</div>}
-              isOpen={modalInnerScroll}
+              isOpen={modalProductDetails}
               onClose={() => {
-                setModalInnerScroll(false);
+                setModalProductDetails(false);
                 return true;
               }}
             >
               <ProductDetails
                 product={product}
                 closeModal={() => {
-                  setModalInnerScroll(false);
+                  setModalProductDetails(false);
                 }}
               ></ProductDetails>
             </PureModal>
@@ -131,8 +131,9 @@ function Product({product, advertProductSlug }) {
           )} */}
           <div
             className="card__content"
-            onTouchStart={() => onHoverProduct()}
-            onMouseEnter={() => onHoverProduct()}
+            // onTouchStart={() => onHoverProduct()}
+            // onMouseEnter={() => onHoverProduct()}
+            onClick={() => setModalProductDetails(true)}
           >
             <div className="content--image">
               <img
@@ -144,6 +145,7 @@ function Product({product, advertProductSlug }) {
                     : ""
                 }
                 alt={name}
+                onClick={() => setModalProductDetails(true)}
               ></img>
             </div>
             <div className="content__text">
@@ -197,7 +199,7 @@ function Product({product, advertProductSlug }) {
               </div>
             </div>
           </div>
-          {selectedHoverSlug === slug ? (
+          {/* {selectedHoverSlug === slug ? (
             <div className="content__overly" ref={innerClickRef}>
               {productFromCart ? (
                 <div className="overly__cart">
@@ -255,14 +257,14 @@ function Product({product, advertProductSlug }) {
             </div>
           ) : (
             ""
-          )}
+          )} */}
 
-          <div
+          {/* <div
             className="icon-overly"
-            onClick={() => setModalInnerScroll(true)}
+            onClick={() => setModalProductDetails(true)}
           >
             <FontAwesome className="details-icon" name="info-circle" />
-          </div>
+          </div> */}
 
           {productFromCart ? (
             <div className="btn__bag">
@@ -272,7 +274,28 @@ function Product({product, advertProductSlug }) {
               >
                 <FontAwesome className="" name="minus" />
               </div>
-              <span
+              <div className="btn__bag-text-box">
+                <span
+                  className="btn__bag--text"
+                  onClick={() => onClickAddToCart()}
+                >
+                  {language === "en"
+                    ? ` ${productFromCart.qtyCart} ${"in bag"}`
+                    : `${englishToBangla(
+                        productFromCart.qtyCart
+                      )} ${"টি ব্যাগে"}`}
+                </span>
+                <span
+                  className="btn__bag--text-price"
+                  onClick={() => onClickAddToCart()}
+                >
+                  <span>&#2547;</span>{" "}
+                  {language === "en"
+                    ? `   ${totalPrice()}`
+                    : `   ${englishToBangla(totalPrice())} `}
+                </span>
+              </div>
+              {/* <span
                 className="btn__bag--text"
                 onClick={() => onClickAddToCart()}
               >
@@ -281,7 +304,7 @@ function Product({product, advertProductSlug }) {
                   : `${englishToBangla(
                       productFromCart.qtyCart
                     )} ${"টি ব্যাগে"}`}
-              </span>
+              </span> */}
 
               <div className="btn__bag--p" onClick={() => onClickAddToCart()}>
                 <FontAwesome className="" name="plus" />
@@ -289,7 +312,7 @@ function Product({product, advertProductSlug }) {
             </div>
           ) : (
             <div class="btn__all app__btn" onClick={() => onClickAddToCart()}>
-              <div className="btn__add">
+              <div>
                 {language === "en" ? (
                   <span>Add to cart</span>
                 ) : (

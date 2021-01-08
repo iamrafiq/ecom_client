@@ -22,7 +22,7 @@ flex-direction: row;
 align-items: flex-start;
 margin: 0;
 padding-top: var(--gap-large);
-font-size: var(--font-size-medium);
+font-size: var(--font-size-category-name);
 /* background-color: orange; */
 }
 
@@ -36,7 +36,10 @@ font-size: var(--font-size-medium);
   padding-bottom: var(--gap-large);
 
 }
+.horizontal-line--text{
+  font-size: var(--font-size-category-name);
 
+}
 .horizontal-line hr{
   flex: 1;
 
@@ -54,9 +57,7 @@ font-size: var(--font-size-medium);
 .footer--area{
   margin-top: 50px;
 }
-.cat_item{
-  cursor: pointer;
-}
+
 @media only screen and (max-width: 700px) {
   .content--area{
     margin-left: var(--gap-large); 

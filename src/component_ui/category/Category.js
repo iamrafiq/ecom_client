@@ -12,17 +12,17 @@ export function Category(props) {
   const language = useSelector(selectLanguageSelection);
   const { category, onClick } = props;
   return (
-    <div className="card" style={{ width: "14rem" }}>
+    <div className="card-subcategory">
       <img
         src={`${imageUrlConverter(`${category.thumbnail}&res=${resulationSelector}`)}`}
         className="card-img-top"
         alt={category.name}
       />
-      <div className="card-body mx-auto">
+      <div className="card-subcategory--text">
         {language === "en" ? (
-          <p className="card-text ">{category.name}</p>
+          <p className="">{category.name}</p>
         ) : (
-          <p className="card-text ">{category.bengaliName}</p>
+          <p className="">{category.bengaliName}</p>
         )}
       </div>
     </div>

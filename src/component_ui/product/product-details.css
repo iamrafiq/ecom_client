@@ -98,6 +98,9 @@
   display: flex;
   justify-content: space-around;
   margin-top: var(--gap-medium);
+  /* height: 70px; */
+
+  
 }
 .container-top .right .btns .counter {
   display: flex;
@@ -107,6 +110,7 @@
   flex: 1.5;
   background-color: var(--background-color-primary);
   margin-right: var(--gap-medium);
+  
 }
 .container-top .right .btns .counter .minus:hover,
 .container-top .right .btns .counter .plus:hover {
@@ -145,11 +149,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: 50px;
+
 }
 .container-top .right .btns .counter .bag .top {
   flex: 1;
-  font-size: var(--font-size-extra-large);
-  line-height: var(--font-size-extra-large);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-text-cart-button);
+  padding: var(--gap-small);
 }
 .container-top .right .btns .counter .bag .bottom {
   flex: 1;
