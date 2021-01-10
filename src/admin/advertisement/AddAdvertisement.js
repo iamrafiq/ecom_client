@@ -26,11 +26,8 @@ const AddAvertisement = () => {
   const [productsOfACat, setProductsOfACat] = useState({});
   const [productsForLinkCat, setProductsForLinkCat] = useState({});
 
-  //    const [products, setProducts] = useState([]);
-
   const [categories, setCategories] = useState({});
 
-  // const { user, token } = isAuthenticated();
   const [values, setValues] = useState({
     name: "",
     slug: "",
@@ -65,29 +62,11 @@ const AddAvertisement = () => {
     formData,
   } = values;
 
-  // const downloadAllProducts = () => {
-  //   getAllProducts().then((data) => {
-  //     if (data.error) {
-  //       setValues({ ...values, error: data.error });
-  //     } else {
-  //       console.log("products...", data);
-
-  //       setProducts(data);
-  //       setValues({
-  //         ...values,
-  //         loading: false,
-  //         formData: new FormData(),
-  //       });
-  //     }
-  //   });
-  // };
   const downloadAllCategories = () => {
     getCategories().then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
-        console.log("cats...", data);
-
         const rootless = data.filter((e) => e.name !== "root");
         setCategories(rootless);
         setValues({
@@ -95,27 +74,13 @@ const AddAvertisement = () => {
           loading: false,
           formData: new FormData(),
         });
-        // downloadAllProducts();
       }
     });
   };
   useEffect(() => {
     downloadAllCategories();
-    // if (products.length <= 0) {
-    //   downloadAllProducts();
-    // }
-    // if (categories.length <= 0) {
-    //   downloadAllCategories();
-    // }
   }, []);
-  // useEffect(() => {
-  //   if (products.length <= 0) {
-  //     downloadAllProducts();
-  //   }
-  //   if (categories.length <= 0) {
-  //     downloadAllCategories();
-  //   }
-  // }, [products, categories]);
+ 
   const handleChangeLoadProductsForSlug = (field) => (event) => {
     let id = event.target.value;
     getProductsByCatId(id).then((data) => {

@@ -9,6 +9,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
 import { getProductsByCategoryId } from "../core/apiCore";
+import { getGroupList } from "./group/apiGroup";
+import { getManufacturertList } from "./manufacturer/apiManufacturer";
+
 import LoadingBar from "../util/LoadingBar";
 
 var slugify = require("slugify");
@@ -53,12 +56,15 @@ const AddProduct = () => {
     blockAtWarehouse: "",
     isPerishable: "",
     thirdPartyItem: "",
+    manufacturers: [],
+    groups: [],
     categories: [],
     categoryProducts: [],
     relatedProducts: [],
     selectedCategories: "",
     recursiveCategories: "",
-    manufacturers: "",
+    selectedManufacturer: "",
+    selectedGroups: "",
     shipping: "",
     loading: false,
     error: "",
@@ -90,12 +96,16 @@ const AddProduct = () => {
     blockAtWarehouse,
     isPerishable,
     thirdPartyItem,
+    manufacturer,
+    groups,
     categories,
     categoryProducts,
     relatedProducts,
     selectedCategories,
     recursiveCategories,
     manufacturers,
+    selectedGroups,
+    selectedManufacturer,
     shipping,
     loading,
     error,
@@ -106,45 +116,71 @@ const AddProduct = () => {
   } = values;
 
   // load categories and set form data
-  const init = () => {
-    getCategories().then((data) => {
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        console.log("cats...", data);
+  const init = async () => {
+    // getCategories().then((data) => {
+    //   if (data.error) {
+    //     setValues({ ...values, error: data.error });
+    //   } else {
+    //     console.log("cats...", data);
 
-        const rootless = data.filter((e) => e.name !== "root");
-        setValues({
-          ...values,
-          categories: rootless,
-          formData: new FormData(),
-        });
-      }
+    //     const rootless = data.filter((e) => e.name !== "root");
+    //     setValues({
+    //       ...values,
+    //       categories: rootless,
+    //       formData: new FormData(),
+    //     });
+    //   }
+    // });
+
+    let { manufacturers } = await new Promise(function (resolve, reject) {
+      getManufacturertList().then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+          reject(data.error);
+          return;
+        } else {
+          resolve({ manufacturers: data });
+        }
+      });
+    });
+    let { groups } = await new Promise(function (resolve, reject) {
+      getGroupList().then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+          reject(data.error);
+          return;
+        } else {
+          resolve({ groups: data });
+        }
+      });
+    });
+    let { categories } = await new Promise(function (resolve, reject) {
+      getCategories().then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+          reject(data.error);
+          return;
+        } else {
+          const rootless = data.filter((e) => e.name !== "root");
+          resolve({ categories: rootless });
+        }
+      });
+    });
+
+    setValues({
+      ...values,
+      manufacturers,
+      groups,
+      categories,
+      formData: new FormData(),
     });
   };
   useEffect(() => {
-    console.log("use effect");
     init();
-  }, [createdProduct]);
+  }, []);
   const handleChange = (field) => (event) => {
     let value = event.target.value;
     formData.set(field, value);
-    // if (field === "name") {
-    //   const slugStr = slugify(value, {
-    //     replacement: "-", // replace spaces with replacement character, defaults to `-`
-    //     remove: undefined, // remove characters that match regex, defaults to `undefined`
-    //     lower: false, // convert to lower case, defaults to `false`
-    //     strict: false, // strip special characters except replacement, defaults to `false`
-    //     locale: "vi", // language code of the locale to use
-    //   });
-    //   setValues({
-    //     ...values,
-    //     slug: slugStr,
-    //   });
-
-    //   formData.set("slug", slugStr);
-    // }
-
     setValues({ ...values, [field]: value });
   };
   const clickSubmit = (event) => {
@@ -181,6 +217,9 @@ const AddProduct = () => {
     }
 
     formData.set("arr", [{ name: "aaa" }, { name: "bbb" }].toString());
+
+    formData.set("groups", selectedGroups);
+    formData.set("manufacturer", selectedManufacturer);
 
     formData.set("cats", selectedCategories);
     formData.set("rc", recursiveCategories);
@@ -250,7 +289,8 @@ const AddProduct = () => {
           relatedProducts: [],
           selectedCategories: "",
           recursiveCategories: "",
-          manufacturers: "",
+          selectedManufacturer: "",
+          selectedGroups: "",
           shipping: "",
           loading: false,
           enableCustomSlug: false,
@@ -330,6 +370,38 @@ const AddProduct = () => {
   const handleOptionChange = (option) => {
     formData.set(option.field, option.value);
     setValues({ ...values, [option.field]: option.value, formData: formData });
+  };
+
+  const handleChangeManufacturar = (selectedOption) => {
+    console.log(`Option selected:`, selectedOption);
+
+    if (selectedOption != null) {
+      setValues({
+        ...values,
+        selectedManufacturer: selectedOption.obj._id,
+      });
+    } else {
+      setValues({
+        ...values,
+        selectedManufacturer: "",
+      });
+    }
+  };
+
+  const handleChangeGroups = (selectedOption) => {
+    console.log(`Option selected:`, selectedOption);
+    if (selectedOption != null) {
+      const groupsId = selectedOption.map((group, index) => {
+        return group.obj._id;
+      });
+
+      setValues({
+        ...values,
+        selectedGroups: groupsId.toString(),
+      });
+    } else {
+      setValues({ ...values, selectedGroups: "" });
+    }
   };
   const handleChangeCategoris = (selectedOption) => {
     console.log(`Option selected:`, selectedOption);
@@ -704,6 +776,39 @@ const AddProduct = () => {
               />
             </div>
 
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Manufacturer
+              </label>
+              <Select
+                onChange={handleChangeManufacturar}
+                closeMenuOnSelect={false}
+                options={manufacturers.map((manuf, index) => {
+                  return {
+                    value: manuf.name,
+                    label: manuf.name,
+                    obj: manuf,
+                  };
+                })}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Groups
+              </label>
+              <Select
+                onChange={handleChangeGroups}
+                closeMenuOnSelect={false}
+                isMulti
+                options={groups.map((group, index) => {
+                  return {
+                    value: group.name,
+                    label: group.name,
+                    obj: group,
+                  };
+                })}
+              />
+            </div>
             <div className="form-group">
               <label htmlFor="" className="text-muted">
                 Categories

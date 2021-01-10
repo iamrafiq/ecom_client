@@ -83,10 +83,15 @@ const CategoryItems = ({ match }) => {
     const search = queryString.parse(location.search);
 
     if (search.advertProduct) {
+      // popup product dialog when user click on advertisement of a product
       setAdvertProduct(search.advertProduct);
     }
     if (location.state) {
-      dispatch(loadCategoryWithProduct(undefined, location.state.catId));
+      if (location.state.catId) { // setting catId from side bar
+        dispatch(loadCategoryWithProduct(undefined, location.state.catId));
+      } else {
+        dispatch(loadCategoryWithProduct(match.params.slug));
+      }
     } else {
       dispatch(loadCategoryWithProduct(match.params.slug));
     }

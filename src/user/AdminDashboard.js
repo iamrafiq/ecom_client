@@ -16,6 +16,16 @@ const AdminDashboard = () => {
         <h4 className="card-header">Admin Links</h4>
         <ul className="list-group">
           <li className="list-group-item">
+            <Link className="nav-link" to="/create/group">
+              Create Group
+            </Link>
+          </li>
+          <li className="list-group-item">
+            <Link className="nav-link" to="/create/manufacturer">
+              Create Manufacturer
+            </Link>
+          </li>
+          <li className="list-group-item">
             <Link className="nav-link" to="/create/category">
               Create Category
             </Link>
@@ -36,6 +46,16 @@ const AdminDashboard = () => {
             </Link>
           </li>
           <li className="list-group-item">
+            <Link className="nav-link" to="/admin/manufacturers">
+              Manage Manufacturers
+            </Link>
+          </li>
+          <li className="list-group-item">
+            <Link className="nav-link" to="/admin/groups">
+              Manage Groups
+            </Link>
+          </li>
+          <li className="list-group-item">
             <Link className="nav-link" to="/admin/categories">
               Manage Category
             </Link>
@@ -52,12 +72,12 @@ const AdminDashboard = () => {
           </li>
           <li className="list-group-item">
             <Link className="nav-link" to="/admin/createorupdatehome">
-             Create or Update Home
+              Create or Update Home
             </Link>
           </li>
           <li className="list-group-item">
             <Link className="nav-link" to="/admin/delete/home">
-             Delete Home
+              Delete Home
             </Link>
           </li>
         </ul>
