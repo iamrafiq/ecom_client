@@ -9,6 +9,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
 import { getProductsByCategoryId } from "../core/apiCore";
+import { getGroupList } from "./group/apiGroup";
+import { getManufacturertList } from "./manufacturer/apiManufacturer";
 import LoadingBar from "../util/LoadingBar";
 
 var slugify = require("slugify");
@@ -57,8 +59,10 @@ const UpdateProduct = ({ match }) => {
     categoryProducts: [],
     relatedProducts: [],
     selectedCategories: "",
+    selectedManufacturer: "",
+    selectedGroups: "",
     recursiveCategories: "",
-    manufacturers: "",
+    // manufacturers: "",
     shipping: "",
     loading: false,
     error: "",
@@ -67,10 +71,20 @@ const UpdateProduct = ({ match }) => {
     enableCustomSlug: false,
     formData: "",
   });
+
   const [categories, setCategories] = useState([]);
+  const [manufacturers, setManufacturers] = useState([]);
+
+  const [groups, setGroups] = useState([]);
+
   const [
     defaultCategoriesForSpinner,
     setDefaultCategoriesForSpinner,
+  ] = useState([]);
+  const [defaultGroupsForSpinner, setDefaultGroupForSpinner] = useState([]);
+  const [
+    defaultManufacturerForSpinner,
+    setDefaultManufacturerForSpinner,
   ] = useState([]);
   const [
     defaultRelatedProductForSpinner,
@@ -103,8 +117,10 @@ const UpdateProduct = ({ match }) => {
     categoryProducts,
     relatedProducts,
     selectedCategories,
+    selectedManufacturer,
+    selectedGroups,
     recursiveCategories,
-    manufacturers,
+    // manufacturers,
     shipping,
     loading,
     error,
@@ -146,28 +162,93 @@ const UpdateProduct = ({ match }) => {
       thirdPartyItem: data.thirdPartyItem,
       selectedCategories: data.categories.toString(),
       recursiveCategories: data.recursiveCategories.toString(),
-      manufacturers: data.manufacturers,
+      // manufacturers: data.manufacturers,
       shipping: data.shipping,
       createdProduct: data.name,
-      loading:false,
+      loading: false,
       formData: new FormData(),
     });
   };
-  const init = (productId) => {
-    getProduct(productId).then((data) => {
-      //const d = JSON.parse(data);
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        //populate states and load category
-        setDefaultState(data);
-        console.log("sel..cat", data.categories);
-        initCategory(data.categories);
-        initRelatedProducts(data.relatedProducts);
-      }
+  const init = async (productId) => {
+    let { manufacturers } = await new Promise(function (resolve, reject) {
+      getManufacturertList().then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+          reject(data.error);
+          return;
+        } else {
+          resolve({ manufacturers: data });
+        }
+      });
     });
+    let { groups } = await new Promise(function (resolve, reject) {
+      getGroupList().then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+          reject(data.error);
+          return;
+        } else {
+          resolve({ groups: data });
+        }
+      });
+    });
+    let { categories } = await new Promise(function (resolve, reject) {
+      getCategories().then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+          reject(data.error);
+          return;
+        } else {
+          const rootless = data.filter((e) => e.name !== "root");
+          resolve({ categories: rootless });
+        }
+      });
+    });
+
+    let { product } = await new Promise(function (resolve, reject) {
+      getProduct(productId).then((data) => {
+        //const d = JSON.parse(data);
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+          reject(data.error);
+          return;
+        } else {
+          resolve({ product: data });
+
+          //populate states and load category
+          // setDefaultState(data);
+          // initCategory(data.categories);
+          // initRelatedProducts(data.relatedProducts);
+        }
+      });
+    });
+
+    setCategories(categories);
+    setGroups(groups);
+    setManufacturers(manufacturers);
+    setDefaultState(product);
+    setDefaultCategories(categories, product.categories);
+    setRelatedProducts(product.relatedProducts);
+    if (product.groups) {
+      setDefaultGroups(groups, product.groups);
+    }
+    if (product.manufacturer) {
+      setDefaultManuf(manufacturers, product.manufacturer);
+    }
+    // getProduct(productId).then((data) => {
+    //   //const d = JSON.parse(data);
+    //   if (data.error) {
+    //     setValues({ ...values, error: data.error });
+    //   } else {
+    //     //populate states and load category
+    //     setDefaultState(data);
+    //     console.log("sel..cat", data.categories);
+    //     initCategory(data.categories);
+    //     initRelatedProducts(data.relatedProducts);
+    //   }
+    // });
   };
-  const initRelatedProducts = (relatedProducts) => {
+  const setRelatedProducts = (relatedProducts) => {
     console.log("relatedProducts", relatedProducts);
 
     const mapedArray = relatedProducts.map((prod, index) => {
@@ -181,29 +262,65 @@ const UpdateProduct = ({ match }) => {
     setDefaultRelatedProductForSpinner(mapedArray);
   };
   // load categories and set form data
-  const initCategory = (selectedCategories) => {
-    getCategories().then((data) => {
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        const rootless = data.filter((e) => e.name !== "root");
-        setCategories(rootless);
+  const setDefaultCategories = (categories, selectedCategories) => {
+    // getCategories().then((data) => {
+    //   if (data.error) {
+    //     setValues({ ...values, error: data.error });
+    //   } else {
+    //     const rootless = data.filter((e) => e.name !== "root");
+    //     setCategories(rootless);
 
-        const newArray = rootless.filter((cat) =>
-          selectedCategories.includes(cat._id)
-        );
+    //     const newArray = rootless.filter((cat) =>
+    //       selectedCategories.includes(cat._id)
+    //     );
 
-        const mapedArray = newArray.map((cat, index) => {
-          return {
-            value: cat.name,
-            label: cat.name,
-            obj: cat,
-          };
-        });
-        setDefaultCategoriesForSpinner(mapedArray);
-        //setValues({ ...values, defaultCategoriesForSpinner: mapedArray });
-      }
+    //     const mapedArray = newArray.map((cat, index) => {
+    //       return {
+    //         value: cat.name,
+    //         label: cat.name,
+    //         obj: cat,
+    //       };
+    //     });
+    //     setDefaultCategoriesForSpinner(mapedArray);
+    //   }
+    // });
+
+    const rootless = categories.filter((e) => e.name !== "root");
+    const newArray = rootless.filter((cat) =>
+      selectedCategories.includes(cat._id)
+    );
+
+    const mapedArray = newArray.map((cat, index) => {
+      return {
+        value: cat.name,
+        label: cat.name,
+        obj: cat,
+      };
     });
+    setDefaultCategoriesForSpinner(mapedArray);
+  };
+
+  const setDefaultGroups = (groups, selectedGroups) => {
+    const newArray = groups.filter((group) =>
+      selectedGroups.includes(group._id)
+    );
+
+    const mapedArray = newArray.map((group, index) => {
+      return {
+        value: group.name,
+        label: group.name,
+        obj: group,
+      };
+    });
+    setDefaultGroupForSpinner(mapedArray);
+  };
+
+  const setDefaultManuf = (manufacturers, productManuf) => {
+    let manuf = [];
+    manuf.push(manufacturers.find((o) => o._id === productManuf));
+    console.log("manuf", manuf);
+
+    setDefaultManufacturerForSpinner(manuf);
   };
 
   useEffect(() => {
@@ -213,22 +330,6 @@ const UpdateProduct = ({ match }) => {
   const handleChange = (field) => (event) => {
     let value = event.target.value;
     formData.set(field, value);
-    // if (field === "name") {
-    //   const slugStr = slugify(value, {
-    //     replacement: "-", // replace spaces with replacement character, defaults to `-`
-    //     remove: undefined, // remove characters that match regex, defaults to `undefined`
-    //     lower: false, // convert to lower case, defaults to `false`
-    //     strict: false, // strip special characters except replacement, defaults to `false`
-    //     locale: "vi", // language code of the locale to use
-    //   });
-    //   setValues({
-    //     ...values,
-    //     slug: slugStr,
-    //   });
-
-    //   formData.set("slug", slugStr);
-    // }
-
     setValues({ ...values, [field]: value });
   };
   const clickSubmit = (event) => {
@@ -269,6 +370,12 @@ const UpdateProduct = ({ match }) => {
 
     formData.set("cats", selectedCategories);
     formData.set("rc", recursiveCategories);
+    if (selectedGroups.length>0) {
+      formData.set("groups", selectedGroups);
+    }
+    if (selectedManufacturer.length > 0) {
+      formData.set("manufacturer", selectedManufacturer);
+    }
     formData.set(
       "earliestAvailabilityTime",
       earliestAvailabilityTime.toString()
@@ -311,12 +418,42 @@ const UpdateProduct = ({ match }) => {
         } else {
           setDefaultState(data);
           history.push("/admin/dashboard");
-
         }
       }
     );
   };
 
+  const handleChangeManufacturar = (selectedOption) => {
+    console.log(`Option selected:`, selectedOption);
+
+    if (selectedOption != null) {
+      setValues({
+        ...values,
+        selectedManufacturer: selectedOption.obj._id,
+      });
+    } else {
+      setValues({
+        ...values,
+        selectedManufacturer: "",
+      });
+    }
+  };
+
+  const handleChangeGroups = (selectedOption) => {
+    console.log(`Option selected:`, selectedOption);
+    if (selectedOption != null) {
+      const groupsId = selectedOption.map((group, index) => {
+        return group.obj._id;
+      });
+
+      setValues({
+        ...values,
+        selectedGroups: groupsId.toString(),
+      });
+    } else {
+      setValues({ ...values, selectedGroups: "" });
+    }
+  };
   const handleImageChange = (name) => (event) => {
     console.log("handle iamge change");
 
@@ -808,6 +945,96 @@ const UpdateProduct = ({ match }) => {
                 value={longDesc}
               />
             </div>
+
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Manufacturer:
+              </label>
+              {defaultManufacturerForSpinner.length > 0 && (
+                <Select
+                  onChange={handleChangeManufacturar}
+                  closeMenuOnSelect={false}
+                  defaultValue={{
+                    value: defaultManufacturerForSpinner[0].name,
+                    label: defaultManufacturerForSpinner[0].name,
+                    obj: defaultManufacturerForSpinner[0],
+                  }}
+                  options={manufacturers.map((manuf, index) => {
+                    return {
+                      value: manuf.name,
+                      label: manuf.name,
+                      obj: manuf,
+                    };
+                  })}
+                />
+              )}
+              {defaultManufacturerForSpinner.length === 0 && (
+                <Select
+                  onChange={handleChangeManufacturar}
+                  closeMenuOnSelect={false}
+                  // defaultValue={defaultManufacturerForSpinner}
+                  options={manufacturers.map((manuf, index) => {
+                    return {
+                      value: manuf.name,
+                      label: manuf.name,
+                      obj: manuf,
+                    };
+                  })}
+                />
+              )}
+              {/* {defaultGroupsForSpinner.length === 0 && (
+                <Select
+                  onChange={handleChangeGroups}
+                  closeMenuOnSelect={false}
+                  isMulti
+                  options={groups.map((group, index) => {
+                    return {
+                      value: group.name,
+                      label: group.name,
+                      obj: group,
+                    };
+                  })}
+                />
+              )} */}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Groups:
+              </label>
+              {defaultGroupsForSpinner.length > 0 && (
+                <Select
+                  onChange={handleChangeGroups}
+                  closeMenuOnSelect={false}
+                  defaultValue={defaultGroupsForSpinner.map((group, index) => {
+                    return group;
+                  })}
+                  isMulti
+                  options={groups.map((group, index) => {
+                    return {
+                      value: group.name,
+                      label: group.name,
+                      obj: group,
+                    };
+                  })}
+                />
+              )}
+              {defaultGroupsForSpinner.length === 0 && (
+                <Select
+                  onChange={handleChangeGroups}
+                  closeMenuOnSelect={false}
+                  isMulti
+                  options={groups.map((group, index) => {
+                    return {
+                      value: group.name,
+                      label: group.name,
+                      obj: group,
+                    };
+                  })}
+                />
+              )}
+            </div>
+
             <div className="form-group">
               <label htmlFor="" className="text-muted">
                 Categories:
@@ -830,24 +1057,12 @@ const UpdateProduct = ({ match }) => {
                     };
                   })}
                 />
-                // ):(
-                //   <Select
-                //     onChange={handleChangeCategoris}
-                //     closeMenuOnSelect={false}
-                //     isMulti
-                //     options={categories.map((cat, index) => {
-                //       return {
-                //         value: cat,
-                //         label: cat.name,
-                //       };
-                //     })}
-                //   />
               )}
-              <div className="form-group">
-                <label htmlFor="" className="text-muted">
-                  Related Products (Select category)
-                </label>
+              {defaultCategoriesForSpinner.length === 0 && (
                 <Select
+                  onChange={handleChangeCategoris}
+                  closeMenuOnSelect={false}
+                  isMulti
                   options={categories.map((cat, index) => {
                     return {
                       value: cat.name,
@@ -855,46 +1070,61 @@ const UpdateProduct = ({ match }) => {
                       obj: cat,
                     };
                   })}
-                  onChange={loadProducts}
                 />
-              </div>
-              <div className="form-group">
-                <label htmlFor="" className="text-muted">
-                  Related Products (Select products)
-                </label>
-                {defaultRelatedProductForSpinner.length > 0 && (
-                  <Select
-                    defaultValue={defaultRelatedProductForSpinner.map(
-                      (prod, index) => {
-                        return prod;
-                      }
-                    )}
-                    options={categoryProducts.map((prod, index) => {
-                      return {
-                        value: prod.name,
-                        label: prod.name,
-                        obj: prod,
-                      };
-                    })}
-                    isMulti
-                    onChange={onProductSelect}
-                  />
-                )}
-                {defaultRelatedProductForSpinner.length === 0 && (
-                  <Select
-                    options={categoryProducts.map((prod, index) => {
-                      return {
-                        value: prod.name,
-                        label: prod.name,
-                        obj: prod,
-                      };
-                    })}
-                    isMulti
-                    onChange={onProductSelect}
-                  />
-                )}
-              </div>
+              )}
             </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Related Products (Select category)
+              </label>
+              <Select
+                options={categories.map((cat, index) => {
+                  return {
+                    value: cat.name,
+                    label: cat.name,
+                    obj: cat,
+                  };
+                })}
+                onChange={loadProducts}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Related Products (Select products)
+              </label>
+              {defaultRelatedProductForSpinner.length > 0 && (
+                <Select
+                  defaultValue={defaultRelatedProductForSpinner.map(
+                    (prod, index) => {
+                      return prod;
+                    }
+                  )}
+                  options={categoryProducts.map((prod, index) => {
+                    return {
+                      value: prod.name,
+                      label: prod.name,
+                      obj: prod,
+                    };
+                  })}
+                  isMulti
+                  onChange={onProductSelect}
+                />
+              )}
+              {defaultRelatedProductForSpinner.length === 0 && (
+                <Select
+                  options={categoryProducts.map((prod, index) => {
+                    return {
+                      value: prod.name,
+                      label: prod.name,
+                      obj: prod,
+                    };
+                  })}
+                  isMulti
+                  onChange={onProductSelect}
+                />
+              )}
+            </div>
+            {/* </div> */}
             <div className="form-group">
               <label htmlFor="" className="text-muted">
                 Shipping

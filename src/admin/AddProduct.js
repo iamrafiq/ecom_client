@@ -218,8 +218,12 @@ const AddProduct = () => {
 
     formData.set("arr", [{ name: "aaa" }, { name: "bbb" }].toString());
 
-    formData.set("groups", selectedGroups);
-    formData.set("manufacturer", selectedManufacturer);
+    if (selectedGroups.length > 0) {
+      formData.set("groups", selectedGroups);
+    }
+    if (selectedManufacturer.length > 0) {
+      formData.set("manufacturer", selectedManufacturer);
+    }
 
     formData.set("cats", selectedCategories);
     formData.set("rc", recursiveCategories);
