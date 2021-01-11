@@ -8,12 +8,13 @@ export const homesSlice = createSlice({
     categories: [],
     tree: [],
     offerProducts: [],
+    offerProductsCount:0,
     advertisements: [],
     homeLoaded: false,
   },
   reducers: {
     setHome: (state, action) => {
-      console.log("action.payload.data", action.payload.data)
+      // console.log("action.payload.data", action.payload.data)
       if (action.payload.data) {
         let data = action.payload.data.categories;
         const idMapping = data.reduce((acc, el, i) => {
@@ -43,6 +44,8 @@ export const homesSlice = createSlice({
         state.data = action.payload.data;
         state.categories = action.payload.data.categories;
         state.offerProducts = action.payload.data.offerProducts;
+        state.offerProductsCount = action.payload.data.offerProductsCount;
+        //  console.log("state.offerProductsCount", action.payload.data.offerProductsCount);
         state.advertisements = action.payload.data.advertisements;
       }
       state.homeLoaded = true;
@@ -76,6 +79,9 @@ export const selectHomeSelection = (state) => {
 };
 export const selectOfferProducts = (state) => {
   return state.home.offerProducts;
+};
+export const selectOfferProductsCounts = (state) => {
+  return state.home.offerProductsCount;
 };
 export const selectAdvertisements = (state) => {
   return state.home.advertisements;

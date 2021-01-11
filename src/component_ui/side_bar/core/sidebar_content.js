@@ -18,7 +18,7 @@ import {
   setSigninDialog,
 } from "../../../redux/globalSlice";
 import { selectUser } from "../../../redux/authSlice";
-import { selectOfferProducts } from "../../../redux/homeSlice";
+import { selectOfferProducts, selectOfferProductsCounts } from "../../../redux/homeSlice";
 import "./side-bar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { englishToBangla } from "../../../util/utils";
@@ -31,7 +31,9 @@ const SidebarContent = (props) => {
   const language = useSelector(selectLanguageSelection);
   const user = useSelector(selectUser);
   const offerProducts = useSelector(selectOfferProducts);
+  const offerProductsCount = useSelector(selectOfferProductsCounts);
 
+  
   const [state, setState] = useState({
     viewToBarChange: "",
   });
@@ -88,7 +90,7 @@ const SidebarContent = (props) => {
             onClick={() => props.toggleSideBar()}
           >
             <span className="offer--text">Offer</span>
-            <span className="offer--count">{offerProducts.length}</span>
+            <span className="offer--count">{offerProductsCount}</span>
           </Link>
         ) : (
           <Link
@@ -98,7 +100,7 @@ const SidebarContent = (props) => {
           >
             <span className="offer--text">অফার</span>
             <span className="offer--count">
-              {englishToBangla(offerProducts.length)}
+              {englishToBangla(offerProductsCount)}
             </span>
           </Link>
         )}
