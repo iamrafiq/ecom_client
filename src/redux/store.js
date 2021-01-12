@@ -2,6 +2,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import homeReducer from "./homeSlice";
 import sideBarReducer  from "./sideBarSlice";
 import categoryWithProductReducer from "./categoryWithProductSlice";
+import groupWithProductSlice from "./groupWithProductSlice";
+import manufacturerWithProductSlice from "./manufacturerWithProductSlice";
+
 import productHoverReducer from "./productHoverSlice";
 import settingsReducer from "./settingsSlice";
 import cartReducer from "./cartSlice";
@@ -22,8 +25,9 @@ export default configureStore({
         settings:settingsReducer,
         cart:cartReducer,
         global:globalReducer,
-        auth:authReducer
-
+        auth:authReducer,
+        groupWithProduct:groupWithProductSlice,
+        manufacturerWithProduct:manufacturerWithProductSlice,
 
     }
 })

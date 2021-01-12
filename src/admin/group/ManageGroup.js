@@ -65,8 +65,7 @@ const ManageGroup = () => {
                 <ul className="list-group">
                  
                   <li className="list-group-item d-flex justify-content-between align-items-center ">
-                    <strong>{c.name}</strong>
-
+                  <strong>name:{c.name} slug: {c.slug}</strong>
                     {
                       <Fragment>
                         <Link to={`/admin/group/update/${c._id}`}>

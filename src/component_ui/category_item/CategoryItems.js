@@ -21,21 +21,25 @@ import {
   setBarToView,
   setViewToBar,
 } from "../../redux/sideBarSlice";
-import {
-  selectLoadingSpinner,
-  setLoadingSpinner,
-} from "../../redux/globalSlice";
 
 import { getAdvertisementsBySlug, getProducts } from "../../core/apiCore";
 import { API } from "../../config";
 import {
   selectCategoryWithProduct,
-  selectLoading,
-} from "../../redux/categoryWithProductSlice";
-import {
   loadCategoryWithProduct,
-  loadProductByCatId,
+  selectLoadingCategoryWithProduct,
 } from "../../redux/categoryWithProductSlice";
+
+import {
+  loadGroupWithProduct,
+  selectGroupWithProduct,
+  selectLoadingGroupWithProduct,
+} from "../../redux/groupWithProductSlice";
+import {
+  loadManufacturerWithProduct,
+  selectManufacturerWithProduct,
+  selectLoadingManufacturerWithProduct,
+} from "../../redux/manufacturerWithProductSlice";
 import { loadActiveCategories } from "../../redux/homeSlice";
 import { setSlug } from "../../redux/productHoverSlice";
 import {
@@ -54,29 +58,33 @@ const CategoryItems = ({ match }) => {
 
   const bar = useSelector(selectSideBarBarToViewSelection);
   const category = useSelector(selectCategoryWithProduct);
-  const loading = useSelector(selectLoading);
+  const loadingCategoryWithProduct = useSelector(
+    selectLoadingCategoryWithProduct
+  );
+
+  const groupWithProduct = useSelector(selectGroupWithProduct);
+  const loadingGroupWithProduct = useSelector(selectLoadingGroupWithProduct);
+
+  const manufacturerWithProduct = useSelector(selectManufacturerWithProduct);
+  const loadingManufacturerWithProduct = useSelector(
+    selectLoadingManufacturerWithProduct
+  );
 
   const resulationSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
-  const loadingSpinner = useSelector(selectLoadingSpinner);
 
   const dispatch = useDispatch();
 
   console.log("match", match);
-  const [rerendar, setRerendar] = useState(0);
+  console.log("grou-p", category);
+
   const [advertProduct, setAdvertProduct] = useState(undefined);
-
-  const [values, setValues] = useState({
-    selectedCategory: null,
-    subcats: [],
-    recursiveCategories: [],
-    products: [],
-    advertisements: "",
-    init: true,
-    loading: true,
-    loadingComplete: false,
+  const [dataTypes, setDataTypes] = useState({
+    dataCategory: false,
+    dataGroup: false,
+    dataManufacturer: false,
   });
-
+  const { dataCategory, dataGroup, dataManufacturer } = dataTypes;
   useEffect(() => {
     console.log("search location", location);
 
@@ -86,14 +94,38 @@ const CategoryItems = ({ match }) => {
       // popup product dialog when user click on advertisement of a product
       setAdvertProduct(search.advertProduct);
     }
-    if (location.state) {
-      if (location.state.catId) { // setting catId from side bar
-        dispatch(loadCategoryWithProduct(undefined, location.state.catId));
+    if (search.group) {
+      dispatch(loadGroupWithProduct(match.params.slug));
+      setDataTypes({
+        dataCategory: false,
+        dataGroup: true,
+        dataManufacturer: false,
+      });
+      // console.log("group slug", match.params.slug);
+    } else if (search.manufacturer) {
+      dispatch(loadManufacturerWithProduct(match.params.slug));
+      setDataTypes({
+        dataCategory: false,
+        dataGroup: false,
+        dataManufacturer: true,
+      });
+      // console.log("manufucturer slug", search.manufacturer);
+    } else {
+      setDataTypes({
+        dataCategory: true,
+        dataGroup: false,
+        dataManufacturer: false,
+      });
+      if (location.state) {
+        if (location.state.catId) {
+          // setting catId from side bar
+          dispatch(loadCategoryWithProduct(undefined, location.state.catId));
+        } else {
+          dispatch(loadCategoryWithProduct(match.params.slug));
+        }
       } else {
         dispatch(loadCategoryWithProduct(match.params.slug));
       }
-    } else {
-      dispatch(loadCategoryWithProduct(match.params.slug));
     }
   }, [match.params.slug]);
 
@@ -134,10 +166,11 @@ const CategoryItems = ({ match }) => {
     <React.Fragment>
       <div className="content--area">
         <div>
-          <LoadingBar loading={loading}></LoadingBar>
+          <LoadingBar loading={loadingCategoryWithProduct}></LoadingBar>
           <div className="advert-area">
             <div className="">
-              {category.advertisements &&
+              {category &&
+                category.advertisements &&
                 category.advertisements.length > 0 && (
                   <AdvertismentsFadeOut
                     advertisements={category.advertisements}
@@ -147,7 +180,7 @@ const CategoryItems = ({ match }) => {
           </div>
 
           <div className="back-links">
-            {category.recursiveCategories
+            {dataCategory&&(category && category.recursiveCategories
               ? category.recursiveCategories.map((item, index) => (
                   <div
                     className="react__link--colored"
@@ -159,9 +192,6 @@ const CategoryItems = ({ match }) => {
                       });
                     }}
                   >
-                    {/* <Link to={item.slug}>
-                    
-                  </Link> */}
                     {language === "en" ? (
                       <div>
                         {index === category.recursiveCategories.length - 1 ? (
@@ -180,34 +210,69 @@ const CategoryItems = ({ match }) => {
                     )}
                   </div>
                 ))
-              : ""}
-            {/* {category ? (
-            <div>
-              {language === "en"
-                ? `${category.name}`
-                : `${category.bengaliName}`}
-            </div>
-          ) : (
-            ""
-          )} */}
+              : "")}
+            
           </div>
 
           <div className="horizontal-line">
             <hr />
             <div>
               <span className="horizontal-line--text">
-                {category &&
-                  (language === "en" ? category.name : category.bengaliName)}
+                {dataCategory
+                  ? category
+                    ? language === "en"
+                      ? category.name
+                      : category.bengaliName
+                    : language === "en"
+                    ? "Nothing Found"
+                    : "পাওয়া যায় নাই"
+                  : dataGroup
+                  ? groupWithProduct &&
+                    (groupWithProduct.group
+                      ? language === "en"
+                        ? groupWithProduct.group.name
+                        : groupWithProduct.group.bengaliName
+                      : language === "en"
+                      ? "Nothing Found"
+                      : "পাওয়া যায় নাই")
+                  : dataManufacturer
+                  ? manufacturerWithProduct &&
+                    (manufacturerWithProduct.manufacturer
+                      ? language === "en"
+                        ? manufacturerWithProduct.manufacturer.name
+                        : manufacturerWithProduct.manufacturer.bengaliName
+                      : language === "en"
+                      ? "Nothing Found"
+                      : "পাওয়া যায় নাই")
+                  : language === "en"
+                  ? "Nothing Found"
+                  : "পাওয়া যায় নাই"}
               </span>
             </div>
             <hr />
           </div>
           <Grid>
-            {category.subcats && category.subcats.length > 0
-              ? subcategories(category.subcats)
-              : category.products && category.products.length > 0
-              ? products(category.products)
-              : getNothingFound()}
+            {dataCategory
+              ? category && category.subcats && category.subcats.length > 0
+                ? subcategories(category.subcats)
+                : category && category.products && category.products.length > 0
+                ? products(category.products)
+                : language === "en"
+                ? "Nothing found for this category"
+                : "এই ক্যাটাগরিতে কোন কিছু পাওয়া যায় নাই"
+              : dataGroup
+              ? groupWithProduct && groupWithProduct.products
+                ? products(groupWithProduct.products)
+                : language === "en"
+                ? "Nothing found for this group"
+                : "এই গ্রুপে কোন কিছু পাওয়া যায় নাই"
+              : dataManufacturer
+              ? manufacturerWithProduct && manufacturerWithProduct.products
+                ? products(manufacturerWithProduct.products)
+                : language === "en"
+                ? "Nothing found for manufacturer group"
+                : "এই কোম্পানির কোন কিছু পাওয়া যায় নাই"
+              : "কোন কিছু পাওয়া যায় নাই"}
           </Grid>
         </div>
       </div>

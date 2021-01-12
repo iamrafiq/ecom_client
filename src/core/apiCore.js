@@ -155,6 +155,25 @@ export const getAdvertisementsBySlug = (slug) => {
 
  
 
+  export const getProductsByGroupSlug = (slug) => {
+    return fetch(`${API}/products/by/group/${slug}`, {
+      method: "GET",
+    })
+      .then((responce) => {
+        return responce.json();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  export const getProductsByManufacturerSlug = (slug) => {
+    return fetch(`${API}/products/by/manufacturer/${slug}`, {
+      method: "GET",
+    })
+      .then((responce) => {
+        return responce.json();
+      })
+      .catch((err) => console.log(err));
+  };
 
   export const getProductsByCategorySlug = (slug) => {
     return fetch(`${API}/category/products/byslug/${slug}`, {

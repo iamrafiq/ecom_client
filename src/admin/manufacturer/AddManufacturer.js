@@ -21,6 +21,7 @@ const AddManufacturer = () => {
   
   const [values, setValues] = useState({
     name: "",
+    bengaliName:"",
     slug: "",
     loading: false,
     error: "",
@@ -31,6 +32,7 @@ const AddManufacturer = () => {
 
   const {
     name,
+    bengaliName,
     slug,
     loading,
     error,
@@ -116,7 +118,17 @@ const AddManufacturer = () => {
                 value={name}
               />
             </div>
-
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+              Bengali Name
+              </label>
+              <input
+                onChange={handleChange("bengaliName")}
+                type="text"
+                className="form-control"
+                value={bengaliName}
+              />
+            </div>
             <button
               type="submit"
               form="form1"

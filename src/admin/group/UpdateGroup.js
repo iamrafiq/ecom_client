@@ -20,6 +20,7 @@ const UpdateGroup = ({ match }) => {
 
   const [values, setValues] = useState({
     name: "",
+    bengaliName:"",
     slug: "",
     loading: false,
     createdProduct:"",
@@ -27,7 +28,7 @@ const UpdateGroup = ({ match }) => {
     formData: new FormData(),
   });
 
-  const { name, slug, loading, error, createdProduct, formData } = values;
+  const { name, bengaliName, slug, loading, error, createdProduct, formData } = values;
 
   useEffect(() => {
     console.log("group match", match.params.id)
@@ -35,10 +36,11 @@ const UpdateGroup = ({ match }) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
-        console.log("group download... advert", data);
+        console.log("group download..", data);
         setValues({
           ...values,
           name: data.name,
+          bengaliName:data.bengaliName,
           slug: data.slug,
           loading: false,
           formData: new FormData(),
@@ -113,6 +115,17 @@ const UpdateGroup = ({ match }) => {
                 type="text"
                 className="form-control"
                 value={name}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+              Bengali Name
+              </label>
+              <input
+                onChange={handleChange("bengaliName")}
+                type="text"
+                className="form-control"
+                value={bengaliName}
               />
             </div>
             <button

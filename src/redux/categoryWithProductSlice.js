@@ -7,7 +7,7 @@ import { setLoadingSpinner } from "./globalSlice";
 export const categoryWithProductSlice = createSlice({
   name: "categoryWithProduct",
   initialState: {
-    data: [],
+    data: null,
     loading: false,
   },
   reducers: {
@@ -30,7 +30,9 @@ export const loadCategoryWithProduct = (slug, catId = undefined) => (
   dispatch(setLoading({ loading: true }));
   if (catId === undefined) {
     getProductsByCategorySlug(slug).then((data) => {
-      if (data === undefined && data.error) {
+
+      console.log("group-q", data)
+      if (data.error) {
         dispatch(setLoading({ loading: false }));
       } else {
         dispatch(setCategoryWithProduct({ data }));
@@ -39,7 +41,7 @@ export const loadCategoryWithProduct = (slug, catId = undefined) => (
     });
   } else {
     getProductsByCategoryId(catId).then((data) => {
-      if (data === undefined && data.error) {
+      if (data.error) {
         dispatch(setLoading({ loading: false }));
       } else {
         dispatch(setCategoryWithProduct({ data }));
@@ -52,7 +54,7 @@ export const loadCategoryWithProduct = (slug, catId = undefined) => (
 export const selectCategoryWithProduct = (state) => {
   return state.categoryWithProduct.data;
 };
-export const selectLoading = (state) => {
+export const selectLoadingCategoryWithProduct = (state) => {
   return state.categoryWithProduct.loading;
 };
 

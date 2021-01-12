@@ -6,7 +6,8 @@ import { selectUser, selectToken } from "../../redux/authSlice";
 
 import { Link, Redirect, useHistory } from "react-router-dom";
 import { getCategories } from "../apiAdmin";
-import { getAllProducts } from "../apiAdmin";
+import { getGroupList } from "../group/apiGroup"
+import { getManufacturertList } from "../manufacturer/apiManufacturer"
 
 import { createAdvertisement } from "./apiAdvertisement";
 import Select from "react-select";
@@ -27,6 +28,8 @@ const AddAvertisement = () => {
   const [productsForLinkCat, setProductsForLinkCat] = useState({});
 
   const [categories, setCategories] = useState({});
+  const [groups, setGroups] = useState({});
+  const [manufacturer, setManufacturer] = useState({});
 
   const [values, setValues] = useState({
     name: "",
@@ -62,23 +65,56 @@ const AddAvertisement = () => {
     formData,
   } = values;
 
-  const downloadAllCategories = () => {
-    getCategories().then((data) => {
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        const rootless = data.filter((e) => e.name !== "root");
-        setCategories(rootless);
-        setValues({
+  const init = async () => {
+
+    let { groups } = await new Promise(function (resolve, reject) {
+      getGroupList().then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+          reject(data.error);
+          return;
+        } else {
+          resolve({ groups: data });
+        }
+      });
+    });
+
+    let { manufacturers } = await new Promise(function (resolve, reject) {
+      getManufacturertList().then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+          reject(data.error);
+          return;
+        } else {
+          resolve({ manufacturers: data });
+        }
+      });
+    });
+
+    let { categories } = await new Promise(function (resolve, reject) {
+      getCategories().then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+          reject(data.error);
+          return;
+        } else {
+          const rootless = data.filter((e) => e.name !== "root");
+          resolve({ categories: rootless });
+        }
+      });
+    });
+    setManufacturer(manufacturers);
+    setGroups(groups);
+    setCategories(categories);
+    setValues({
           ...values,
           loading: false,
           formData: new FormData(),
         });
-      }
-    });
+
   };
   useEffect(() => {
-    downloadAllCategories();
+    init();
   }, []);
  
   const handleChangeLoadProductsForSlug = (field) => (event) => {
@@ -188,8 +224,34 @@ const AddAvertisement = () => {
   };
 
   const handleChangeCategories = (selectedOption) => {
-    console.log(`Option selected:`, selectedOption);
+    if (selectedOption != null) {
+      const catsSlug = selectedOption.map((cat, index) => {
+        return cat.obj.slug;
+      });
 
+      setValues({
+        ...values,
+        categorySlugs: catsSlug.toString(),
+      });
+    } else {
+      setValues({ ...values, categorySlugs: "" });
+    }
+  };
+  const handleChangeGroups = (selectedOption) => {
+    if (selectedOption != null) {
+      const catsSlug = selectedOption.map((cat, index) => {
+        return cat.obj.slug;
+      });
+
+      setValues({
+        ...values,
+        categorySlugs: catsSlug.toString(),
+      });
+    } else {
+      setValues({ ...values, categorySlugs: "" });
+    }
+  };
+  const handleChangeManufacturer = (selectedOption) => {
     if (selectedOption != null) {
       const catsSlug = selectedOption.map((cat, index) => {
         return cat.obj.slug;

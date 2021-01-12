@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 
 import PropTypes from "prop-types";
 import { SIDE_BAR_WIDTH } from "../../../config";
@@ -14,17 +14,19 @@ import {
   selectResolutionSelection,
   selectLanguageSelection,
 } from "../../../redux/settingsSlice";
-import {
-  setSigninDialog,
-} from "../../../redux/globalSlice";
+import { setSigninDialog } from "../../../redux/globalSlice";
 import { selectUser } from "../../../redux/authSlice";
-import { selectOfferProducts, selectOfferProductsCounts } from "../../../redux/homeSlice";
+import {
+  selectOfferProducts,
+  selectOfferProductsCounts,
+} from "../../../redux/homeSlice";
 import "./side-bar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { englishToBangla } from "../../../util/utils";
 import { faUserCircle, faHome } from "@fortawesome/fontawesome-free-solid";
 const SidebarContent = (props) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const viewToBar = useSelector(selectSideBarViewToBarSelection);
   const resolutionSelector = useSelector(selectResolutionSelection);
@@ -33,7 +35,6 @@ const SidebarContent = (props) => {
   const offerProducts = useSelector(selectOfferProducts);
   const offerProductsCount = useSelector(selectOfferProductsCounts);
 
-  
   const [state, setState] = useState({
     viewToBarChange: "",
   });
@@ -48,6 +49,13 @@ const SidebarContent = (props) => {
     }
   }, [viewToBar]);
 
+  const onClickGroup = (slug) => {
+    history.push({
+      pathname: `/products/${slug}`,
+      search:`?manufacturer=${slug}`
+    });
+ };
+
   return (
     <div className="sidebar__pannel">
       <div className="sidebar--header">
@@ -56,7 +64,9 @@ const SidebarContent = (props) => {
             <Link
               className="react__link--colorless sidebar__header--user"
               to="/user/profile"
-              onClick={() => {props.toggleSideBar()}}
+              onClick={() => {
+                props.toggleSideBar();
+              }}
             >
               <FontAwesomeIcon size="1x" icon={faUserCircle} />
               {language === "en" ? <span>Profile</span> : <span>প্রোফাইল</span>}
@@ -64,7 +74,14 @@ const SidebarContent = (props) => {
           ) : (
             <div
               className="react__link--colorless sidebar__header--user"
-              onClick={() => {props.toggleSideBar(); dispatch(setSigninDialog({signinDialog:{ open: true, redirectTo: "" }}))}}
+              onClick={() => {
+                props.toggleSideBar();
+                dispatch(
+                  setSigninDialog({
+                    signinDialog: { open: true, redirectTo: "" },
+                  })
+                );
+              }}
             >
               <FontAwesomeIcon size="1x" icon={faUserCircle} />
               {language === "en" ? <span>Sign in</span> : <span>সাইন ইন</span>}
@@ -83,28 +100,20 @@ const SidebarContent = (props) => {
         </div>
       </div>
       <div className="sidebar--content">
-        {language === "en" ? (
-          <Link
-            className="offer__products react__link--colorless"
-            to={"offer"}
-            onClick={() => props.toggleSideBar()}
-          >
-            <span className="offer--text">Offer</span>
-            <span className="offer--count">{offerProductsCount}</span>
-          </Link>
-        ) : (
-          <Link
-            className="offer__products react__link--colorless"
-            to={"offer"}
-            onClick={() => props.toggleSideBar()}
-          >
-            <span className="offer--text">অফার</span>
-            <span className="offer--count">
-              {englishToBangla(offerProductsCount)}
-            </span>
-          </Link>
-        )}
-
+        <div
+          className="offer__products react__link--colorless"
+        
+          onClick={() => {props.toggleSideBar(); onClickGroup("kc-manuf")}}
+        >
+          <span className="offer--text">
+            {language === "en" ? "Offer" : "অফার"}
+          </span>
+          <span className="offer--count">
+            {language === "en"
+              ? offerProductsCount
+              : englishToBangla(offerProductsCount)}
+          </span>
+        </div>
         <hr className="sidebar--divider" />
         {
           <div>
