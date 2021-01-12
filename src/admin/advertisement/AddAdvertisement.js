@@ -6,8 +6,8 @@ import { selectUser, selectToken } from "../../redux/authSlice";
 
 import { Link, Redirect, useHistory } from "react-router-dom";
 import { getCategories } from "../apiAdmin";
-import { getGroupList } from "../group/apiGroup"
-import { getManufacturertList } from "../manufacturer/apiManufacturer"
+import { getGroupList } from "../group/apiGroup";
+import { getManufacturertList } from "../manufacturer/apiManufacturer";
 
 import { createAdvertisement } from "./apiAdvertisement";
 import Select from "react-select";
@@ -27,17 +27,18 @@ const AddAvertisement = () => {
   const [productsOfACat, setProductsOfACat] = useState({});
   const [productsForLinkCat, setProductsForLinkCat] = useState({});
 
-  const [categories, setCategories] = useState({});
-  const [groups, setGroups] = useState({});
-  const [manufacturer, setManufacturer] = useState({});
+  const [categories, setCategories] = useState([]);
+  const [groups, setGroups] = useState([]);
+  const [manufacturers, setManufacturer] = useState([]);
 
   const [values, setValues] = useState({
     name: "",
     slug: "",
     slugPages: "",
-    customSlug: "",
-    categorySlugs: "",
-    productSlugs: "",
+    selectedManufacturer: "",
+    selectedGroups: "",
+    selectedCategories: "",
+    selectedProducts: "",
     linkType: "",
     linkSlug: "",
     linkProductSlug: "",
@@ -52,9 +53,10 @@ const AddAvertisement = () => {
     name,
     slug,
     slugPages,
-    customSlug,
-    categorySlugs,
-    productSlugs,
+    selectedManufacturer,
+    selectedGroups,
+    selectedCategories,
+    selectedProducts,
     linkType,
     linkSlug,
     linkProductSlug,
@@ -66,7 +68,6 @@ const AddAvertisement = () => {
   } = values;
 
   const init = async () => {
-
     let { groups } = await new Promise(function (resolve, reject) {
       getGroupList().then((data) => {
         if (data.error) {
@@ -107,16 +108,15 @@ const AddAvertisement = () => {
     setGroups(groups);
     setCategories(categories);
     setValues({
-          ...values,
-          loading: false,
-          formData: new FormData(),
-        });
-
+      ...values,
+      loading: false,
+      formData: new FormData(),
+    });
   };
   useEffect(() => {
     init();
   }, []);
- 
+
   const handleChangeLoadProductsForSlug = (field) => (event) => {
     let id = event.target.value;
     getProductsByCatId(id).then((data) => {
@@ -166,33 +166,67 @@ const AddAvertisement = () => {
       createdProduct: false,
     });
   };
+  const handleChangeGroups = (options) => {
+    if (options != null) {
+      const ids = options.map((item, index) => {
+        return item.obj._id;
+      });
+
+      setValues({
+        ...values,
+        selectedGroups: ids.toString(),
+      });
+    } else {
+      setValues({ ...values, selectedGroups: "" });
+    }
+  };
+  const handleChangeManuf = (options) => {
+    if (options != null) {
+      const ids = options.map((item, index) => {
+        return item.obj._id;
+      });
+
+      setValues({
+        ...values,
+        selectedManufacturer: ids.toString(),
+      });
+    } else {
+      setValues({ ...values, selectedManufacturer: "" });
+    }
+  };
+  const handleChangeCats = (options) => {
+    if (options != null) {
+      const ids = options.map((item, index) => {
+        return item.obj._id;
+      });
+
+      setValues({
+        ...values,
+        selectedCategories: ids.toString(),
+      });
+    } else {
+      setValues({ ...values, selectedCategories: "" });
+    }
+  };
+
+  const handleChangeProducts = (options) => {
+    if (options != null) {
+      const ids = options.map((item, index) => {
+        return item.obj._id;
+      });
+
+      setValues({
+        ...values,
+        selectedProducts: ids.toString(),
+      });
+    } else {
+      setValues({ ...values, selectedProducts: "" });
+    }
+  };
 
   const clickSubmit = (event) => {
     event.preventDefault();
 
-    // if (parents.length !== 0 && parent == "") {
-    //   setValues({ ...values, error: "Select a parent" });
-    //   return;
-    // }
-
-    let slug = "";
-    if (categorySlugs.length > 0) {
-      slug = categorySlugs;
-    }
-    if (productSlugs.length > 0) {
-      if (slug.length > 0) {
-        slug += "," + productSlugs;
-      } else {
-        slug = productSlugs;
-      }
-    }
-    if (customSlug.length > 0) {
-      if (slug.length > 0) {
-        slug += "," + customSlug;
-      } else {
-        slug = customSlug;
-      }
-    }
     if (slug.length > 0) {
       formData.set("slugPages", slug);
     }
@@ -203,68 +237,28 @@ const AddAvertisement = () => {
     if (photoBangla !== null) {
       formData.append("photoBangla", photoBangla);
     }
+    if (selectedGroups.length > 0) {
+      formData.set("groups", selectedGroups);
+    }
+    if (selectedCategories.length > 0) {
+      formData.set("categories", selectedCategories);
+    }
+    if (selectedManufacturer.length > 0) {
+      formData.set("manufacturers", selectedManufacturer);
+    }
+    if (selectedProducts.length > 0) {
+      formData.set("products", selectedProducts);
+    }
     setValues({ ...values, error: "", loading: true });
     createAdvertisement(user._id, token, formData).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
-        setValues({
-          ...values,
-          name: "",
-          slugPages: "",
-          customSlug: "",
-          trash: false,
-          loading: false,
-          createdProduct: data.name,
-        });
         history.push("/admin/dashboard");
-        //init();
       }
     });
   };
 
-  const handleChangeCategories = (selectedOption) => {
-    if (selectedOption != null) {
-      const catsSlug = selectedOption.map((cat, index) => {
-        return cat.obj.slug;
-      });
-
-      setValues({
-        ...values,
-        categorySlugs: catsSlug.toString(),
-      });
-    } else {
-      setValues({ ...values, categorySlugs: "" });
-    }
-  };
-  const handleChangeGroups = (selectedOption) => {
-    if (selectedOption != null) {
-      const catsSlug = selectedOption.map((cat, index) => {
-        return cat.obj.slug;
-      });
-
-      setValues({
-        ...values,
-        categorySlugs: catsSlug.toString(),
-      });
-    } else {
-      setValues({ ...values, categorySlugs: "" });
-    }
-  };
-  const handleChangeManufacturer = (selectedOption) => {
-    if (selectedOption != null) {
-      const catsSlug = selectedOption.map((cat, index) => {
-        return cat.obj.slug;
-      });
-
-      setValues({
-        ...values,
-        categorySlugs: catsSlug.toString(),
-      });
-    } else {
-      setValues({ ...values, categorySlugs: "" });
-    }
-  };
   const handleLinkCategory = (selectedOption) => {
     console.log(`Option selected:`, selectedOption.obj.slug);
     if (selectedOption) {
@@ -294,23 +288,6 @@ const AddAvertisement = () => {
       });
       setValues({ ...values, linkSlug: selectedOption.obj.slug });
       formData.set("linkSlug", selectedOption.obj.slug);
-    }
-  };
-
-  const handleChangeProducts = (selectedOption) => {
-    console.log(`Option selected:`, selectedOption);
-
-    if (selectedOption != null) {
-      const productsSlug = selectedOption.map((product, index) => {
-        return product.obj.slug;
-      });
-
-      setValues({
-        ...values,
-        productSlugs: productsSlug.toString(),
-      });
-    } else {
-      setValues({ ...values, productSlugs: "" });
     }
   };
   const newPostFrom = () => (
@@ -361,35 +338,65 @@ const AddAvertisement = () => {
             </div>
             <div className="form-group">
               <label htmlFor="" className="text-muted">
-                Cust Page Slug: (Coma separeted value)
+                Custom Page Slug: (Coma separeted value)
               </label>
               <input
-                onChange={handleChange("customSlug")}
+                onChange={handleChange("slugPages")}
                 type="text"
                 className="form-control"
-                value={customSlug}
+                value={slugPages}
               />
             </div>
-
             <div className="form-group">
               <label htmlFor="" className="text-muted">
-                Select Categori Pages:
+                Manufacturers Pages
               </label>
-              {categories.length > 0 && (
-                <Select
-                  onChange={handleChangeCategories}
-                  closeMenuOnSelect={false}
-                  // defaultValue={[colourOptions[0], colourOptions[1]]}
-                  isMulti
-                  options={categories.map((cat, index) => {
-                    return {
-                      value: cat.name,
-                      label: cat.name,
-                      obj: cat,
-                    };
-                  })}
-                />
-              )}
+              <Select
+                onChange={handleChangeManuf}
+                closeMenuOnSelect={false}
+                isMulti
+                options={manufacturers.map((manuf, index) => {
+                  return {
+                    value: manuf.name,
+                    label: manuf.name,
+                    obj: manuf,
+                  };
+                })}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Groups Pages
+              </label>
+              <Select
+                onChange={handleChangeGroups}
+                closeMenuOnSelect={false}
+                isMulti
+                options={groups.map((group, index) => {
+                  return {
+                    value: group.name,
+                    label: group.name,
+                    obj: group,
+                  };
+                })}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Categories Pages
+              </label>
+              <Select
+                onChange={handleChangeCats}
+                closeMenuOnSelect={false}
+                isMulti
+                options={categories.map((cat, index) => {
+                  return {
+                    value: cat.name,
+                    label: cat.name,
+                    obj: cat,
+                  };
+                })}
+              />
             </div>
 
             <div className="form-group">
@@ -419,7 +426,6 @@ const AddAvertisement = () => {
                   <Select
                     onChange={handleChangeProducts}
                     closeMenuOnSelect={false}
-                    // defaultValue={[colourOptions[0], colourOptions[1]]}
                     isMulti
                     options={productsOfACat.map((p, index) => {
                       return {
@@ -432,21 +438,6 @@ const AddAvertisement = () => {
                 </div>
               </React.Fragment>
             )}
-
-            {/* <div className="form-group">
-              <label htmlFor="" className="text-muted">
-                Select Product Pages:
-              </label>
-              {selectedProducts.length > 0 && (
-                <Select
-                  onChange={handleChangeProducts}
-                  closeMenuOnSelect={false}
-                  defaultValue={selectedProducts.map((item, index)=>item)}
-                  isMulti
-                  options={selectedProducts.map((item, index)=>item)}
-                />
-              )}
-            </div> */}
 
             <div className="form-group">
               <label htmlFor="" className="text-muted">
@@ -472,7 +463,6 @@ const AddAvertisement = () => {
                   <Select
                     onChange={handleLinkCategory}
                     closeMenuOnSelect={false}
-                    // defaultValue={[colourOptions[0], colourOptions[1]]}
                     options={categories.map((cat, index) => {
                       return {
                         value: cat.name,
@@ -494,7 +484,6 @@ const AddAvertisement = () => {
                     <Select
                       onChange={handleLinkCategoryForProduct}
                       closeMenuOnSelect={false}
-                      // defaultValue={[colourOptions[0], colourOptions[1]]}
                       options={categories.map((cat, index) => {
                         return {
                           value: cat.name,
@@ -514,7 +503,6 @@ const AddAvertisement = () => {
                       <Select
                         onChange={handleLinkProduct}
                         closeMenuOnSelect={false}
-                        // defaultValue={[colourOptions[0], colourOptions[1]]}
                         options={productsForLinkCat.map((p, index) => {
                           return {
                             value: p.name,
@@ -537,9 +525,6 @@ const AddAvertisement = () => {
             >
               Create a new Advertisiment
             </button>
-            {/* <button type="button" className="btn btn-outline-primary">
-        Back to dashboard
-      </button> */}
             {goBack()}
           </form>
         </React.Fragment>
