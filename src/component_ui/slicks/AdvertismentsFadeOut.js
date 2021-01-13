@@ -39,13 +39,15 @@ export default function AdvertisimentFadeOut({ advertisements }) {
      console.log("adclick", advertisements[currentIndex]);
     if (advertisements[currentIndex].linkType === 0) {
       history.push({
-        pathname: `/products/${advertisements[currentIndex].linkSlug}`,
+        pathname: `/products/${advertisements[currentIndex].link}`,
       });
-    }else{
+    }else if(advertisements[currentIndex].linkType === 1){
       history.push({
-        pathname: `/products/${advertisements[currentIndex].linkSlug}`,
+        pathname: `/products/${advertisements[currentIndex].link}`,
         search:`?advertProduct=${advertisements[currentIndex].linkProductSlug}`
       });
+    }else{
+      window.open(advertisements[currentIndex].link,"_self");
     }
   };
 

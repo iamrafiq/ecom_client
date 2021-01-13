@@ -16,7 +16,7 @@ import {
 import Select from "react-select";
 import LoadingBar from "../../util/LoadingBar";
 import { getProductsByCatId } from "../apiAdmin";
-import { productsBySlugs, productBySlug } from "../../core/apiCore";
+import { productBySlug } from "../../core/apiCore";
 var slugify = require("slugify");
 
 const UpdateAvertisement = ({ match }) => {
@@ -29,7 +29,7 @@ const UpdateAvertisement = ({ match }) => {
   const [productsForLinkCat, setProductsForLinkCat] = useState([]);
   const [productsOfACat, setProductsOfACat] = useState([]);
   const [slugsProducts, setSlugsProducts] = useState([]);
-  const [linkProduct, setLinkProduct] = useState({});
+  const [linkProduct, setLinkProduct] = useState(null);
 
   const [categories, setCategories] = useState([]);
   const [groups, setGroups] = useState([]);
@@ -44,7 +44,7 @@ const UpdateAvertisement = ({ match }) => {
     selectedProducts: "",
     slugPages: "",
     linkType: "",
-    linkSlug: "",
+    link: "",
     linkProductSlug: "",
     advertisement: null,
     // categories: [],
@@ -68,7 +68,7 @@ const UpdateAvertisement = ({ match }) => {
     selectedProducts,
     slugPages,
     linkType,
-    linkSlug,
+    link,
     linkProductSlug,
     advertisement,
     // categories,
@@ -91,6 +91,7 @@ const UpdateAvertisement = ({ match }) => {
         }
       });
     });
+
     let { groups } = await new Promise(function (resolve, reject) {
       getGroupList().then((data) => {
         if (data.error) {
@@ -128,73 +129,94 @@ const UpdateAvertisement = ({ match }) => {
       });
     });
 
-    // const catLinkSlug = categories.filter((e) => e.name === advertisement.linkSlug);
+    if (advertisement.linkType === 1) {
+      // console.log("ad link", advertisement.link)
+      const catLinkSlug = categories.find((e) => e.slug === advertisement.link);
+      // console.log("ad link cat",catLinkSlug)
 
-    // let { productsOfCat } = await new Promise(function (resolve, reject) {
-    //   getProductsByCatId(catLinkSlug._id).then((data) => {
-    //     if (data.error) {
-    //       setValues({ ...values, error: data.error });
-    //       reject(data.error);
-    //       return;
-    //     } else {
-    //       resolve({ productsOfCat: data });
-    //     }
-    //   });
-    // });
+      if (catLinkSlug) {
+        let { productsOfLinkCat } = await new Promise(function (
+          resolve,
+          reject
+        ) {
+          getProductsByCatId(catLinkSlug._id).then((data) => {
+            if (data.error) {
+              setValues({ ...values, error: data.error });
+              reject(data.error);
+              return;
+            } else {
+              resolve({ productsOfLinkCat: data });
+            }
+          });
+        });
 
-    // let linkProduct;
-    // if (advertisement.linkType === 1 && advertisement.linkProductSlug) {
-    //   let { lp } = await new Promise(function (resolve, reject) {
-    //     productBySlug(advertisement.linkProductSlug).then((data) => {
-    //       if (data.error) {
-    //         setValues({ ...values, error: data.error });
-    //         reject(data.error);
-    //         return;
-    //       } else {
-    //         resolve({ lp: data });
-    //       }
-    //     });
-    //   });
-    //   linkProduct = lp;
-    // }
-    // let { allProducts } = await new Promise(function (resolve, reject) {
-    //   productsBySlugs(catLinkSlug._id).then((data) => {
-    //     if (data.error) {
-    //       setValues({ ...values, error: data.error });
-    //       reject(data.error);
-    //       return;
-    //     } else {
-    //       resolve({ allProducts: data });
-    //     }
-    //   });
-    // });
+        setProductsForLinkCat(productsOfLinkCat);
+
+        let { lp } = await new Promise(function (resolve, reject) {
+          productBySlug(advertisement.linkProductSlug).then((data) => {
+            if (data.error) {
+              setValues({ ...values, error: data.error });
+              reject(data.error);
+              return;
+            } else {
+              resolve({ lp: data });
+            }
+          });
+        });
+
+        setLinkProduct(lp);
+      }
+    }
 
     setManufacturer(manufacturers);
     setGroups(groups);
     setCategories(categories);
 
-    // setProductsForLinkCat(productsOfCat);
-    // setSlugsProducts(allProducts);
-    // setLinkProduct(linkProduct);
+    let idsGroups="";
+    if (advertisement.groups){
+      idsGroups = advertisement.groups.map((item, index) => {
+        return item._id;
+      });
+    }
+  
+    let idsManufacturers="";
+    if (advertisement.manufacturers){
+      idsManufacturers = advertisement.manufacturers.map((item, index) => {
+        return item._id;
+      });
+    }
+    let idsCategories="";
+    if (advertisement.categories){
+      idsCategories = advertisement.categories.map((item, index) => {
+        return item._id;
+      });
+    }
+    let idsProducts="";
+    if (advertisement.products){
+      idsProducts = advertisement.products.map((item, index) => {
+        return item._id;
+      });
+    }
 
     setValues({
       ...values,
       name: advertisement.name,
       slugPages: advertisement.slugPages,
       linkType: advertisement.linkType,
-      linkSlug: advertisement.linkSlug,
+      link: advertisement.link,
       linkProductSlug:
         advertisement.linkProductSlug === undefined
           ? ""
           : advertisement.linkProductSlug,
-      advertisement: advertisement,    
+      selectedManufacturer: idsManufacturers,
+      selectedGroups: idsGroups,
+      selectedCategories: idsCategories,
+      selectedProducts: idsProducts,
+      advertisement: advertisement,
       loading: false,
       formData: new FormData(),
     });
   };
-
-
-
 
   const handleChangeLoadProductsForSlug = (field) => (event) => {
     let id = event.target.value;
@@ -207,37 +229,33 @@ const UpdateAvertisement = ({ match }) => {
     });
   };
 
-  const handleLinkProduct = (selectedOption) => {
-    console.log(`Option selected:`, selectedOption.obj.slug);
-    if (selectedOption) {
-      setValues({ ...values, linkProductSlug: selectedOption.obj.slug });
-      formData.set("linkProductSlug", selectedOption.obj.slug);
+  const handleLinkProduct = (option) => {
+    if (option) {
+      setValues({ ...values, linkProductSlug: option.obj.slug });
+      formData.set("linkProductSlug", option.obj.slug);
     }
   };
-  const handleLinkCategoryForProduct = (selectedOption) => {
-    console.log(`Option selected For P:`, selectedOption);
-    if (selectedOption) {
-      getProductsByCatId(selectedOption.obj._id).then((data) => {
+  const handleLinkCategoryForProduct = (option) => {
+    if (option) {
+      getProductsByCatId(option.obj._id).then((data) => {
         if (data === undefined && data.error) {
           console.log(data.error);
         } else {
-          console.log("Prod PPP,", data);
           setProductsForLinkCat(data);
         }
       });
-      setValues({ ...values, linkSlug: selectedOption.obj.slug });
-      formData.set("linkSlug", selectedOption.obj.slug);
+      setValues({ ...values, link: option.obj.slug });
+      formData.set("link", option.obj.slug);
     }
   };
   const handleOptionChange = (option) => {
     formData.set(option.field, option.value);
     setValues({ ...values, [option.field]: option.value, formData: formData });
   };
-  const handleLinkCategory = (selectedOption) => {
-    console.log(`Option selected:`, selectedOption.obj.slug);
-    if (selectedOption) {
-      setValues({ ...values, linkSlug: selectedOption.obj.slug });
-      formData.set("linkSlug", selectedOption.obj.slug);
+  const handleLinkCategory = (option) => {
+    if (option) {
+      setValues({ ...values, link: option.obj.slug });
+      formData.set("link", option.obj.slug);
     }
   };
   useEffect(() => {
@@ -289,18 +307,24 @@ const UpdateAvertisement = ({ match }) => {
     if (photo !== null) {
       formData.append("photo", photo);
     }
-    if (selectedGroups.length > 0) {
-      formData.set("groups", selectedGroups);
-    }
-    if (selectedCategories.length > 0) {
-      formData.set("categories", selectedCategories);
-    }
-    if (selectedManufacturer.length > 0) {
-      formData.set("manufacturers", selectedManufacturer);
-    }
-    if (selectedProducts.length > 0) {
-      formData.set("products", selectedProducts);
-    }
+
+    formData.set("groups", selectedGroups);
+    formData.set("categories", selectedCategories);
+    formData.set("manufacturers", selectedManufacturer);
+    formData.set("products", selectedProducts);
+
+    // if (selectedGroups.length > 0) {
+    //   formData.set("groups", selectedGroups);
+    // }
+    // if (selectedCategories.length > 0) {
+    //   formData.set("categories", selectedCategories);
+    // }
+    // if (selectedManufacturer.length > 0) {
+    //   formData.set("manufacturers", selectedManufacturer);
+    // }
+    // if (selectedProducts.length > 0) {
+    //   formData.set("products", selectedProducts);
+    // }
     formData.set("name", name);
 
     setValues({ ...values, error: "" });
@@ -473,11 +497,11 @@ const UpdateAvertisement = ({ match }) => {
                     obj: item,
                   };
                 })}
-                options={groups.map((group, index) => {
+                options={groups.map((item, index) => {
                   return {
-                    value: group.name,
-                    label: group.name,
-                    obj: group,
+                    value: item.name,
+                    label: item.name,
+                    obj: item,
                   };
                 })}
               />
@@ -506,7 +530,7 @@ const UpdateAvertisement = ({ match }) => {
                 })}
               />
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="" className="text-muted">
                 Select a Category For Product Pages
@@ -526,60 +550,31 @@ const UpdateAvertisement = ({ match }) => {
             </div>
 
             <React.Fragment>
-                <div className="form-group">
-                  <label htmlFor="" className="text-muted">
-                    Select Products Pages:
-                  </label>
-                  <Select
-                    onChange={handleChangeProducts}
-                    closeMenuOnSelect={false}
-                    defaultValue={advertisement.products.map((item, index) => {
-                      return {
-                        value: item.name,
-                        label: item.name,
-                        obj: item,
-                      };
-                    })}
-                    isMulti
-                    options={productsOfACat.map((p, index) => {
-                      return {
-                        value: p.name,
-                        label: p.name,
-                        obj: p,
-                      };
-                    })}
-                  />
-                </div>
-              </React.Fragment>
-
-            {/* {slugsProducts.length === 0 && productsOfACat.length > 0 && (
-              <React.Fragment>
-                <div className="form-group">
-                  <label htmlFor="" className="text-muted">
-                    Select Products Pages:
-                  </label>
-                  <Select
-                    onChange={handleChangeProducts}
-                    closeMenuOnSelect={false}
-                    // defaultValue={slugsProducts.map((prod, index) => {
-                    //   return {
-                    //     value: prod.name,
-                    //     label: prod.name,
-                    //     obj: prod,
-                    //   };
-                    // })}
-                    isMulti
-                    options={productsOfACat.map((p, index) => {
-                      return {
-                        value: p.name,
-                        label: p.name,
-                        obj: p,
-                      };
-                    })}
-                  />
-                </div>
-              </React.Fragment>
-            )} */}
+              <div className="form-group">
+                <label htmlFor="" className="text-muted">
+                  Select Products Pages:
+                </label>
+                <Select
+                  onChange={handleChangeProducts}
+                  closeMenuOnSelect={false}
+                  defaultValue={advertisement.products.map((item, index) => {
+                    return {
+                      value: item.name,
+                      label: item.name,
+                      obj: item,
+                    };
+                  })}
+                  isMulti
+                  options={productsOfACat.map((p, index) => {
+                    return {
+                      value: p.name,
+                      label: p.name,
+                      obj: p,
+                    };
+                  })}
+                />
+              </div>
+            </React.Fragment>
 
             <div className="form-group">
               <label htmlFor="" className="text-muted">
@@ -590,12 +585,14 @@ const UpdateAvertisement = ({ match }) => {
                 defaultValue={[
                   { value: 0, label: "Category", field: "" },
                   { value: 1, label: "Product", field: "" },
+                  { value: 2, label: "URL", field: "" },
                 ].map((op, index) => {
                   if (op.value === linkType) return op;
                 })}
                 options={[
                   { value: 0, label: "Category", field: "" },
                   { value: 1, label: "Product", field: "" },
+                  { value: 2, label: "URL", field: "" },
                 ].map((op, index) => {
                   op.field = "linkType";
                   return op;
@@ -612,7 +609,7 @@ const UpdateAvertisement = ({ match }) => {
                     onChange={handleLinkCategory}
                     closeMenuOnSelect={false}
                     defaultValue={categories.map((cat, index) => {
-                      if (cat.slug === linkSlug)
+                      if (cat.slug === link)
                         return {
                           value: cat.name,
                           label: cat.name,
@@ -631,18 +628,6 @@ const UpdateAvertisement = ({ match }) => {
               </div>
             )}
             {linkType === 1 && (
-              // <div className="form-group">
-              //   <label htmlFor="" className="text-muted">
-              //     Write a product search text
-              //   </label>
-              //   <input
-              //     onChange={handleChange("linkSlug")}
-              //     type="text"
-              //     className="form-control"
-              //     value={linkSlug}
-              //     required={true}
-              //   />
-              // </div>
               <React.Fragment>
                 <div className="form-group">
                   <label htmlFor="" className="text-muted">
@@ -653,7 +638,7 @@ const UpdateAvertisement = ({ match }) => {
                       onChange={handleLinkCategoryForProduct}
                       closeMenuOnSelect={false}
                       defaultValue={categories.map((cat, index) => {
-                        if (cat.slug === linkSlug)
+                        if (cat.slug === link)
                           return {
                             value: cat.name,
                             label: cat.name,
@@ -671,7 +656,7 @@ const UpdateAvertisement = ({ match }) => {
                   )}
                 </div>
                 <div className="form-group">
-                  {productsForLinkCat.length > 0 && linkProduct.length > 0 && (
+                  {productsForLinkCat.length > 0 && linkProduct && (
                     <React.Fragment>
                       <label htmlFor="" className="text-muted">
                         Select Products For Link:
@@ -679,14 +664,11 @@ const UpdateAvertisement = ({ match }) => {
                       <Select
                         onChange={handleLinkProduct}
                         closeMenuOnSelect={false}
-                        defaultValue={linkProduct.map((p, index) => {
-                          if (p.slug === linkProductSlug)
-                            return {
-                              value: p.name,
-                              label: p.name,
-                              obj: p,
-                            };
-                        })}
+                        defaultValue={{
+                          value: linkProduct.name,
+                          label: linkProduct.name,
+                          obj: linkProduct,
+                        }}
                         options={productsForLinkCat.map((p, index) => {
                           return {
                             value: p.name,
@@ -697,7 +679,7 @@ const UpdateAvertisement = ({ match }) => {
                       />
                     </React.Fragment>
                   )}
-                  {productsForLinkCat.length > 0 && linkProduct.length === 0 && (
+                  {productsForLinkCat.length > 0 && !linkProduct && (
                     <React.Fragment>
                       <label htmlFor="" className="text-muted">
                         Select Products For Link:
@@ -705,14 +687,6 @@ const UpdateAvertisement = ({ match }) => {
                       <Select
                         onChange={handleLinkProduct}
                         closeMenuOnSelect={false}
-                        // defaultValue={productsForLinkCat.map((p, index) => {
-                        //   if (p.slug === linkProductSlug)
-                        //     return {
-                        //       value: p.name,
-                        //       label: p.name,
-                        //       obj: p,
-                        //     };
-                        // })}
                         options={productsForLinkCat.map((p, index) => {
                           return {
                             value: p.name,
@@ -725,6 +699,21 @@ const UpdateAvertisement = ({ match }) => {
                   )}
                 </div>
               </React.Fragment>
+            )}
+
+            {linkType === 2 && (
+              <div className="form-group">
+                <label htmlFor="" className="text-muted">
+                  Full Link Url
+                </label>
+                <input
+                  onChange={handleChange("link")}
+                  type="text"
+                  className="form-control"
+                  value={link}
+                  required
+                />
+              </div>
             )}
             <button
               type="submit"

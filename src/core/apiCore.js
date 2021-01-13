@@ -198,8 +198,7 @@ export const getAdvertisementsBySlug = (slug) => {
 
 
   export const productsBySlugs = params => {
-    console.log("query slug pages", `${API}/products/slugs?slugs=${params}`);
-    return fetch(`${API}/products/slugs?slugs=${params}`, {
+    return fetch(`${API}/products/by/slugs?slugs=${params}`, {
         method:"GET"
     })
     .then(responce => {
@@ -209,8 +208,7 @@ export const getAdvertisementsBySlug = (slug) => {
   }
 
   export const productBySlug = params => {
-    console.log("query slug pages", `${API}/product/slug?slug=${params}`);
-    return fetch(`${API}/products/slugs?slugs=${params}`, {
+    return fetch(`${API}/product/by/slug?slug=${params}`, {
         method:"GET"
     })
     .then(responce => {

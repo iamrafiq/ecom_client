@@ -40,13 +40,13 @@ const AddAvertisement = () => {
     selectedCategories: "",
     selectedProducts: "",
     linkType: "",
-    linkSlug: "",
+    link: "",
     linkProductSlug: "",
     loading: false,
     error: "",
     createdProduct: "",
     redirectToProfile: false,
-    formData: "",
+    formData: new FormData(),
   });
 
   const {
@@ -58,7 +58,7 @@ const AddAvertisement = () => {
     selectedCategories,
     selectedProducts,
     linkType,
-    linkSlug,
+    link,
     linkProductSlug,
     loading,
     error,
@@ -259,26 +259,23 @@ const AddAvertisement = () => {
     });
   };
 
-  const handleLinkCategory = (selectedOption) => {
-    console.log(`Option selected:`, selectedOption.obj.slug);
-    if (selectedOption) {
-      setValues({ ...values, linkSlug: selectedOption.obj.slug });
-      formData.set("linkSlug", selectedOption.obj.slug);
+  const handleLinkCategory = (option) => {
+    if (option) {
+      setValues({ ...values, link: option.obj.slug });
+      formData.set("link", option.obj.slug);
     }
   };
 
-  const handleLinkProduct = (selectedOption) => {
-    console.log(`Option selected:`, selectedOption.obj.slug);
-    if (selectedOption) {
-      setValues({ ...values, linkProductSlug: selectedOption.obj.slug });
-      formData.set("linkProductSlug", selectedOption.obj.slug);
+  const handleLinkProduct = (option) => {
+    if (option) {
+      setValues({ ...values, linkProductSlug: option.obj.slug });
+      formData.set("linkProductSlug", option.obj.slug);
     }
   };
 
-  const handleLinkCategoryForProduct = (selectedOption) => {
-    console.log(`Option selected For P:`, selectedOption);
-    if (selectedOption) {
-      getProductsByCatId(selectedOption.obj._id).then((data) => {
+  const handleLinkCategoryForProduct = (option) => {
+    if (option) {
+      getProductsByCatId(option.obj._id).then((data) => {
         if (data === undefined && data.error) {
           console.log(data.error);
         } else {
@@ -286,8 +283,8 @@ const AddAvertisement = () => {
           setProductsForLinkCat(data);
         }
       });
-      setValues({ ...values, linkSlug: selectedOption.obj.slug });
-      formData.set("linkSlug", selectedOption.obj.slug);
+      setValues({ ...values, link: option.obj.slug });
+      formData.set("link", option.obj.slug);
     }
   };
   const newPostFrom = () => (
@@ -302,6 +299,18 @@ const AddAvertisement = () => {
       ) : (
         <React.Fragment>
           <form className="mb-3" onSubmit={clickSubmit} id="form1">
+          <h4>Upload Bengali Image</h4>
+            <div className="form-group">
+              <label htmlFor="" className="btn btn-secondary">
+                <input
+                  onChange={handlePhotoChange("photoBangla")}
+                  type="file"
+                  name="photoBangla"
+                  accept="image/*"
+                />
+              </label>
+            </div>
+
             <h4>Upload Image</h4>
             <div className="form-group">
               <label htmlFor="" className="btn btn-secondary">
@@ -313,18 +322,7 @@ const AddAvertisement = () => {
                 />
               </label>
             </div>
-            <h4>Upload Bangla Image</h4>
-
-            <div className="form-group">
-              <label htmlFor="" className="btn btn-secondary">
-                <input
-                  onChange={handlePhotoChange("photoBangla")}
-                  type="file"
-                  name="photoBangla"
-                  accept="image/*"
-                />
-              </label>
-            </div>
+            
             <div className="form-group">
               <label htmlFor="" className="text-muted">
                 Name
@@ -448,6 +446,7 @@ const AddAvertisement = () => {
                 options={[
                   { value: 0, label: "Category", field: "" },
                   { value: 1, label: "Product", field: "" },
+                  { value: 2, label: "URL", field: "" },
                 ].map((op, index) => {
                   op.field = "linkType";
                   return op;
@@ -516,7 +515,20 @@ const AddAvertisement = () => {
                 </div>
               </React.Fragment>
             )}
-
+            {linkType === 2 && (
+                <div className="form-group">
+                <label htmlFor="" className="text-muted">
+                  Full Link Url
+                </label>
+                <input
+                  onChange={handleChange("link")}
+                  type="text"
+                  className="form-control"
+                  value={link}
+                  required
+                />
+              </div>
+            )}
             <button
               type="submit"
               form="form1"
