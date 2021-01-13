@@ -156,7 +156,7 @@ export const getAdvertisementsBySlug = (slug) => {
  
 
   export const getProductsByGroupSlug = (slug) => {
-    return fetch(`${API}/products/by/group/${slug}`, {
+    return fetch(`${API}/products/by/group-slug/${slug}`, {
       method: "GET",
     })
       .then((responce) => {
@@ -166,7 +166,7 @@ export const getAdvertisementsBySlug = (slug) => {
   };
 
   export const getProductsByManufacturerSlug = (slug) => {
-    return fetch(`${API}/products/by/manufacturer/${slug}`, {
+    return fetch(`${API}/products/by/manufacturer-slug/${slug}`, {
       method: "GET",
     })
       .then((responce) => {
@@ -176,7 +176,7 @@ export const getAdvertisementsBySlug = (slug) => {
   };
 
   export const getProductsByCategorySlug = (slug) => {
-    return fetch(`${API}/category/products/byslug/${slug}`, {
+    return fetch(`${API}/products/by/category-slug/${slug}`, {
       method: "GET",
     })
       .then((responce) => {
@@ -186,7 +186,7 @@ export const getAdvertisementsBySlug = (slug) => {
   };
 
   export const getProductsByCategoryId = (id) => {
-    return fetch(`${API}/category/products/byid/${id}`, {
+    return fetch(`${API}/products/by/category-id/${id}`, {
       method: "GET",
     })
       .then((responce) => {

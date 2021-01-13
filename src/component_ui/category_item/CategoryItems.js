@@ -57,7 +57,7 @@ const CategoryItems = ({ match }) => {
   const history = useHistory();
 
   const bar = useSelector(selectSideBarBarToViewSelection);
-  const category = useSelector(selectCategoryWithProduct);
+  const categoryWithProduct = useSelector(selectCategoryWithProduct);
   const loadingCategoryWithProduct = useSelector(
     selectLoadingCategoryWithProduct
   );
@@ -76,7 +76,7 @@ const CategoryItems = ({ match }) => {
   const dispatch = useDispatch();
 
   console.log("match", match);
-  console.log("grou-p", category);
+  console.log("grou-p", categoryWithProduct);
 
   const [advertProduct, setAdvertProduct] = useState(undefined);
   const [dataTypes, setDataTypes] = useState({
@@ -169,19 +169,19 @@ const CategoryItems = ({ match }) => {
           <LoadingBar loading={loadingCategoryWithProduct}></LoadingBar>
           <div className="advert-area">
             <div className="">
-              {category &&
-                category.advertisements &&
-                category.advertisements.length > 0 && (
+              {categoryWithProduct &&
+                categoryWithProduct.advertisements &&
+                categoryWithProduct.advertisements.length > 0 && (
                   <AdvertismentsFadeOut
-                    advertisements={category.advertisements}
+                    advertisements={categoryWithProduct.advertisements}
                   ></AdvertismentsFadeOut>
                 )}
             </div>
           </div>
 
           <div className="back-links">
-            {dataCategory&&(category && category.recursiveCategories
-              ? category.recursiveCategories.map((item, index) => (
+            {dataCategory&&(categoryWithProduct && categoryWithProduct.category.recursiveCategories
+              ? categoryWithProduct.category.recursiveCategories.map((item, index) => (
                   <div
                     className="react__link--colored"
                     key={Math.random().toString(10).slice(2)}
@@ -194,7 +194,7 @@ const CategoryItems = ({ match }) => {
                   >
                     {language === "en" ? (
                       <div>
-                        {index === category.recursiveCategories.length - 1 ? (
+                        {index === categoryWithProduct.category.recursiveCategories.length - 1 ? (
                           <span>{item.name}</span>
                         ) : (
                           <span>{`${item.name} > `} &nbsp;</span>
@@ -202,7 +202,7 @@ const CategoryItems = ({ match }) => {
                       </div>
                     ) : (
                       <div>
-                        {index === category.recursiveCategories.length - 1
+                        {index === categoryWithProduct.category.recursiveCategories.length - 1
                           ? `${item.bengaliName}`
                           : `${item.bengaliName} > `}{" "}
                         &nbsp;
@@ -219,10 +219,10 @@ const CategoryItems = ({ match }) => {
             <div>
               <span className="horizontal-line--text">
                 {dataCategory
-                  ? category
+                  ? categoryWithProduct
                     ? language === "en"
-                      ? category.name
-                      : category.bengaliName
+                      ? categoryWithProduct.category.name
+                      : categoryWithProduct.category.bengaliName
                     : language === "en"
                     ? "Nothing Found"
                     : "পাওয়া যায় নাই"
@@ -253,10 +253,10 @@ const CategoryItems = ({ match }) => {
           </div>
           <Grid>
             {dataCategory
-              ? category && category.subcats && category.subcats.length > 0
-                ? subcategories(category.subcats)
-                : category && category.products && category.products.length > 0
-                ? products(category.products)
+              ? categoryWithProduct && categoryWithProduct.category.subcats && categoryWithProduct.category.subcats.length > 0
+                ? subcategories(categoryWithProduct.category.subcats)
+                : categoryWithProduct && categoryWithProduct.products && categoryWithProduct.products.length > 0
+                ? products(categoryWithProduct.products)
                 : language === "en"
                 ? "Nothing found for this category"
                 : "এই ক্যাটাগরিতে কোন কিছু পাওয়া যায় নাই"

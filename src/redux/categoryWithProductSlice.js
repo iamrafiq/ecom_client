@@ -31,7 +31,7 @@ export const loadCategoryWithProduct = (slug, catId = undefined) => (
   if (catId === undefined) {
     getProductsByCategorySlug(slug).then((data) => {
 
-      console.log("group-q", data)
+      console.log("category-q", data)
       if (data.error) {
         dispatch(setLoading({ loading: false }));
       } else {
@@ -41,6 +41,7 @@ export const loadCategoryWithProduct = (slug, catId = undefined) => (
     });
   } else {
     getProductsByCategoryId(catId).then((data) => {
+      console.log("category-q", data)
       if (data.error) {
         dispatch(setLoading({ loading: false }));
       } else {
