@@ -48,6 +48,8 @@
   --border-color-light: #ebebeb;
 
   /**size**/
+  --font-size-sidebar-category-name:.9rem;
+
   --font-size-double-extra-large: 2.5rem;
   --font-size-extra-large: 1.8rem;
   --font-size-large: 1.5rem;
@@ -55,7 +57,7 @@
   --font-size-small: 1rem;
   --font-size-very-small: 0.8rem;
   --font-size-category-name:1.2rem;
-
+  
   --font-size-regular-button:1.2rem;
   --font-size-text-cart-button:1.1rem;
 

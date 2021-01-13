@@ -50,9 +50,22 @@
   }
   
   .sidebar--divider {
-    margin: 0px 0 var(--gap-large) 0;
+    margin:  var(--gap-large) 0;
     height: 1px;
     background-color:var( --border-color-dark);
+  }
+  .sidebar__group{
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 5px 0;
+    font-size: var(--font-size-sidebar-category-name);
+  }
+  .sidebar__group img{
+    width: 20px;
+    height: auto;
+    margin-right: 5px;
   }
   .offer__products{
     display: flex;
@@ -61,7 +74,7 @@
     cursor: pointer;
   }
   .offer__products>* {
-    margin: var(--gap-large) var(--gap-small) var(--gap-large) 0;
+    margin: var(--gap-large) var(--gap-small) 0 0;
   
   }
   .offer--count{

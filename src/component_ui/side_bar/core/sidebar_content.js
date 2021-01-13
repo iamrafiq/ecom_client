@@ -52,7 +52,7 @@ const SidebarContent = (props) => {
   const onClickGroup = (slug) => {
     history.push({
       pathname: `/products/${slug}`,
-      search:`?manufacturer=${slug}`
+      search:`?group=${slug}`
     });
  };
 
@@ -103,7 +103,7 @@ const SidebarContent = (props) => {
         <div
           className="offer__products react__link--colorless"
         
-          onClick={() => {props.toggleSideBar(); onClickGroup("kc-manuf")}}
+          onClick={() => {props.toggleSideBar(); onClickGroup("offer")}}
         >
           <span className="offer--text">
             {language === "en" ? "Offer" : "অফার"}
@@ -113,6 +113,58 @@ const SidebarContent = (props) => {
               ? offerProductsCount
               : englishToBangla(offerProductsCount)}
           </span>
+        </div>
+        <hr className="sidebar--divider" />
+        <div
+          className="sidebar__group react__link--colorless"
+        
+          onClick={() => {props.toggleSideBar(); onClickGroup("covid-19-protection")}}
+        >
+         <img src={`/images/menu_covid.png`} alt="Sowdamart" />
+          <span className="">
+            {language === "en" ? "COVID-19 Protection" : "কোভিড-১৯ সুরক্ষা"}
+          </span>
+        </div>
+        <div
+          className="sidebar__group react__link--colorless"
+        
+          onClick={() => {props.toggleSideBar(); onClickGroup("winter-collection")}}
+        >
+        <img src={`/images/menu_winter.png`} alt="Sowdamart" />
+          <span className="">
+            {language === "en" ? "Winter Collection" : "শীতের আয়োজন"}
+          </span>
+        </div>
+        <div
+          className="sidebar__group react__link--colorless"
+        
+          onClick={() => {props.toggleSideBar(); onClickGroup("new-arrival")}}
+        >
+          <img src={`/images/menu_new.png`} alt="Sowdamart" />
+          <span className="">
+            {language === "en" ? "New Arrival" : "নিউ এরাইভাল"}
+          </span>
+        </div>
+        <div
+          className="sidebar__group react__link--colorless"
+        
+          onClick={() => {props.toggleSideBar(); onClickGroup("flash-sales")}}
+        >
+          <img src={`/images/menu_flash.png`} alt="Sowdamart" />
+          <span className="">
+            {language === "en" ? "Flash Sales" : "ফ্ল্যাশ সেলস"}
+          </span>
+        </div>
+        <div
+          className="sidebar__group react__link--colorless"
+        
+          onClick={() => {props.toggleSideBar(); onClickGroup("flash-sales")}}
+        >
+          <img src={`/images/menu_popular.png`} alt="Sowdamart" />
+          <span className="">
+            {language === "en" ? "Popular" : "জনপ্রিয়"}
+          </span>
+
         </div>
         <hr className="sidebar--divider" />
         {

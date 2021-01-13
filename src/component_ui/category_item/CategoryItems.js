@@ -169,49 +169,75 @@ const CategoryItems = ({ match }) => {
           <LoadingBar loading={loadingCategoryWithProduct}></LoadingBar>
           <div className="advert-area">
             <div className="">
-              {categoryWithProduct &&
+              {dataCategory &&
+                categoryWithProduct &&
                 categoryWithProduct.advertisements &&
                 categoryWithProduct.advertisements.length > 0 && (
                   <AdvertismentsFadeOut
                     advertisements={categoryWithProduct.advertisements}
                   ></AdvertismentsFadeOut>
                 )}
+              {dataGroup &&
+                groupWithProduct &&
+                groupWithProduct.advertisements &&
+                groupWithProduct.advertisements.length > 0 && (
+                  <AdvertismentsFadeOut
+                    advertisements={groupWithProduct.advertisements}
+                  ></AdvertismentsFadeOut>
+                )}
+              {dataManufacturer &&
+                manufacturerWithProduct &&
+                manufacturerWithProduct.advertisements &&
+                manufacturerWithProduct.advertisements.length > 0 && (
+                  <AdvertismentsFadeOut
+                    advertisements={manufacturerWithProduct.advertisements}
+                  ></AdvertismentsFadeOut>
+                )}
             </div>
           </div>
 
           <div className="back-links">
-            {dataCategory&&(categoryWithProduct && categoryWithProduct.category.recursiveCategories
-              ? categoryWithProduct.category.recursiveCategories.map((item, index) => (
-                  <div
-                    className="react__link--colored"
-                    key={Math.random().toString(10).slice(2)}
-                    onClick={() => {
-                      history.push({
-                        pathname: `/products/${item.slug}`,
-                        state: { catId: item._id },
-                      });
-                    }}
-                  >
-                    {language === "en" ? (
-                      <div>
-                        {index === categoryWithProduct.category.recursiveCategories.length - 1 ? (
-                          <span>{item.name}</span>
+            {dataCategory &&
+              (categoryWithProduct &&
+              categoryWithProduct.category.recursiveCategories
+                ? categoryWithProduct.category.recursiveCategories.map(
+                    (item, index) => (
+                      <div
+                        className="react__link--colored"
+                        key={Math.random().toString(10).slice(2)}
+                        onClick={() => {
+                          history.push({
+                            pathname: `/products/${item.slug}`,
+                            state: { catId: item._id },
+                          });
+                        }}
+                      >
+                        {language === "en" ? (
+                          <div>
+                            {index ===
+                            categoryWithProduct.category.recursiveCategories
+                              .length -
+                              1 ? (
+                              <span>{item.name}</span>
+                            ) : (
+                              <span>{`${item.name} > `} &nbsp;</span>
+                            )}
+                          </div>
                         ) : (
-                          <span>{`${item.name} > `} &nbsp;</span>
+                          <div>
+                            {index ===
+                            categoryWithProduct.category.recursiveCategories
+                              .length -
+                              1
+                              ? `${item.bengaliName}`
+                              : `${item.bengaliName} > `}{" "}
+                            &nbsp;
+                          </div>
                         )}
                       </div>
-                    ) : (
-                      <div>
-                        {index === categoryWithProduct.category.recursiveCategories.length - 1
-                          ? `${item.bengaliName}`
-                          : `${item.bengaliName} > `}{" "}
-                        &nbsp;
-                      </div>
-                    )}
-                  </div>
-                ))
-              : "")}
-            
+                    )
+                  )
+                : "")}
           </div>
 
           <div className="horizontal-line">
@@ -253,9 +279,13 @@ const CategoryItems = ({ match }) => {
           </div>
           <Grid>
             {dataCategory
-              ? categoryWithProduct && categoryWithProduct.category.subcats && categoryWithProduct.category.subcats.length > 0
+              ? categoryWithProduct &&
+                categoryWithProduct.category.subcats &&
+                categoryWithProduct.category.subcats.length > 0
                 ? subcategories(categoryWithProduct.category.subcats)
-                : categoryWithProduct && categoryWithProduct.products && categoryWithProduct.products.length > 0
+                : categoryWithProduct &&
+                  categoryWithProduct.products &&
+                  categoryWithProduct.products.length > 0
                 ? products(categoryWithProduct.products)
                 : language === "en"
                 ? "Nothing found for this category"
