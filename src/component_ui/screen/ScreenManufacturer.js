@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState}from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import Product from "../product/Product";
 

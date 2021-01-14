@@ -2,9 +2,6 @@ import React from "react";
 
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
-// import { getCategoryItems } from "../../admin/apiAdmin";
-
-// import ProductCard from "../product_card/ProductCard";
 import { Category } from "../category/Category";
 import Product from "../product/Product";
 
