@@ -9,7 +9,8 @@ import { useEffect, useState } from "react";
 // import ProductCard from "../product_card/ProductCard";
 import { Category } from "../category/Category";
 import Product from "../product/Product";
-import OfferProduct from "../product/OfferProduct";
+import OfferProductVertical from "../product/OfferProductVertical";
+import OfferProductLandscape from "../product/OfferProductLandscape";
 
 import "../../common/common.css";
 import "./category_item.css";
@@ -152,12 +153,18 @@ const CategoryItems = ({ match }) => {
   const products = (items) => {
     return items.map((item, index) => (
       <div>
-        {/* <OfferProduct product={item} index={index}></OfferProduct> */}
         <Product
           product={item}
           index={index}
           advertProductSlug={advertProduct}
         ></Product>
+      </div>
+    ));
+  };
+  const offerProducts = (items) => {
+    return items.map((item, index) => (
+      <div>
+       <OfferProductLandscape product={item} index={index}></OfferProductLandscape> 
       </div>
     ));
   };
@@ -292,7 +299,7 @@ const CategoryItems = ({ match }) => {
                 : "এই ক্যাটাগরিতে কোন কিছু পাওয়া যায় নাই"
               : dataGroup
               ? groupWithProduct && groupWithProduct.products
-                ? products(groupWithProduct.products)
+                ? groupWithProduct.group.slug==="offer"? offerProducts(groupWithProduct.products):products(groupWithProduct.products)
                 : language === "en"
                 ? "Nothing found for this group"
                 : "এই গ্রুপে কোন কিছু পাওয়া যায় নাই"

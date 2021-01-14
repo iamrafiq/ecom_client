@@ -9,6 +9,8 @@
   --cartbar-width: 20rem; /*cart bar width same in config file*/
 
   --grid-item-max-width:14rem;
+  --grid-item-vertical-max-width:24rem;
+
 
   --appbar-height:3.5rem;
   --sidebar-width-with-extra-padding: 2rem; /*side bar width + padding*/

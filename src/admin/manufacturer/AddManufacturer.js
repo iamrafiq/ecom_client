@@ -22,6 +22,8 @@ const AddManufacturer = () => {
   const [values, setValues] = useState({
     name: "",
     bengaliName:"",
+    nameFull: "",
+    bengaliNameFull:"",
     slug: "",
     loading: false,
     error: "",
@@ -33,6 +35,8 @@ const AddManufacturer = () => {
   const {
     name,
     bengaliName,
+    nameFull,
+    bengaliNameFull,
     slug,
     loading,
     error,
@@ -79,15 +83,6 @@ const AddManufacturer = () => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
-        setValues({
-          ...values,
-          name: "",
-          slugPages: "",
-          customSlug: "",
-          trash: false,
-          loading: false,
-          createdProduct: data.name,
-        });
         history.push("/admin/dashboard");
       }
     });
@@ -107,26 +102,52 @@ const AddManufacturer = () => {
       ) : (
         <React.Fragment>
           <form className="mb-3" onSubmit={clickSubmit} id="form1">
+          <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Name Full:
+              </label>
+              <input
+                onChange={handleChange("nameFull")}
+                type="text"
+                className="form-control"
+                value={nameFull}
+                required
+              />
+            </div>
             <div className="form-group">
               <label htmlFor="" className="text-muted">
-                Name
+              Bengali Name Full:
+              </label>
+              <input
+                onChange={handleChange("bengaliNameFull")}
+                type="text"
+                className="form-control"
+                value={bengaliNameFull}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Name Short:
               </label>
               <input
                 onChange={handleChange("name")}
                 type="text"
                 className="form-control"
                 value={name}
+                required
               />
             </div>
             <div className="form-group">
               <label htmlFor="" className="text-muted">
-              Bengali Name
+              Bengali Name Short:
               </label>
               <input
                 onChange={handleChange("bengaliName")}
                 type="text"
                 className="form-control"
                 value={bengaliName}
+                required
               />
             </div>
             <button

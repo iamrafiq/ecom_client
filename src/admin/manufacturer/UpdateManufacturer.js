@@ -16,22 +16,33 @@ const UpdateManufacturer = ({ match }) => {
 
   const user = useSelector(selectUser);
   const token = useSelector(selectToken);
- 
 
   const [values, setValues] = useState({
     name: "",
-    bengaliName:"",
+    bengaliName: "",
+    nameFull: "",
+    bengaliNameFull: "",
     slug: "",
     loading: false,
-    createdProduct:"",
-    error:"",
+    createdProduct: "",
+    error: "",
     formData: new FormData(),
   });
 
-  const { name, bengaliName, slug, loading, error, createdProduct, formData } = values;
+  const {
+    name,
+    bengaliName,
+    nameFull,
+    bengaliNameFull,
+    slug,
+    loading,
+    error,
+    createdProduct,
+    formData,
+  } = values;
 
   useEffect(() => {
-    console.log("manuf match", match.params.id)
+    console.log("manuf match", match.params.id);
     getManufacturerById(match.params.id).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
@@ -40,7 +51,9 @@ const UpdateManufacturer = ({ match }) => {
         setValues({
           ...values,
           name: data.name,
-          bengaliName:data.bengaliName,
+          bengaliName: data.bengaliName,
+          nameFull: data.nameFull,
+          bengaliNameFull: data.bengaliNameFull,
           slug: data.slug,
           loading: false,
           formData: new FormData(),
@@ -81,7 +94,7 @@ const UpdateManufacturer = ({ match }) => {
 
   const clickSubmit = (event) => {
     event.preventDefault();
-    
+
     formData.set("name", name);
 
     setValues({ ...values, error: "" });
@@ -108,24 +121,50 @@ const UpdateManufacturer = ({ match }) => {
           <form className="mb-3" onSubmit={clickSubmit} id="form1">
             <div className="form-group">
               <label htmlFor="" className="text-muted">
-                Name
+                Name Full:
+              </label>
+              <input
+                onChange={handleChange("nameFull")}
+                type="text"
+                className="form-control"
+                value={nameFull}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Bengali Name Full:
+              </label>
+              <input
+                onChange={handleChange("bengaliNameFull")}
+                type="text"
+                className="form-control"
+                value={bengaliNameFull}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Name Short:
               </label>
               <input
                 onChange={handleChange("name")}
                 type="text"
                 className="form-control"
                 value={name}
+                required
               />
             </div>
             <div className="form-group">
               <label htmlFor="" className="text-muted">
-              Bengali Name
+                Bengali Name Short:
               </label>
               <input
                 onChange={handleChange("bengaliName")}
                 type="text"
                 className="form-control"
                 value={bengaliName}
+                required
               />
             </div>
             <button

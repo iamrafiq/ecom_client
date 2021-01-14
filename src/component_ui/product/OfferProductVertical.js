@@ -28,7 +28,7 @@ import { imageUrlConverter } from "../../util/ImageUrlConverter";
 
 var FontAwesome = require("react-fontawesome");
 
-function OfferProduct({ regularProduct, offerProduct, product }) {
+function OfferProductVertical({ regularProduct, offerProduct, product }) {
   const resulationSelector = useSelector(selectResolutionSelection);
   const [openDetailsView, setOpenDetailsView] = useState(false);
   const [modal, setModal] = useState(false);
@@ -348,4 +348,4 @@ function OfferProduct({ regularProduct, offerProduct, product }) {
     </div>
   );
 }
-export default OfferProduct;
+export default OfferProductVertical;

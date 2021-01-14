@@ -29,7 +29,7 @@ import "./regular-product.css";
 
 var FontAwesome = require("react-fontawesome");
 
-function OfferProductLandscape({ product, advertProductSlug }) {
+function Product({ product, advertProductSlug }) {
   const resulationSelector = useSelector(selectResolutionSelection);
   const [openDetailsView, setOpenDetailsView] = useState(false);
   const [modal, setModal] = useState(false);
@@ -51,6 +51,7 @@ function OfferProductLandscape({ product, advertProductSlug }) {
     isPerishable,
     earliestAvailabilityTime,
     availabilityCutOffTime,
+    offerPhotosUrl,
     photosUrl,
     manufacturers,
   } = product;
@@ -89,7 +90,18 @@ function OfferProductLandscape({ product, advertProductSlug }) {
   });
 
   return (
-    <div>
+    <div className="offer__product__landscape">
+      <img
+      className="offer__product__landscape--image"
+        src={
+          offerPhotosUrl && offerPhotosUrl.length > 0
+            ? `${imageUrlConverter(
+                `${offerPhotosUrl[0]}&res=${resulationSelector}`
+              )}`
+            : ""
+        }
+        alt={name}
+      ></img>
       <React.Fragment>
         {modalProductDetails && (
           <div>
@@ -199,6 +211,72 @@ function OfferProductLandscape({ product, advertProductSlug }) {
               </div>
             </div>
           </div>
+          {/* {selectedHoverSlug === slug ? (
+            <div className="content__overly" ref={innerClickRef}>
+              {productFromCart ? (
+                <div className="overly__cart">
+                  {language === "en" ? (
+                    <div className="cart__amount--totla">
+                      &#2547; {totalPrice()}
+                    </div>
+                  ) : (
+                    <div className="cart__amount--totla">
+                      &#2547; {englishToBangla(totalPrice())}
+                    </div>
+                  )}
+
+                  <div className="cart__action">
+                    <div className="actions">
+                      <span
+                        className="action--sub"
+                        onClick={() => onClickRemoveFromCart()}
+                      >
+                        <FontAwesome className="" name="minus" />
+                      </span>
+                      {language === "en" ? (
+                        <span className="action--result">
+                          {productFromCart.qtyCart}
+                        </span>
+                      ) : (
+                        <span className="action--result">
+                          {englishToBangla(productFromCart.qtyCart)}
+                        </span>
+                      )}
+
+                      <span
+                        className="action--add"
+                        onClick={() => onClickAddToCart()}
+                      >
+                        <FontAwesome className="" name="plus" />
+                      </span>
+                    </div>
+                    {language === "en" ? (
+                      <div className="cart--text">in bag</div>
+                    ) : (
+                      <div className="cart--text">টি ব্যাগে</div>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="add-text" onClick={() => onClickAddToCart()}>
+                  {language === "en" ? (
+                    <div className="text">Add to shopping bag</div>
+                  ) : (
+                    <div className="text">বাজারের ব্যাগে যোগ করুন</div>
+                  )}
+                </div>
+              )}
+            </div>
+          ) : (
+            ""
+          )} */}
+
+          {/* <div
+            className="icon-overly"
+            onClick={() => setModalProductDetails(true)}
+          >
+            <FontAwesome className="details-icon" name="info-circle" />
+          </div> */}
 
           {productFromCart ? (
             <div className="btn__bag">
@@ -260,4 +338,4 @@ function OfferProductLandscape({ product, advertProductSlug }) {
     </div>
   );
 }
-export default OfferProductLandscape;
+export default Product;

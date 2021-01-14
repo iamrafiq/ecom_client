@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 // import ProductCard from "../product_card/ProductCard";
 import { Category } from "../category/Category";
 import Product from "../product/Product";
-import OfferProduct from "../product/OfferProduct";
 
 import "../../common/common.css";
 import "./search-content.css";
@@ -87,7 +86,6 @@ const CategoryItems = ({ match }) => {
   const products = (items) => {
     return items.map((item, index) => (
       <div>
-        {/* <OfferProduct product={item} index={index}></OfferProduct> */}
         <Product product={item} index={index}></Product>
       </div>
     ));
