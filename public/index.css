@@ -9,7 +9,7 @@
   --cartbar-width: 20rem; /*cart bar width same in config file*/
 
   --grid-item-max-width:14rem;
-  --grid-item-vertical-max-width:24rem;
+  --grid-item-landscape-max-width:23rem;
 
 
   --appbar-height:3.5rem;
@@ -151,6 +151,18 @@ body {
   transition: 0.5s;
 }
 /* app buttons**/
+.btn__all--offer-product-landscape {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.4rem;
+  border-radius: 5px;
+  box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s, border 0.2s, color 0.2s;
+  font-size: var(--font-size-regular-button);
+
+  cursor: pointer;
+}
 .btn__all {
   display: flex;
   align-items: center;

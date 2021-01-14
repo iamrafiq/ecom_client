@@ -24,12 +24,11 @@ import OuterClickHandler from "../../util/OuterClickHandler";
 import PureModal from "react-pure-modal";
 import "../pure-modal.css";
 import { englishToBangla } from "../../util/utils";
-import "./product.css";
-import "./regular-product.css";
+import "./offer-product-landscape.css";
 
 var FontAwesome = require("react-fontawesome");
 
-function Product({ product, advertProductSlug }) {
+function OfferProductLandscape({ product, advertProductSlug }) {
   const resulationSelector = useSelector(selectResolutionSelection);
   const [openDetailsView, setOpenDetailsView] = useState(false);
   const [modal, setModal] = useState(false);
@@ -101,6 +100,7 @@ function Product({ product, advertProductSlug }) {
             : ""
         }
         alt={name}
+        onClick={() => setModalProductDetails(true)}
       ></img>
       <React.Fragment>
         {modalProductDetails && (
@@ -128,26 +128,15 @@ function Product({ product, advertProductSlug }) {
             </PureModal>
           </div>
         )}
-        <div className="product-card">
-          {/* {offerProduct&&(
-             <div className="offer__image">
-             <img
-               src={
-                 photosUrl && photosUrl.length > 0
-                   ? `${photosUrl[0]}&res=${resulationSelector}`
-                   : ""
-               }
-               alt={name}
-             ></img>
-           </div>
-          )} */}
+        <div className="landscape__product-card">
+          
           <div
-            className="card__content"
+            className="landscape__card__content"
             // onTouchStart={() => onHoverProduct()}
             // onMouseEnter={() => onHoverProduct()}
             onClick={() => setModalProductDetails(true)}
           >
-            <div className="content--image">
+            <div className="landscape__content--image">
               <img
                 src={
                   photosUrl && photosUrl.length > 0
@@ -160,12 +149,12 @@ function Product({ product, advertProductSlug }) {
                 onClick={() => setModalProductDetails(true)}
               ></img>
             </div>
-            <div className="content__text">
-              <div className="text--title">
+            <div className="landscape__content__text">
+              <div className="landscape__text--title">
                 {language === "en" ? <p>{name}</p> : <p>{bengaliName}</p>}
               </div>
               {subText && subText.length > 0 && (
-                <div className="text--sub">
+                <div className="landscape__text--sub">
                   {language === "en" ? (
                     <span>{subText}</span>
                   ) : (
@@ -174,12 +163,12 @@ function Product({ product, advertProductSlug }) {
                 </div>
               )}
 
-              <div className="product__price">
+              <div className="landscape__product__price">
                 {applyDiscounts && cropPrice && cropPrice > 0 ? (
-                  <div className="price--crop">
+                  <div className="landscape__price--crop">
                     {language === "en" ? (
                       <Fragment>
-                        <span className="price--mrp price--red">
+                        <span className="landscape__price--mrp landscape__price--red">
                           &#2547; {cropPrice}
                         </span>
                         <span>
@@ -188,7 +177,7 @@ function Product({ product, advertProductSlug }) {
                       </Fragment>
                     ) : (
                       <Fragment>
-                        <span className="price--mrp price--red">
+                        <span className="landscape__price--mrp landscape__price--red">
                           &#2547; {englishToBangla(cropPrice)}
                         </span>
                         <span>
@@ -200,9 +189,9 @@ function Product({ product, advertProductSlug }) {
                 ) : (
                   <Fragment>
                     {language === "en" ? (
-                      <span className="price--mrp">&#2547; {mrp}</span>
+                      <span className="landscape__price--mrp">&#2547; {mrp}</span>
                     ) : (
-                      <span className="price--mrp">
+                      <span className="landscape__price--mrp">
                         &#2547; {englishToBangla(mrp)}
                       </span>
                     )}
@@ -211,84 +200,19 @@ function Product({ product, advertProductSlug }) {
               </div>
             </div>
           </div>
-          {/* {selectedHoverSlug === slug ? (
-            <div className="content__overly" ref={innerClickRef}>
-              {productFromCart ? (
-                <div className="overly__cart">
-                  {language === "en" ? (
-                    <div className="cart__amount--totla">
-                      &#2547; {totalPrice()}
-                    </div>
-                  ) : (
-                    <div className="cart__amount--totla">
-                      &#2547; {englishToBangla(totalPrice())}
-                    </div>
-                  )}
-
-                  <div className="cart__action">
-                    <div className="actions">
-                      <span
-                        className="action--sub"
-                        onClick={() => onClickRemoveFromCart()}
-                      >
-                        <FontAwesome className="" name="minus" />
-                      </span>
-                      {language === "en" ? (
-                        <span className="action--result">
-                          {productFromCart.qtyCart}
-                        </span>
-                      ) : (
-                        <span className="action--result">
-                          {englishToBangla(productFromCart.qtyCart)}
-                        </span>
-                      )}
-
-                      <span
-                        className="action--add"
-                        onClick={() => onClickAddToCart()}
-                      >
-                        <FontAwesome className="" name="plus" />
-                      </span>
-                    </div>
-                    {language === "en" ? (
-                      <div className="cart--text">in bag</div>
-                    ) : (
-                      <div className="cart--text">টি ব্যাগে</div>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <div className="add-text" onClick={() => onClickAddToCart()}>
-                  {language === "en" ? (
-                    <div className="text">Add to shopping bag</div>
-                  ) : (
-                    <div className="text">বাজারের ব্যাগে যোগ করুন</div>
-                  )}
-                </div>
-              )}
-            </div>
-          ) : (
-            ""
-          )} */}
-
-          {/* <div
-            className="icon-overly"
-            onClick={() => setModalProductDetails(true)}
-          >
-            <FontAwesome className="details-icon" name="info-circle" />
-          </div> */}
+        
 
           {productFromCart ? (
-            <div className="btn__bag">
+            <div className="landscape__btn__bag">
               <div
-                className="btn__bag--m"
+                className="landscape__btn__bag--m"
                 onClick={() => onClickRemoveFromCart()}
               >
                 <FontAwesome className="" name="minus" />
               </div>
-              <div className="btn__bag-text-box">
+              <div className="landscape__btn__bag-text-box">
                 <span
-                  className="btn__bag--text"
+                  className="landscape__btn__bag--text"
                   onClick={() => onClickAddToCart()}
                 >
                   {language === "en"
@@ -298,7 +222,7 @@ function Product({ product, advertProductSlug }) {
                       )} ${"টি ব্যাগে"}`}
                 </span>
                 <span
-                  className="btn__bag--text-price"
+                  className="landscape__btn__bag--text-price"
                   onClick={() => onClickAddToCart()}
                 >
                   <span>&#2547;</span>{" "}
@@ -307,23 +231,13 @@ function Product({ product, advertProductSlug }) {
                     : `   ${englishToBangla(totalPrice())} `}
                 </span>
               </div>
-              {/* <span
-                className="btn__bag--text"
-                onClick={() => onClickAddToCart()}
-              >
-                {language === "en"
-                  ? ` ${productFromCart.qtyCart} ${"in bag"}`
-                  : `${englishToBangla(
-                      productFromCart.qtyCart
-                    )} ${"টি ব্যাগে"}`}
-              </span> */}
 
-              <div className="btn__bag--p" onClick={() => onClickAddToCart()}>
+              <div className="landscape__btn__bag--p" onClick={() => onClickAddToCart()}>
                 <FontAwesome className="" name="plus" />
               </div>
             </div>
           ) : (
-            <div class="btn__all app__btn" onClick={() => onClickAddToCart()}>
+            <div class="btn__all--offer-product-landscape app__btn" onClick={() => onClickAddToCart()}>
               <div>
                 {language === "en" ? (
                   <span>Add to cart</span>
@@ -338,4 +252,4 @@ function Product({ product, advertProductSlug }) {
     </div>
   );
 }
-export default Product;
+export default OfferProductLandscape;

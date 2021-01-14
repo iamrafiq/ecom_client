@@ -370,7 +370,7 @@ const UpdateProduct = ({ match }) => {
 
     formData.set("cats", selectedCategories);
     formData.set("rc", recursiveCategories);
-    if (selectedGroups.length>0) {
+    if (selectedGroups.length > 0) {
       formData.set("groups", selectedGroups);
     }
     if (selectedManufacturer.length > 0) {
@@ -693,18 +693,7 @@ const UpdateProduct = ({ match }) => {
                 required={true}
               />
             </div>
-            {/* <div className="form-group">
-        <label htmlFor="" className="text-muted">
-          Body Price
-        </label>
-        <input
-          onChange={handleChange("price")}
-          type="number"
-          className="form-control"
-          value={price}
-          required={true}
-        />
-      </div> */}
+
             <div className="form-group">
               <label htmlFor="" className="text-muted">
                 Crop Price
@@ -764,29 +753,7 @@ const UpdateProduct = ({ match }) => {
                 />
               )}
             </div>
-            <div className="form-group">
-              <label htmlFor="" className="text-muted">
-                Apply Offer
-              </label>
-              {applyOffer !== "" && (
-                <Select
-                  onChange={handleOptionChange}
-                  defaultValue={[
-                    { value: 0, label: "No", field: "" },
-                    { value: 1, label: "Yes", field: "" },
-                  ].map((op, index) => {
-                    if (op.value === applyOffer) return op;
-                  })}
-                  options={[
-                    { value: 0, label: "No", field: "" },
-                    { value: 1, label: "Yes", field: "" },
-                  ].map((op, index) => {
-                    op.field = "applyOffer";
-                    return op;
-                  })}
-                />
-              )}
-            </div>
+
             <div className="form-group">
               <label htmlFor="" className="text-muted">
                 Block Sale
@@ -1034,7 +1001,29 @@ const UpdateProduct = ({ match }) => {
                 />
               )}
             </div>
-
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Apply Offer
+              </label>
+              {applyOffer !== "" && (
+                <Select
+                  onChange={handleOptionChange}
+                  defaultValue={[
+                    { value: 0, label: "No", field: "" },
+                    { value: 1, label: "Yes", field: "" },
+                  ].map((op, index) => {
+                    if (op.value === applyOffer) return op;
+                  })}
+                  options={[
+                    { value: 0, label: "No", field: "" },
+                    { value: 1, label: "Yes", field: "" },
+                  ].map((op, index) => {
+                    op.field = "applyOffer";
+                    return op;
+                  })}
+                />
+              )}
+            </div>
             <div className="form-group">
               <label htmlFor="" className="text-muted">
                 Categories:

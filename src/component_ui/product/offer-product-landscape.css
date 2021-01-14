@@ -1,33 +1,53 @@
-.product-card {
+.offer__product__landscape {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 13rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  cursor: pointer;
+}
+.offer__product__landscape:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.offer__product__landscape--image {
+  max-width: 14rem;
+  max-height: 13rem;
+}
+
+.landscape__product-card {
   position: relative;
   width: 100%;
-  height: 19rem;
+  height: 13rem;
+
 }
-.card__content {
-  height: 17rem;
+.landscape__content--image {
+  margin: auto;
+  height: 4rem;
+  display: flex;
+}
+.landscape__card__content {
+  height: 10.6rem;
   cursor: pointer;
 }
 
-.content--image {
-  margin: auto;
-  height: 9rem;
-  display: flex;
-}
-.content--image > * {
+
+.landscape__content--image > * {
   margin: auto;
   max-width: 100%;
   max-height: 100%;
 }
 
-.text--title {
-  font-size: var(--font-size-product-name);
+.landscape__text--title {
+  font-size: var( --font-size-product-name);
   line-height: 1rem;
-  height: 3rem;
+  height: 3.5rem;
   width: 100%;
   text-align: center;
 }
 
- .text--sub {
+.landscape__text--sub {
   font-size: var(--font-size-product-sub-text);
   height: 1.5rem;
   width: 100%;
@@ -35,82 +55,76 @@
   color: var(--font-color-secondary);
 }
 
-.product__price,
-.price--crop {
- align-items: center;
- display: flex;
- justify-content: center;
- align-items: center;
- height: 2rem;
- font-size: var(--font-size-product-deleted-price);
+.landscape__product__price,
+.landscape__price--crop {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.5rem;
+  font-size: var(--font-size-product-deleted-price);
 }
 
-.price--mrp {
- margin: 0.4rem;
- font-size: var(--font-size-product-price);
- line-height: 10px;
+.landscape__price--mrp {
+  margin: 0.4rem;
+  font-size: var(--font-size-product-price);
+  line-height: 10px;
 }
 
-.price--red {
+.landscape__price--red {
   color: red;
 }
 /*---------BUTTONS--------*/
-.btn__bag {
+.landscape__btn__bag {
   display: flex;
-  height: 2.6rem;
+  height: 2.4rem;
   border-radius: 5px;
   box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2);
   transition: background-color 0.2s, border 0.2s, color 0.2s; /*means when we hover over a btn backgorund, border and text  color will take 0.2s transition time to change the color*/
 }
 
-
-.btn__bag {
+.landscape__btn__bag {
   flex-direction: row;
   justify-content: space-around;
   align-items: stretch;
   background-color: var(--theme-color-2-light);
-
   color: white;
   font-size: 1.3rem;
 }
-.btn__bag--m,
-.btn__bag--p {
+.landscape__btn__bag--m,
+.landscape__btn__bag--p {
   flex-basis: 20%;
   text-align: center;
   margin: auto;
   cursor: pointer;
 }
-.btn__bag--m {
+.landscape__btn__bag--m {
   border-right: 2px solid var(--theme-color-2-dark);
 }
-.btn__bag--p {
+.landscape__btn__bag--p {
   border-left: 2px solid var(--theme-color-2-dark);
 }
-.btn__bag--m:active,
-.btn__bag--p:active {
+.landscape__btn__bag--m:active,
+.landscape__btn__bag--p:active {
   -webkit-box-shadow: inset 0px -4px 15px -1px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: inset 0px -4px 15px -1px rgba(0, 0, 0, 0.75);
   box-shadow: inset 0px -4px 15px -1px rgba(0, 0, 0, 0.75);
 }
-.btn__bag-text-box{
+.landscape__btn__bag-text-box {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   line-height: var(--font-size-text-cart-button);
   padding: var(--gap-small);
-
 }
-.btn__bag--text {
+.landscape__btn__bag--text {
   flex-grow: 1;
   flex-basis: 70%;
   text-align: center;
   margin: auto;
   font-size: var(--font-size-text-cart-button);
-  
 }
-.btn__bag--text-price{
+.landscape__btn__bag--text-price {
   font-size: var(--font-size-small);
 }
-
-

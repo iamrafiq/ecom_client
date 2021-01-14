@@ -14,6 +14,7 @@ import {
   selectLanguageSelection,
 } from "../../redux/settingsSlice";
 import Grid from "../grid/Grid";
+import GridLandscape from "../grid/GridLandscape";
 import AdvertismentsFadeOut from "../slicks/AdvertismentsFadeOut";
 
 const ScreenGroup = ({ groupWithProduct }) => {
@@ -42,6 +43,7 @@ const ScreenGroup = ({ groupWithProduct }) => {
           product={item}
           index={index}
         ></OfferProductLandscape>
+        
       </div>
     ));
   };
@@ -77,15 +79,13 @@ const ScreenGroup = ({ groupWithProduct }) => {
             </div>
             <hr />
           </div>
-          <Grid>
-            {groupWithProduct && groupWithProduct.products
+          {groupWithProduct && groupWithProduct.products
                 ? groupWithProduct.group.slug === "offer"
-                  ? offerProducts(groupWithProduct.products)
-                  : products(groupWithProduct.products)
+                  ? (<GridLandscape>{offerProducts(groupWithProduct.products)}</GridLandscape>)
+                  : (<Grid>{products(groupWithProduct.products)}</Grid>)
                 : language === "en"
                 ? "Nothing found for this group"
                 : "এই গ্রুপে কোন কিছু পাওয়া যায় নাই"}
-          </Grid>
         </div>
       </div>
     </React.Fragment>

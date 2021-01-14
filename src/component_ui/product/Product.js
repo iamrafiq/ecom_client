@@ -117,18 +117,6 @@ function Product({ product, advertProductSlug = null }) {
           </div>
         )}
         <div className="product-card">
-          {/* {offerProduct&&(
-             <div className="offer__image">
-             <img
-               src={
-                 photosUrl && photosUrl.length > 0
-                   ? `${photosUrl[0]}&res=${resulationSelector}`
-                   : ""
-               }
-               alt={name}
-             ></img>
-           </div>
-          )} */}
           <div
             className="card__content"
             // onTouchStart={() => onHoverProduct()}
@@ -199,72 +187,6 @@ function Product({ product, advertProductSlug = null }) {
               </div>
             </div>
           </div>
-          {/* {selectedHoverSlug === slug ? (
-            <div className="content__overly" ref={innerClickRef}>
-              {productFromCart ? (
-                <div className="overly__cart">
-                  {language === "en" ? (
-                    <div className="cart__amount--totla">
-                      &#2547; {totalPrice()}
-                    </div>
-                  ) : (
-                    <div className="cart__amount--totla">
-                      &#2547; {englishToBangla(totalPrice())}
-                    </div>
-                  )}
-
-                  <div className="cart__action">
-                    <div className="actions">
-                      <span
-                        className="action--sub"
-                        onClick={() => onClickRemoveFromCart()}
-                      >
-                        <FontAwesome className="" name="minus" />
-                      </span>
-                      {language === "en" ? (
-                        <span className="action--result">
-                          {productFromCart.qtyCart}
-                        </span>
-                      ) : (
-                        <span className="action--result">
-                          {englishToBangla(productFromCart.qtyCart)}
-                        </span>
-                      )}
-
-                      <span
-                        className="action--add"
-                        onClick={() => onClickAddToCart()}
-                      >
-                        <FontAwesome className="" name="plus" />
-                      </span>
-                    </div>
-                    {language === "en" ? (
-                      <div className="cart--text">in bag</div>
-                    ) : (
-                      <div className="cart--text">টি ব্যাগে</div>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <div className="add-text" onClick={() => onClickAddToCart()}>
-                  {language === "en" ? (
-                    <div className="text">Add to shopping bag</div>
-                  ) : (
-                    <div className="text">বাজারের ব্যাগে যোগ করুন</div>
-                  )}
-                </div>
-              )}
-            </div>
-          ) : (
-            ""
-          )} */}
-
-          {/* <div
-            className="icon-overly"
-            onClick={() => setModalProductDetails(true)}
-          >
-            <FontAwesome className="details-icon" name="info-circle" />
-          </div> */}
 
           {productFromCart ? (
             <div className="btn__bag">
@@ -295,16 +217,6 @@ function Product({ product, advertProductSlug = null }) {
                     : `   ${englishToBangla(totalPrice())} `}
                 </span>
               </div>
-              {/* <span
-                className="btn__bag--text"
-                onClick={() => onClickAddToCart()}
-              >
-                {language === "en"
-                  ? ` ${productFromCart.qtyCart} ${"in bag"}`
-                  : `${englishToBangla(
-                      productFromCart.qtyCart
-                    )} ${"টি ব্যাগে"}`}
-              </span> */}
 
               <div className="btn__bag--p" onClick={() => onClickAddToCart()}>
                 <FontAwesome className="" name="plus" />
