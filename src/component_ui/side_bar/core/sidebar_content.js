@@ -103,10 +103,10 @@ const SidebarContent = (props) => {
         <div
           className="offer__products react__link--colorless"
         
-          onClick={() => {props.toggleSideBar(); onClickGroup("offer")}}
+          onClick={() => {props.toggleSideBar(); onClickGroup("offers")}}
         >
           <span className="offer--text">
-            {language === "en" ? "Offer" : "অফার"}
+            {language === "en" ? "Offers" : "অফার"}
           </span>
           <span className="offer--count">
             {language === "en"
@@ -158,7 +158,7 @@ const SidebarContent = (props) => {
         <div
           className="sidebar__group react__link--colorless"
         
-          onClick={() => {props.toggleSideBar(); onClickGroup("flash-sales")}}
+          onClick={() => {props.toggleSideBar(); onClickGroup("popular")}}
         >
           <img src={`/images/menu_popular.png`} alt="Sowdamart" />
           <span className="">

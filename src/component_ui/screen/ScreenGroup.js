@@ -80,7 +80,7 @@ const ScreenGroup = ({ groupWithProduct }) => {
             <hr />
           </div>
           {groupWithProduct && groupWithProduct.products
-                ? groupWithProduct.group.slug === "offer"
+                ? groupWithProduct.group.slug === "offers"
                   ? (<GridLandscape>{offerProducts(groupWithProduct.products)}</GridLandscape>)
                   : (<Grid>{products(groupWithProduct.products)}</Grid>)
                 : language === "en"
