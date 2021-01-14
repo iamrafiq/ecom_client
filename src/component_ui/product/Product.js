@@ -29,7 +29,7 @@ import "./regular-product.css";
 
 var FontAwesome = require("react-fontawesome");
 
-function Product({ product, advertProductSlug }) {
+function Product({ product, advertProductSlug = null }) {
   const resulationSelector = useSelector(selectResolutionSelection);
   const [openDetailsView, setOpenDetailsView] = useState(false);
   const [modal, setModal] = useState(false);

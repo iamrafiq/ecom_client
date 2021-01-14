@@ -13,7 +13,7 @@ import OfferProductVertical from "../product/OfferProductVertical";
 import OfferProductLandscape from "../product/OfferProductLandscape";
 
 import "../../common/common.css";
-import "./category_item.css";
+import "./screen_renderer.css";
 import { useSelector, useDispatch } from "react-redux";
 
 import { selectSideBarBarToViewSelection } from "../../redux/sideBarSlice";
@@ -53,7 +53,7 @@ import LoadingBar from "../../util/LoadingBar";
 import AdvertismentsFadeOut from "../slicks/AdvertismentsFadeOut";
 
 import Footer from "../footer/Footer";
-const CategoryItems = ({ match }) => {
+const ScreenRenderar = ({ match }) => {
   const location = useLocation();
   const history = useHistory();
 
@@ -320,4 +320,4 @@ const CategoryItems = ({ match }) => {
   );
 };
 
-export default CategoryItems;
+export default ScreenRenderar;

@@ -18,7 +18,7 @@ import ManageCategory from "./admin/ManageCategory";
 
 import UpdateProduct from "./admin/UpdateProduct";
 import UpdateCategory from "./admin/UpdateCategory";
-import CategoryItems from "./component_ui/category_item/CategoryItems";
+import ScreenRenderer from "./component_ui/screen/ScreenRenderer";
 import CategoryProducts from "./core/CategoryProducts";
 import AddAdvertisement from "./admin/advertisement/AddAdvertisement";
 import UpdateAdvertisement from "./admin/advertisement/UpdateAdvertisement";
@@ -43,7 +43,7 @@ import SearchContent from "./component_ui/search/SearchContent";
 import Order from "./component_ui/order/Order";
 
 const AnyComponent = (props) => {
-  return <CategoryItems id={props.match.params.any_slug} />;
+  return <ScreenRenderer id={props.match.params.any_slug} />;
 
   // if (slugIsProject(props.match.params.any_slug)) {
   //     return <CategoryChildren id={props.match.params.any_slug} />;
@@ -68,7 +68,7 @@ const Routes = () => {
       <Route exact path="/" exact component={Home} />
       <Route exact path="/products" exact component={Home} />
 
-      <Route exact path="/products/:slug" component={CategoryItems} />
+      <Route exact path="/products/:slug" component={ScreenRenderer} />
       <Route path="/search" exact component={SearchContent} />
       <Route path="/search/:slug" exact component={SearchContent} />
 
