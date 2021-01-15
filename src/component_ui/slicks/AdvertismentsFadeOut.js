@@ -34,7 +34,30 @@ export default function AdvertisimentFadeOut({ advertisements }) {
       // console.log("adclick",advertisements[current])
       setCurrentIndex(current);
     },
+    // nextArrow: <SampleNextArrow />,
+    // prevArrow: <SamplePrevArrow />
   };
+  function SampleNextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, display: "block", background: "red" }}
+        onClick={onClick}
+      />
+    );
+  }
+  function SamplePrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, display: "block", background: "green" }}
+        onClick={onClick}
+      />
+    );
+  }
+  
   const onClickAd = (event) => {
      console.log("adclick", advertisements[currentIndex]);
     if (advertisements[currentIndex].linkType === 0) {

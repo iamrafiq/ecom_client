@@ -1,8 +1,14 @@
 .slick-item{
 cursor: pointer;
 
+
 }
 
 .slick-item img{
     margin: auto;
+}
+
+.slicker{
+    background-color: cornflowerblue;
+    margin: 0 auto;
 }

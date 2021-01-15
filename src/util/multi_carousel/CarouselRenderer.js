@@ -1,7 +1,7 @@
 import React from "react";
 
 import Carousel from "react-multi-carousel";
-import OfferProductVertical from "../../component_ui/product/OfferProductVertical";
+import OfferProductPortrait from "../../component_ui/product/OfferProductPortrait";
 // import { Image } from "semantic-ui-react";
 
 const responsive = {
@@ -17,7 +17,7 @@ const responsive = {
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
-    items: 2,
+    items: 1,
     paritialVisibilityGutter: 30
   }
 };
@@ -90,7 +90,7 @@ const CarouselRenderer = ({ deviceType, products }) => {
         );
       })} */}
       {products.map((ele, index)=>(
-      <OfferProductVertical product={ele}></OfferProductVertical>     
+      <OfferProductPortrait product={ele}></OfferProductPortrait>     
       ))}
 
     </Carousel>

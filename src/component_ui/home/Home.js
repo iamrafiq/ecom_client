@@ -12,7 +12,7 @@ import {
 import { selectHomeSelection, selectHomeLoaded } from "../../redux/homeSlice";
 import Advertisiment from "../../util/Advertisiment";
 import Carousel from "../../util/Carousel";
-import MultiCarousel from "../../util/multi_carousel/MultiCarousel";
+import OfferProductSlicker from "../slicks/OfferProductSlicker";
 import FeatureGallery from "./FeatureGallery";
 import Footer from "../footer/Footer";
 import "./home.css";
@@ -154,7 +154,7 @@ export default function Home(props) {
               )}
             </div>
             <div className="content-multi-carousel">
-              <MultiCarousel products={home.offerProducts}></MultiCarousel>
+              <OfferProductSlicker products={home.offerProducts}></OfferProductSlicker>
             </div>
           </section>
         )}
