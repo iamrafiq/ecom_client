@@ -45,10 +45,14 @@
 .section__multi_carousel-product {
   display: flex;
   flex-direction: column;
-  /* margin: 50px var(--gap-large) 0px var(--gap-small); */
+   margin: 50px var(--gap-large) 50px var(--gap-small); 
   margin: 0 auto;
   width: 100%;
   justify-content: center;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  
 }
 .content-multi-carousel{
   margin-top: var(--gap-large);

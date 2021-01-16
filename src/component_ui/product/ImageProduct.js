@@ -116,9 +116,9 @@ function ImageProduct({ product, advertProductSlug = null }) {
             </PureModal>
           </div>
         )}
-        <div className="product-card">
+        <div className="">
           <div
-            className="card__content"
+            className=""
             onClick={() => setModalProductDetails(true)}
           >
             <div className="content--image">
