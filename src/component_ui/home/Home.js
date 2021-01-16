@@ -9,13 +9,21 @@ import {
   selectLanguageSelection,
   selectDeviceTypeSelection,
 } from "../../redux/settingsSlice";
-import { selectHomeSelection, selectHomeLoaded, selectCategories, selectAdvertisements, selectOfferProducts } from "../../redux/homeSlice";
+import {
+  selectHomeSelection,
+  selectHomeLoaded,
+  selectCategories,
+  selectAdvertisements,
+  selectOfferProducts,
+} from "../../redux/homeSlice";
 import Advertisiment from "../../util/Advertisiment";
 import Carousel from "../../util/Carousel";
 import OfferProductSlicker from "../slicks/OfferProductSlicker";
 import Category120Slicker from "../slicks/Category120Slicker";
 import TutorialSlick from "../slicks/TutorialSlick";
+import ProductSlick from "../slicks/ProductSlick";
 import FeatureGallery from "./FeatureGallery";
+import {} from "../slicks/ProductSlick";
 import Footer from "../footer/Footer";
 import "./home.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -35,7 +43,7 @@ export default function Home(props) {
   const categories = useSelector(selectCategories);
   const offerProducts = useSelector(selectOfferProducts);
 
-  console.log("home..home", home)
+  console.log("home..home", home);
   const homeLoaded = useSelector(selectHomeLoaded);
 
   const configPropsCarouselLanding = {
@@ -127,7 +135,9 @@ export default function Home(props) {
               )}
             </div>
             <div className="content-multi-carousel">
-              {categories&&( <Category120Slicker data={categories}></Category120Slicker>)}
+              {categories && (
+                <Category120Slicker data={categories}></Category120Slicker>
+              )}
             </div>
           </section>
 
@@ -141,9 +151,7 @@ export default function Home(props) {
                 )}
               </div>
               <div className="content-multi-carousel">
-                <OfferProductSlicker
-                  data={offerProducts}
-                ></OfferProductSlicker>
+                <OfferProductSlicker data={offerProducts}></OfferProductSlicker>
               </div>
             </section>
           )}
@@ -161,21 +169,43 @@ export default function Home(props) {
                 <TutorialSlick data={home.photoTutorial}></TutorialSlick>
               </div>
             </section>
-          )} 
-          {/* {home.gallery && (
-            <section className="section__gallery">
-              <div className="content--title">
-                {language === "en" ? (
-                  <span>Why people like Sowdamart?</span>
-                ) : (
-                  <span>কেন মানুষ সওদামার্ট পছন্দ করে?</span>
-                )}
-              </div>
-              <div className="content--gallery">
-                <FeatureGallery gallery={home.gallery}></FeatureGallery>
-              </div>
-            </section>
-          )}  */}
+          )}
+          <div className="">
+            {categories &&
+              categories.map(
+                (item, index) =>
+                  item.products && 
+                  item.products.length>0 && (
+                    <section className="section__multi_carousel-product">
+                      <div className="content--title">
+                        {language === "en" ? (
+                          <span>Top Sellers in {item.name}</span>
+                        ) : (
+                          <span>
+                            জনপ্রিয় পণ্য {item.bengaliName} ক্যাটাগরিতে
+                          </span>
+                        )}
+                      </div>
+                      <div className="">
+                        <ProductSlick data={item.products}></ProductSlick>
+                      </div>
+                    </section>
+                  )
+              )}
+          </div>
+
+          {/* <section className="section__multi_carousel">
+            <div className="content--title">
+              {language === "en" ? (
+                <span>Top Sellers in {categories[4].name}</span>
+              ) : (
+                <span>জনপ্রিয় পণ্য {categories[4].bengaliName} ক্যাটাগরিতে</span>
+              )}
+            </div>
+            <div className="content-multi-carousel">
+              <ProductSlick data={categories[4].products}></ProductSlick>
+            </div>
+          </section> */}
         </section>
       </section>
       <footer className="section__footer">

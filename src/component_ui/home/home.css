@@ -39,6 +39,17 @@
   width: 100%;
   justify-content: center;
 }
+
+
+
+.section__multi_carousel-product {
+  display: flex;
+  flex-direction: column;
+  /* margin: 50px var(--gap-large) 0px var(--gap-small); */
+  margin: 0 auto;
+  width: 100%;
+  justify-content: center;
+}
 .content-multi-carousel{
   margin-top: var(--gap-large);
   margin: 15px;
