@@ -1,6 +1,6 @@
 .offer__product__portrait {
   display: flex;
-  width: var(--grid-item-max-width);
+  /* width: var(--grid-item-max-width); */
   flex-direction: column;
 
   height: auto;
@@ -81,7 +81,7 @@
 /*---------BUTTONS--------*/
 .portrait__btn__bag {
   display: flex;
-  height: 2.4rem;
+  /* height: 2.4rem; */
   border-radius: 5px;
   box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2);
   transition: background-color 0.2s, border 0.2s, color 0.2s; /*means when we hover over a btn backgorund, border and text  color will take 0.2s transition time to change the color*/

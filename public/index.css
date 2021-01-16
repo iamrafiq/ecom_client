@@ -266,6 +266,10 @@ body {
   color: red;
 }
 /**alert box end**/
+.margin--samll{
+  margin: var(--gap-small);
+
+}
 /*  GO FULL WIDTH AT LESS THAN 480 PIXELS */
 
 

@@ -203,7 +203,7 @@ function OfferProductLandscape({ product, advertProductSlug }) {
         
 
           {productFromCart ? (
-            <div className="portrait__btn__bag">
+            <div className="portrait__btn__bag margin--samll">
               <div
                 className="portrait__btn__bag--m"
                 onClick={() => onClickRemoveFromCart()}
@@ -237,7 +237,7 @@ function OfferProductLandscape({ product, advertProductSlug }) {
               </div>
             </div>
           ) : (
-            <div class="btn__all--offer-product-landscape app__btn" onClick={() => onClickAddToCart()}>
+            <div class="btn__all--offer-product-landscape app__btn margin--samll" onClick={() => onClickAddToCart()}>
               <div>
                 {language === "en" ? (
                   <span>Add to cart</span>

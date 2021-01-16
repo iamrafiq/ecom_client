@@ -12,9 +12,8 @@ import {
   selectResolutionSelection,
   selectLanguageSelection,
 } from "../../redux/settingsSlice";
-import OfferProductPortrait from "../product/OfferProductPortrait";
-
-export default function OfferProductSlicker({ data }) {
+import { CategoryRect120 } from "../category/Category";
+export default function Category120Slicker({ data }) {
   const location = useLocation();
   const history = useHistory();
   const resulationSelector = useSelector(selectResolutionSelection);
@@ -29,74 +28,90 @@ export default function OfferProductSlicker({ data }) {
     slidesToScroll: 4,
     initialSlide: 0,
     swipeToSlide: true,
+    rows: 2,
+   
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
     responsive: [
       {
         breakpoint: 1400,
         settings: {
-          slidesToShow: 5,
+          slidesToShow: 7,
           slidesToScroll: 3,
           infinite: true,
-          dots: true,
+          // rows: 3,
         },
       },
       {
         breakpoint: 1200,
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 6,
           slidesToScroll: 3,
           infinite: true,
-          dots: true,
+          // rows: 3,
         },
       },
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 6,
           slidesToScroll: 3,
           infinite: true,
-          dots: true,
+          // rows: 3,
         },
       },
       {
         breakpoint: 900,
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 5,
           slidesToScroll: 2,
           initialSlide: 2,
+          slidesToScroll: 3,
+          infinite: true,
+          // rows: 3,
         },
       },
       {
         breakpoint: 800,
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 5,
           slidesToScroll: 2,
           initialSlide: 2,
+          infinite: true,
+          // rows: 3,
         },
       },
       {
         breakpoint: 700,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 4,
           slidesToScroll: 2,
           initialSlide: 2,
+          infinite: true,
+          // rows: 3,
+
         },
       },
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 4,
           slidesToScroll: 2,
           initialSlide: 2,
+          infinite: true,
+          // rows: 3,
+
         },
       },
 
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 3,
           slidesToScroll: 1,
+          infinite: true,
+          // rows: 2,
+
         },
       },
     ],
@@ -132,7 +147,6 @@ export default function OfferProductSlicker({ data }) {
           height: "24px",
           justifyContent: "center",
           alignItems: "center",
-         
         }}
         onClick={onClick}
       />
@@ -158,43 +172,28 @@ export default function OfferProductSlicker({ data }) {
     );
   }
 
-  const onClickAd = (event) => {};
 
   return (
-    <Slider {...settings} style={{
-
-        }}>
-        {data.map((item, index) => (
-          <div className="slick-item" index={index}>
-            <OfferProductPortrait product={item}></OfferProductPortrait>
-          </div>
-        ))}
-        {data.map((item, index) => (
-          <div className="slick-item" index={index}>
-            <OfferProductPortrait product={item}></OfferProductPortrait>
-          </div>
-        ))}
-        {data.map((item, index) => (
-          <div className="slick-item" index={index}>
-            <OfferProductPortrait product={item}></OfferProductPortrait>
-          </div>
-        ))}
-        {data.map((item, index) => (
-          <div className="slick-item" index={index}>
-            <OfferProductPortrait product={item}></OfferProductPortrait>
-          </div>
-        ))}
-        {data.map((item, index) => (
-          <div className="slick-item" index={index}>
-            <OfferProductPortrait product={item}></OfferProductPortrait>
-          </div>
-        ))}
-        {data.map((item, index) => (
-          <div className="slick-item" index={index}>
-            <OfferProductPortrait product={item}></OfferProductPortrait>
-          </div>
-        ))}
-        
-      </Slider>
+    <Slider
+      {...settings}
+    >
+      {data.map(
+        (item, index) =>
+          item.showHome && (
+            <div
+              className="slick-item"
+              index={index}
+              onClick={() => {
+                history.push({
+                  pathname: `/products/${item.slug}`,
+                  state: { catId: item._id },
+                });
+              }}
+            >
+              <CategoryRect120 category={item}></CategoryRect120>
+            </div>
+          )
+      )}
+    </Slider>
   );
 }

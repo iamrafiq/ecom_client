@@ -8,7 +8,9 @@
   top: 0;
   left: 0;
   z-index: 1001; /*same z index for side bar*/
-  background-color: var(--theme-color-1-dark);
+  /* background-color: white; */
+
+  background-color: var(--theme-color-1-light);
   height: var( --appbar-height); /*config.APP_BAR_HEIGHT*/
   display: flex;
   flex-direction: row;

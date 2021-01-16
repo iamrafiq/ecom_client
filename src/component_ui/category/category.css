@@ -19,7 +19,7 @@
     flex-direction: row;
     border: 1px solid var(--border-color-dark);
     border-radius: 5px;
-    width: 350px;
+    width: 250px;
     /* width: 100%; */
     padding: var(--gap-large);
     margin: var(--gap-small);
@@ -40,4 +40,18 @@
    flex: 1;
    justify-content: center;
    margin: auto;
+  }
+
+  .category__rect_120 img{
+    width: 100px;
+    height: 100px;
+    /* display: flex;
+    flex-direction: column; */
+    /* margin: 0 auto; */
+
+  
+  }
+  .text__name120{
+    white-space:nowrap;
+    overflow:hidden;
   }

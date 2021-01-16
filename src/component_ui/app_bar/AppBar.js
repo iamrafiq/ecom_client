@@ -59,14 +59,7 @@ const AppBar = (props) => {
                 <FontAwesomeIcon size="2x" icon={faBars} />
               </div>
               <div className="home__logo">
-                {home.logo && (
-                  <img
-                    src={`${imageUrlConverter(
-                      `${home.logo}&res=${resulationSelector}`
-                    )}`}
-                    alt="Sowdamart.com"
-                  />
-                )}
+                <img src={`/images/title_logo.png`} alt="Sowdamart.com" />
               </div>
             </div>
             <div className="search__box--desktop">

@@ -253,7 +253,7 @@ const AddCategory = () => {
                 type="text"
                 className="form-control"
                 value={bengaliName}
-              />adclick
+              />
             </div>
             <div className="form-group">
               <label htmlFor="" className="text-muted">

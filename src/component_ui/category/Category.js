@@ -41,6 +41,24 @@ export function CategoryRect(props) {
           <span className="text__name">{category.name}</span>
         ) : (
           <span className="text__name">{category.bengaliName}</span>
+        )}  background-color: chocolate;
+
+      </div>
+    </div>
+  );
+}
+export function CategoryRect120(props) {
+  const resulationSelector = useSelector(selectResolutionSelection);
+  const language = useSelector(selectLanguageSelection);
+  const { category, onClick } = props;
+  return (
+    <div className="category__rect_120">
+      <img src={`${imageUrlConverter(`${category.thumbnail}&res=${"medium"}`)}`} alt={category.name} />
+      <div className="rect__text">
+        {language === "en" ? (
+          <span className="text__name120">{category.name}</span>
+        ) : (
+          <span className="text__name120">{category.bengaliName}</span>
         )}
       </div>
     </div>

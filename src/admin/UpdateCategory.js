@@ -256,17 +256,6 @@ const UpdateCategory = ({ match }) => {
             </div>
             <div className="form-group">
               <label htmlFor="" className="text-muted">
-                Slug
-              </label>
-              <input
-                onChange={handleChange("slug")}
-                type="text"
-                className="form-control"
-                value={slug}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="" className="text-muted">
                 Bengali Name
               </label>
               <input
@@ -276,6 +265,40 @@ const UpdateCategory = ({ match }) => {
                 value={bengaliName}
               />
             </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Name Full
+              </label>
+              <input
+                onChange={handleChange("nameFull")}
+                type="text"
+                className="form-control"
+                value={nameFull}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Bengali Name Full
+              </label>
+              <input
+                onChange={handleChange("bengaliNameFull")}
+                type="text"
+                className="form-control"
+                value={bengaliNameFull}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="" className="text-muted">
+                Slug
+              </label>
+              <input
+                onChange={handleChange("slug")}
+                type="text"
+                className="form-control"
+                value={slug}
+              />
+            </div>
+           
             <div className="form-group">
               <label htmlFor="" className="text-muted">
                 Order
