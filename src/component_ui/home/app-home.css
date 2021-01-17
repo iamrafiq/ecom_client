@@ -13,9 +13,6 @@
   flex-direction: column;
 }
 
-.home__landing {
-  /* position: relative; */
-}
 .landing__img {
   overflow: hidden;
 }
