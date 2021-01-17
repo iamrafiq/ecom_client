@@ -56,7 +56,7 @@ const CreateOrUpdateHome = () => {
             ...values,
             title: data.title,
             bengaliTitle: data.bengaliTitle,
-            home: data,
+            home: data.home,
             loading: false,
             parents: data,
             formData: new FormData(),

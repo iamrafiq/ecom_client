@@ -22,6 +22,7 @@ import OfferProductSlicker from "../slicks/OfferProductSlicker";
 import Category120Slicker from "../slicks/Category120Slicker";
 import TutorialSlick from "../slicks/TutorialSlick";
 import ProductSlick from "../slicks/ProductSlick";
+import HomeLandingPhotosSlicker from "../slicks/HomeLandingPhotosSlicker";
 import FeatureGallery from "./FeatureGallery";
 import {} from "../slicks/ProductSlick";
 import Footer from "../footer/Footer";
@@ -110,11 +111,12 @@ export default function Home(props) {
           />
         </div> */}
           {home && home.photoLanding && (
-            <Carousel
-              photoEn={home.photoLanding}
-              photoBengali={home.photoLandingBengali}
-              configProps={configPropsCarouselLanding}
-            ></Carousel>
+            <HomeLandingPhotosSlicker  photoEn={home.photoLanding} photoBengali={home.photoLandingBengali}></HomeLandingPhotosSlicker>
+            // <Carousel
+            //   photoEn={home.photoLanding}
+            //   photoBengali={home.photoLandingBengali}
+            //   configProps={configPropsCarouselLanding}
+            // ></Carousel>
           )}
         </section>
         <section className="section_content">

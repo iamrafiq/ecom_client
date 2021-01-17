@@ -21,3 +21,16 @@ cursor: pointer;
     justify-content: center;
     align-items: center;
 }
+
+.slick-item-landing-photo{
+    width: 100vh;
+    height: auto;
+    background-color: yellowgreen;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.slick-item-landing-photo img{
+    width: 100%;
+    height: auto;
+}
