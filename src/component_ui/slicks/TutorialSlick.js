@@ -21,7 +21,7 @@ export default function TutorialSlick({ data }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   console.log("photo tutorial", data)
-  var settings = {
+  let settings = {
     dots: false,
     fade: true,
     infinite: true,

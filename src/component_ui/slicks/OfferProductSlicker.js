@@ -21,7 +21,7 @@ export default function OfferProductSlicker({ data }) {
   const language = useSelector(selectLanguageSelection);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  var settings = {
+  let settings = {
     dots: false,
     infinite: false,
     speed: 500,
@@ -38,7 +38,7 @@ export default function OfferProductSlicker({ data }) {
           slidesToShow: 5,
           slidesToScroll: 3,
           infinite: true,
-          dots: true,
+      
         },
       },
       {
@@ -47,7 +47,6 @@ export default function OfferProductSlicker({ data }) {
           slidesToShow: 4,
           slidesToScroll: 3,
           infinite: true,
-          dots: true,
         },
       },
       {
@@ -56,7 +55,6 @@ export default function OfferProductSlicker({ data }) {
           slidesToShow: 4,
           slidesToScroll: 3,
           infinite: true,
-          dots: true,
         },
       },
       {
@@ -65,6 +63,7 @@ export default function OfferProductSlicker({ data }) {
           slidesToShow: 4,
           slidesToScroll: 2,
           initialSlide: 2,
+          infinite: true,
         },
       },
       {
@@ -73,6 +72,7 @@ export default function OfferProductSlicker({ data }) {
           slidesToShow: 4,
           slidesToScroll: 2,
           initialSlide: 2,
+          infinite: true,
         },
       },
       {
@@ -81,6 +81,7 @@ export default function OfferProductSlicker({ data }) {
           slidesToShow: 3,
           slidesToScroll: 2,
           initialSlide: 2,
+          infinite: true,
         },
       },
       {
@@ -89,6 +90,7 @@ export default function OfferProductSlicker({ data }) {
           slidesToShow: 3,
           slidesToScroll: 2,
           initialSlide: 2,
+          infinite: true,
         },
       },
 
@@ -97,6 +99,7 @@ export default function OfferProductSlicker({ data }) {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
+          infinite: true,
         },
       },
     ],

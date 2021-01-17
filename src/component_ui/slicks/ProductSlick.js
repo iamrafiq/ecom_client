@@ -21,11 +21,11 @@ export default function OfferProductSlicker({ data }) {
   const language = useSelector(selectLanguageSelection);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  var settings = {
+  let settings = {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 6,
+    slidesToShow: 8,
     slidesToScroll: 4,
     initialSlide: 0,
     swipeToSlide: true,
@@ -35,34 +35,31 @@ export default function OfferProductSlicker({ data }) {
       {
         breakpoint: 1400,
         settings: {
-          slidesToShow: 5,
+          slidesToShow: 7,
           slidesToScroll: 3,
-          infinite: true,
-          dots: true,
+       
         },
       },
       {
         breakpoint: 1200,
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 6,
           slidesToScroll: 3,
-          infinite: true,
-          dots: true,
+        
         },
       },
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 5,
           slidesToScroll: 3,
-          infinite: true,
-          dots: true,
+
         },
       },
       {
         breakpoint: 900,
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 5,
           slidesToScroll: 2,
           initialSlide: 2,
         },
@@ -78,7 +75,7 @@ export default function OfferProductSlicker({ data }) {
       {
         breakpoint: 700,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 4,
           slidesToScroll: 2,
           initialSlide: 2,
         },
@@ -95,7 +92,7 @@ export default function OfferProductSlicker({ data }) {
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 3,
           slidesToScroll: 1,
         },
       },

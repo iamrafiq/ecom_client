@@ -20,7 +20,7 @@ export default function Category120Slicker({ data }) {
   const language = useSelector(selectLanguageSelection);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  var settings = {
+  let settings = {
     dots: false,
     infinite: false,
     speed: 500,

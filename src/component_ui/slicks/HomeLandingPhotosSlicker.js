@@ -20,8 +20,8 @@ export default function AdvertisimentFadeOut({ photoEn, photoBengali }) {
   const language = useSelector(selectLanguageSelection);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  var settings = {
-    dots: true,
+  let settings = {
+    dots: false,
      fade: true,
     infinite: true,
     speed: 500,

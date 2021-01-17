@@ -178,7 +178,7 @@ export default function Home(props) {
                 (item, index) =>
                   item.products && 
                   item.products.length>0 && (
-                    <section className="section__multi_carousel-product">
+                    <section className="section__multi_carousel section__multi_carousel-card">
                       <div className="content--title">
                         {language === "en" ? (
                           <span>Top Sellers in {item.name}</span>
@@ -188,7 +188,7 @@ export default function Home(props) {
                           </span>
                         )}
                       </div>
-                      <div className="">
+                      <div className="content-multi-carousel-product">
                         <ProductSlick data={item.products}></ProductSlick>
                       </div>
                     </section>
