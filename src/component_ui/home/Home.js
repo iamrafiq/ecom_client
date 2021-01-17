@@ -25,7 +25,7 @@ import ProductSlick from "../slicks/ProductSlick";
 import FeatureGallery from "./FeatureGallery";
 import {} from "../slicks/ProductSlick";
 import Footer from "../footer/Footer";
-import "./home.css";
+import "./app-home.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { imageUrlConverter } from "../../util/ImageUrlConverter";
 
