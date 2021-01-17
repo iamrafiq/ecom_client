@@ -193,19 +193,6 @@ export default function Home(props) {
                   )
               )}
           </div>
-
-          {/* <section className="section__multi_carousel">
-            <div className="content--title">
-              {language === "en" ? (
-                <span>Top Sellers in {categories[4].name}</span>
-              ) : (
-                <span>জনপ্রিয় পণ্য {categories[4].bengaliName} ক্যাটাগরিতে</span>
-              )}
-            </div>
-            <div className="content-multi-carousel">
-              <ProductSlick data={categories[4].products}></ProductSlick>
-            </div>
-          </section> */}
         </section>
       </section>
       <footer className="section__footer">
