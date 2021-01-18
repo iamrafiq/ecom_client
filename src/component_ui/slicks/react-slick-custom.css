@@ -5,7 +5,7 @@ cursor: pointer;
 }
 
 .slick-item img{
-    margin: auto;
+    margin:  0 auto;
 }
 
 .slicker{
@@ -33,4 +33,8 @@ cursor: pointer;
 .slick-item-landing-photo img{
     width: 100%;
     height: auto;
+}
+
+.auto_img{
+  
 }

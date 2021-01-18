@@ -136,19 +136,6 @@ function OfferProductLandscape({ product, advertProductSlug }) {
             // onMouseEnter={() => onHoverProduct()}
             onClick={() => setModalProductDetails(true)}
           >
-            {/* <div className="portrait__content--image">
-              <img
-                src={
-                  photosUrl && photosUrl.length > 0
-                    ? `${imageUrlConverter(
-                        `${photosUrl[0]}&res=${resulationSelector}`
-                      )}`
-                    : ""
-                }
-                alt={name}
-                onClick={() => setModalProductDetails(true)}
-              ></img>
-            </div> */}
             <div className="portrait__content__text">
               <div className="portrait__text--title">
                 {language === "en" ? <p>{name}</p> : <p>{bengaliName}</p>}

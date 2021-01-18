@@ -20,12 +20,10 @@ const ManageHome = () => {
         setError(data.error);
       } else {
         getHome().then((data) => {
-          console.log("data home", data);
           if (data && data.error) {
             setError(data.error);
           } else {
-            console.log("home data", data);
-            setHome(data);
+            setHome(data.home);
           }
         });
       }
@@ -41,14 +39,11 @@ const ManageHome = () => {
     </div>
   );
   useEffect(() => {
-    console.log("data home use effect");
     getHome().then((data) => {
-      console.log("data home", data);
       if (data && data.error) {
         setError(data.error);
       } else {
-        console.log("home data", data);
-        setHome(data);
+        setHome(data.home);
       }
     });
   }, []);

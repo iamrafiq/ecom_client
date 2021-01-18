@@ -54,11 +54,11 @@ const CreateOrUpdateHome = () => {
         if (data) {
           setValues({
             ...values,
-            title: data.title,
-            bengaliTitle: data.bengaliTitle,
+            title: data.home.title,
+            bengaliTitle: data.home.bengaliTitle,
             home: data.home,
             loading: false,
-            parents: data,
+            parents: data.home,
             formData: new FormData(),
           });
         }

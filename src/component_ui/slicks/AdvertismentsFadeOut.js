@@ -30,54 +30,33 @@ export default function AdvertisimentFadeOut({ advertisements }) {
     autoplay: true,
     speed: 2000,
     pauseOnHover: false,
+    arrows: false,
     beforeChange: (current, next) => {
       // console.log("adclick",advertisements[current])
       setCurrentIndex(current);
     },
-    // nextArrow: <SampleNextArrow />,
-    // prevArrow: <SamplePrevArrow />
   };
-  function SampleNextArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{ ...style, display: "block", background: "red" }}
-        onClick={onClick}
-      />
-    );
-  }
-  function SamplePrevArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{ ...style, display: "block", background: "green" }}
-        onClick={onClick}
-      />
-    );
-  }
-  
+
   const onClickAd = (event) => {
-     console.log("adclick", advertisements[currentIndex]);
+    console.log("adclick", advertisements[currentIndex]);
     if (advertisements[currentIndex].linkType === 0) {
       history.push({
         pathname: `/products/${advertisements[currentIndex].link}`,
       });
-    }else if(advertisements[currentIndex].linkType === 1){
+    } else if (advertisements[currentIndex].linkType === 1) {
       history.push({
         pathname: `/products/${advertisements[currentIndex].link}`,
-        search:`?advertProduct=${advertisements[currentIndex].linkProductSlug}`
+        search: `?advertProduct=${advertisements[currentIndex].linkProductSlug}`,
       });
-    }else{
-      window.open(advertisements[currentIndex].link,"_self");
+    } else {
+      window.open(advertisements[currentIndex].link, "_self");
     }
   };
 
   return (
-    <Slider {...settings} >
+    <Slider {...settings}>
       {advertisements.map((item, index) => (
-        <div className="slick-item" index={index} onClick={(event) => onClickAd(event)}>
+        <div className="slick-item">
           <img
             src={`${imageUrlConverter(
               `${item.photo}&res=${resulationSelector}`

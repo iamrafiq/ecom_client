@@ -24,6 +24,7 @@ export default function OfferProductSlicker({ data }) {
   let settings = {
     dots: false,
     infinite: false,
+    lazyLoad: true,
     speed: 500,
     slidesToShow: 8,
     slidesToScroll: 4,

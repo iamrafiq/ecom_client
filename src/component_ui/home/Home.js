@@ -23,6 +23,7 @@ import Category120Slicker from "../slicks/Category120Slicker";
 import TutorialSlick from "../slicks/TutorialSlick";
 import ProductSlick from "../slicks/ProductSlick";
 import HomeLandingPhotosSlicker from "../slicks/HomeLandingPhotosSlicker";
+import AdvertismentsFadeOut from "../slicks/AdvertismentsFadeOut";
 import FeatureGallery from "./FeatureGallery";
 import {} from "../slicks/ProductSlick";
 import Footer from "../footer/Footer";
@@ -44,7 +45,20 @@ export default function Home(props) {
   const categories = useSelector(selectCategories);
   const offerProducts = useSelector(selectOfferProducts);
 
-  console.log("home..home", home);
+  let ads = "";
+  if (advertisements.length > 0) {
+    let m = Math.floor(advertisements.length / 2);
+    console.log("home..home", m);
+
+    let n = advertisements.length - m;
+    let firstHalf = advertisements.slice(0, m);
+    let secondHalf = advertisements.slice(m);
+    ads = {
+      firstHalf,
+      secondHalf,
+    };
+  }
+
   const homeLoaded = useSelector(selectHomeLoaded);
 
   const configPropsCarouselLanding = {
@@ -96,38 +110,60 @@ export default function Home(props) {
   //     }
   //   });
   // };
-  return (
-    <div className="">
-      <section
-        className={deviceType === "desktop" ? "home-desktop" : "home-mobile"}
-      >
-        <section className="home__landing">
-          {/* <div className="landing__img">
-          <img
-            src={`${imageUrlConverter(
-              `${home.photoLanding}&res=${resulationSelector}`
-            )}`}
-            alt=""
-          />
-        </div> */}
-          {home && home.photoLanding && (
-            <HomeLandingPhotosSlicker  photoEn={home.photoLanding} photoBengali={home.photoLandingBengali}></HomeLandingPhotosSlicker>
-            // <Carousel
-            //   photoEn={home.photoLanding}
-            //   photoBengali={home.photoLandingBengali}
-            //   configProps={configPropsCarouselLanding}
-            // ></Carousel>
+
+  const adSection = () => {
+    return (
+      <div className="section__advert">
+        <section className="section__multi_carousel">
+          {advertisements && (
+            <AdvertismentsFadeOut
+              advertisements={ads.firstHalf}
+            ></AdvertismentsFadeOut>
           )}
         </section>
-        <section className="section_content">
+        <section className="section__multi_carousel">
           {advertisements && (
-            <div className="section__advert">
-              {advertisements.map((ele, index) => (
-                <Advertisiment advertisiment={ele}></Advertisiment>
-              ))}
-            </div>
+            <AdvertismentsFadeOut
+              advertisements={ads.firstHalf
+                .slice(0)
+                .reverse()
+                .map((item, index) => item)}
+            ></AdvertismentsFadeOut>
           )}
-
+        </section>
+        <section className="section__multi_carousel">
+          {advertisements && (
+            <AdvertismentsFadeOut
+              advertisements={ads.secondHalf}
+            ></AdvertismentsFadeOut>
+          )}
+        </section>
+        <section className="section__multi_carousel">
+          {advertisements && (
+            <AdvertismentsFadeOut
+              advertisements={ads.secondHalf
+                .slice(0)
+                .reverse()
+                .map((item, index) => item)}
+            ></AdvertismentsFadeOut>
+          )}
+        </section>
+      </div>
+    );
+  };
+  return (
+    <div className="">
+      <section className="app-home">
+        <section className="home__landing">
+          {home && home.photoLanding && (
+            <HomeLandingPhotosSlicker
+              photoEn={home.photoLanding}
+              photoBengali={home.photoLandingBengali}
+            ></HomeLandingPhotosSlicker>
+          )}
+        </section>
+        <div className="section_content">
+          {adSection()}
           <section className="section__multi_carousel">
             <div className="content--title">
               {language === "en" ? (
@@ -176,26 +212,29 @@ export default function Home(props) {
             {categories &&
               categories.map(
                 (item, index) =>
-                  item.products && 
-                  item.products.length>0 && (
-                    <section className="section__multi_carousel section__multi_carousel-card">
-                      <div className="content--title">
-                        {language === "en" ? (
-                          <span>Top Sellers in {item.name}</span>
-                        ) : (
-                          <span>
-                            জনপ্রিয় পণ্য {item.bengaliName} ক্যাটাগরিতে
-                          </span>
-                        )}
-                      </div>
-                      <div className="content-multi-carousel-product">
-                        <ProductSlick data={item.products}></ProductSlick>
-                      </div>
-                    </section>
+                  item.products &&
+                  item.products.length > 0 && (
+                    <React.Fragment>
+                      {index % 3 === 0 && index!==0 && adSection()}
+                      <section className="section__multi_carousel section__multi_carousel-card">
+                        <div className="content--title">
+                          {language === "en" ? (
+                            <span>Top Sellers in {item.name}</span>
+                          ) : (
+                            <span>
+                              জনপ্রিয় পণ্য {item.bengaliName} ক্যাটাগরিতে
+                            </span>
+                          )}
+                        </div>
+                        <div className="content-multi-carousel-product">
+                          <ProductSlick data={item.products}></ProductSlick>
+                        </div>
+                      </section>
+                    </React.Fragment>
                   )
               )}
           </div>
-        </section>
+        </div>
       </section>
       <footer className="section__footer">
         <Footer></Footer>

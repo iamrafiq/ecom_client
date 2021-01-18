@@ -1,6 +1,5 @@
 .offer__product__portrait {
   display: flex;
-  /* width: var(--grid-item-max-width); */
   flex-direction: column;
 
   height: auto;
@@ -47,8 +46,11 @@
   font-size: var( --font-size-product-name);
   line-height: 1rem;
   height: 3.5rem;
-  width: 100%;
+  /* width: 100%; */
   text-align: center;
+   word-wrap: break-word;      /* IE 5.5-7 */
+   white-space: -moz-pre-wrap; /* Firefox 1.0-2.0 */
+   white-space: pre-wrap;      /* current browsers */
 }
 
 .portrait__text--sub {
