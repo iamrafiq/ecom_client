@@ -194,7 +194,7 @@ export default function Home(props) {
             </section>
           )}
 
-          {home.photoTutorial && (
+          {home&&home.photoTutorial && (
             <section className="section__multi_carousel">
               <div className="content--title">
                 {language === "en" ? (

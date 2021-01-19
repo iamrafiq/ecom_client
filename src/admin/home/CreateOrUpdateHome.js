@@ -51,7 +51,7 @@ const CreateOrUpdateHome = () => {
         setValues({ ...values, create: true, error: data.error });
       } else {
         console.log("home data", data);
-        if (data) {
+        if (data.home) {
           setValues({
             ...values,
             title: data.home.title,
