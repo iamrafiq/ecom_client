@@ -9,7 +9,7 @@ export const APP_BAR_HEIGHT = 3.5; // REM
 
 export const SECREAT = "F$h#4";
 export const CONTACT_PHONE_NUMBER = "02-8991145"
-export const LAN_IP = "192.168.0.131";
+export const LAN_IP = "192.168.0.109";
 
 
 

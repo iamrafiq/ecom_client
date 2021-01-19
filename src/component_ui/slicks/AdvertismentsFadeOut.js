@@ -56,7 +56,7 @@ export default function AdvertisimentFadeOut({ advertisements }) {
   return (
     <Slider {...settings}>
       {advertisements.map((item, index) => (
-        <div className="slick-item">
+        <div className="slick-item" onClick={(event)=>onClickAd(event)}>
           <img
             src={`${imageUrlConverter(
               `${item.photo}&res=${resulationSelector}`
