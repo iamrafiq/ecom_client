@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+
 import { useSelector } from "react-redux";
 
 import {
@@ -25,6 +27,8 @@ import { CONTACT_PHONE_NUMBER } from "../../config";
 import { englishToBangla } from "../../util/utils";
 import { getImage } from "../../core/apiCore";
 export default function Footer(props) {
+  const history = useHistory();
+
   const resulationSelector = useSelector(selectResolutionSelection);
   const language = useSelector(selectLanguageSelection);
   const [state, setState] = useState(false);
@@ -87,84 +91,88 @@ export default function Footer(props) {
           {/* <img   src="/images/order.png" /> */}
           {language === "en" ? (
             <div className="company__goal">
-               Did you ever imagine that the freshest of fruits and vegetables,
+              Did you ever imagine that the freshest of fruits and vegetables,
               top quality pulses and food grains, dairy products and hundreds of
               branded items could be handpicked and delivered to your home, all
               at the click of a button? Bangladesh’s first comprehensive online
               megastore, <strong>sowdamart.com</strong>, brings a whopping 7000+
-              products with more than 1000 brands, for you.
-            
-              Online grocery shopping has never been easier. Need things fresh?
-              Whether it’s fruits and vegetables or dairy and meat, we have this
-              covered as well! Get fresh eggs, meat, fish and more online at
-              your convenience.
+              products with more than 1000 brands, for you. Online grocery
+              shopping has never been easier. Need things fresh? Whether it’s
+              fruits and vegetables or dairy and meat, we have this covered as
+              well! Get fresh eggs, meat, fish and more online at your
+              convenience.
             </div>
           ) : (
             <div className="company__goal">
-            
-            আপনি কি কখন চিন্তা করেছেন খুব সহজে এক ক্লিকে আপনার দরজায় পৌছে যাবে তাজা ফলমূল শাক-সবজি, চাল, ডাল, তৈল, আটা,
-            ময়দা, লবন, আলু, পেয়াজ, আদা, রসূন, দুধজাত দ্রব্য, ডিম, মসলা, নুডুলস, কসমেটিকস সামগ্রী, ডেইরি প্রোডাক্ট এবং শত শত ব্যান্ডের পণ্য।
-            <strong>সওদামার্ট</strong> বাংলাদেশের প্রথম (সর্ববৃহৎ) অনলাইন মেগা স্টোর আপনার জন্য নিয়ে এসেছে ৭০০০ সাত হাজারের বেশি ব্যান্ডের এক বিশাল সমাহার।
-             বাসাবাড়ি পরিস্কার থেকে শুরু করে ত্বকে ব্যবহার্য প্রসাধনী সামগ্রী দৈনন্দিন জীবনে যা আপনার প্রয়োজন সওদামার্টে পাবেন সবকিছু। ধন্যবাদ
+              আপনি কি কখন চিন্তা করেছেন খুব সহজে এক ক্লিকে আপনার দরজায় পৌছে যাবে
+              তাজা ফলমূল শাক-সবজি, চাল, ডাল, তৈল, আটা, ময়দা, লবন, আলু, পেয়াজ,
+              আদা, রসূন, দুধজাত দ্রব্য, ডিম, মসলা, নুডুলস, কসমেটিকস সামগ্রী,
+              ডেইরি প্রোডাক্ট এবং শত শত ব্যান্ডের পণ্য।
+              <strong>সওদামার্ট</strong> বাংলাদেশের প্রথম (সর্ববৃহৎ) অনলাইন মেগা
+              স্টোর আপনার জন্য নিয়ে এসেছে ৭০০০ সাত হাজারের বেশি ব্যান্ডের এক
+              বিশাল সমাহার। বাসাবাড়ি পরিস্কার থেকে শুরু করে ত্বকে ব্যবহার্য
+              প্রসাধনী সামগ্রী দৈনন্দিন জীবনে যা আপনার প্রয়োজন সওদামার্টে পাবেন
+              সবকিছু। ধন্যবাদ
             </div>
           )}
 
           <div className="footer__links">
             <div className="customer-service">
-              {language === "en" ? (
-                <div className="footer__links--title">Customer Service</div>
-              ) : (
-                <div className="footer__links--title">গ্রাহক সেবা</div>
-              )}
+              <div className="footer__links--title">
+                {language === "en" ? "Customer Service" : "গ্রাহক সেবা"}
+              </div>
 
               <hr className="footer__links--border" />
-              {language === "en" ? (
-                <div className="footer__links--item">Contact Us</div>
-              ) : (
-                <div className="footer__links--item">যোগাযোগ</div>
-              )}
-
-              {language === "en" ? (
-                <div className="footer__links--item">FAQ</div>
-              ) : (
-                <div className="footer__links--item">
-                  প্রতিনিয়ত জিজ্ঞাসিত প্রশ্ন
-                </div>
-              )}
+              <div className="footer__links--item"  onClick={() => {
+                  history.push({
+                    pathname: `/ft/contact-us`,
+                  });
+                }}>
+                {language === "en" ? "Contact Us" : "যোগাযোগ"}
+              </div>
+              <div className="footer__links--item"  onClick={() => {
+                  history.push({
+                    pathname: `/ft/faq`,
+                  });
+                }}>
+                {language === "en" ? "FAQ" : " প্রতিনিয়ত জিজ্ঞাসিত প্রশ্ন"}
+              </div>
             </div>
             <div className="about-company">
-              {language === "en" ? (
-                <div className="footer__links--title">About Sowdamart</div>
-              ) : (
-                <div className="footer__links--title">সওদামার্ট সম্পর্কে</div>
-              )}
-
+              <div className="footer__links--title">
+                {language === "en" ? "About Sowdamart" : "সওদামার্ট সম্পর্কে"}
+              </div>
               <hr className="footer__links--border" />
-              {language === "en" ? (
-                <div className="footer__links--item">Privacy Policy</div>
-              ) : (
-                <div className="footer__links--item">গোপনীয়তা নীতি</div>
-              )}
-
-              {language === "en" ? (
-                <div className="footer__links--item">Terms of Use</div>
-              ) : (
-                <div className="footer__links--item">ব্যবহারের নিয়মাবলি</div>
-              )}
+              <div className="footer__links--item"  onClick={() => {
+                  history.push({
+                    pathname: `/ft/privacy-policy`,
+                  });
+                }}>
+                {language === "en" ? "Privacy Policy" : "গোপনীয়তা নীতি"}
+              </div>
+              <div className="footer__links--item"  onClick={() => {
+                  history.push({
+                    pathname: `/ft/terms-of-use`,
+                  });
+                }}>
+                {language === "en" ? "Terms of Use" : "ব্যবহারের নিয়মাবলি"}
+              </div>
             </div>
             <div className="for-business">
-              {language === "en" ? (
-                <div className="footer__links--title">For Business</div>
-              ) : (
-                <div className="footer__links--title">ব্যাবসার জন্য</div>
-              )}
-
+              <div className="footer__links--title">
+                {language === "en" ? "For Business" : "ব্যাবসার জন্য"}
+              </div>
               <hr className="footer__links--border" />
-              {language === "en" ? (
-                <div className="footer__links--item">Corporate</div>
-              ) : (
-                <div className="footer__links--item">কর্পোরেট</div>
-              )}
+              <div
+                className="footer__links--item"
+                onClick={() => {
+                  history.push({
+                    pathname: `/ft/corporate`,
+                  });
+                }}
+              >
+                {language === "en" ? "Corporate" : "কর্পোরেট"}
+              </div>
             </div>
           </div>
         </div>

@@ -41,6 +41,8 @@ import Checkout from "./component_ui/checkout/Checkout";
 import Profile from "./component_ui/user/Profile";
 import SearchContent from "./component_ui/search/SearchContent";
 import Order from "./component_ui/order/Order";
+import FooterTabs from "./component_ui/footer/FooterTabs";
+
 
 const AnyComponent = (props) => {
   return <ScreenRenderer id={props.match.params.any_slug} />;
@@ -67,6 +69,7 @@ const Routes = () => {
     <Switch>
       <Route exact path="/" exact component={Home} />
       <Route exact path="/products" exact component={Home} />
+      <Route exact path="/ft/:slug" exact component={FooterTabs} />
 
       <Route exact path="/products/:slug" component={ScreenRenderer} />
       <Route path="/search" exact component={SearchContent} />

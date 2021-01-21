@@ -1,6 +1,9 @@
 .order--tab{
     padding: var(--gap-extra-large) 0px;
-  
+
+    margin: 0 auto;
+    max-width: var(--max-width-screen);
+
 }
 .order{
     display: flex;

@@ -10,20 +10,13 @@ import {
   selectLanguageSelection,
   selectDeviceTypeSelection,
 } from "../../redux/settingsSlice";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionItemHeading,
-  AccordionItemButton,
-  AccordionItemPanel,
-} from "react-accessible-accordion";
+
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 
 import AllOrders from "./AllOrders";
 import TrackOrder from "./TrackOrder";
 // Demo styles, see 'Styles' section below for some notes on use.
-import "react-accessible-accordion/dist/fancy-example.css";
 import "./order.css";
 import Footer from "../footer/Footer";
 export default function Order() {
@@ -32,26 +25,19 @@ export default function Order() {
 
   const user = useSelector(selectUser);
   const token = useSelector(selectToken);
-  const [order, setOrder] = useState([]);
-  useEffect(() => {
-    getOrderList(user._id, token).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setOrder(data);
-        // console.log("order data:", data);
-      }
-      //   dispatch(setLoadingSpinner({ loadingSpinner: false }));
-    });
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <React.Fragment>
       <div className="order--tab">
         <Tabs>
           <TabList>
-  <Tab>{language==="en"?(`Track Your Order`):(`আপনার অর্ডার ট্র্যাক করুন`)}</Tab>
-  <Tab>{language==="en"?(`All Order`):(`সকল অর্ডার`)}</Tab>
+            <Tab>
+              {language === "en"
+                ? `Track Your Order`
+                : `আপনার অর্ডার ট্র্যাক করুন`}
+            </Tab>
+            <Tab>{language === "en" ? `All Order` : `সকল অর্ডার`}</Tab>
           </TabList>
 
           <TabPanel>

@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;1,700&display=swap");
 
 :root {
+  --max-width-screen:1500px;
   --overlay-color:rgba(0, 0, 0, 0.9);
   --mobile-device-resolution: 700;
   --tab-device-resolution: 1000;
