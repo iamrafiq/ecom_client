@@ -58,7 +58,7 @@ export default function Footer(props) {
           {language === "en" ? (
             <span>1 hour delivery</span>
           ) : (
-            <span>{true ? `${errorMsg}` : `১ ঘণ্টার মধ্যে বিতরণ`}</span>
+            <span>{ `১ ঘণ্টার মধ্যে বিতরণ`}</span>
           )}
 
           <img src={cashOnDeliveryImg} alt="Cash on delivery" />
@@ -85,7 +85,7 @@ export default function Footer(props) {
               setState(true);
               setErrorMsg(e.target);
             }}
-            src="http://192.168.0.109:8000/api/image/home-10?p=pfs&ext=png&res=high"
+            src="/images/title_logo.png"
           />
 
           {/* <img   src="/images/order.png" /> */}

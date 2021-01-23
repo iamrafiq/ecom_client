@@ -208,7 +208,7 @@ export default function Home(props) {
               </div>
             </section>
           )}
-          <div className="">
+          {/* <div className="">
             {categories &&
               categories.map(
                 (item, index) =>
@@ -233,7 +233,7 @@ export default function Home(props) {
                     </React.Fragment>
                   )
               )}
-          </div>
+          </div> */}
         </div>
       </section>
       <footer className="section__footer">

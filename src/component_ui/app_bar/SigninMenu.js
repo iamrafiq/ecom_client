@@ -187,7 +187,7 @@ export default function SigninMenu({ mobile = false }) {
             )}
 
             <hr className="line line--horizontal" />
-            <div className="list__order">
+            {/* <div className="list__order">
               <div className="list__your">
                 {language === "en" ? (
                   <span className="list__title">Your List</span>
@@ -315,7 +315,7 @@ export default function SigninMenu({ mobile = false }) {
                   </li>
                 </ul>
               </div>
-            </div>
+            </div> */}
           </div>
         )}
       </Popup>

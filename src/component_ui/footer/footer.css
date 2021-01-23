@@ -60,7 +60,7 @@
   align-items: center;
 }
 .footer__links--title {
-  font-size: var(--font-size-extra-large);
+  font-size: var(--font-size-medium);
   font-style: bold;
 }
 .footer__links--item{
@@ -69,7 +69,7 @@
   justify-content: center;
   cursor: pointer;
   margin: var(--gap-small);
-  font-size: var(--font-size-medium);
+  font-size: var(--font-size-small);
 }
 
 .footer__links--border {
