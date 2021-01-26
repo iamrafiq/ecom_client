@@ -68,7 +68,7 @@ export default function Footer(props) {
             <span> প্রদানোত্তর পরিশোধ</span>
           )}
         </div>
-        <div className="pay--with">
+        {/* <div className="pay--with">
           {language === "en" ? <span>Pay with</span> : <span>প্রদান করুন</span>}
 
           <img src={amexImg} alt="Amex" />
@@ -76,7 +76,7 @@ export default function Footer(props) {
           <img src={visaImg} alt="Visa Card" />
           <img src={bKashImg} alt="bKash" />
           <img src={codImg} alt="Cash On Delivery" />
-        </div>
+        </div> */}
       </div>
       <div className="footer__bottom">
         <div className="footer__company">
@@ -177,14 +177,14 @@ export default function Footer(props) {
           </div>
         </div>
         <div className="footer__contact__apps">
-          <div className="mobile-apps">
+          {/* <div className="mobile-apps">
             <div className="box-app">
               <img src={playStoreImg} alt="" className="Anroid App" />
             </div>
             <div className="box-app">
               <img src={appstoreImg} alt="iPhone App" />
             </div>
-          </div>
+          </div> */}
           <div className="contact-info">
             <div className="footer-phone-number">
               <img
@@ -208,10 +208,12 @@ export default function Footer(props) {
             </div>
           </div>
           <div className="social-networks">
-            <img src={facebookImg} alt="Facebook" />
-            <img src={youtubeImg} alt="Youtube" />
+            <img src={facebookImg} alt="Facebook" onClick={()=>{
+                window.open(`https://www.facebook.com/sowda.mart`);
+            }}/>
+            {/* <img src={youtubeImg} alt="Youtube" />
             <img src={twitterImg} alt="Twitter" />
-            <img src={instagramImg} alt="Instagram" />
+            <img src={instagramImg} alt="Instagram" /> */}
           </div>
         </div>
       </div>

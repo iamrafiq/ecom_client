@@ -125,6 +125,7 @@
   flex-direction: row;
   margin: auto;
   margin-top: var(--gap-extra-large);
+  cursor: pointer;
 }
 
 .social-networks img {
