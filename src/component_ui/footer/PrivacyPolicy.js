@@ -98,8 +98,8 @@ export default function PrivacyPolicy(props) {
              and not for obtaining or using any other information about you (for example targeted advertising). 
              Your browser can be set to not accept cookies, but this would restrict your use of the Site. 
              Please accept our assurance that our use of cookies does not contain any personal or private details and are free from viruses. 
-             If you want to find out more information about cookies, go to http://www.allaboutcookies.org 
-             or to find out about removing them from your browser, go to http://www.allaboutcookies.org/manage-cookies/index.html.</li>
+             If you want to find out more information about cookies, go to https://www.allaboutcookies.org 
+             or to find out about removing them from your browser, go to https://www.allaboutcookies.org/manage-cookies/index.html.</li>
              
                     {/* <!-- <li>This website uses Google Analytics, a web analytics service provided by Google, Inc. ("Google").
              Google Analytics uses cookies, which are text files placed on your computer, to help the website analyze how users use the site.
@@ -218,8 +218,8 @@ export default function PrivacyPolicy(props) {
                এবং আপনার সম্পর্কে অন্য কোনও তথ্য প্রাপ্ত বা ব্যবহারের জন্য নয় (উদাহরণস্বরূপ লক্ষ্যযুক্ত বিজ্ঞাপন)।
                আপনার ব্রাউজারটি কুকিজ গ্রহণ না করার জন্য সেট করা যেতে পারে তবে এটি আপনার সাইটের ব্যবহারকে সীমাবদ্ধ করবে।
                আমাদের কুকিগুলির ব্যবহারে কোনও ব্যক্তিগত বা ব্যক্তিগত বিবরণ নেই এবং ভাইরাস থেকে মুক্ত সে বিষয়ে আমাদের আশ্বাসটি গ্রহণ করুন।
-               আপনি যদি কুকিজ সম্পর্কে আরও তথ্য জানতে চান তবে http://www.allaboutcookies.org এ যান
-               বা আপনার ব্রাউজার থেকে এগুলি সরিয়ে ফেলার বিষয়ে জানতে, http://www.allaboutcookies.org/manage-cookies/index.html এ যান।</li>
+               আপনি যদি কুকিজ সম্পর্কে আরও তথ্য জানতে চান তবে https://www.allaboutcookies.org এ যান
+               বা আপনার ব্রাউজার থেকে এগুলি সরিয়ে ফেলার বিষয়ে জানতে, https://www.allaboutcookies.org/manage-cookies/index.html এ যান।</li>
              
                     {/* <!-- <li>এই ওয়েবসাইটটি গুগল অ্যানালিটিক্স, গুগল, ইনক। ("গুগল") দ্বারা সরবরাহিত একটি ওয়েব অ্যানালিটিক্যাল পরিষেবা ব্যবহার করে।
                গুগল অ্যানালিটিক্স ব্যবহারকারীরা কীভাবে সাইট ব্যবহার করে তা বিশ্লেষণ করতে ওয়েবসাইটকে সহায়তা করতে গুগল অ্যানালিটিক্স আপনার কম্পিউটারে রাখা পাঠ্য ফাইলগুলি কুকিজ ব্যবহার করে।
