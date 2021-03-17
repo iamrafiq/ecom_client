@@ -337,7 +337,8 @@ const UpdateAvertisement = ({ match }) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
-        history.push("/admin/dashboard");
+        // history.push("/admin/dashboard");
+        setValues({ ...values, name: data.results.name, slug: data.results.slug  });
       }
     });
   };
