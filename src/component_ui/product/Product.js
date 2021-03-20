@@ -67,6 +67,7 @@ function Product({ product, advertProductSlug = null }) {
   }, []); //selectedHoverSlug, openDetailsView
 
   const onClickAddToCart = () => {
+    console.log("product..***.add", product)
     dispatch(addItem({ product: product }));
   };
   const onClickRemoveFromCart = () => {

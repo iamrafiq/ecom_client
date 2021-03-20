@@ -64,6 +64,8 @@ const SidebarContent = (props) => {
 
   const language = useSelector(selectLanguageSelection);
   const products = useSelector(selectCartProducts);
+  console.log("product..***..cart", products)
+
   const cartBarDesktop = useSelector(selectCartBarDesktop);
   const cartBarMobile = useSelector(selectCartBarMobile);
   const customDialog = useSelector(selectCustomDialog);
